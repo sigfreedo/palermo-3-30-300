@@ -600,19 +600,40 @@
                     if (photonResponse.ok) {
                         const photonData = await photonResponse.json();
                         
+                        console.log('  → Photon risposta:', photonData.features?.length || 0, 'features');
+                        
                         if (photonData.features && photonData.features.length > 0) {
-                            console.log('  ✅ Photon:', photonData.features.length, 'risultati');
+                            // DEBUG: mostra primi 3 risultati raw
+                            console.log('  → Primi risultati Photon (raw):');
+                            photonData.features.slice(0, 3).forEach((f, i) => {
+                                const p = f.properties;
+                                console.log(`    ${i+1}.`, {
+                                    name: p.name,
+                                    street: p.street,
+                                    housenumber: p.housenumber,
+                                    city: p.city,
+                                    county: p.county,
+                                    state: p.state
+                                });
+                            });
                             
                             // Converti formato Photon in formato compatibile
                             results = photonData.features
                                 .filter(f => {
                                     // Filtra solo risultati a Palermo/Sicilia
                                     const props = f.properties;
-                                    const city = props.city || props.county || '';
-                                    const state = props.state || '';
-                                    return city.toLowerCase().includes('palermo') || 
-                                           state.toLowerCase().includes('sicilia') ||
-                                           state.toLowerCase().includes('sicily');
+                                    const city = (props.city || '').toLowerCase();
+                                    const county = (props.county || '').toLowerCase();
+                                    const state = (props.state || '').toLowerCase();
+                                    const name = (props.name || '').toLowerCase();
+                                    
+                                    const isPalermo = city.includes('palermo') || 
+                                                     county.includes('palermo') ||
+                                                     name.includes('palermo') ||
+                                                     state.includes('sicilia') ||
+                                                     state.includes('sicily');
+                                    
+                                    return isPalermo;
                                 })
                                 .map(f => {
                                     const props = f.properties;
@@ -643,9 +664,14 @@
                                 })
                                 .filter(r => r.display_name.trim().length > 0); // Rimuovi vuoti
                             
+                            console.log('  → Dopo filtro:', results.length, 'risultati Photon');
+                            
                             if (results.length > 0) {
+                                console.log('  ✅ Uso Photon!');
                                 displayAutocompleteResults(results);
                                 return;
+                            } else {
+                                console.log('  ⚠️ Photon: nessun risultato dopo filtro, provo Nominatim');
                             }
                         }
                     } else {
