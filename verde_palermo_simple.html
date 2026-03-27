@@ -778,18 +778,27 @@
                                 return;
                             }
 
-                            let geom;
+                            let distance;
+                            
+                            // Calcola distanza in base al tipo di geometria
                             if (feature.geometry.type === 'Polygon') {
-                                geom = turf.polygon(feature.geometry.coordinates);
+                                // Converti perimetro poligono in linestring
+                                const line = turf.lineString(feature.geometry.coordinates[0]);
+                                distance = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
                             } else if (feature.geometry.type === 'MultiPolygon') {
-                                geom = turf.multiPolygon(feature.geometry.coordinates);
+                                // Per MultiPolygon, trova la distanza minima tra tutti i poligoni
+                                let minDist = Infinity;
+                                feature.geometry.coordinates.forEach(polyCoords => {
+                                    const line = turf.lineString(polyCoords[0]);
+                                    const dist = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
+                                    if (dist < minDist) minDist = dist;
+                                });
+                                distance = minDist;
                             } else {
                                 console.warn(`Spazio ${index} tipo sconosciuto: ${feature.geometry.type}`);
                                 errorCount++;
                                 return;
                             }
-                            
-                            const distance = turf.distance(userPoint, geom, {units: 'meters'});
                             
                             if (distance < nearestDistance) {
                                 nearestDistance = distance;
