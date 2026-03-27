@@ -90,12 +90,52 @@ Se vuoi modificare o testare localmente:
 ```
 palermo-3-30-300/
 ├── verde_palermo_simple.html       # Applicazione web
-├── osm_verde_palermo.geojson       # Dataset OpenStreetMap
-├── copernicus_verde_palermo.geojson # Dataset Copernicus Urban Atlas
+├── index.html                      # Redirect automatico
+│
+├── osm_verde_palermo.geojson       # Dataset OpenStreetMap (118 spazi)
+├── copernicus_verde_palermo.geojson # Dataset Copernicus (181 aree)
+├── sezioni_censimento_palermo.geojson # Sezioni censuarie ISTAT 2021 (3.600 sezioni)
+│
 ├── README.md                        # Questo file
+├── LICENSE                          # Licenza MIT
+├── .gitignore                       # Esclusioni Git
+│
 ├── AVVIA_SERVER.bat                # Script Windows
 └── avvia_server.sh                 # Script Mac/Linux
 ```
+
+---
+
+## 📊 Dataset
+
+### Spazi verdi
+
+**osm_verde_palermo.geojson**
+- Fonte: OpenStreetMap
+- Categorie: A (parchi/giardini) + B (aree ricreative)
+- Spazi: 118
+- Area totale: 4.31 km²
+- Filtro: ≥2.000 m²
+- Campi: `geometry`, `area_sqm`, `size_label`, `name`
+
+**copernicus_verde_palermo.geojson**
+- Fonte: Copernicus Urban Atlas 2018
+- Categoria: 14110 (Public access - verde pubblico certificato)
+- Aree: 181
+- Area totale: 4.03 km²
+- Filtro: ≥2.000 m²
+- Campi: `geometry`, `area_sqm`, `size_label`, `name`
+
+### Popolazione
+
+**sezioni_censimento_palermo.geojson**
+- Fonte: ISTAT Censimento 2021
+- Sezioni: 3.600
+- Popolazione totale: 635.439 abitanti
+- Formato: GeoJSON (WGS84 - EPSG:4326)
+- Campi: `SEZ2021` (ID sezione), `POP21` (popolazione), `geometry`
+- Utilizzo: Calcolo copertura popolazione, analisi per quartiere, statistiche zonali
+- Note: File preparato per future estensioni (mappe di copertura, statistiche per zona, ecc.)
 
 ---
 
@@ -168,9 +208,12 @@ Questo è un progetto civico aperto. Contributi benvenuti!
 ### Idee per miglioramenti:
 - [ ] Aggiungere percorsi pedonali reali (routing API)
 - [ ] Visualizzazione su mappa interattiva
-- [ ] Analisi per quartiere
+- [ ] **Analisi per quartiere** (usando `sezioni_censimento_palermo.geojson`)
+- [ ] **Mappa copertura zonale** (colorare sezioni per % copertura)
+- [ ] **Statistiche per zona** (quanti abitanti coperti per quartiere)
 - [ ] Estensione ad altre città italiane
 - [ ] API per integrazioni
+- [ ] **Calcolo indicatore 3 e 30** (alberi visibili, copertura arborea)
 
 ---
 
@@ -208,12 +251,6 @@ Per domande, suggerimenti o collaborazioni:
 ---
 
 **⚠️ Nota:** Questo strumento ha finalità informative e di sensibilizzazione civica. I dati sono aggiornati al 2021-2023 e potrebbero non riflettere cambiamenti recenti.
-
----
-
-## 🗺️ Altri progetti correlati
-
-*Aggiungi link a progetti simili o correlati*
 
 ---
 
