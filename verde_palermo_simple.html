@@ -583,131 +583,46 @@
             try {
                 console.log('🔍 Ricerca indirizzo:', query);
                 
-                // TENTATIVO 1: Photon API (migliore per numeri civici)
-                let results = [];
+                // URL del Cloudflare Worker
+                const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
                 
-                try {
-                    // Photon bbox format: lon,lat,lon,lat (not lat,lon!)
-                    const photonUrl = `https://photon.komoot.io/api/?` +
-                        `q=${encodeURIComponent(query)}&` +  // NON aggiungere " Palermo" qui
-                        `lon=13.36&lat=38.11&` +  // Centro Palermo come punto di riferimento
-                        `limit=8`;
-                    
-                    console.log('  → Provo Photon...');
-                    
-                    const photonResponse = await fetch(photonUrl);
-                    
-                    if (photonResponse.ok) {
-                        const photonData = await photonResponse.json();
-                        
-                        console.log('  → Photon risposta:', photonData.features?.length || 0, 'features');
-                        
-                        if (photonData.features && photonData.features.length > 0) {
-                            // DEBUG: mostra primi 3 risultati raw
-                            console.log('  → Primi risultati Photon (raw):');
-                            photonData.features.slice(0, 3).forEach((f, i) => {
-                                const p = f.properties;
-                                console.log(`    ${i+1}.`, {
-                                    name: p.name,
-                                    street: p.street,
-                                    housenumber: p.housenumber,
-                                    city: p.city,
-                                    county: p.county,
-                                    state: p.state
-                                });
-                            });
-                            
-                            // Converti formato Photon in formato compatibile
-                            results = photonData.features
-                                .filter(f => {
-                                    // Filtra solo risultati a Palermo/Sicilia
-                                    const props = f.properties;
-                                    const city = (props.city || '').toLowerCase();
-                                    const county = (props.county || '').toLowerCase();
-                                    const state = (props.state || '').toLowerCase();
-                                    const name = (props.name || '').toLowerCase();
-                                    
-                                    const isPalermo = city.includes('palermo') || 
-                                                     county.includes('palermo') ||
-                                                     name.includes('palermo') ||
-                                                     state.includes('sicilia') ||
-                                                     state.includes('sicily');
-                                    
-                                    return isPalermo;
-                                })
-                                .map(f => {
-                                    const props = f.properties;
-                                    const coords = f.geometry.coordinates;
-                                    
-                                    // Costruisci display_name leggibile
-                                    let parts = [];
-                                    
-                                    // Se c'è numero civico E via, metti insieme
-                                    if (props.housenumber && props.street) {
-                                        parts.push(`${props.street} ${props.housenumber}`);
-                                    } else if (props.street) {
-                                        parts.push(props.street);
-                                    } else if (props.name) {
-                                        parts.push(props.name);
-                                    }
-                                    
-                                    // Aggiungi località se disponibile
-                                    if (props.district) parts.push(props.district);
-                                    parts.push('Palermo');
-                                    
-                                    return {
-                                        lat: coords[1],
-                                        lon: coords[0],
-                                        display_name: parts.join(', '),
-                                        source: 'photon'
-                                    };
-                                })
-                                .filter(r => r.display_name.trim().length > 0); // Rimuovi vuoti
-                            
-                            console.log('  → Dopo filtro:', results.length, 'risultati Photon');
-                            
-                            if (results.length > 0) {
-                                console.log('  ✅ Uso Photon!');
-                                displayAutocompleteResults(results);
-                                return;
-                            } else {
-                                console.log('  ⚠️ Photon: nessun risultato dopo filtro, provo Nominatim');
-                            }
-                        }
-                    } else {
-                        console.warn('  ⚠️ Photon HTTP', photonResponse.status);
-                    }
-                } catch (photonError) {
-                    console.warn('  ⚠️ Photon fallito:', photonError.message);
+                // Costruisci query per Google Maps tramite Worker
+                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, Italy')}`;
+                
+                console.log('  → Chiamata a Cloudflare Worker...');
+                
+                const response = await fetch(workerUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
                 
-                // TENTATIVO 2: Nominatim fallback
-                console.log('  → Fallback a Nominatim...');
+                const data = await response.json();
                 
-                const bbox = '13.27,38.09,13.44,38.21';
-                const nominatimUrl = `https://nominatim.openstreetmap.org/search?` +
-                    `format=json&` +
-                    `q=${encodeURIComponent(query + ' Palermo')}&` +
-                    `viewbox=${bbox}&` +
-                    `bounded=1&` +
-                    `countrycodes=it&` +
-                    `addressdetails=1&` +
-                    `limit=8`;
-
-                const nominatimResponse = await fetch(nominatimUrl);
+                console.log('  ✅ Google Maps risposta:', data.status);
                 
-                if (!nominatimResponse.ok) {
-                    throw new Error(`HTTP ${nominatimResponse.status}`);
+                // Verifica risposta Google
+                if (data.status === 'OK' && data.results && data.results.length > 0) {
+                    console.log('  ✅ Trovati', data.results.length, 'risultati');
+                    
+                    // Converti formato Google Maps in formato compatibile con l'app
+                    const results = data.results.map(result => ({
+                        lat: result.geometry.location.lat,
+                        lon: result.geometry.location.lng,
+                        display_name: result.formatted_address,
+                        source: 'google'
+                    }));
+                    
+                    displayAutocompleteResults(results);
+                    
+                } else if (data.status === 'ZERO_RESULTS') {
+                    console.log('  ⚠️ Nessun risultato trovato');
+                    autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun risultato trovato</div>';
+                    
+                } else {
+                    console.error('  ❌ Google API error:', data.status);
+                    throw new Error(`Google API: ${data.status}`);
                 }
-                
-                results = await nominatimResponse.json();
-                
-                if (results.length > 0) {
-                    console.log('  ✅ Nominatim:', results.length, 'risultati');
-                    results = results.map(r => ({...r, source: 'nominatim'}));
-                }
-                
-                displayAutocompleteResults(results);
                 
             } catch (error) {
                 console.error('❌ Errore geocoding:', error);
@@ -715,6 +630,9 @@
                 autocompleteResults.innerHTML = `
                     <div class="autocomplete-loading" style="color: #ef4444; padding: 1rem;">
                         ⚠️ Errore di connessione. Riprova o usa la geolocalizzazione.
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">
+                            ${error.message}
+                        </div>
                     </div>
                 `;
             }
@@ -727,9 +645,9 @@
             }
 
             autocompleteResults.innerHTML = results.map(result => {
-                // Badge per mostrare la fonte (utile per debug)
-                const sourceBadge = result.source === 'photon' 
-                    ? '<span style="background: #22c55e; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Photon</span>'
+                // Badge Google Maps (blu)
+                const sourceBadge = result.source === 'google' 
+                    ? '<span style="background: #4285F4; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Google Maps</span>'
                     : '<span style="background: #6B8E23; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">OSM</span>';
                 
                 return `
