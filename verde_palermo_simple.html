@@ -581,9 +581,70 @@
 
         async function fetchAddressSuggestions(query) {
             try {
-                const bbox = '13.27,38.09,13.44,38.21'; // Palermo boundingbox
+                console.log('🔍 Ricerca con Photon API:', query);
                 
-                // URL base Nominatim con parametri migliorati per numeri civici
+                // TENTATIVO 1: Photon API (migliore per numeri civici)
+                const bbox = '13.27,38.09,13.44,38.21'; // Palermo: lon_min,lat_min,lon_max,lat_max
+                
+                const photonUrl = `https://photon.komoot.io/api/?` +
+                    `q=${encodeURIComponent(query + ' Palermo')}&` +
+                    `bbox=${bbox}&` +
+                    `limit=8&` +
+                    `lang=it`;
+                
+                let results = [];
+                
+                try {
+                    const photonResponse = await fetch(photonUrl);
+                    
+                    if (photonResponse.ok) {
+                        const photonData = await photonResponse.json();
+                        
+                        // Photon restituisce GeoJSON con features
+                        if (photonData.features && photonData.features.length > 0) {
+                            console.log('✅ Photon trovato:', photonData.features.length, 'risultati');
+                            
+                            // Converti formato Photon in formato Nominatim per compatibilità
+                            results = photonData.features
+                                .filter(f => {
+                                    // Filtra solo risultati a Palermo
+                                    const props = f.properties;
+                                    return props.city === 'Palermo' || 
+                                           props.county === 'Palermo' ||
+                                           (props.name && props.name.includes('Palermo'));
+                                })
+                                .map(f => {
+                                    const props = f.properties;
+                                    const coords = f.geometry.coordinates;
+                                    
+                                    // Costruisci display_name
+                                    let displayParts = [];
+                                    if (props.housenumber) displayParts.push(props.housenumber);
+                                    if (props.street) displayParts.push(props.street);
+                                    else if (props.name) displayParts.push(props.name);
+                                    if (props.city) displayParts.push(props.city);
+                                    
+                                    return {
+                                        lat: coords[1],
+                                        lon: coords[0],
+                                        display_name: displayParts.join(', ') || props.name || 'Palermo',
+                                        source: 'photon'
+                                    };
+                                });
+                            
+                            if (results.length > 0) {
+                                displayAutocompleteResults(results);
+                                return;
+                            }
+                        }
+                    }
+                } catch (photonError) {
+                    console.warn('⚠️ Photon fallito, provo Nominatim:', photonError.message);
+                }
+                
+                // TENTATIVO 2: Nominatim fallback
+                console.log('🔄 Fallback a Nominatim...');
+                
                 const nominatimUrl = `https://nominatim.openstreetmap.org/search?` +
                     `format=json&` +
                     `q=${encodeURIComponent(query + ' Palermo')}&` +
@@ -591,44 +652,32 @@
                     `bounded=1&` +
                     `countrycodes=it&` +
                     `addressdetails=1&` +
-                    `extratags=1&` +  // Aggiunto per più dettagli
-                    `limit=8`;  // Aumentato a 8 per più risultati
+                    `extratags=1&` +
+                    `limit=8`;
 
-                // Usa CORS proxy se necessario (rileva file:// protocol)
-                const url = window.location.protocol === 'file:' 
-                    ? `https://corsproxy.io/?${encodeURIComponent(nominatimUrl)}`
-                    : nominatimUrl;
-
-                console.log('Fetching suggestions for:', query);
-
-                const response = await fetch(url);
+                const nominatimResponse = await fetch(nominatimUrl);
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+                if (!nominatimResponse.ok) {
+                    throw new Error(`HTTP ${nominatimResponse.status}`);
                 }
                 
-                const results = await response.json();
-                console.log('Found', results.length, 'suggestions');
+                results = await nominatimResponse.json();
+                
+                if (results.length > 0) {
+                    console.log('✅ Nominatim trovato:', results.length, 'risultati');
+                    results = results.map(r => ({...r, source: 'nominatim'}));
+                }
                 
                 displayAutocompleteResults(results);
-            } catch (error) {
-                console.error('Errore autocomplete:', error);
                 
-                // Messaggio di errore dettagliato
-                if (window.location.protocol === 'file:') {
-                    autocompleteResults.innerHTML = `
-                        <div class="autocomplete-loading" style="color: #ef4444; padding: 1.5rem;">
-                            ⚠️ <strong>Problema di connessione</strong><br>
-                            <small style="display: block; margin-top: 0.5rem; line-height: 1.5;">
-                                Per usare l'autocomplete, apri il file con un server web locale:<br>
-                                <code style="background: #f3f4f6; padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block; margin-top: 0.25rem;">python -m http.server 8000</code><br>
-                                Poi apri: <code style="background: #f3f4f6; padding: 0.2rem 0.5rem; border-radius: 4px;">http://localhost:8000/verde_palermo_simple.html</code>
-                            </small>
-                        </div>
-                    `;
-                } else {
-                    autocompleteResults.innerHTML = '<div class="autocomplete-loading" style="color: #ef4444;">Errore di rete. Riprova.</div>';
-                }
+            } catch (error) {
+                console.error('❌ Errore geocoding:', error);
+                
+                autocompleteResults.innerHTML = `
+                    <div class="autocomplete-loading" style="color: #ef4444; padding: 1rem;">
+                        ⚠️ Errore di connessione. Riprova o usa la geolocalizzazione.
+                    </div>
+                `;
             }
         }
 
@@ -638,11 +687,18 @@
                 return;
             }
 
-            autocompleteResults.innerHTML = results.map(result => `
-                <div class="autocomplete-item" onclick="selectAddress(${result.lat}, ${result.lon}, '${result.display_name.replace(/'/g, "\\'")}')">
-                    ${result.display_name}
-                </div>
-            `).join('');
+            autocompleteResults.innerHTML = results.map(result => {
+                // Badge per mostrare la fonte (utile per debug)
+                const sourceBadge = result.source === 'photon' 
+                    ? '<span style="background: #22c55e; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Photon</span>'
+                    : '<span style="background: #6B8E23; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">OSM</span>';
+                
+                return `
+                    <div class="autocomplete-item" onclick="selectAddress(${result.lat}, ${result.lon}, '${result.display_name.replace(/'/g, "\\'")}')">
+                        ${result.display_name} ${sourceBadge}
+                    </div>
+                `;
+            }).join('');
         }
 
         function selectAddress(lat, lon, displayName) {
