@@ -493,6 +493,19 @@
             console.warn('Soluzione: python -m http.server 8000');
         }
 
+        // Verifica che Turf.js sia caricato
+        console.log('🔍 Verifica librerie...');
+        if (typeof turf === 'undefined') {
+            console.error('❌ Turf.js NON caricato!');
+            alert('Errore critico: libreria Turf.js non caricata.\n\nVerifica la connessione internet e ricarica la pagina.');
+        } else {
+            console.log('✅ Turf.js caricato correttamente');
+        }
+
+        console.log('🌳 Palermo 3-30-300 - App avviata');
+        console.log('📍 Inserisci un indirizzo o usa geolocalizzazione per iniziare');
+        console.log('💡 Apri questa console (F12) per vedere log dettagliati');
+
         function updateStats(dataset) {
             const s = stats[dataset];
             document.getElementById('statCoverage').textContent = s.coverage + '%';
@@ -503,16 +516,36 @@
         async function loadDataset(dataset) {
             const filename = dataset === 'osm' ? 'osm_verde_palermo.geojson' : 'copernicus_verde_palermo.geojson';
             
+            console.log('🔄 Caricamento dataset:', filename);
+            
             try {
                 const response = await fetch(filename);
-                if (!response.ok) throw new Error('File non trovato');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: File non trovato`);
+                }
                 
                 greenSpaces = await response.json();
+                
+                if (!greenSpaces || !greenSpaces.features) {
+                    throw new Error('GeoJSON non valido: manca campo features');
+                }
+                
                 updateStats(dataset);
                 console.log('✅ Dataset caricato:', greenSpaces.features.length, 'spazi');
+                console.log('  Esempio:', greenSpaces.features[0].properties.size_label);
+                
             } catch (error) {
                 console.error('❌ Errore caricamento:', error);
-                alert('Errore: file GeoJSON non trovato. Assicurati che i file siano nella stessa cartella.');
+                
+                let msg = '⚠️ Errore caricamento dati.\n\n';
+                if (error.message.includes('404')) {
+                    msg += 'File GeoJSON non trovato su GitHub.\nVerifica che i file siano caricati correttamente.';
+                } else {
+                    msg += 'Dettagli: ' + error.message + '\n\nApri la console (F12) per più info.';
+                }
+                
+                alert(msg);
             }
         }
 
@@ -550,22 +583,23 @@
             try {
                 const bbox = '13.27,38.09,13.44,38.21'; // Palermo boundingbox
                 
-                // URL base Nominatim
+                // URL base Nominatim con parametri migliorati per numeri civici
                 const nominatimUrl = `https://nominatim.openstreetmap.org/search?` +
                     `format=json&` +
                     `q=${encodeURIComponent(query + ' Palermo')}&` +
                     `viewbox=${bbox}&` +
                     `bounded=1&` +
                     `countrycodes=it&` +
-                    `limit=5&` +
-                    `addressdetails=1`;
+                    `addressdetails=1&` +
+                    `extratags=1&` +  // Aggiunto per più dettagli
+                    `limit=8`;  // Aumentato a 8 per più risultati
 
                 // Usa CORS proxy se necessario (rileva file:// protocol)
                 const url = window.location.protocol === 'file:' 
                     ? `https://corsproxy.io/?${encodeURIComponent(nominatimUrl)}`
                     : nominatimUrl;
 
-                console.log('Fetching:', url);
+                console.log('Fetching suggestions for:', query);
 
                 const response = await fetch(url);
                 
@@ -574,6 +608,7 @@
                 }
                 
                 const results = await response.json();
+                console.log('Found', results.length, 'suggestions');
                 
                 displayAutocompleteResults(results);
             } catch (error) {
@@ -703,43 +738,91 @@
         }
 
         function analyzeLocation(lat, lon) {
+            console.log('=== INIZIO ANALISI ===');
+            console.log('Coordinate:', lat, lon);
+            
             if (!greenSpaces) {
-                alert('Caricamento dati in corso. Riprova tra un attimo.');
+                console.error('❌ greenSpaces non caricato!');
+                alert('Errore: Dati non ancora caricati. Attendi qualche secondo e riprova.');
+                document.getElementById('loading').classList.remove('active');
                 return;
             }
+
+            if (!greenSpaces.features || greenSpaces.features.length === 0) {
+                console.error('❌ greenSpaces.features vuoto!');
+                alert('Errore: Dataset vuoto. Ricarica la pagina.');
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+
+            console.log('✓ Dataset caricato:', greenSpaces.features.length, 'spazi');
 
             document.getElementById('loading').classList.add('active');
             document.getElementById('result').style.display = 'none';
 
+            // Usa setTimeout per non bloccare l'UI
             setTimeout(() => {
-                const userPoint = turf.point([lon, lat]);
-                let nearestDistance = Infinity;
-                let nearestSpace = null;
+                try {
+                    const userPoint = turf.point([lon, lat]);
+                    console.log('✓ Punto utente creato:', userPoint);
+                    
+                    let nearestDistance = Infinity;
+                    let nearestSpace = null;
+                    let errorCount = 0;
 
-                greenSpaces.features.forEach(feature => {
-                    try {
-                        let geom;
-                        if (feature.geometry.type === 'Polygon') {
-                            geom = turf.polygon(feature.geometry.coordinates);
-                        } else if (feature.geometry.type === 'MultiPolygon') {
-                            geom = turf.multiPolygon(feature.geometry.coordinates);
-                        } else {
-                            return;
+                    greenSpaces.features.forEach((feature, index) => {
+                        try {
+                            if (!feature.geometry) {
+                                console.warn(`Spazio ${index} senza geometria, skip`);
+                                errorCount++;
+                                return;
+                            }
+
+                            let geom;
+                            if (feature.geometry.type === 'Polygon') {
+                                geom = turf.polygon(feature.geometry.coordinates);
+                            } else if (feature.geometry.type === 'MultiPolygon') {
+                                geom = turf.multiPolygon(feature.geometry.coordinates);
+                            } else {
+                                console.warn(`Spazio ${index} tipo sconosciuto: ${feature.geometry.type}`);
+                                errorCount++;
+                                return;
+                            }
+                            
+                            const distance = turf.distance(userPoint, geom, {units: 'meters'});
+                            
+                            if (distance < nearestDistance) {
+                                nearestDistance = distance;
+                                nearestSpace = feature;
+                            }
+                        } catch (err) {
+                            console.error(`Errore calcolo spazio ${index}:`, err);
+                            errorCount++;
                         }
-                        
-                        const distance = turf.distance(userPoint, geom, {units: 'meters'});
-                        
-                        if (distance < nearestDistance) {
-                            nearestDistance = distance;
-                            nearestSpace = feature;
-                        }
-                    } catch (err) {
-                        console.error('Errore calcolo:', err);
+                    });
+
+                    console.log('✓ Calcolo completato');
+                    console.log('  - Spazi processati:', greenSpaces.features.length);
+                    console.log('  - Errori:', errorCount);
+                    console.log('  - Distanza minima:', Math.round(nearestDistance), 'm');
+                    console.log('  - Spazio più vicino:', nearestSpace?.properties?.size_label);
+
+                    if (!nearestSpace) {
+                        console.error('❌ Nessuno spazio trovato!');
+                        alert('Errore nel calcolo. Verifica di essere a Palermo e riprova.');
+                        document.getElementById('loading').classList.remove('active');
+                        return;
                     }
-                });
 
-                displayResult(nearestDistance, nearestSpace);
-                document.getElementById('loading').classList.remove('active');
+                    displayResult(nearestDistance, nearestSpace);
+                    document.getElementById('loading').classList.remove('active');
+                    
+                    console.log('=== ANALISI COMPLETATA ===');
+                } catch (error) {
+                    console.error('❌ ERRORE CRITICO:', error);
+                    alert('Errore nell\'analisi: ' + error.message + '\n\nApri la console (F12) per dettagli.');
+                    document.getElementById('loading').classList.remove('active');
+                }
             }, 500);
         }
 
