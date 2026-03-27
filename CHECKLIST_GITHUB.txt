@@ -141,3 +141,19 @@ Se hai problemi:
 
 
 Buona pubblicazione! 🚀
+
+
+AGGIORNAMENTO - NUOVO FILE AGGIUNTO:
+═════════════════════════════════════════════════════════════════════
+
+✓ sezioni_censimento_palermo.geojson  ← NUOVO! Sezioni ISTAT 2021
+✓ DATI_TECNICI.md                     ← NUOVO! Documentazione tecnica
+
+TOTALE FILE DA CARICARE: 12
+
+Questi file permettono di estendere l'app in futuro con:
+- Mappe di copertura per zona
+- Statistiche per quartiere
+- Visualizzazioni coropletiche
+- Analisi disparità territoriali
+
