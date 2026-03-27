@@ -1,0 +1,190 @@
+📘 GUIDA: COME PUBBLICARE SU GITHUB
+=====================================
+
+Segui questi passi per pubblicare "Verde a Palermo" su GitHub e renderlo accessibile online.
+
+═══════════════════════════════════════════════════════════════════════
+PARTE 1: CREARE IL REPOSITORY SU GITHUB
+═══════════════════════════════════════════════════════════════════════
+
+1. VAI SU GITHUB
+   → Apri https://github.com
+   → Fai login (o crea account se non ce l'hai)
+
+2. CREA NUOVO REPOSITORY
+   → Clicca sul pulsante verde "New" (o il + in alto a destra → "New repository")
+   
+   Compila i campi:
+   
+   ┌────────────────────────────────────────────────────────────────┐
+   │ Repository name: palermo-3-30-300                              │
+   │                                                                │
+   │ Description: Analisi civica accesso verde urbano Palermo -    │
+   │              Regola 3-30-300 per città vivibili                │
+   │                                                                │
+   │ ○ Public  (seleziona questo!)                                 │
+   │ ○ Private                                                      │
+   │                                                                │
+   │ ☑ Add a README file  (NON selezionare - abbiamo già il nostro)│
+   │ ☐ Add .gitignore                                              │
+   │ ☐ Choose a license                                            │
+   └────────────────────────────────────────────────────────────────┘
+   
+   → Clicca "Create repository"
+
+3. CARICA I FILE
+   
+   Hai due opzioni:
+   
+   OPZIONE A - Interface Web (più semplice):
+   
+   a) Nella pagina del repository appena creato, clicca "uploading an existing file"
+   
+   b) Trascina questi file:
+      ✓ verde_palermo_simple.html
+      ✓ osm_verde_palermo.geojson
+      ✓ copernicus_verde_palermo.geojson
+      ✓ README.md
+      ✓ AVVIA_SERVER.bat
+      ✓ avvia_server.sh
+   
+   c) Scrivi un commit message: "Initial commit - Verde a Palermo app"
+   
+   d) Clicca "Commit changes"
+   
+   
+   OPZIONE B - Git da terminale (per utenti avanzati):
+   
+   a) Nella cartella con i file, apri il terminale
+   
+   b) Esegui questi comandi (sostituisci TUOUSERNAME):
+   
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit - Palermo 3-30-300"
+   git branch -M main
+   git remote add origin https://github.com/sigfreedo/palermo-3-30-300.git
+   git push -u origin main
+   ```
+
+═══════════════════════════════════════════════════════════════════════
+PARTE 2: ATTIVARE GITHUB PAGES (FONDAMENTALE!)
+═══════════════════════════════════════════════════════════════════════
+
+Questo rende l'app accessibile online GRATIS.
+
+1. VAI NELLE IMPOSTAZIONI
+   → Nel tuo repository, clicca su "Settings" (in alto a destra)
+
+2. TROVA "PAGES"
+   → Nel menu laterale sinistro, scorri fino a "Pages"
+
+3. CONFIGURA GITHUB PAGES
+   
+   ┌────────────────────────────────────────────────────────────────┐
+   │ Source: Deploy from a branch                                   │
+   │                                                                │
+   │ Branch: main  (seleziona)                                      │
+   │ Folder: / (root)  (seleziona)                                  │
+   │                                                                │
+   │ [Save]  ← CLICCA QUI                                          │
+   └────────────────────────────────────────────────────────────────┘
+
+4. ASPETTA 1-2 MINUTI
+   → GitHub sta pubblicando il sito
+   → Ricarica la pagina "Pages"
+   
+5. OTTIENI IL TUO URL
+   → Vedrai un box verde con scritto:
+   
+   "Your site is live at https://sigfreedo.github.io/palermo-3-30-300/"
+   
+   ✅ QUESTO È IL TUO LINK PUBBLICO!
+
+═══════════════════════════════════════════════════════════════════════
+PARTE 3: VERIFICA (README È GIÀ AGGIORNATO!)
+═══════════════════════════════════════════════════════════════════════
+
+Il tuo README.md è già configurato con i link corretti:
+- Username: sigfreedo ✓
+- Repository: palermo-3-30-300 ✓
+
+Non devi modificare nulla! 🎉
+
+═══════════════════════════════════════════════════════════════════════
+PARTE 4: VERIFICA CHE FUNZIONI
+═══════════════════════════════════════════════════════════════════════
+
+1. Apri il link (aspetta 2-3 minuti se appena pubblicato):
+   https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html
+
+2. Prova:
+   ✓ Autocomplete indirizzo → Dovrebbe funzionare!
+   ✓ Geolocalizzazione → Dovrebbe funzionare!
+   ✓ Nessun errore "Failed to fetch" → Tutto OK!
+
+═══════════════════════════════════════════════════════════════════════
+PARTE 5: CONDIVIDI!
+═══════════════════════════════════════════════════════════════════════
+
+Ora puoi condividere il link:
+
+📱 Social:
+   "Ho creato uno strumento per verificare se hai accesso al verde 
+   pubblico a Palermo secondo la regola 3-30-300. Sei fortunato o svantaggiato?
+   👉 https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html"
+
+📧 Email:
+   Invia il link a giornalisti locali, associazioni, amministrazione
+
+🗣️ Forum/Gruppi:
+   Condividi nei gruppi Facebook di Palermo, forum urbanistica, ecc.
+
+═══════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════
+
+❌ "404 Not Found"
+   → Aspetta 5 minuti, GitHub Pages ci mette un po'
+   → Verifica che i file siano nella root del repository
+   → Controlla che GitHub Pages sia attivato in Settings
+
+❌ "File GeoJSON non trovato"
+   → Assicurati che TUTTI e 3 i file siano caricati
+   → Controlla che i nomi siano esattamente quelli originali
+
+❌ Autocomplete o geolocalizzazione non funzionano
+   → Verifica che il sito sia su HTTPS (GitHub Pages usa HTTPS automaticamente)
+   → Prova a ricaricare la pagina
+
+═══════════════════════════════════════════════════════════════════════
+BONUS: PERSONALIZZAZIONI
+═══════════════════════════════════════════════════════════════════════
+
+Puoi personalizzare:
+
+1. URL custom (opzionale)
+   → Settings → Pages → Custom domain
+   → Es: palermo330300.it
+
+2. About section
+   → Nella home del repository → ⚙️ (ruota dentata)
+   → Aggiungi descrizione, website, topics
+   → Topics suggeriti: civic-tech, urban-planning, gis, palermo, 
+                       openstreetmap, 3-30-300, green-cities
+
+3. README personalizzazioni (opzionale)
+   → Aggiungi screenshot dell'app
+   → Aggiungi badge (stars, forks, license)
+   → Aggiungi sezione "Come citare questo lavoro"
+
+═══════════════════════════════════════════════════════════════════════
+FINE! 🎉
+═══════════════════════════════════════════════════════════════════════
+
+Il tuo progetto è ora ONLINE e PUBBLICO!
+
+Link finale: https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html
+
+Condividi e sensibilizza sulla regola 3-30-300 per città verdi! 🌳

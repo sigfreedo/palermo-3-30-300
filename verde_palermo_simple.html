@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palermo 3-30-300 - Verifica il tuo accesso al verde</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mediterranean-blue: #2B5F75;
+            --sea-blue: #4A90A4;
+            --olive-green: #6B8E23;
+            --terracotta: #D87855;
+            --warm-sand: #F5E6D3;
+            --fortunato-green: #22c55e;
+            --svantaggiato-red: #ef4444;
+            --text-dark: #1a1a1a;
+            --text-medium: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, var(--warm-sand) 0%, #ffffff 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 3px solid var(--mediterranean-blue);
+        }
+
+        .warning-banner {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .warning-banner.visible {
+            display: block;
+        }
+
+        .warning-banner h4 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .warning-banner p {
+            color: #78350f;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        .warning-banner code {
+            background: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--mediterranean-blue);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            font-weight: 400;
+        }
+
+        .search-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(43, 95, 117, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--sea-blue);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--mediterranean-blue);
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--sea-blue);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .autocomplete-results.visible {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s ease;
+        }
+
+        .autocomplete-item:hover {
+            background: var(--warm-sand);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-loading {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            color: var(--text-medium);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: var(--mediterranean-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        button:hover {
+            background: var(--sea-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(43, 95, 117, 0.3);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-geolocation {
+            background: var(--olive-green);
+        }
+
+        .btn-geolocation:hover {
+            background: #7da12a;
+        }
+
+        .dataset-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .dataset-btn {
+            padding: 0.75rem 1.5rem;
+            background: #e5e7eb;
+            color: var(--text-dark);
+            border: 2px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .dataset-btn.active {
+            background: var(--olive-green);
+            color: white;
+            border-color: var(--olive-green);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-medium);
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .result {
+            display: none;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result.fortunato {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border: 3px solid var(--fortunato-green);
+        }
+
+        .result.svantaggiato {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 3px solid var(--svantaggiato-red);
+        }
+
+        .result h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .result.fortunato h2 {
+            color: #15803d;
+        }
+
+        .result.svantaggiato h2 {
+            color: #b91c1c;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .detail-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-medium);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+
+        .info-section h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--mediterranean-blue);
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--warm-sand);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Merriweather', serif;
+            color: var(--mediterranean-blue);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--text-medium);
+            border-top: 2px solid #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .search-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Palermo 3-30-300</h1>
+            <p class="subtitle">Verifica se hai accesso a uno spazio verde pubblico entro 300 metri da casa tua</p>
+        </header>
+
+        <div class="warning-banner" id="warningBanner">
+            <h4>⚠️ Avviso importante</h4>
+            <p>Per usare autocomplete e geolocalizzazione, devi aprire il file tramite un server web.</p>
+            <p><strong>Soluzione rapida:</strong></p>
+            <p>1. Apri il terminale nella cartella dei file</p>
+            <p>2. Esegui: <code>python -m http.server 8000</code></p>
+            <p>3. Apri: <code>http://localhost:8000/verde_palermo_simple.html</code></p>
+        </div>
+
+        <div class="search-card">
+            <div class="input-wrapper">
+                <label for="addressInput">Inserisci il tuo indirizzo:</label>
+                <input 
+                    type="text" 
+                    id="addressInput" 
+                    placeholder="Inizia a digitare un indirizzo a Palermo..."
+                    autocomplete="off"
+                >
+                <div class="autocomplete-results" id="autocompleteResults"></div>
+            </div>
+
+            <div class="button-group">
+                <button onclick="useGeolocation()" class="btn-geolocation">
+                    📍 Usa posizione corrente
+                </button>
+                <button onclick="searchAddress()" id="btnSearch">
+                    🔍 Cerca
+                </button>
+            </div>
+
+            <div class="dataset-selector">
+                <button class="dataset-btn active" onclick="switchDataset('osm')" id="btnOsm">
+                    OpenStreetMap
+                </button>
+                <button class="dataset-btn" onclick="switchDataset('copernicus')" id="btnCopernicus">
+                    Copernicus (Solo pubblico)
+                </button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <p>🔍 Analisi in corso...</p>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <div class="info-section">
+            <h3>📊 La regola 3-30-300 per città vivibili</h3>
+            <p>Secondo recenti studi scientifici, una città verde e vivibile dovrebbe garantire:</p>
+            <ul style="margin: 1rem 0; padding-left: 2rem; line-height: 1.8;">
+                <li><strong>3 alberi</strong> visibili da ogni abitazione</li>
+                <li><strong>30% di copertura arborea</strong> in ogni quartiere</li>
+                <li><strong>300 metri</strong> di distanza massima da spazi verdi pubblici (standard WHO)</li>
+            </ul>
+            <p style="margin-top: 1rem;">Questo strumento verifica la terza regola: <strong>sei entro 300 metri da uno spazio verde?</strong></p>
+            
+            <h3 style="margin-top: 2rem;">📊 Dati sull'accesso al verde a Palermo</h3>
+            <p>Questi dati mostrano quanta popolazione palermitana vive entro 300 metri da uno spazio verde pubblico.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="statCoverage">--%</div>
+                    <div class="stat-label">Popolazione coperta</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statSpaces">--</div>
+                    <div class="stat-label">Spazi verdi mappati</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statArea">--</div>
+                    <div class="stat-label">km² di verde pubblico</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Palermo 3-30-300</strong> - Analisi civica sull'accesso al verde urbano<br>
+            La regola 3-30-300: 3 alberi visibili, 30% copertura arborea, 300m da spazi verdi<br>
+            Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021 | 
+            <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: var(--mediterranean-blue);">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        let greenSpaces = null;
+        let currentDataset = 'osm';
+        let selectedLocation = null;
+        let autocompleteTimeout = null;
+
+        // Stats per dataset
+        const stats = {
+            osm: { coverage: '38.70', spaces: 118, area: '4.31' },
+            copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
+        };
+
+        // Carica dataset iniziale
+        loadDataset('osm');
+
+        // Mostra warning se file:// protocol
+        if (window.location.protocol === 'file:') {
+            document.getElementById('warningBanner').classList.add('visible');
+            console.warn('⚠️ File aperto con file:// protocol. Autocomplete e geolocalizzazione potrebbero non funzionare.');
+            console.warn('Soluzione: python -m http.server 8000');
+        }
+
+        function updateStats(dataset) {
+            const s = stats[dataset];
+            document.getElementById('statCoverage').textContent = s.coverage + '%';
+            document.getElementById('statSpaces').textContent = s.spaces;
+            document.getElementById('statArea').textContent = s.area;
+        }
+
+        async function loadDataset(dataset) {
+            const filename = dataset === 'osm' ? 'osm_verde_palermo.geojson' : 'copernicus_verde_palermo.geojson';
+            
+            try {
+                const response = await fetch(filename);
+                if (!response.ok) throw new Error('File non trovato');
+                
+                greenSpaces = await response.json();
+                updateStats(dataset);
+                console.log('✅ Dataset caricato:', greenSpaces.features.length, 'spazi');
+            } catch (error) {
+                console.error('❌ Errore caricamento:', error);
+                alert('Errore: file GeoJSON non trovato. Assicurati che i file siano nella stessa cartella.');
+            }
+        }
+
+        function switchDataset(dataset) {
+            currentDataset = dataset;
+            document.getElementById('btnOsm').classList.toggle('active', dataset === 'osm');
+            document.getElementById('btnCopernicus').classList.toggle('active', dataset === 'copernicus');
+            loadDataset(dataset);
+            document.getElementById('result').style.display = 'none';
+        }
+
+        // Autocomplete
+        const addressInput = document.getElementById('addressInput');
+        const autocompleteResults = document.getElementById('autocompleteResults');
+
+        addressInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            clearTimeout(autocompleteTimeout);
+            
+            if (query.length < 3) {
+                autocompleteResults.classList.remove('visible');
+                return;
+            }
+
+            autocompleteResults.innerHTML = '<div class="autocomplete-loading">Ricerca...</div>';
+            autocompleteResults.classList.add('visible');
+
+            autocompleteTimeout = setTimeout(() => {
+                fetchAddressSuggestions(query);
+            }, 300);
+        });
+
+        async function fetchAddressSuggestions(query) {
+            try {
+                const bbox = '13.27,38.09,13.44,38.21'; // Palermo boundingbox
+                
+                // URL base Nominatim
+                const nominatimUrl = `https://nominatim.openstreetmap.org/search?` +
+                    `format=json&` +
+                    `q=${encodeURIComponent(query + ' Palermo')}&` +
+                    `viewbox=${bbox}&` +
+                    `bounded=1&` +
+                    `countrycodes=it&` +
+                    `limit=5&` +
+                    `addressdetails=1`;
+
+                // Usa CORS proxy se necessario (rileva file:// protocol)
+                const url = window.location.protocol === 'file:' 
+                    ? `https://corsproxy.io/?${encodeURIComponent(nominatimUrl)}`
+                    : nominatimUrl;
+
+                console.log('Fetching:', url);
+
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const results = await response.json();
+                
+                displayAutocompleteResults(results);
+            } catch (error) {
+                console.error('Errore autocomplete:', error);
+                
+                // Messaggio di errore dettagliato
+                if (window.location.protocol === 'file:') {
+                    autocompleteResults.innerHTML = `
+                        <div class="autocomplete-loading" style="color: #ef4444; padding: 1.5rem;">
+                            ⚠️ <strong>Problema di connessione</strong><br>
+                            <small style="display: block; margin-top: 0.5rem; line-height: 1.5;">
+                                Per usare l'autocomplete, apri il file con un server web locale:<br>
+                                <code style="background: #f3f4f6; padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block; margin-top: 0.25rem;">python -m http.server 8000</code><br>
+                                Poi apri: <code style="background: #f3f4f6; padding: 0.2rem 0.5rem; border-radius: 4px;">http://localhost:8000/verde_palermo_simple.html</code>
+                            </small>
+                        </div>
+                    `;
+                } else {
+                    autocompleteResults.innerHTML = '<div class="autocomplete-loading" style="color: #ef4444;">Errore di rete. Riprova.</div>';
+                }
+            }
+        }
+
+        function displayAutocompleteResults(results) {
+            if (results.length === 0) {
+                autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun risultato trovato</div>';
+                return;
+            }
+
+            autocompleteResults.innerHTML = results.map(result => `
+                <div class="autocomplete-item" onclick="selectAddress(${result.lat}, ${result.lon}, '${result.display_name.replace(/'/g, "\\'")}')">
+                    ${result.display_name}
+                </div>
+            `).join('');
+        }
+
+        function selectAddress(lat, lon, displayName) {
+            selectedLocation = { lat, lon };
+            addressInput.value = displayName;
+            autocompleteResults.classList.remove('visible');
+            analyzeLocation(lat, lon);
+        }
+
+        // Chiudi autocomplete quando si clicca fuori
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.input-wrapper')) {
+                autocompleteResults.classList.remove('visible');
+            }
+        });
+
+        function searchAddress() {
+            if (!selectedLocation) {
+                alert('Seleziona un indirizzo dalla lista o usa la posizione corrente');
+                return;
+            }
+            analyzeLocation(selectedLocation.lat, selectedLocation.lon);
+        }
+
+        function useGeolocation() {
+            if (!navigator.geolocation) {
+                alert('❌ Geolocalizzazione non supportata dal tuo browser.\n\nUsa l\'input con autocomplete invece.');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('btnSearch').disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    console.log('Posizione ottenuta:', lat, lon);
+                    
+                    // Verifica che sia a Palermo (circa)
+                    if (lat < 38.05 || lat > 38.25 || lon < 13.2 || lon > 13.5) {
+                        alert('⚠️ La tua posizione sembra essere fuori da Palermo.\n\nUsa l\'input manuale con autocomplete.');
+                        document.getElementById('loading').classList.remove('active');
+                        document.getElementById('btnSearch').disabled = false;
+                        return;
+                    }
+
+                    addressInput.value = `📍 Posizione corrente (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
+                    analyzeLocation(lat, lon);
+                    document.getElementById('loading').classList.remove('active');
+                    document.getElementById('btnSearch').disabled = false;
+                },
+                (error) => {
+                    console.error('Errore geolocalizzazione:', error);
+                    
+                    let errorMessage = '❌ Impossibile ottenere la posizione.\n\n';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage += 'Hai negato il permesso di localizzazione.\n\n' +
+                                          'Soluzione:\n' +
+                                          '1. Clicca sull\'icona 🔒 nella barra dell\'indirizzo\n' +
+                                          '2. Consenti l\'accesso alla posizione\n' +
+                                          '3. Ricarica la pagina';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage += 'Posizione non disponibile.\n\n' +
+                                          'Verifica di avere GPS/WiFi attivi.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage += 'Timeout richiesta.\n\nRiprova.';
+                            break;
+                        default:
+                            // Probabilmente problema HTTPS
+                            if (window.location.protocol === 'file:') {
+                                errorMessage += 'La geolocalizzazione richiede HTTPS o localhost.\n\n' +
+                                              'Soluzione:\n' +
+                                              '1. Avvia un server locale:\n' +
+                                              '   python -m http.server 8000\n\n' +
+                                              '2. Apri: http://localhost:8000/verde_palermo_simple.html\n\n' +
+                                              'Oppure usa l\'input con autocomplete.';
+                            } else {
+                                errorMessage += 'Errore sconosciuto.\n\nUsa l\'input con autocomplete.';
+                            }
+                    }
+                    
+                    alert(errorMessage);
+                    document.getElementById('loading').classList.remove('active');
+                    document.getElementById('btnSearch').disabled = false;
+                }
+            );
+        }
+
+        function analyzeLocation(lat, lon) {
+            if (!greenSpaces) {
+                alert('Caricamento dati in corso. Riprova tra un attimo.');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('result').style.display = 'none';
+
+            setTimeout(() => {
+                const userPoint = turf.point([lon, lat]);
+                let nearestDistance = Infinity;
+                let nearestSpace = null;
+
+                greenSpaces.features.forEach(feature => {
+                    try {
+                        let geom;
+                        if (feature.geometry.type === 'Polygon') {
+                            geom = turf.polygon(feature.geometry.coordinates);
+                        } else if (feature.geometry.type === 'MultiPolygon') {
+                            geom = turf.multiPolygon(feature.geometry.coordinates);
+                        } else {
+                            return;
+                        }
+                        
+                        const distance = turf.distance(userPoint, geom, {units: 'meters'});
+                        
+                        if (distance < nearestDistance) {
+                            nearestDistance = distance;
+                            nearestSpace = feature;
+                        }
+                    } catch (err) {
+                        console.error('Errore calcolo:', err);
+                    }
+                });
+
+                displayResult(nearestDistance, nearestSpace);
+                document.getElementById('loading').classList.remove('active');
+            }, 500);
+        }
+
+        function displayResult(distance, nearestSpace) {
+            const resultDiv = document.getElementById('result');
+            const isFortunato = distance <= 300;
+            const props = nearestSpace.properties;
+            const distanceMeters = Math.round(distance);
+
+            resultDiv.className = 'result ' + (isFortunato ? 'fortunato' : 'svantaggiato');
+            
+            let html = `
+                <h2>${isFortunato ? '🎉 Sei fortunato!' : '😔 Sei svantaggiato'}</h2>
+                <p>${isFortunato 
+                    ? `Vivi <strong>entro 300 metri</strong> da uno spazio verde pubblico. Hai accesso facilitato alla natura in città!`
+                    : `Vivi a <strong>più di 300 metri</strong> dal verde pubblico più vicino. Secondo gli standard WHO, dovresti avere accesso a uno spazio verde entro questa distanza.`
+                }</p>
+                
+                <div class="result-details">
+                    <div class="detail-card">
+                        <div class="detail-label">Distanza</div>
+                        <div class="detail-value">${distanceMeters} m</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">Spazio più vicino</div>
+                        <div class="detail-value" style="font-size: 1.1rem;">${props.size_label}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">Dimensione</div>
+                        <div class="detail-value">${(props.area_sqm / 10000).toFixed(2)} ha</div>
+                    </div>
+                </div>
+            `;
+
+            if (!isFortunato) {
+                const deficit = distanceMeters - 300;
+                html += `
+                    <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                        💡 <strong>Sei ${deficit} metri oltre lo standard WHO.</strong> 
+                        Questo significa che per raggiungere uno spazio verde devi percorrere una distanza maggiore di quella raccomandata per un accesso equo alla natura urbana.
+                    </p>
+                `;
+            }
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+
+        // Enter key
+        addressInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && selectedLocation) {
+                searchAddress();
+            }
+        });
+    </script>
+</body>
+</html>

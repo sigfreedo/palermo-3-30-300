@@ -1,0 +1,143 @@
+✅ CHECKLIST: FILE DA CARICARE SU GITHUB
+=========================================
+
+Assicurati di caricare TUTTI questi file sul repository GitHub:
+
+ESSENZIALI (obbligatori):
+┌────────────────────────────────────────────────────────────┐
+│ ✓ verde_palermo_simple.html    L'applicazione principale  │
+│ ✓ osm_verde_palermo.geojson    Dati OpenStreetMap         │
+│ ✓ copernicus_verde_palermo.geojson  Dati Copernicus      │
+│ ✓ README.md                     Documentazione GitHub      │
+│ ✓ index.html                    Reindirizzamento auto      │
+└────────────────────────────────────────────────────────────┘
+
+UTILITÀ (raccomandati):
+┌────────────────────────────────────────────────────────────┐
+│ ✓ AVVIA_SERVER.bat              Script Windows            │
+│ ✓ avvia_server.sh               Script Mac/Linux          │
+│ ✓ .gitignore                    Esclusione file temp      │
+│ ✓ LICENSE                       Licenza MIT               │
+└────────────────────────────────────────────────────────────┘
+
+GUIDE (opzionali ma utili):
+┌────────────────────────────────────────────────────────────┐
+│ ○ GUIDA_GITHUB.txt              Questa guida              │
+│ ○ README.txt                    Istruzioni uso locale     │
+└────────────────────────────────────────────────────────────┘
+
+
+STRUTTURA FINALE DEL REPOSITORY:
+═════════════════════════════════════════════════════════════
+
+palermo-3-30-300/
+│
+├── index.html                      ← Reindirizzamento automatico
+├── verde_palermo_simple.html       ← APPLICAZIONE PRINCIPALE
+│
+├── osm_verde_palermo.geojson       ← Dati OSM
+├── copernicus_verde_palermo.geojson ← Dati Copernicus
+│
+├── README.md                        ← Documentazione principale
+├── LICENSE                          ← Licenza MIT
+├── .gitignore                       ← Esclusioni Git
+│
+├── AVVIA_SERVER.bat                ← Helper Windows
+└── avvia_server.sh                 ← Helper Mac/Linux
+
+
+DIMENSIONI FILE (per riferimento):
+═════════════════════════════════════════════════════════════
+
+verde_palermo_simple.html          ~50 KB
+osm_verde_palermo.geojson          ~500 KB
+copernicus_verde_palermo.geojson   ~800 KB
+README.md                          ~8 KB
+index.html                         ~1 KB
+
+Totale: ~1.4 MB (ben sotto il limite GitHub di 100 MB per file)
+
+
+URL FINALE:
+═════════════════════════════════════════════════════════════
+
+Una volta pubblicato su GitHub Pages:
+
+Repository:
+https://github.com/sigfreedo/palermo-3-30-300
+
+App online (link diretto):
+https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html
+
+App online (via index):
+https://sigfreedo.github.io/palermo-3-30-300/
+
+Entrambi i link funzioneranno! Il secondo reindirizza al primo.
+
+
+PASSI SUCCESSIVI:
+═════════════════════════════════════════════════════════════
+
+1. [ ] Crea repository su GitHub
+2. [ ] Carica tutti i file essenziali
+3. [ ] Attiva GitHub Pages in Settings
+4. [ ] Aspetta 2-3 minuti
+5. [ ] Testa il link online
+6. [ ] Aggiorna README.md con il tuo link reale
+7. [ ] Condividi!
+
+
+PERSONALIZZAZIONI DA FARE:
+═════════════════════════════════════════════════════════════
+
+In README.md:
+- Riga 7: Sostituisci sigfreedo con il tuo username
+- Riga 42: Sostituisci sigfreedo con il tuo username
+- Riga 137: Aggiungi il tuo nome
+- Riga 145: Aggiungi i tuoi contatti (opzionale)
+
+In LICENSE:
+- Riga 3: Sostituisci [Il tuo nome] con il tuo nome reale
+
+
+NOTE IMPORTANTI:
+═════════════════════════════════════════════════════════════
+
+✓ Repository DEVE essere PUBLIC per GitHub Pages gratuito
+✓ Branch deve essere "main" o "master"
+✓ File nella root del repository (non in sottocartelle)
+✓ Nomi file case-sensitive (rispetta maiuscole/minuscole)
+✓ I file .geojson sono grandi ma sotto il limite GitHub
+✓ L'app funzionerà SUBITO su GitHub Pages (niente server locale!)
+
+
+DOMANDE FREQUENTI:
+═════════════════════════════════════════════════════════════
+
+Q: Devo pagare qualcosa?
+A: No! GitHub e GitHub Pages sono completamente gratuiti.
+
+Q: Quanto tempo ci vuole per pubblicare?
+A: 2-5 minuti dopo l'attivazione di GitHub Pages.
+
+Q: Posso usare un dominio custom?
+A: Sì! Settings → Pages → Custom domain
+
+Q: Come aggiorno l'app dopo averla pubblicata?
+A: Modifica i file su GitHub, commit, e Pages si aggiorna automaticamente.
+
+Q: L'autocomplete funzionerà online?
+A: Sì! Nessun problema CORS su HTTPS.
+
+
+SUPPORTO:
+═════════════════════════════════════════════════════════════
+
+Se hai problemi:
+1. Rileggi la GUIDA_GITHUB.txt
+2. Controlla la sezione TROUBLESHOOTING
+3. Verifica che TUTTI i file siano caricati
+4. Aspetta almeno 5 minuti dopo l'attivazione Pages
+
+
+Buona pubblicazione! 🚀
