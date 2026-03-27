@@ -581,70 +581,84 @@
 
         async function fetchAddressSuggestions(query) {
             try {
-                console.log('🔍 Ricerca con Photon API:', query);
+                console.log('🔍 Ricerca indirizzo:', query);
                 
                 // TENTATIVO 1: Photon API (migliore per numeri civici)
-                const bbox = '13.27,38.09,13.44,38.21'; // Palermo: lon_min,lat_min,lon_max,lat_max
-                
-                const photonUrl = `https://photon.komoot.io/api/?` +
-                    `q=${encodeURIComponent(query + ' Palermo')}&` +
-                    `bbox=${bbox}&` +
-                    `limit=8&` +
-                    `lang=it`;
-                
                 let results = [];
                 
                 try {
+                    // Photon bbox format: lon,lat,lon,lat (not lat,lon!)
+                    const photonUrl = `https://photon.komoot.io/api/?` +
+                        `q=${encodeURIComponent(query)}&` +  // NON aggiungere " Palermo" qui
+                        `lon=13.36&lat=38.11&` +  // Centro Palermo come punto di riferimento
+                        `limit=8`;
+                    
+                    console.log('  → Provo Photon...');
+                    
                     const photonResponse = await fetch(photonUrl);
                     
                     if (photonResponse.ok) {
                         const photonData = await photonResponse.json();
                         
-                        // Photon restituisce GeoJSON con features
                         if (photonData.features && photonData.features.length > 0) {
-                            console.log('✅ Photon trovato:', photonData.features.length, 'risultati');
+                            console.log('  ✅ Photon:', photonData.features.length, 'risultati');
                             
-                            // Converti formato Photon in formato Nominatim per compatibilità
+                            // Converti formato Photon in formato compatibile
                             results = photonData.features
                                 .filter(f => {
-                                    // Filtra solo risultati a Palermo
+                                    // Filtra solo risultati a Palermo/Sicilia
                                     const props = f.properties;
-                                    return props.city === 'Palermo' || 
-                                           props.county === 'Palermo' ||
-                                           (props.name && props.name.includes('Palermo'));
+                                    const city = props.city || props.county || '';
+                                    const state = props.state || '';
+                                    return city.toLowerCase().includes('palermo') || 
+                                           state.toLowerCase().includes('sicilia') ||
+                                           state.toLowerCase().includes('sicily');
                                 })
                                 .map(f => {
                                     const props = f.properties;
                                     const coords = f.geometry.coordinates;
                                     
-                                    // Costruisci display_name
-                                    let displayParts = [];
-                                    if (props.housenumber) displayParts.push(props.housenumber);
-                                    if (props.street) displayParts.push(props.street);
-                                    else if (props.name) displayParts.push(props.name);
-                                    if (props.city) displayParts.push(props.city);
+                                    // Costruisci display_name leggibile
+                                    let parts = [];
+                                    
+                                    // Se c'è numero civico E via, metti insieme
+                                    if (props.housenumber && props.street) {
+                                        parts.push(`${props.street} ${props.housenumber}`);
+                                    } else if (props.street) {
+                                        parts.push(props.street);
+                                    } else if (props.name) {
+                                        parts.push(props.name);
+                                    }
+                                    
+                                    // Aggiungi località se disponibile
+                                    if (props.district) parts.push(props.district);
+                                    parts.push('Palermo');
                                     
                                     return {
                                         lat: coords[1],
                                         lon: coords[0],
-                                        display_name: displayParts.join(', ') || props.name || 'Palermo',
+                                        display_name: parts.join(', '),
                                         source: 'photon'
                                     };
-                                });
+                                })
+                                .filter(r => r.display_name.trim().length > 0); // Rimuovi vuoti
                             
                             if (results.length > 0) {
                                 displayAutocompleteResults(results);
                                 return;
                             }
                         }
+                    } else {
+                        console.warn('  ⚠️ Photon HTTP', photonResponse.status);
                     }
                 } catch (photonError) {
-                    console.warn('⚠️ Photon fallito, provo Nominatim:', photonError.message);
+                    console.warn('  ⚠️ Photon fallito:', photonError.message);
                 }
                 
                 // TENTATIVO 2: Nominatim fallback
-                console.log('🔄 Fallback a Nominatim...');
+                console.log('  → Fallback a Nominatim...');
                 
+                const bbox = '13.27,38.09,13.44,38.21';
                 const nominatimUrl = `https://nominatim.openstreetmap.org/search?` +
                     `format=json&` +
                     `q=${encodeURIComponent(query + ' Palermo')}&` +
@@ -652,7 +666,6 @@
                     `bounded=1&` +
                     `countrycodes=it&` +
                     `addressdetails=1&` +
-                    `extratags=1&` +
                     `limit=8`;
 
                 const nominatimResponse = await fetch(nominatimUrl);
@@ -664,7 +677,7 @@
                 results = await nominatimResponse.json();
                 
                 if (results.length > 0) {
-                    console.log('✅ Nominatim trovato:', results.length, 'risultati');
+                    console.log('  ✅ Nominatim:', results.length, 'risultati');
                     results = results.map(r => ({...r, source: 'nominatim'}));
                 }
                 
