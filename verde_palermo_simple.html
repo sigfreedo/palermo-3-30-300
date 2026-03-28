@@ -379,6 +379,73 @@
                 padding: 1.5rem;
             }
         }
+
+        .tree-canopy-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfccb 100%);
+            border: 2px solid #84cc16;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tree-canopy-section h3 {
+            color: #365314;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .canopy-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .canopy-badge.scarsa {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .canopy-badge.ridotta {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .canopy-badge.quasi-sufficiente {
+            background: #d9f99d;
+            color: #3f6212;
+        }
+
+        .quartiere-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quartiere-stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .quartiere-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--mediterranean-blue);
+        }
+
+        .quartiere-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -473,6 +540,7 @@
 
     <script>
         let greenSpaces = null;
+        let quartieri = null; // Dati quartieri con tree canopy e statistiche
         let currentDataset = 'osm';
         let selectedLocation = null;
         let autocompleteTimeout = null;
@@ -483,8 +551,36 @@
             copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
         };
 
+        // Carica quartieri al load
+        async function loadQuartieri() {
+            try {
+                const response = await fetch('quartieri_dati_completi.geojson');
+                if (!response.ok) throw new Error('Quartieri non trovati');
+                quartieri = await response.json();
+                console.log('✅ Quartieri caricati:', quartieri.features.length);
+            } catch (error) {
+                console.warn('⚠️ Quartieri non disponibili:', error);
+            }
+        }
+
+        // Trova quartiere da coordinate (point-in-polygon)
+        function findQuartiere(lat, lon) {
+            if (!quartieri) return null;
+            
+            const point = turf.point([lon, lat]);
+            
+            for (const feature of quartieri.features) {
+                if (turf.booleanPointInPolygon(point, feature)) {
+                    return feature.properties;
+                }
+            }
+            
+            return null;
+        }
+
         // Carica dataset iniziale
         loadDataset('osm');
+        loadQuartieri();
 
         // Mostra warning se file:// protocol
         if (window.location.protocol === 'file:') {
@@ -836,7 +932,7 @@
                         return;
                     }
 
-                    displayResult(nearestDistance, nearestSpace);
+                    displayResult(nearestDistance, nearestSpace, lat, lon);
                     document.getElementById('loading').classList.remove('active');
                     
                     console.log('=== ANALISI COMPLETATA ===');
@@ -848,7 +944,7 @@
             }, 500);
         }
 
-        function displayResult(distance, nearestSpace) {
+        function displayResult(distance, nearestSpace, lat, lon) {
             const resultDiv = document.getElementById('result');
             const isFortunato = distance <= 300;
             const props = nearestSpace.properties;
@@ -883,10 +979,44 @@
                     </div>
                     <div class="detail-card">
                         <div class="detail-label">Dimensione</div>
-                        <div class="detail-value">${(props.area_sqm / 10000).toFixed(2)} ha</div>
+                        <div class="detail-value">${(props.area_sqm / 1000000).toFixed(2)} km²</div>
                     </div>
                 </div>
             `;
+
+            // Aggiungi sezione tree canopy se disponibile
+            const quartiereData = findQuartiere(lat, lon);
+            if (quartiereData) {
+                const canopyClass = quartiereData.classificazione_canopy === 'Scarsa' ? 'scarsa' : 
+                                   quartiereData.classificazione_canopy === 'Ridotta' ? 'ridotta' : 'quasi-sufficiente';
+                
+                html += `
+                    <div class="tree-canopy-section">
+                        <h3>
+                            🌳 Copertura Arborea - Quartiere ${quartiereData.quartiere}
+                            <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
+                        </h3>
+                        <div class="quartiere-stats">
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.tree_canopy_pct.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Tree Canopy</div>
+                            </div>
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${Math.round(quartiereData.distanza_media_m)} m</div>
+                                <div class="quartiere-stat-label">Distanza Media</div>
+                            </div>
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.pct_popolazione_coperta.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Popolazione Coperta</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #4a5568;">
+                            <strong>Nota:</strong> Secondo lo standard WHO/EEA, ogni quartiere dovrebbe avere almeno il 30% di copertura arborea. 
+                            Il tuo quartiere ha un deficit di <strong>${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                        </p>
+                    </div>
+                `;
+            }
 
             if (!isFortunato) {
                 const deficit = distanceMeters - 300;
