@@ -877,6 +877,7 @@
                     
                     let nearestDistance = Infinity;
                     let nearestSpace = null;
+                    let spacesWithin300 = [];
                     let errorCount = 0;
 
                     greenSpaces.features.forEach((feature, index) => {
@@ -909,9 +910,19 @@
                                 return;
                             }
                             
+                            // Traccia il più vicino
                             if (distance < nearestDistance) {
                                 nearestDistance = distance;
                                 nearestSpace = feature;
+                            }
+                            
+                            // Se entro 300m, aggiungi alla lista
+                            if (distance <= 300) {
+                                spacesWithin300.push({
+                                    feature: feature,
+                                    distance: distance,
+                                    area: feature.properties.area_sqm || 0
+                                });
                             }
                         } catch (err) {
                             console.error(`Errore calcolo spazio ${index}:`, err);
@@ -922,17 +933,29 @@
                     console.log('✓ Calcolo completato');
                     console.log('  - Spazi processati:', greenSpaces.features.length);
                     console.log('  - Errori:', errorCount);
+                    console.log('  - Spazi entro 300m:', spacesWithin300.length);
                     console.log('  - Distanza minima:', Math.round(nearestDistance), 'm');
-                    console.log('  - Spazio più vicino:', nearestSpace?.properties?.size_label);
+                    
+                    // Se ci sono spazi entro 300m, scegli il PIÙ GRANDE
+                    let selectedSpace = nearestSpace;
+                    let selectedDistance = nearestDistance;
+                    
+                    if (spacesWithin300.length > 0) {
+                        // Ordina per area (più grande prima)
+                        spacesWithin300.sort((a, b) => b.area - a.area);
+                        selectedSpace = spacesWithin300[0].feature;
+                        selectedDistance = spacesWithin300[0].distance;
+                        console.log('  - Spazio più grande entro 300m:', selectedSpace.properties.size_label, selectedSpace.properties.area_sqm, 'm²');
+                    }
 
-                    if (!nearestSpace) {
+                    if (!selectedSpace) {
                         console.error('❌ Nessuno spazio trovato!');
                         alert('Errore nel calcolo. Verifica di essere a Palermo e riprova.');
                         document.getElementById('loading').classList.remove('active');
                         return;
                     }
 
-                    displayResult(nearestDistance, nearestSpace, lat, lon);
+                    displayResult(selectedDistance, selectedSpace, lat, lon, spacesWithin300.length);
                     document.getElementById('loading').classList.remove('active');
                     
                     console.log('=== ANALISI COMPLETATA ===');
@@ -944,24 +967,45 @@
             }, 500);
         }
 
-        function displayResult(distance, nearestSpace, lat, lon) {
+        function displayResult(distance, nearestSpace, lat, lon, spacesWithin300 = 0) {
             const resultDiv = document.getElementById('result');
             const isFortunato = distance <= 300;
             const props = nearestSpace.properties;
             const distanceMeters = Math.round(distance);
             
+            // Trova quartiere
+            const quartiereData = findQuartiere(lat, lon);
+            
             // Determina cosa mostrare: nome reale se disponibile, altrimenti categoria
             const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
             const displayName = hasRealName ? props.name : props.size_label;
+            
+            // Formato area adattivo (3 decimali se < 0.01 km², altrimenti 2)
+            const areaKm2 = props.area_sqm / 1000000;
+            const areaFormatted = areaKm2 < 0.01 ? areaKm2.toFixed(3) : areaKm2.toFixed(2);
+            
+            // Etichetta spazio: cambia se ci sono più spazi entro 300m
+            const spaceLabel = isFortunato && spacesWithin300 > 1 
+                ? "Spazio più grande nelle vicinanze" 
+                : "Spazio più vicino";
 
             resultDiv.className = 'result ' + (isFortunato ? 'fortunato' : 'svantaggiato');
             
+            // Testo principale: cambia se ci sono più spazi
+            let mainText = '';
+            if (isFortunato) {
+                if (spacesWithin300 > 1) {
+                    mainText = `Vivi <strong>entro 300 metri da ${spacesWithin300} spazi verdi pubblici</strong>. Hai accesso facilitato alla natura in città!`;
+                } else {
+                    mainText = `Vivi <strong>entro 300 metri</strong> da uno spazio verde pubblico. Hai accesso facilitato alla natura in città!`;
+                }
+            } else {
+                mainText = `Vivi a <strong>più di 300 metri</strong> dal verde pubblico più vicino. Secondo gli standard WHO, dovresti avere accesso a uno spazio verde entro questa distanza.`;
+            }
+            
             let html = `
                 <h2>${isFortunato ? '🎉 Sei fortunato!' : '😔 Sei svantaggiato'}</h2>
-                <p>${isFortunato 
-                    ? `Vivi <strong>entro 300 metri</strong> da uno spazio verde pubblico. Hai accesso facilitato alla natura in città!`
-                    : `Vivi a <strong>più di 300 metri</strong> dal verde pubblico più vicino. Secondo gli standard WHO, dovresti avere accesso a uno spazio verde entro questa distanza.`
-                }</p>
+                <p>${mainText}</p>
                 
                 <div class="result-details">
                     <div class="detail-card">
@@ -969,7 +1013,7 @@
                         <div class="detail-value">${distanceMeters} m</div>
                     </div>
                     <div class="detail-card">
-                        <div class="detail-label">Spazio più vicino</div>
+                        <div class="detail-label">${spaceLabel}</div>
                         <div class="detail-value" style="font-size: ${hasRealName ? '1.3rem' : '1.1rem'}; font-weight: ${hasRealName ? '600' : '500'};">
                             ${hasRealName ? '🏛️ ' : ''}${displayName}
                         </div>
@@ -979,13 +1023,12 @@
                     </div>
                     <div class="detail-card">
                         <div class="detail-label">Dimensione</div>
-                        <div class="detail-value">${(props.area_sqm / 1000000).toFixed(2)} km²</div>
+                        <div class="detail-value">${areaFormatted} km²</div>
                     </div>
                 </div>
             `;
 
-            // Aggiungi sezione tree canopy se disponibile
-            const quartiereData = findQuartiere(lat, lon);
+            // Aggiungi sezione quartiere con statistiche E copertura arborea
             if (quartiereData) {
                 const canopyClass = quartiereData.classificazione_canopy === 'Scarsa' ? 'scarsa' : 
                                    quartiereData.classificazione_canopy === 'Ridotta' ? 'ridotta' : 'quasi-sufficiente';
@@ -993,14 +1036,29 @@
                 html += `
                     <div class="tree-canopy-section">
                         <h3>
-                            🌳 Copertura Arborea - Quartiere ${quartiereData.quartiere}
-                            <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
+                            📍 Il tuo Quartiere: ${quartiereData.quartiere}
                         </h3>
+                        
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🌳 Copertura Arborea
+                            <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
+                        </h4>
                         <div class="quartiere-stats">
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${quartiereData.tree_canopy_pct.toFixed(1)}%</div>
-                                <div class="quartiere-stat-label">Tree Canopy</div>
+                                <div class="quartiere-stat-label">Copertura Arborea</div>
                             </div>
+                        </div>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            La copertura arborea misura la percentuale di suolo coperto dalle chiome degli alberi. 
+                            Lo standard WHO/EEA raccomanda almeno il 30%. 
+                            Il tuo quartiere ha un <strong>deficit di ${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                        </p>
+                        
+                        <h4 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🏞️ Accesso agli Spazi Verdi
+                        </h4>
+                        <div class="quartiere-stats">
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${Math.round(quartiereData.distanza_media_m)} m</div>
                                 <div class="quartiere-stat-label">Distanza Media</div>
@@ -1010,9 +1068,9 @@
                                 <div class="quartiere-stat-label">Popolazione Coperta</div>
                             </div>
                         </div>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #4a5568;">
-                            <strong>Nota:</strong> Secondo lo standard WHO/EEA, ogni quartiere dovrebbe avere almeno il 30% di copertura arborea. 
-                            Il tuo quartiere ha un deficit di <strong>${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            Nel tuo quartiere, in media i residenti distano <strong>${Math.round(quartiereData.distanza_media_m)} metri</strong> dal verde pubblico più vicino. 
+                            Il <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong> della popolazione vive entro 300 metri da uno spazio verde.
                         </p>
                     </div>
                 `;
