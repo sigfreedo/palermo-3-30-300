@@ -446,6 +446,91 @@
             color: var(--text-medium);
             margin-top: 0.25rem;
         }
+
+        .tree-count-section {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .tree-count-section.visible {
+            display: block;
+        }
+
+        .tree-count-section h3 {
+            color: #065f46;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tree-count-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .tree-count-input-wrapper input[type="number"] {
+            width: 120px;
+            padding: 0.75rem 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .tree-count-input-wrapper button {
+            flex: 0 0 auto;
+            padding: 0.75rem 2rem;
+        }
+
+        .tree-count-feedback {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            display: none;
+        }
+
+        .tree-count-feedback.visible {
+            display: block;
+        }
+
+        .tree-count-feedback.success {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            color: #065f46;
+        }
+
+        .tree-count-feedback.warning {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
+
+        .city-stats {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .city-stats-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #10b981;
+            margin: 0.5rem 0;
+        }
+
+        .city-stats-label {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
@@ -501,6 +586,29 @@
 
         <div class="result" id="result"></div>
 
+        <div id="treeCountSection" class="tree-count-section">
+            <h3>🌳 Quanti alberi vedi dalla tua finestra?</h3>
+            <p style="color: #065f46; margin-bottom: 1rem;">
+                Il criterio WHO raccomanda di vedere <strong>almeno 3 alberi</strong> dalla propria abitazione.
+            </p>
+            
+            <div class="tree-count-input-wrapper">
+                <input type="number" id="treeCountInput" min="0" max="99" placeholder="0" />
+                <button onclick="submitTreeCount()" id="btnSubmitTreeCount">Invia</button>
+            </div>
+            
+            <div id="treeCountFeedback" class="tree-count-feedback"></div>
+            
+            <div id="cityStats" class="city-stats" style="display: none;">
+                <div class="city-stats-label">Media cittadina</div>
+                <div class="city-stats-value" id="cityStatsValue">-</div>
+                <div class="city-stats-label">alberi visibili dalla finestra</div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #9ca3af;" id="cityStatsCount">
+                    Basato su <span id="responseCount">0</span> risposte
+                </div>
+            </div>
+        </div>
+
         <div class="info-section">
             <h3>📊 La regola 3-30-300 per città vivibili</h3>
             <p>Secondo recenti studi scientifici, una città verde e vivibile dovrebbe garantire:</p>
@@ -544,6 +652,9 @@
         let currentDataset = 'osm';
         let selectedLocation = null;
         let autocompleteTimeout = null;
+
+        // URL Cloudflare Worker per API
+        const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
 
         // Stats per dataset
         const stats = {
@@ -1088,6 +1199,122 @@
 
             resultDiv.innerHTML = html;
             resultDiv.style.display = 'block';
+            
+            // Mostra la sezione tree count
+            showTreeCountSection();
+        }
+
+        // Mostra la sezione tree count dopo il risultato
+        function showTreeCountSection() {
+            const section = document.getElementById('treeCountSection');
+            section.classList.add('visible');
+            
+            // Reset input
+            const input = document.getElementById('treeCountInput');
+            const btn = document.getElementById('btnSubmitTreeCount');
+            const feedback = document.getElementById('treeCountFeedback');
+            
+            input.value = '';
+            input.disabled = false;
+            btn.disabled = false;
+            btn.textContent = 'Invia';
+            feedback.classList.remove('visible');
+            
+            // Carica e mostra statistiche esistenti
+            loadCityStats();
+        }
+
+        // Carica statistiche cittadine
+        async function loadCityStats() {
+            try {
+                console.log('📊 Caricamento statistiche tree count...');
+                
+                const response = await fetch(`${WORKER_URL}/api/tree-stats`);
+                
+                if (!response.ok) {
+                    console.warn('Errore caricamento stats:', response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('✓ Statistiche ricevute:', data);
+                
+                if (data.count > 0) {
+                    document.getElementById('cityStatsValue').textContent = data.average;
+                    document.getElementById('responseCount').textContent = data.count;
+                    document.getElementById('cityStats').style.display = 'block';
+                }
+            } catch (error) {
+                console.warn('⚠️ Errore caricamento stats:', error);
+                // Non mostrare errore all'utente, semplicemente non mostrare stats
+            }
+        }
+
+        // Submit tree count
+        async function submitTreeCount() {
+            const input = document.getElementById('treeCountInput');
+            const treeCount = parseInt(input.value);
+            
+            if (isNaN(treeCount) || treeCount < 0 || treeCount > 99) {
+                alert('Inserisci un numero tra 0 e 99');
+                return;
+            }
+            
+            const btn = document.getElementById('btnSubmitTreeCount');
+            btn.disabled = true;
+            btn.textContent = 'Salvataggio...';
+            
+            try {
+                console.log('💾 Salvataggio tree count:', treeCount);
+                
+                // Chiamata API Cloudflare Worker
+                const response = await fetch(`${WORKER_URL}/api/tree-count`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ count: treeCount })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('✓ Salvato con UUID:', result.uuid);
+                
+                // Mostra feedback
+                const feedback = document.getElementById('treeCountFeedback');
+                const meetsStandard = treeCount >= 3;
+                
+                feedback.className = 'tree-count-feedback visible ' + (meetsStandard ? 'success' : 'warning');
+                
+                if (meetsStandard) {
+                    feedback.innerHTML = `
+                        <strong>✅ Ottimo!</strong> Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra.
+                        Rispetti lo standard WHO che raccomanda almeno 3 alberi visibili.
+                    `;
+                } else {
+                    feedback.innerHTML = `
+                        <strong>❌ Sotto lo standard</strong><br>
+                        Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra, ma lo standard WHO raccomanda di vederne almeno 3.
+                        Considera di piantare alberi nelle vicinanze o di valorizzare la vegetazione urbana.
+                    `;
+                }
+                
+                // Ricarica statistiche (con un piccolo delay per dare tempo al KV di propagarsi)
+                setTimeout(() => loadCityStats(), 500);
+                
+                // Disabilita input
+                input.disabled = true;
+                btn.textContent = 'Inviato ✓';
+                
+            } catch (error) {
+                console.error('❌ Errore salvataggio:', error);
+                alert('Errore nel salvataggio. Riprova.');
+                btn.disabled = false;
+                btn.textContent = 'Invia';
+            }
         }
 
         // Enter key
