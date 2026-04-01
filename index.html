@@ -1,59 +1,1675 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=verde_palermo_simple.html">
-    <title>Palermo 3-30-300 - Reindirizzamento...</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #F5E6D3 0%, #ffffff 100%);
-            color: #1a1a1a;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #2B5F75;
-        }
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-        a {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: #2B5F75;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        a:hover {
-            background: #4A90A4;
-            transform: translateY(-2px);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palermo 3-30-300</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+    
+    .hero {
+      background: #1a1a1a;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem;
+    }
+    
+    .skyline-layer {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    
+    .layer-back {
+      z-index: 1;
+    }
+    
+    .layer-mid {
+      z-index: 2;
+    }
+    
+    .layer-front {
+      z-index: 3;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 96px;
+      font-weight: 900;
+      line-height: 0.95;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 28px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 3rem;
+    }
+    
+    .hero-cta {
+      display: inline-block;
+      padding: 18px 48px;
+      background: #10b981;
+      color: #1a1a1a;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 4rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    
+    .hero-cta:hover {
+      background: #0d9488;
+      transform: translateY(-2px);
+    }
+    
+    .scroll-hint {
+      margin-top: 4rem;
+    }
+    
+    .scroll-arrow {
+      display: inline-block;
+      color: #ffffff;
+      font-size: 32px;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .intro-section {
+      background: #ffffff;
+      padding: 5rem 2rem;
+    }
+    
+    .intro-content {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .intro-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .intro-content a {
+      color: #065f46;
+      text-decoration: underline;
+    }
+    
+    .intro-content .highlight {
+      color: #065f46;
+    }
+    
+    .intro-content .questions {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e5e7eb;
+    }
+    
+    .intro-content .questions p {
+      margin-bottom: 1rem;
+    }
+    
+    .intro-content .mission {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    /* ADDRESS SECTION */
+    .address-section {
+      background: #f0fdf4;
+      padding: 5rem 2rem;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .address-content {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    .address-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #065f46;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    
+    .address-input-wrapper {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    #address-input {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 16px;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+    
+    #address-input:focus {
+      outline: none;
+      border-color: #065f46;
+    }
+    
+    .analyze-btn {
+      padding: 16px 32px;
+      background: #10b981;
+      color: #1a1a1a;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .analyze-btn:hover {
+      background: #0d9488;
+      transform: translateY(-2px);
+    }
+    
+    .geolocation-wrapper {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .geolocation-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 12px 24px;
+      background: transparent;
+      color: #065f46;
+      font-size: 15px;
+      font-weight: 600;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .geolocation-btn:hover {
+      background: #10b981;
+      color: #1a1a1a;
+    }
+    
+    .privacy-disclaimer {
+      text-align: center;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    
+    .privacy-disclaimer a {
+      color: #065f46;
+      text-decoration: underline;
+    }
+    
+    /* Google Places Autocomplete styling */
+    .pac-container {
+      font-family: 'Inter', sans-serif;
+      border-radius: 8px;
+      margin-top: 4px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    
+    .pac-item {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+    
+    .pac-item:hover {
+      background: #f0fdf4;
+    }
+    
+    
+    /* RESULTS SECTIONS CSS */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+      margin-top: 2rem;
+    }
+    
+    .loading.active { display: block; }
+    
+    .loading p {
+      font-size: 1.2rem;
+      color: #065f46;
+      margin-bottom: 1rem;
+    }
+    
+    .result {
+      display: none;
+      margin-top: 2rem;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    }
+    
+    .result.visible { display: block; }
+    
+    .result h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #1a1a1a;
+    }
+    
+    .result-status {
+      font-size: 1.3rem;
+      font-weight: 600;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .result-status.fortunato {
+      background: #d1fae5;
+      color: #065f46;
+      border-left: 5px solid #10b981;
+    }
+    
+    .result-status.svantaggiato {
+      background: #fee2e2;
+      color: #991b1b;
+      border-left: 5px solid #ef4444;
+    }
+    
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .detail-card {
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+    
+    .detail-label {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+    
+    .detail-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    
+    #map {
+      width: 100%;
+      height: 500px;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .tree-count-section {
+      display: none;
+      margin-top: 2rem;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    }
+    
+    .tree-count-section.visible { display: block; }
+    
+    .tree-count-section h3 {
+      font-size: 1.5rem;
+      color: #065f46;
+      margin-bottom: 1rem;
+    }
+    
+    .tree-count-input-wrapper {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      max-width: 300px;
+    }
+    
+    .tree-count-input-wrapper input {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 1.5rem;
+      text-align: center;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .tree-count-input-wrapper button {
+      padding: 0.75rem 1.5rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .tree-count-feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .city-stats {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f0fdf4;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .city-stats-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #065f46;
+    }
+    
+    .city-stats-label {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+    
+    .info-section {
+      display: none;
+      margin-top: 2rem;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    }
+    
+    .info-section.visible { display: block; }
+    
+    .info-section h3 {
+      font-size: 1.5rem;
+      color: #065f46;
+      margin-bottom: 1rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .stat-box {
+      padding: 1.5rem;
+      background: #f0fdf4;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #065f46;
+    }
+    
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    
+    footer {
+      margin-top: 3rem;
+      padding: 2rem;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    
+    footer a {
+      color: #065f46;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .address-title { font-size: 24px; }
+      
+      .address-input-wrapper {
+        flex-direction: column;
+      }
+      
+      .analyze-btn {
+        width: 100%;
+      }
+    }
+      .hero-title {
+        font-size: 56px;
+      }
+      
+      .hero-subtitle {
+        font-size: 20px;
+      }
+      
+      .hero-cta {
+        padding: 14px 36px;
+        font-size: 15px;
+      }
+      
+      .intro-content {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌳 Palermo 3-30-300</h1>
-        <p>Reindirizzamento all'applicazione in corso...</p>
-        <p><a href="verde_palermo_simple.html">Clicca qui se non vieni reindirizzato automaticamente</a></p>
-        <p style="margin-top: 2rem; font-size: 0.9rem; color: #4a4a4a;">
-            La regola 3-30-300 per città verdi:<br>
-            3 alberi visibili • 30% copertura arborea • 300m da spazi verdi
-        </p>
+  <section class="hero">
+    <!-- Layer 1: SOLO Mountain background -->
+    <svg class="skyline-layer layer-back" viewBox="0 0 1400 550" width="1400" height="550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <path d="M 0 480 Q 200 420, 400 460 T 800 450 T 1200 470 L 1400 480 L 1400 550 L 0 550 Z" fill="#065f46" opacity="0.2"/>
+    </svg>
+    
+    <!-- Layer 2: EMPTY (no disturbing shapes) -->
+    <svg class="skyline-layer layer-mid" viewBox="0 0 1400 550" width="1400" height="550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+    </svg>
+    
+    <!-- Layer 3: Buildings RESCALED (smaller, moved down) -->
+    <svg class="skyline-layer layer-front" viewBox="0 0 1400 550" width="1400" height="550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <style>
+          .outline { stroke: #065f46; stroke-width: 2; stroke-linejoin: round; }
+        </style>
+        
+        <!-- Clip paths for TRUE transparency -->
+        <clipPath id="porta-felice-left">
+          <rect x="0" y="0" width="95" height="160"/>
+          <!-- Cut out windows -->
+          <rect x="22" y="15" width="20" height="33" fill="black"/>
+          <rect x="55" y="15" width="20" height="33" fill="black"/>
+          <rect x="22" y="60" width="20" height="33" fill="black"/>
+          <rect x="55" y="60" width="20" height="33" fill="black"/>
+          <rect x="22" y="105" width="20" height="33" fill="black"/>
+          <rect x="55" y="105" width="20" height="33" fill="black"/>
+        </clipPath>
+      </defs>
+      
+      <g transform="scale(0.75) translate(20, 100)">
+        
+        <!-- EDIFICIO 1: PORTA FELICE -->
+        <g transform="translate(108, 260)">
+          <g>
+            <rect x="0" y="95" width="95" height="155" fill="#10b981" class="outline"/>
+            <rect x="0" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="25" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="50" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="75" y="88" width="20" height="10" fill="#10b981" class="outline"/>
+            
+            <g transform="translate(22, 110)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 110)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(22, 155)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 155)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(22, 200)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 200)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+          </g>
+          
+          <g transform="translate(155, 0)">
+            <rect x="0" y="95" width="95" height="155" fill="#10b981" class="outline"/>
+            <rect x="0" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="25" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="50" y="88" width="18" height="10" fill="#10b981" class="outline"/>
+            <rect x="75" y="88" width="20" height="10" fill="#10b981" class="outline"/>
+            
+            <g transform="translate(22, 110)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 110)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(22, 155)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 155)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(22, 200)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+            <g transform="translate(55, 200)">
+              <rect x="0" y="5" width="20" height="28" fill="#1a1a1a" stroke="none"/>
+              <path d="M 0 5 Q 10 -2, 20 5" fill="none" class="outline"/>
+              <path d="M 0 33 L 0 5" class="outline"/>
+              <path d="M 20 33 L 20 5" class="outline"/>
+            </g>
+          </g>
+        </g>
+        
+        <g transform="translate(468, 440)">
+          <circle cx="0" cy="0" r="20" fill="#10b981"/>
+          <circle cx="-4" cy="-3" r="12" fill="#34d399"/>
+          <rect x="-3" y="20" width="6" height="35" rx="1.5" fill="#065f46"/>
+        </g>
+        
+        <g transform="translate(540, 415)">
+          <path d="M 0 0 Q -2 28, 0 65" stroke="#065f46" stroke-width="7" fill="none"/>
+          <path d="M 0 0 Q -32 -13, -48 -6" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q -22 -27, -30 -38" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 0 -32, 3 -43" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 22 -27, 30 -38" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 32 -13, 48 -6" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+        
+        <!-- CATTEDRALE, EDIFICIO 3, PORTA NUOVA, TEATRO - same pattern with background rect fill=#1a1a1a for transparency -->
+        
+        <g transform="translate(624, 240)">
+          <rect x="0" y="100" width="35" height="150" fill="#10b981" class="outline"/>
+          <rect x="8" y="120" width="18" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="8" y="120" width="18" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+          <rect x="8" y="155" width="18" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="8" y="155" width="18" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+          <path d="M 17 100 L 12 110 L 22 110 Z" fill="#0d9488"/>
+          
+          <rect x="35" y="80" width="40" height="170" fill="#10b981" class="outline"/>
+          <rect x="43" y="100" width="24" height="30" fill="#1a1a1a" stroke="none"/>
+          <rect x="43" y="100" width="24" height="30" stroke="#065f46" stroke-width="2" fill="none"/>
+          <rect x="43" y="140" width="24" height="30" fill="#1a1a1a" stroke="none"/>
+          <rect x="43" y="140" width="24" height="30" stroke="#065f46" stroke-width="2" fill="none"/>
+          <path d="M 55 80 L 50 90 L 60 90 Z" fill="#0d9488"/>
+          
+          <rect x="75" y="140" width="165" height="110" fill="#10b981" class="outline"/>
+          
+          <path d="M 90 165 Q 115 145, 140 165 L 140 250 L 90 250 Z" fill="#1a1a1a" stroke="none"/>
+          <path d="M 90 165 Q 115 145, 140 165 L 140 250 L 90 250 Z" stroke="#065f46" stroke-width="2" fill="none"/>
+          <path d="M 150 165 Q 170 150, 190 165 L 190 250 L 150 250 Z" fill="#1a1a1a" stroke="none"/>
+          <path d="M 150 165 Q 170 150, 190 165 L 190 250 L 150 250 Z" stroke="#065f46" stroke-width="2" fill="none"/>
+          <path d="M 200 165 Q 215 155, 228 165 L 228 250 L 200 250 Z" fill="#1a1a1a" stroke="none"/>
+          <path d="M 200 165 Q 215 155, 228 165 L 228 250 L 200 250 Z" stroke="#065f46" stroke-width="2" fill="none"/>
+          
+          <rect x="240" y="120" width="38" height="130" fill="#10b981" class="outline"/>
+          <rect x="249" y="140" width="20" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="249" y="140" width="20" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+          <rect x="249" y="175" width="20" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="249" y="175" width="20" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+          
+          <rect x="100" y="110" width="120" height="30" fill="#10b981" class="outline"/>
+          <path d="M 100 110 L 160 75 L 220 110 Z" fill="#10b981" class="outline"/>
+          
+          <g transform="translate(160, 30)">
+            <rect x="-28" y="45" width="56" height="20" fill="#10b981" class="outline"/>
+            <path d="M -30 65 Q -30 55, -27 45 Q -22 32, -12 22 Q 0 15, 0 12 Q 0 15, 12 22 Q 22 32, 27 45 Q 30 55, 30 65 Z" fill="#34d399" class="outline" stroke-width="2"/>
+            <path d="M -24 48 Q 0 35, 24 48" fill="none" stroke="#065f46" stroke-width="1.5"/>
+            <path d="M -20 56 Q 0 46, 20 56" fill="none" stroke="#065f46" stroke-width="1"/>
+            <rect x="-8" y="5" width="16" height="8" fill="#0d9488" class="outline"/>
+            <circle cx="0" cy="0" r="4" fill="#d1fae5"/>
+            <rect x="-1.5" y="-10" width="3" height="12" fill="#d1fae5"/>
+          </g>
+          
+          <rect x="80" y="135" width="10" height="7" fill="#0d9488"/>
+          <rect x="115" y="135" width="10" height="7" fill="#0d9488"/>
+          <rect x="195" y="135" width="10" height="7" fill="#0d9488"/>
+          <rect x="225" y="135" width="10" height="7" fill="#0d9488"/>
+        </g>
+        
+        <g transform="translate(984, 445)">
+          <circle cx="0" cy="0" r="22" fill="#10b981"/>
+          <circle cx="-5" cy="-3" r="14" fill="#34d399"/>
+          <rect x="-4" y="22" width="8" height="36" rx="2" fill="#065f46"/>
+        </g>
+        
+        <g transform="translate(1044, 365)">
+          <rect x="0" y="75" width="80" height="90" fill="#0d9488" class="outline"/>
+          <path d="M 10 95 L 20 85 L 30 95 L 40 85 L 50 95 L 60 85 L 70 95" fill="none" stroke="#065f46" stroke-width="2.5"/>
+          <rect x="25" y="115" width="30" height="45" fill="#1a1a1a" stroke="none"/>
+          <rect x="25" y="115" width="30" height="45" stroke="#065f46" stroke-width="2" fill="none"/>
+          
+          <rect x="80" y="105" width="95" height="60" fill="#0d9488" class="outline"/>
+          
+          <g transform="translate(100, 95)">
+            <path d="M -8 10 Q -8 5, -5 2 Q 0 0, 0 0 Q 0 0, 5 2 Q 8 5, 8 10 Z" fill="#065f46" class="outline" stroke-width="1.5"/>
+          </g>
+          <g transform="translate(127, 95)">
+            <path d="M -8 10 Q -8 5, -5 2 Q 0 0, 0 0 Q 0 0, 5 2 Q 8 5, 8 10 Z" fill="#065f46" class="outline" stroke-width="1.5"/>
+          </g>
+          <g transform="translate(155, 95)">
+            <path d="M -8 10 Q -8 5, -5 2 Q 0 0, 0 0 Q 0 0, 5 2 Q 8 5, 8 10 Z" fill="#065f46" class="outline" stroke-width="1.5"/>
+          </g>
+          
+          <path d="M 90 125 Q 100 120, 110 125 Q 120 130, 130 125 Q 140 120, 150 125 Q 160 130, 165 132" fill="none" stroke="#065f46" stroke-width="2.5"/>
+          <rect x="95" y="135" width="28" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="95" y="135" width="28" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+          <rect x="137" y="135" width="25" height="25" fill="#1a1a1a" stroke="none"/>
+          <rect x="137" y="135" width="25" height="25" stroke="#065f46" stroke-width="2" fill="none"/>
+        </g>
+        
+        <!-- PALMA PIÙ ALTA (y=380 invece di 418) -->
+        <g transform="translate(1236, 380)">
+          <path d="M 0 0 Q 2 26, 0 58" stroke="#065f46" stroke-width="7" fill="none"/>
+          <path d="M 0 0 Q -30 -11, -44 -5" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q -20 -25, -28 -35" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 0 -30, 3 -40" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 20 -25, 28 -35" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M 0 0 Q 30 -11, 44 -5" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+        
+        <g transform="translate(1308, 200)">
+          <g transform="translate(65, 30)">
+            <rect x="-25" y="30" width="50" height="25" fill="#10b981" class="outline"/>
+            <path d="M -27 55 Q -27 48, -24 40 Q -20 28, -12 18 Q 0 10, 0 8 Q 0 10, 12 18 Q 20 28, 24 40 Q 27 48, 27 55 Z" fill="#34d399" class="outline" stroke-width="2"/>
+            <path d="M -22 42 Q 0 30, 22 42" fill="none" stroke="#065f46" stroke-width="1.5"/>
+            <rect x="-8" y="3" width="16" height="6" fill="#0d9488" class="outline"/>
+            <circle cx="0" cy="-2" r="4" fill="#d1fae5"/>
+            <rect x="-1.5" y="-12" width="3" height="12" fill="#d1fae5"/>
+          </g>
+          
+          <rect x="20" y="90" width="90" height="30" fill="#10b981" class="outline"/>
+          <rect x="25" y="85" width="12" height="8" fill="#0d9488"/>
+          <rect x="50" y="85" width="12" height="8" fill="#0d9488"/>
+          <rect x="75" y="85" width="12" height="8" fill="#0d9488"/>
+          <rect x="98" y="85" width="10" height="8" fill="#0d9488"/>
+          
+          <rect x="0" y="120" width="130" height="150" fill="#10b981" class="outline"/>
+          <path d="M 30 200 Q 65 160, 100 200 L 100 270 L 30 270 Z" fill="#1a1a1a" stroke="none"/>
+          <path d="M 30 200 Q 65 160, 100 200 L 100 270 L 30 270 Z" stroke="#065f46" stroke-width="2" fill="none"/>
+          <path d="M 20 140 Q 30 135, 40 140 Q 50 145, 60 140 Q 70 135, 80 140 Q 90 145, 100 140 Q 110 137, 115 139" fill="none" stroke="#065f46" stroke-width="2.5"/>
+        </g>
+        
+        <g transform="translate(1500, 443)">
+          <circle cx="0" cy="0" r="21" fill="#10b981"/>
+          <circle cx="5" cy="-3" r="13" fill="#34d399"/>
+          <rect x="-3" y="21" width="6" height="35" rx="1.5" fill="#065f46"/>
+        </g>
+        
+        <!-- TEATRO MASSIMO - Background removed, only columns -->
+        <g transform="translate(1548, 300)">
+          <rect x="-20" y="170" width="190" height="10" fill="#0f766e"/>
+          <rect x="-15" y="180" width="180" height="10" fill="#0d9488"/>
+          <rect x="-10" y="190" width="170" height="60" fill="#0d9488" class="outline"/>
+          
+          <!-- NO background rect - transparent between columns! -->
+          <rect x="0" y="90" width="150" height="100" fill="#1a1a1a" stroke="none"/>
+          <rect x="0" y="90" width="150" height="100" stroke="#065f46" stroke-width="2" fill="none"/>
+          
+          <rect x="10" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          <rect x="35" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          <rect x="60" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          <rect x="85" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          <rect x="110" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          <rect x="135" y="90" width="12" height="100" fill="#d1fae5" class="outline"/>
+          
+          <path d="M 0 90 L 75 50 L 150 90 Z" fill="#10b981" class="outline"/>
+          <circle cx="75" cy="70" r="5" fill="#065f46" opacity="0.3"/>
+        </g>
+      </g>
+    </svg>
+    
+    <div class="hero-content">
+      <h1 class="hero-title">Palermo<br>3-30-300</h1>
+      <p class="hero-subtitle">Quanto verde hai a portata di mano?</p>
+      <button class="hero-cta" id="scoprilo-btn">Scoprilo</button>
+      
+      <div class="scroll-hint">
+        <div class="scroll-arrow">↓</div>
+      </div>
     </div>
+  </section>
+  
+  <section id="intro" class="intro-section">
+    <div class="intro-content">
+      <p>La presenza di natura nelle città migliora la salute e la vivibilità.</p>
+      
+      <p>Secondo l'<a href="https://www.eea.europa.eu/en/analysis/publications/who-benefits-from-nature-in-cities-social-inequalities-in-access-to-urban-green-and-blue-spaces-across-europe" target="_blank" rel="noopener">Agenzia Europea dell'Ambiente (EEA)</a>, il contatto con il verde urbano — parchi, giardini, <strong class="highlight">spazi verdi</strong> per il riposo e l'attività fisica — riduce lo stress, migliora il benessere fisico e mentale e mitiga le temperature urbane riducendo l'effetto delle isole di calore.</p>
+      
+      <p>Ma non tutti in Europa hanno lo stesso accesso agli <strong class="highlight">spazi verdi</strong>.</p>
+      
+      <div class="questions">
+        <p>In questo contesto, come si colloca la città di <strong class="highlight">Palermo</strong>?</p>
+        <p>Che tipo di accesso hanno i <strong class="highlight">palermitani</strong> e le <strong class="highlight">palermitane</strong> agli <strong class="highlight">spazi verdi</strong> urbani?</p>
+        <p>Esistono differenze tra <strong class="highlight">quartieri</strong> che si traducono in <strong class="highlight">disuguaglianze</strong> sociali e mancati benefici per la salute?</p>
+      </div>
+      
+      <div class="mission">
+        <p style="border-left: 4px solid #065f46; padding-left: 1.5rem; font-style: italic;"><strong>Palermo 3-30-300</strong> è un piccolo progetto di ricerca indipendente che nasce per diffondere <strong class="highlight">consapevolezza sulla disponibilità di verde urbano</strong>, indirizzo per indirizzo, a partire da una <strong class="highlight">regola internazionale</strong> che ci aiuta a progettare città più vivibili, fresche e sostenibili.</p>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <button class="hero-cta" onclick="document.getElementById('address-section').scrollIntoView({behavior: 'smooth'})">Inizia</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- SEZIONE 3: INPUT INDIRIZZO -->
+  <section id="address-section" class="address-section">
+    <div class="address-content">
+      <h2 class="address-title">Inserisci il tuo indirizzo a Palermo</h2>
+      
+      <div class="address-input-wrapper">
+        <input 
+          id="address-input" 
+          type="text" 
+          placeholder="Via Roma, 123, Palermo"
+          autocomplete="off"
+        />
+        <button class="analyze-btn" id="analyze-btn">Analizza</button>
+      </div>
+      
+      <div class="geolocation-wrapper">
+        <button class="geolocation-btn" id="geolocation-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2C8 1.44772 7.55228 1 7 1C6.44772 1 6 1.44772 6 2V2.05493C3.72574 2.49388 2 4.48507 2 6.88889V11.1111C2 13.5149 3.72574 15.5061 6 15.9451V16C6 16.5523 6.44772 17 7 17C7.55228 17 8 16.5523 8 16V15.9451C10.2743 15.5061 12 13.5149 12 11.1111V6.88889C12 4.48507 10.2743 2.49388 8 2.05493V2Z" fill="currentColor"/>
+            <circle cx="7" cy="9" r="2" fill="white"/>
+          </svg>
+          Usa la tua posizione attuale
+        </button>
+      </div>
+      
+      <p class="privacy-disclaimer">
+        <small>I tuoi dati vengono utilizzati esclusivamente per l'analisi e non vengono memorizzati. 
+        <a href="#privacy">Informativa privacy</a></small>
+      </p>
+    </div>
+  </section>
+  </section>
+
+  <div class="container">
+        <div class="loading" id="loading">
+            <p>🔍 Analisi in corso...</p>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <div id="treeCountSection" class="tree-count-section">
+            <h3>🌳 Quanti alberi vedi dalla tua finestra?</h3>
+            <p style="color: #065f46; margin-bottom: 1rem;">
+                Il criterio WHO raccomanda di vedere <strong>almeno 3 alberi</strong> dalla propria abitazione.
+            </p>
+            
+            <div class="tree-count-input-wrapper">
+                <input type="number" id="treeCountInput" min="0" max="99" placeholder="0" />
+                <button onclick="submitTreeCount()" id="btnSubmitTreeCount">Invia</button>
+            </div>
+            
+            <div id="treeCountFeedback" class="tree-count-feedback"></div>
+            
+            <div id="cityStats" class="city-stats" style="display: none;">
+                <div class="city-stats-label">Media cittadina</div>
+                <div class="city-stats-value" id="cityStatsValue">-</div>
+                <div class="city-stats-label">alberi visibili dalla finestra</div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #9ca3af;" id="cityStatsCount">
+                    Basato su <span id="responseCount">0</span> risposte
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>📊 La regola 3-30-300 per città vivibili</h3>
+            <p>Secondo recenti studi scientifici, una città verde e vivibile dovrebbe garantire:</p>
+            <ul style="margin: 1rem 0; padding-left: 2rem; line-height: 1.8;">
+                <li><strong>3 alberi</strong> visibili da ogni abitazione</li>
+                <li><strong>30% di copertura arborea</strong> in ogni quartiere</li>
+                <li><strong>300 metri</strong> di distanza massima da spazi verdi pubblici (standard WHO)</li>
+            </ul>
+            <p style="margin-top: 1rem;">Questo strumento verifica la terza regola: <strong>sei entro 300 metri da uno spazio verde?</strong></p>
+            
+            <h3 style="margin-top: 2rem;">📊 Dati sull'accesso al verde a Palermo</h3>
+            <p>Questi dati mostrano quanta popolazione palermitana vive entro 300 metri da uno spazio verde pubblico.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="statCoverage">--%</div>
+                    <div class="stat-label">Popolazione coperta</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statSpaces">--</div>
+                    <div class="stat-label">Spazi verdi mappati</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statArea">--</div>
+                    <div class="stat-label">km² di verde pubblico</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Palermo 3-30-300</strong> - Analisi civica sull'accesso al verde urbano<br>
+            La regola 3-30-300: 3 alberi visibili, 30% copertura arborea, 300m da spazi verdi<br>
+            Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021 | 
+            <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: var(--mediterranean-blue);">GitHub</a></p>
+        </footer>
+    </div>
+    <script>
+        let greenSpaces = null;
+        let quartieri = null; // Dati quartieri con tree canopy e statistiche
+        let currentDataset = 'osm';
+        let selectedLocation = null;
+        let autocompleteTimeout = null;
+
+        // URL Cloudflare Worker per API
+        const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
+
+        // Stats per dataset
+        const stats = {
+            osm: { coverage: '38.70', spaces: 118, area: '4.31' },
+            copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
+        };
+
+        // Carica quartieri al load
+        async function loadQuartieri() {
+            try {
+                const response = await fetch('quartieri_dati_completi.geojson');
+                if (!response.ok) throw new Error('Quartieri non trovati');
+                quartieri = await response.json();
+                console.log('✅ Quartieri caricati:', quartieri.features.length);
+            } catch (error) {
+                console.warn('⚠️ Quartieri non disponibili:', error);
+            }
+        }
+
+        // Trova quartiere da coordinate (point-in-polygon)
+        function findQuartiere(lat, lon) {
+            if (!quartieri) return null;
+            
+            const point = turf.point([lon, lat]);
+            
+            for (const feature of quartieri.features) {
+                if (turf.booleanPointInPolygon(point, feature)) {
+                    return feature.properties;
+                }
+            }
+            
+            return null;
+        }
+
+        // Carica dataset iniziale
+        loadDataset('osm');
+        loadQuartieri();
+
+        // Mostra warning se file:// protocol
+        if (window.location.protocol === 'file:') {
+            document.getElementById('warningBanner').classList.add('visible');
+            console.warn('⚠️ File aperto con file:// protocol. Autocomplete e geolocalizzazione potrebbero non funzionare.');
+            console.warn('Soluzione: python -m http.server 8000');
+        }
+
+        // Verifica che Turf.js sia caricato
+        console.log('🔍 Verifica librerie...');
+        if (typeof turf === 'undefined') {
+            console.error('❌ Turf.js NON caricato!');
+            alert('Errore critico: libreria Turf.js non caricata.\n\nVerifica la connessione internet e ricarica la pagina.');
+        } else {
+            console.log('✅ Turf.js caricato correttamente');
+        }
+
+        console.log('🌳 Palermo 3-30-300 - App avviata');
+        console.log('📍 Inserisci un indirizzo o usa geolocalizzazione per iniziare');
+        console.log('💡 Apri questa console (F12) per vedere log dettagliati');
+
+        function updateStats(dataset) {
+            const s = stats[dataset];
+            document.getElementById('statCoverage').textContent = s.coverage + '%';
+            document.getElementById('statSpaces').textContent = s.spaces;
+            document.getElementById('statArea').textContent = s.area;
+        }
+
+        async function loadDataset(dataset) {
+            const filename = dataset === 'osm' ? 'osm_verde_palermo.geojson' : 'copernicus_verde_palermo.geojson';
+            
+            console.log('🔄 Caricamento dataset:', filename);
+            
+            try {
+                const response = await fetch(filename);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: File non trovato`);
+                }
+                
+                greenSpaces = await response.json();
+                
+                if (!greenSpaces || !greenSpaces.features) {
+                    throw new Error('GeoJSON non valido: manca campo features');
+                }
+                
+                updateStats(dataset);
+                console.log('✅ Dataset caricato:', greenSpaces.features.length, 'spazi');
+                console.log('  Esempio:', greenSpaces.features[0].properties.size_label);
+                
+            } catch (error) {
+                console.error('❌ Errore caricamento:', error);
+                
+                let msg = '⚠️ Errore caricamento dati.\n\n';
+                if (error.message.includes('404')) {
+                    msg += 'File GeoJSON non trovato su GitHub.\nVerifica che i file siano caricati correttamente.';
+                } else {
+                    msg += 'Dettagli: ' + error.message + '\n\nApri la console (F12) per più info.';
+                }
+                
+                alert(msg);
+            }
+        }
+
+        function switchDataset(dataset) {
+            currentDataset = dataset;
+            document.getElementById('btnOsm').classList.toggle('active', dataset === 'osm');
+            document.getElementById('btnCopernicus').classList.toggle('active', dataset === 'copernicus');
+            loadDataset(dataset);
+            document.getElementById('result').style.display = 'none';
+        }
+
+        // Autocomplete
+        const addressInput = document.getElementById('addressInput');
+        const autocompleteResults = document.getElementById('autocompleteResults');
+
+        addressInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            clearTimeout(autocompleteTimeout);
+            
+            if (query.length < 3) {
+                autocompleteResults.classList.remove('visible');
+                return;
+            }
+
+            autocompleteResults.innerHTML = '<div class="autocomplete-loading">Ricerca...</div>';
+            autocompleteResults.classList.add('visible');
+
+            autocompleteTimeout = setTimeout(() => {
+                fetchAddressSuggestions(query);
+            }, 300);
+        });
+
+        async function fetchAddressSuggestions(query) {
+            try {
+                console.log('🔍 Ricerca indirizzo:', query);
+                
+                // URL del Cloudflare Worker
+                const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
+                
+                // Costruisci query per Google Maps tramite Worker
+                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, Italy')}`;
+                
+                console.log('  → Chiamata a Cloudflare Worker...');
+                
+                const response = await fetch(workerUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                console.log('  ✅ Google Maps risposta:', data.status);
+                
+                // Verifica risposta Google
+                if (data.status === 'OK' && data.results && data.results.length > 0) {
+                    console.log('  ✅ Trovati', data.results.length, 'risultati');
+                    
+                    // Converti formato Google Maps in formato compatibile con l'app
+                    const results = data.results.map(result => ({
+                        lat: result.geometry.location.lat,
+                        lon: result.geometry.location.lng,
+                        display_name: result.formatted_address,
+                        source: 'google'
+                    }));
+                    
+                    displayAutocompleteResults(results);
+                    
+                } else if (data.status === 'ZERO_RESULTS') {
+                    console.log('  ⚠️ Nessun risultato trovato');
+                    autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun risultato trovato</div>';
+                    
+                } else {
+                    console.error('  ❌ Google API error:', data.status);
+                    throw new Error(`Google API: ${data.status}`);
+                }
+                
+            } catch (error) {
+                console.error('❌ Errore geocoding:', error);
+                
+                autocompleteResults.innerHTML = `
+                    <div class="autocomplete-loading" style="color: #ef4444; padding: 1rem;">
+                        ⚠️ Errore di connessione. Riprova o usa la geolocalizzazione.
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">
+                            ${error.message}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayAutocompleteResults(results) {
+            if (results.length === 0) {
+                autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun risultato trovato</div>';
+                return;
+            }
+
+            autocompleteResults.innerHTML = results.map(result => {
+                // Badge Google Maps (blu)
+                const sourceBadge = result.source === 'google' 
+                    ? '<span style="background: #4285F4; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Google Maps</span>'
+                    : '<span style="background: #6B8E23; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">OSM</span>';
+                
+                return `
+                    <div class="autocomplete-item" onclick="selectAddress(${result.lat}, ${result.lon}, '${result.display_name.replace(/'/g, "\\'")}')">
+                        ${result.display_name} ${sourceBadge}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectAddress(lat, lon, displayName) {
+            selectedLocation = { lat, lon };
+            addressInput.value = displayName;
+            autocompleteResults.classList.remove('visible');
+            analyzeLocation(lat, lon);
+        }
+
+        // Chiudi autocomplete quando si clicca fuori
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.input-wrapper')) {
+                autocompleteResults.classList.remove('visible');
+            }
+        });
+
+        function searchAddress() {
+            if (!selectedLocation) {
+                alert('Seleziona un indirizzo dalla lista o usa la posizione corrente');
+                return;
+            }
+            analyzeLocation(selectedLocation.lat, selectedLocation.lon);
+        }
+
+        function useGeolocation() {
+            if (!navigator.geolocation) {
+                alert('❌ Geolocalizzazione non supportata dal tuo browser.\n\nUsa l\'input con autocomplete invece.');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('btnSearch').disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    console.log('Posizione ottenuta:', lat, lon);
+                    
+                    // Verifica che sia a Palermo (circa)
+                    if (lat < 38.05 || lat > 38.25 || lon < 13.2 || lon > 13.5) {
+                        alert('⚠️ La tua posizione sembra essere fuori da Palermo.\n\nUsa l\'input manuale con autocomplete.');
+                        document.getElementById('loading').classList.remove('active');
+                        document.getElementById('btnSearch').disabled = false;
+                        return;
+                    }
+
+                    addressInput.value = `📍 Posizione corrente (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
+                    analyzeLocation(lat, lon);
+                    document.getElementById('loading').classList.remove('active');
+                    document.getElementById('btnSearch').disabled = false;
+                },
+                (error) => {
+                    console.error('Errore geolocalizzazione:', error);
+                    
+                    let errorMessage = '❌ Impossibile ottenere la posizione.\n\n';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage += 'Hai negato il permesso di localizzazione.\n\n' +
+                                          'Soluzione:\n' +
+                                          '1. Clicca sull\'icona 🔒 nella barra dell\'indirizzo\n' +
+                                          '2. Consenti l\'accesso alla posizione\n' +
+                                          '3. Ricarica la pagina';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage += 'Posizione non disponibile.\n\n' +
+                                          'Verifica di avere GPS/WiFi attivi.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage += 'Timeout richiesta.\n\nRiprova.';
+                            break;
+                        default:
+                            // Probabilmente problema HTTPS
+                            if (window.location.protocol === 'file:') {
+                                errorMessage += 'La geolocalizzazione richiede HTTPS o localhost.\n\n' +
+                                              'Soluzione:\n' +
+                                              '1. Avvia un server locale:\n' +
+                                              '   python -m http.server 8000\n\n' +
+                                              '2. Apri: http://localhost:8000/verde_palermo_simple.html\n\n' +
+                                              'Oppure usa l\'input con autocomplete.';
+                            } else {
+                                errorMessage += 'Errore sconosciuto.\n\nUsa l\'input con autocomplete.';
+                            }
+                    }
+                    
+                    alert(errorMessage);
+                    document.getElementById('loading').classList.remove('active');
+                    document.getElementById('btnSearch').disabled = false;
+                }
+            );
+        }
+
+        function analyzeLocation(lat, lon) {
+            console.log('=== INIZIO ANALISI ===');
+            console.log('Coordinate:', lat, lon);
+            
+            if (!greenSpaces) {
+                console.error('❌ greenSpaces non caricato!');
+                alert('Errore: Dati non ancora caricati. Attendi qualche secondo e riprova.');
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+
+            if (!greenSpaces.features || greenSpaces.features.length === 0) {
+                console.error('❌ greenSpaces.features vuoto!');
+                alert('Errore: Dataset vuoto. Ricarica la pagina.');
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+
+            console.log('✓ Dataset caricato:', greenSpaces.features.length, 'spazi');
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('result').style.display = 'none';
+
+            // Usa setTimeout per non bloccare l'UI
+            setTimeout(() => {
+                try {
+                    const userPoint = turf.point([lon, lat]);
+                    console.log('✓ Punto utente creato:', userPoint);
+                    
+                    let nearestDistance = Infinity;
+                    let nearestSpace = null;
+                    let spacesWithin300 = [];
+                    let errorCount = 0;
+
+                    greenSpaces.features.forEach((feature, index) => {
+                        try {
+                            if (!feature.geometry) {
+                                console.warn(`Spazio ${index} senza geometria, skip`);
+                                errorCount++;
+                                return;
+                            }
+
+                            let distance;
+                            
+                            // Calcola distanza in base al tipo di geometria
+                            if (feature.geometry.type === 'Polygon') {
+                                // Converti perimetro poligono in linestring
+                                const line = turf.lineString(feature.geometry.coordinates[0]);
+                                distance = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
+                            } else if (feature.geometry.type === 'MultiPolygon') {
+                                // Per MultiPolygon, trova la distanza minima tra tutti i poligoni
+                                let minDist = Infinity;
+                                feature.geometry.coordinates.forEach(polyCoords => {
+                                    const line = turf.lineString(polyCoords[0]);
+                                    const dist = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
+                                    if (dist < minDist) minDist = dist;
+                                });
+                                distance = minDist;
+                            } else {
+                                console.warn(`Spazio ${index} tipo sconosciuto: ${feature.geometry.type}`);
+                                errorCount++;
+                                return;
+                            }
+                            
+                            // Traccia il più vicino
+                            if (distance < nearestDistance) {
+                                nearestDistance = distance;
+                                nearestSpace = feature;
+                            }
+                            
+                            // Se entro 300m, aggiungi alla lista
+                            if (distance <= 300) {
+                                spacesWithin300.push({
+                                    feature: feature,
+                                    distance: distance,
+                                    area: feature.properties.area_sqm || 0
+                                });
+                            }
+                        } catch (err) {
+                            console.error(`Errore calcolo spazio ${index}:`, err);
+                            errorCount++;
+                        }
+                    });
+
+                    console.log('✓ Calcolo completato');
+                    console.log('  - Spazi processati:', greenSpaces.features.length);
+                    console.log('  - Errori:', errorCount);
+                    console.log('  - Spazi entro 300m:', spacesWithin300.length);
+                    console.log('  - Distanza minima:', Math.round(nearestDistance), 'm');
+                    
+                    // Se ci sono spazi entro 300m, scegli il PIÙ GRANDE
+                    let selectedSpace = nearestSpace;
+                    let selectedDistance = nearestDistance;
+                    
+                    if (spacesWithin300.length > 0) {
+                        // Ordina per area (più grande prima)
+                        spacesWithin300.sort((a, b) => b.area - a.area);
+                        selectedSpace = spacesWithin300[0].feature;
+                        selectedDistance = spacesWithin300[0].distance;
+                        console.log('  - Spazio più grande entro 300m:', selectedSpace.properties.size_label, selectedSpace.properties.area_sqm, 'm²');
+                    }
+
+                    if (!selectedSpace) {
+                        console.error('❌ Nessuno spazio trovato!');
+                        alert('Errore nel calcolo. Verifica di essere a Palermo e riprova.');
+                        document.getElementById('loading').classList.remove('active');
+                        return;
+                    }
+
+                    displayResult(selectedDistance, selectedSpace, lat, lon, spacesWithin300.length);
+                    document.getElementById('loading').classList.remove('active');
+                    
+                    console.log('=== ANALISI COMPLETATA ===');
+                } catch (error) {
+                    console.error('❌ ERRORE CRITICO:', error);
+                    alert('Errore nell\'analisi: ' + error.message + '\n\nApri la console (F12) per dettagli.');
+                    document.getElementById('loading').classList.remove('active');
+                }
+            }, 500);
+        }
+
+        function displayResult(distance, nearestSpace, lat, lon, spacesWithin300 = 0) {
+            const resultDiv = document.getElementById('result');
+            const isFortunato = distance <= 300;
+            const props = nearestSpace.properties;
+            const distanceMeters = Math.round(distance);
+            
+            // Trova quartiere
+            const quartiereData = findQuartiere(lat, lon);
+            
+            // Determina cosa mostrare: nome reale se disponibile, altrimenti categoria
+            const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
+            const displayName = hasRealName ? props.name : props.size_label;
+            
+            // Formato area adattivo (3 decimali se < 0.01 km², altrimenti 2)
+            const areaKm2 = props.area_sqm / 1000000;
+            const areaFormatted = areaKm2 < 0.01 ? areaKm2.toFixed(3) : areaKm2.toFixed(2);
+            
+            // Etichetta spazio: cambia se ci sono più spazi entro 300m
+            const spaceLabel = isFortunato && spacesWithin300 > 1 
+                ? "Spazio più grande nelle vicinanze" 
+                : "Spazio più vicino";
+
+            resultDiv.className = 'result ' + (isFortunato ? 'fortunato' : 'svantaggiato');
+            
+            // Testo principale: cambia se ci sono più spazi
+            let mainText = '';
+            if (isFortunato) {
+                if (spacesWithin300 > 1) {
+                    mainText = `Vivi <strong>entro 300 metri da ${spacesWithin300} spazi verdi pubblici</strong>. Hai accesso facilitato alla natura in città!`;
+                } else {
+                    mainText = `Vivi <strong>entro 300 metri</strong> da uno spazio verde pubblico. Hai accesso facilitato alla natura in città!`;
+                }
+            } else {
+                mainText = `Vivi a <strong>più di 300 metri</strong> dal verde pubblico più vicino. Secondo gli standard WHO, dovresti avere accesso a uno spazio verde entro questa distanza.`;
+            }
+            
+            let html = `
+                <h2>${isFortunato ? '🎉 Sei fortunato!' : '😔 Sei svantaggiato'}</h2>
+                <p>${mainText}</p>
+                
+                <div class="result-details">
+                    <div class="detail-card">
+                        <div class="detail-label">Distanza</div>
+                        <div class="detail-value">${distanceMeters} m</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">${spaceLabel}</div>
+                        <div class="detail-value" style="font-size: ${hasRealName ? '1.3rem' : '1.1rem'}; font-weight: ${hasRealName ? '600' : '500'};">
+                            ${hasRealName ? '🏛️ ' : ''}${displayName}
+                        </div>
+                        ${hasRealName ? 
+                            `<div style="font-size: 0.85rem; color: rgba(0,0,0,0.6); margin-top: 0.25rem;">${props.size_label}</div>` 
+                            : ''}
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">Dimensione</div>
+                        <div class="detail-value">${areaFormatted} km²</div>
+                    </div>
+                </div>
+            `;
+
+            // Aggiungi sezione quartiere con statistiche E copertura arborea
+            if (quartiereData) {
+                const canopyClass = quartiereData.classificazione_canopy === 'Scarsa' ? 'scarsa' : 
+                                   quartiereData.classificazione_canopy === 'Ridotta' ? 'ridotta' : 'quasi-sufficiente';
+                
+                html += `
+                    <div class="tree-canopy-section">
+                        <h3>
+                            📍 Il tuo Quartiere: ${quartiereData.quartiere}
+                        </h3>
+                        
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🌳 Copertura Arborea
+                            <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
+                        </h4>
+                        <div class="quartiere-stats">
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.tree_canopy_pct.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Copertura Arborea</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            La copertura arborea misura la percentuale di suolo coperto dalle chiome degli alberi. 
+                            Lo standard WHO/EEA raccomanda almeno il 30%. 
+                            Il tuo quartiere ha un <strong>deficit di ${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                        </p>
+                        
+                        <h4 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🏞️ Accesso agli Spazi Verdi
+                        </h4>
+                        <div class="quartiere-stats">
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${Math.round(quartiereData.distanza_media_m)} m</div>
+                                <div class="quartiere-stat-label">Distanza Media</div>
+                            </div>
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.pct_popolazione_coperta.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Popolazione Coperta</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            Nel tuo quartiere, in media i residenti distano <strong>${Math.round(quartiereData.distanza_media_m)} metri</strong> dal verde pubblico più vicino. 
+                            Il <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong> della popolazione vive entro 300 metri da uno spazio verde.
+                        </p>
+                    </div>
+                `;
+            }
+
+            if (!isFortunato) {
+                const deficit = distanceMeters - 300;
+                html += `
+                    <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                        💡 <strong>Sei ${deficit} metri oltre lo standard WHO.</strong> 
+                        Questo significa che per raggiungere uno spazio verde devi percorrere una distanza maggiore di quella raccomandata per un accesso equo alla natura urbana.
+                    </p>
+                `;
+            }
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+            
+            // Mostra la sezione tree count
+            showTreeCountSection();
+        }
+
+        // Mostra la sezione tree count dopo il risultato
+        function showTreeCountSection() {
+            const section = document.getElementById('treeCountSection');
+            section.classList.add('visible');
+            
+            // Reset input
+            const input = document.getElementById('treeCountInput');
+            const btn = document.getElementById('btnSubmitTreeCount');
+            const feedback = document.getElementById('treeCountFeedback');
+            
+            input.value = '';
+            input.disabled = false;
+            btn.disabled = false;
+            btn.textContent = 'Invia';
+            feedback.classList.remove('visible');
+            
+            // Carica e mostra statistiche esistenti
+            loadCityStats();
+        }
+
+        // Carica statistiche cittadine
+        async function loadCityStats() {
+            try {
+                console.log('📊 Caricamento statistiche tree count...');
+                
+                const response = await fetch(`${WORKER_URL}/api/tree-stats`);
+                
+                if (!response.ok) {
+                    console.warn('Errore caricamento stats:', response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('✓ Statistiche ricevute:', data);
+                
+                if (data.count > 0) {
+                    document.getElementById('cityStatsValue').textContent = data.average;
+                    document.getElementById('responseCount').textContent = data.count;
+                    document.getElementById('cityStats').style.display = 'block';
+                }
+            } catch (error) {
+                console.warn('⚠️ Errore caricamento stats:', error);
+                // Non mostrare errore all'utente, semplicemente non mostrare stats
+            }
+        }
+
+        // Submit tree count
+        async function submitTreeCount() {
+            const input = document.getElementById('treeCountInput');
+            const treeCount = parseInt(input.value);
+            
+            if (isNaN(treeCount) || treeCount < 0 || treeCount > 99) {
+                alert('Inserisci un numero tra 0 e 99');
+                return;
+            }
+            
+            const btn = document.getElementById('btnSubmitTreeCount');
+            btn.disabled = true;
+            btn.textContent = 'Salvataggio...';
+            
+            try {
+                console.log('💾 Salvataggio tree count:', treeCount);
+                
+                // Chiamata API Cloudflare Worker
+                const response = await fetch(`${WORKER_URL}/api/tree-count`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ count: treeCount })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('✓ Salvato con UUID:', result.uuid);
+                
+                // Mostra feedback
+                const feedback = document.getElementById('treeCountFeedback');
+                const meetsStandard = treeCount >= 3;
+                
+                feedback.className = 'tree-count-feedback visible ' + (meetsStandard ? 'success' : 'warning');
+                
+                if (meetsStandard) {
+                    feedback.innerHTML = `
+                        <strong>✅ Ottimo!</strong> Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra.
+                        Rispetti lo standard WHO che raccomanda almeno 3 alberi visibili.
+                    `;
+                } else {
+                    feedback.innerHTML = `
+                        <strong>❌ Sotto lo standard</strong><br>
+                        Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra, ma lo standard WHO raccomanda di vederne almeno 3.
+                        Considera di piantare alberi nelle vicinanze o di valorizzare la vegetazione urbana.
+                    `;
+                }
+                
+                // Ricarica statistiche (con un piccolo delay per dare tempo al KV di propagarsi)
+                setTimeout(() => loadCityStats(), 500);
+                
+                // Disabilita input
+                input.disabled = true;
+                btn.textContent = 'Inviato ✓';
+                
+            } catch (error) {
+                console.error('❌ Errore salvataggio:', error);
+                alert('Errore nel salvataggio. Riprova.');
+                btn.disabled = false;
+                btn.textContent = 'Invia';
+            }
+        }
+
+        // Enter key
+        addressInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && selectedLocation) {
+                searchAddress();
+            }
+        });
+    </script>
+</body>
+  
+  <script>
+    // PARALLAX EFFECT
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const layerBack = document.querySelector('.layer-back');
+      const layerMid = document.querySelector('.layer-mid');
+      const layerFront = document.querySelector('.layer-front');
+      
+      if (layerBack) layerBack.style.transform = `translateX(-50%) translateY(${scrolled * 0.1}px)`;
+      if (layerMid) layerMid.style.transform = `translateX(-50%) translateY(${scrolled * 0.2}px)`;
+      if (layerFront) layerFront.style.transform = `translateX(-50%) translateY(${scrolled * 0.35}px)`;
+    });
+    
+    // SMOOTH SCROLL
+    document.getElementById('scoprilo-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetSection = document.getElementById('intro');
+      const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      const duration = 1500;
+      let start = null;
+      
+      function animation(currentTime) {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        const ease = progress < 0.5 
+          ? 4 * progress * progress * progress 
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        
+        window.scrollTo(0, startPosition + (distance * ease));
+        
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        }
+      }
+      
+      requestAnimationFrame(animation);
+    });
+  </script>
 </body>
 </html>
