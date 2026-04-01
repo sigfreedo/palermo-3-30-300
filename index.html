@@ -251,6 +251,7 @@
     .privacy-disclaimer {
       text-align: center;
       color: #6b7280;
+      font-size: 13px;
       line-height: 1.6;
     }
     
@@ -500,15 +501,125 @@
       text-decoration: underline;
     }
     
+    /* NEW INPUT SECTION */
+    .input-wrapper-section {
+      max-width: 800px;
+      margin: 4rem auto 2rem;
+      padding: 0 2rem;
+    }
+    
+    .input-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #065f46;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .input-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .btn-geolocation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 16px 20px;
+      background: transparent;
+      color: #065f46;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .btn-geolocation:hover {
+      background: #10b981;
+      color: #ffffff;
+    }
+    
+    #addressInput {
+      padding: 16px 20px;
+      font-size: 16px;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+    
+    #addressInput:focus {
+      outline: none;
+      border-color: #065f46;
+    }
+    
+    #autocompleteResults {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 50%;
+      margin-right: 0.5rem;
+      background: white;
+      border: 2px solid #10b981;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    
+    #autocompleteResults.visible {
+      display: block;
+    }
+    
+    .autocomplete-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+      transition: background 0.2s ease;
+    }
+    
+    .autocomplete-item:hover {
+      background: #f0fdf4;
+    }
+    
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+    
+    .autocomplete-loading {
+      padding: 12px 16px;
+      color: #6b7280;
+      font-size: 14px;
+      text-align: center;
+    }
+    
     @media (max-width: 768px) {
-      .address-title { font-size: 24px; }
+      .hero-title { font-size: 56px; }
+      .hero-subtitle { font-size: 20px; }
+      .hero-cta { padding: 14px 36px; font-size: 15px; }
+      .intro-content { font-size: 16px; }
+      .input-title { font-size: 22px; }
       
-      .address-input-wrapper {
-        flex-direction: column;
+      .input-row {
+        grid-template-columns: 1fr;
       }
       
-      .analyze-btn {
-        width: 100%;
+      #autocompleteResults {
+        right: 0;
+        margin-right: 0;
       }
     }
       .hero-title {
@@ -842,45 +953,38 @@
       <div class="mission">
         <p style="border-left: 4px solid #065f46; padding-left: 1.5rem; font-style: italic;"><strong>Palermo 3-30-300</strong> è un piccolo progetto di ricerca indipendente che nasce per diffondere <strong class="highlight">consapevolezza sulla disponibilità di verde urbano</strong>, indirizzo per indirizzo, a partire da una <strong class="highlight">regola internazionale</strong> che ci aiuta a progettare città più vivibili, fresche e sostenibili.</p>
       </div>
-      
-      <div style="text-align: center; margin-top: 3rem;">
-        <button class="hero-cta" onclick="document.getElementById('address-section').scrollIntoView({behavior: 'smooth'})">Inizia</button>
-      </div>
     </div>
   </section>
-  
-  <!-- SEZIONE 3: INPUT INDIRIZZO -->
-  <section id="address-section" class="address-section">
-    <div class="address-content">
-      <h2 class="address-title">Inserisci il tuo indirizzo a Palermo</h2>
+
+  <div class="container">
+    <!-- INPUT SECTION -->
+    <div class="input-wrapper-section">
+      <h2 class="input-title">Inizia l'analisi partendo dal tuo indirizzo</h2>
       
-      <div class="address-input-wrapper">
-        <input 
-          id="address-input" 
-          type="text" 
-          placeholder="Via Roma, 123, Palermo"
-          autocomplete="off"
-        />
-        <button class="analyze-btn" id="analyze-btn">Analizza</button>
-      </div>
-      
-      <div class="geolocation-wrapper">
-        <button class="geolocation-btn" id="geolocation-btn">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 2C8 1.44772 7.55228 1 7 1C6.44772 1 6 1.44772 6 2V2.05493C3.72574 2.49388 2 4.48507 2 6.88889V11.1111C2 13.5149 3.72574 15.5061 6 15.9451V16C6 16.5523 6.44772 17 7 17C7.55228 17 8 16.5523 8 16V15.9451C10.2743 15.5061 12 13.5149 12 11.1111V6.88889C12 4.48507 10.2743 2.49388 8 2.05493V2Z" fill="currentColor"/>
-            <circle cx="7" cy="9" r="2" fill="white"/>
+      <div class="input-row">
+        <div style="position: relative;">
+          <input 
+            type="text" 
+            id="addressInput" 
+            placeholder="Via Roma, 123, Palermo"
+            autocomplete="off"
+          />
+          <div class="autocomplete-results" id="autocompleteResults"></div>
+        </div>
+        
+        <button class="btn-geolocation" onclick="useGeolocation()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="3" fill="currentColor"/>
+            <path d="M12 2V5M12 19V22M22 12H19M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
           Usa la tua posizione attuale
         </button>
       </div>
       
       <p class="privacy-disclaimer">
-        <small>I tuoi dati vengono utilizzati esclusivamente per l'analisi e non vengono memorizzati. 
-        <a href="#privacy">Informativa privacy</a></small>
+        Inserendo l'indirizzo possiamo calcolare gli spazi verdi più vicini e la situazione nel tuo quartiere. I tuoi dati vengono usati esclusivamente per l'analisi e non vengono memorizzati.
       </p>
     </div>
-  </section>
-  </section>
 
   <div class="container">
         <div class="loading" id="loading">
@@ -945,7 +1049,7 @@
             <p><strong>Palermo 3-30-300</strong> - Analisi civica sull'accesso al verde urbano<br>
             La regola 3-30-300: 3 alberi visibili, 30% copertura arborea, 300m da spazi verdi<br>
             Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021 | 
-            <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: var(--mediterranean-blue);">GitHub</a></p>
+            <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: #065f46;">GitHub</a></p>
         </footer>
     </div>
     <script>
