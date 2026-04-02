@@ -1677,7 +1677,7 @@
             
             const canvas = document.createElement('canvas');
             canvas.width = 800;
-            canvas.height = 700;
+            canvas.height = 600;
             canvas.style.width = '100%';
             canvas.style.height = 'auto';
             canvas.style.borderRadius = '8px';
@@ -1687,11 +1687,11 @@
             
             const ctx = canvas.getContext('2d');
             const centerX = 400;
-            const centerY = 350;
-            const scale = 1.0;
+            const centerY = 300;
             
             console.log('=== MAPPA ===');
             console.log('Target space:', targetSpace.properties.name || targetSpace.properties.size_label);
+            console.log('Distance:', Math.round(distance), 'm');
             
             // Get target space position
             let targetLat, targetLon;
@@ -1703,11 +1703,28 @@
                 targetLon = targetSpace.geometry.coordinates[0][0][0][0];
             }
             
-            const latDiff = (targetLat - lat) * 111000;
-            const lonDiff = (targetLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+            const latDiff = (targetLat - lat) * 111000; // metri
+            const lonDiff = (targetLon - lon) * 111000 * Math.cos(lat * Math.PI / 180); // metri
+            
+            console.log('Offset metri - lat:', Math.round(latDiff), 'lon:', Math.round(lonDiff));
+            
+            // SCALA DINAMICA: calcola in base a ENTRAMBE le dimensioni X e Y
+            const margin = 80; // margine dal bordo in pixel
+            const maxX = Math.abs(lonDiff);
+            const maxY = Math.abs(latDiff);
+            
+            // Scala basata su quale dimensione "spreca" di più lo spazio
+            const scaleX = (centerX - margin) / Math.max(maxX, 300); // almeno contenere 300m orizzontali
+            const scaleY = (centerY - margin) / Math.max(maxY, 300); // almeno contenere 300m verticali
+            const scale = Math.min(scaleX, scaleY, 1.0); // usa la scala più restrittiva, max 1.0
+            
+            console.log('Scale:', scale.toFixed(3), 'px/m');
             
             const targetX = centerX + (lonDiff * scale);
             const targetY = centerY - (latDiff * scale);
+            
+            console.log('Target position: X=', Math.round(targetX), 'Y=', Math.round(targetY));
+            console.log('Canvas bounds: X=[0,800] Y=[0,600]');
             
             let hoveredLine = false;
             
@@ -1715,7 +1732,7 @@
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                // Cerchi concentrici
+                // Cerchi concentrici (sempre 100, 200, 300m)
                 ctx.strokeStyle = '#e5e7eb';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
