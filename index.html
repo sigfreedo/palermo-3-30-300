@@ -504,7 +504,7 @@
     /* NEW INPUT SECTION */
     .input-wrapper-section {
       max-width: 800px;
-      margin: 4rem auto 2rem;
+      margin: 2rem auto 2rem;
       padding: 0 2rem;
     }
     
@@ -518,7 +518,7 @@
     
     .input-row {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 3fr 1fr;
       gap: 1rem;
       margin-bottom: 1.5rem;
       position: relative;
@@ -566,7 +566,7 @@
       position: absolute;
       top: 100%;
       left: 0;
-      right: 50%;
+      right: 25%;
       margin-right: 0.5rem;
       background: white;
       border: 2px solid #10b981;
@@ -938,15 +938,15 @@
   
   <section id="intro" class="intro-section">
     <div class="intro-content">
-      <p>La presenza di natura nelle città migliora la salute e la vivibilità.</p>
+      <p>La presenza di <strong class="highlight">natura</strong> nelle città migliora la <strong class="highlight">salute</strong> e la <strong class="highlight">vivibilità</strong>.</p>
       
-      <p>Secondo l'<a href="https://www.eea.europa.eu/en/analysis/publications/who-benefits-from-nature-in-cities-social-inequalities-in-access-to-urban-green-and-blue-spaces-across-europe" target="_blank" rel="noopener">Agenzia Europea dell'Ambiente (EEA)</a>, il contatto con il verde urbano — parchi, giardini, <strong class="highlight">spazi verdi</strong> per il riposo e l'attività fisica — riduce lo stress, migliora il benessere fisico e mentale e mitiga le temperature urbane riducendo l'effetto delle isole di calore.</p>
+      <p>Secondo l'<a href="https://www.eea.europa.eu/en/analysis/publications/who-benefits-from-nature-in-cities-social-inequalities-in-access-to-urban-green-and-blue-spaces-across-europe" target="_blank" rel="noopener">Agenzia Europea dell'Ambiente (EEA)</a>, il contatto con il verde urbano — parchi, giardini, spazi verdi per il riposo e l'attività fisica — riduce lo stress, migliora il benessere fisico e mentale e mitiga le temperature urbane riducendo l'effetto delle isole di calore.</p>
       
-      <p>Ma non tutti in Europa hanno lo stesso accesso agli <strong class="highlight">spazi verdi</strong>.</p>
+      <p><strong class="highlight">Ma non tutti in Europa hanno lo stesso accesso agli spazi verdi.</strong></p>
       
       <div class="questions">
         <p>In questo contesto, come si colloca la città di <strong class="highlight">Palermo</strong>?</p>
-        <p>Che tipo di accesso hanno i <strong class="highlight">palermitani</strong> e le <strong class="highlight">palermitane</strong> agli <strong class="highlight">spazi verdi</strong> urbani?</p>
+        <p>Che tipo di accesso hanno i <strong class="highlight">palermitani</strong> e le <strong class="highlight">palermitane</strong> agli spazi verdi urbani?</p>
         <p>Esistono differenze tra <strong class="highlight">quartieri</strong> che si traducono in <strong class="highlight">disuguaglianze</strong> sociali e mancati benefici per la salute?</p>
       </div>
       
@@ -982,7 +982,8 @@
       </div>
       
       <p class="privacy-disclaimer">
-        Inserendo l'indirizzo possiamo calcolare gli spazi verdi più vicini e la situazione nel tuo quartiere. I tuoi dati vengono usati esclusivamente per l'analisi e non vengono memorizzati.
+        Inserendo l'indirizzo possiamo calcolare gli spazi verdi più vicini e la situazione nel tuo quartiere.<br>
+        I tuoi dati vengono usati esclusivamente per l'analisi e non vengono memorizzati.
       </p>
     </div>
 
@@ -1299,9 +1300,6 @@
                 return;
             }
 
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('btnSearch').disabled = true;
-
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const lat = position.coords.latitude;
@@ -1312,15 +1310,11 @@
                     // Verifica che sia a Palermo (circa)
                     if (lat < 38.05 || lat > 38.25 || lon < 13.2 || lon > 13.5) {
                         alert('⚠️ La tua posizione sembra essere fuori da Palermo.\n\nUsa l\'input manuale con autocomplete.');
-                        document.getElementById('loading').classList.remove('active');
-                        document.getElementById('btnSearch').disabled = false;
                         return;
                     }
 
                     addressInput.value = `📍 Posizione corrente (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
                     analyzeLocation(lat, lon);
-                    document.getElementById('loading').classList.remove('active');
-                    document.getElementById('btnSearch').disabled = false;
                 },
                 (error) => {
                     console.error('Errore geolocalizzazione:', error);
@@ -1357,8 +1351,6 @@
                     }
                     
                     alert(errorMessage);
-                    document.getElementById('loading').classList.remove('active');
-                    document.getElementById('btnSearch').disabled = false;
                 }
             );
         }
