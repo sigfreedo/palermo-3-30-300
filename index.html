@@ -1675,7 +1675,7 @@
             const mapDiv = document.getElementById('map');
             mapDiv.innerHTML = '';
             
-            // Create canvas - aumentato per ingrandire mappa
+            // Create canvas - AUMENTATO ANCORA
             const canvas = document.createElement('canvas');
             canvas.width = 800;
             canvas.height = 600;
@@ -1689,8 +1689,8 @@
             const centerX = 400;
             const centerY = 300;
             
-            // Scale AUMENTATO: 0.9 pixels per meter (da 0.6)
-            const scale = 0.9;
+            // Scale MASSIMO possibile: 1.1 pixels per meter (era 0.9)
+            const scale = 1.1;
             
             // Background bianco
             ctx.fillStyle = '#ffffff';
@@ -1716,7 +1716,7 @@
             ctx.arc(centerX, centerY, 300 * scale, 0, Math.PI * 2);
             ctx.stroke();
             
-            // === LABEL DISTANZE (SENZA "standard WHO") ===
+            // === LABEL DISTANZE ===
             ctx.textAlign = 'left';
             const labelX = centerX + (300 * scale) + 10;
             const labelY = centerY + 5;
@@ -1729,10 +1729,23 @@
             // 200m
             ctx.fillText('200m', centerX + (200 * scale) + 6, labelY);
             
-            // 300m - verde e bold (SENZA "limite WHO")
+            // 300m - verde e bold
             ctx.font = '900 11px Inter, sans-serif';
             ctx.fillStyle = '#10b981';
             ctx.fillText('300m', labelX, labelY);
+            
+            // Funzione per assegnare peso numerico basato su size_label
+            function getSizeWeight(sizeLabel) {
+                if (!sizeLabel) return 0;
+                const label = sizeLabel.toLowerCase();
+                
+                if (label.includes('molto grande')) return 1000;
+                if (label.includes('grande parco')) return 900;
+                if (label.includes('parco')) return 500;
+                if (label.includes('giardino')) return 400;
+                if (label.includes('piccolo')) return 100;
+                return 200; // default
+            }
             
             // === CALCOLA SPAZI VICINI (SOLO ENTRO 300m) ===
             const spacesNearby = [];
@@ -1759,39 +1772,49 @@
                 
                 // MOSTRA SOLO ENTRO 300m
                 if (dist <= 300) {
+                    const sizeWeight = getSizeWeight(feature.properties.size_label);
                     spacesNearby.push({
                         feature: feature,
                         distance: dist,
                         x: centerX + (lonDiff * scale),
                         y: centerY - (latDiff * scale),
-                        area: feature.properties.area_sqm || 0
+                        area: feature.properties.area_sqm || 0,
+                        sizeWeight: sizeWeight
                     });
                 }
             });
             
+            console.log('=== DEBUG MAPPA ===');
+            console.log('Spazi entro 300m:', spacesNearby.length);
+            
             if (spacesNearby.length === 0) {
-                // Nessuno spazio entro 300m, non disegnare nulla
+                // Nessuno spazio entro 300m
                 ctx.font = '400 14px Inter, sans-serif';
                 ctx.fillStyle = '#6b7280';
                 ctx.textAlign = 'center';
                 ctx.fillText('Nessuno spazio verde entro 300m', centerX, centerY - 40);
             } else {
+                // Debug: mostra tutti gli spazi
+                spacesNearby.forEach((s, i) => {
+                    console.log(`  ${i+1}. ${s.feature.properties.name || s.feature.properties.size_label}`);
+                    console.log(`     - size_label: ${s.feature.properties.size_label}`);
+                    console.log(`     - area_sqm: ${s.area}`);
+                    console.log(`     - sizeWeight: ${s.sizeWeight}`);
+                    console.log(`     - distance: ${Math.round(s.distance)}m`);
+                });
+                
                 // Identifica spazio target
                 let targetSpace;
                 
                 if (spacesNearby.length > 1) {
-                    // MULTIPLI: prendi il PIÙ GRANDE (non il più vicino!)
-                    console.log('DEBUG: Spazi entro 300m:', spacesNearby.length);
-                    spacesNearby.forEach((s, i) => {
-                        console.log(`  ${i}: ${s.feature.properties.name || s.feature.properties.size_label}, area=${s.area}m², dist=${Math.round(s.distance)}m`);
-                    });
-                    
-                    spacesNearby.sort((a, b) => b.area - a.area);
+                    // MULTIPLI: ordina per sizeWeight (non area_sqm che è spesso 0!)
+                    spacesNearby.sort((a, b) => b.sizeWeight - a.sizeWeight);
                     targetSpace = spacesNearby[0];
-                    console.log('  → Target (più grande):', targetSpace.feature.properties.name || targetSpace.feature.properties.size_label);
+                    console.log(`→ Target (più grande per peso): ${targetSpace.feature.properties.name || targetSpace.feature.properties.size_label}`);
                 } else {
                     // SINGOLO
                     targetSpace = spacesNearby[0];
+                    console.log(`→ Target (unico): ${targetSpace.feature.properties.name || targetSpace.feature.properties.size_label}`);
                 }
                 
                 // === LINEA TRATTEGGIATA AL TARGET ===
@@ -1804,16 +1827,16 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
                 
-                // Distanza A FIANCO della linea (non sopra)
+                // Distanza A DESTRA della linea (spostata di più)
                 const midX = (centerX + targetSpace.x) / 2;
                 const midY = (centerY + targetSpace.y) / 2;
                 
-                // Calcola offset perpendicolare alla linea
+                // Calcola offset MAGGIORE a destra
                 const dx = targetSpace.x - centerX;
                 const dy = targetSpace.y - centerY;
                 const len = Math.sqrt(dx * dx + dy * dy);
-                const perpX = -dy / len * 15; // offset perpendicolare
-                const perpY = dx / len * 15;
+                const perpX = -dy / len * 25; // aumentato da 15 a 25
+                const perpY = dx / len * 25;
                 
                 ctx.font = '800 13px Inter, sans-serif';
                 ctx.fillStyle = '#10b981';
@@ -1839,7 +1862,6 @@
                     } else if (sizeLabel.includes('Piccolo')) {
                         radius = 8;
                     } else {
-                        // Default
                         radius = 10;
                     }
                     
@@ -1849,22 +1871,22 @@
                     ctx.arc(space.x, space.y, radius, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    // Label A FIANCO del pallino (non sopra)
+                    // Label A FIANCO del pallino (PIÙ DISTANTE)
                     const name = space.feature.properties.name || space.feature.properties.size_label || 'Spazio verde';
-                    const displayName = name.length > 20 ? name.substring(0, 18) + '...' : name;
+                    const displayName = name.length > 25 ? name.substring(0, 23) + '...' : name;
                     
                     ctx.font = (isTarget ? '700 ' : '400 ') + '11px Inter, sans-serif';
                     ctx.fillStyle = isTarget ? '#10b981' : '#6b7280';
                     
-                    // Posiziona testo a destra o sinistra del pallino
+                    // Offset AUMENTATO: 12px invece di 6px
                     if (space.x > centerX) {
                         // Spazio a destra → testo a destra
                         ctx.textAlign = 'left';
-                        ctx.fillText(displayName, space.x + radius + 6, space.y + 4);
+                        ctx.fillText(displayName, space.x + radius + 12, space.y + 4);
                     } else {
                         // Spazio a sinistra → testo a sinistra
                         ctx.textAlign = 'right';
-                        ctx.fillText(displayName, space.x - radius - 6, space.y + 4);
+                        ctx.fillText(displayName, space.x - radius - 12, space.y + 4);
                     }
                 });
             }
