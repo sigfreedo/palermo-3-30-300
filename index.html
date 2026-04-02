@@ -1675,96 +1675,183 @@
             const mapDiv = document.getElementById('map');
             mapDiv.innerHTML = '';
             
-            // Create canvas
+            // Create canvas with FIXED square dimensions to avoid oval distortion
             const canvas = document.createElement('canvas');
-            canvas.width = mapDiv.clientWidth || 600;
-            canvas.height = 400;
+            canvas.width = 800;
+            canvas.height = 600;
             canvas.style.width = '100%';
-            canvas.style.height = '100%';
+            canvas.style.height = 'auto';
             canvas.style.borderRadius = '8px';
+            canvas.style.display = 'block';
             mapDiv.appendChild(canvas);
             
             const ctx = canvas.getContext('2d');
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
+            const centerX = 400;
+            const centerY = 320;
             
-            // Scale: 1 pixel = 2 meters (so 300m = 150px radius)
-            const scale = 0.5; // pixels per meter
-            const radius300 = 300 * scale;
+            // Scale: 0.6 pixels per meter (so 300m = 180px radius)
+            const scale = 0.6;
             
-            // Clear with light background
-            ctx.fillStyle = '#f9fafb';
+            // Background bianco
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Draw 300m circle (dashed)
+            // === CERCHI CONCENTRICI ===
+            // 100m - grigio sottile
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 100 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // 200m - grigio sottile
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 200 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // 300m - VERDE SPESSO
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 300 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // === LABEL DISTANZE (sulla destra) ===
+            ctx.textAlign = 'left';
+            const labelX = centerX + (300 * scale) + 10;
+            const labelY = centerY + 5;
+            
+            // 100m
+            ctx.font = '600 11px Inter, sans-serif';
+            ctx.fillStyle = '#6b7280';
+            ctx.fillText('100m', centerX + (100 * scale) + 6, labelY);
+            
+            // 200m
+            ctx.fillText('200m', centerX + (200 * scale) + 6, labelY);
+            
+            // 300m - verde e bold
+            ctx.font = '900 11px Inter, sans-serif';
+            ctx.fillStyle = '#10b981';
+            ctx.fillText('300m', labelX, labelY);
+            
+            // (limite WHO)
+            ctx.font = '400 10px Inter, sans-serif';
+            ctx.fillStyle = '#6b7280';
+            ctx.fillText('(limite WHO)', labelX + 45, labelY);
+            
+            // === CALCOLA SPAZI VICINI ===
+            const spacesNearby = [];
+            
+            greenSpaces.features.forEach(feature => {
+                if (!feature.geometry) return;
+                
+                // Get first coordinate
+                let spaceLat, spaceLon;
+                if (feature.geometry.type === 'Polygon') {
+                    spaceLat = feature.geometry.coordinates[0][0][1];
+                    spaceLon = feature.geometry.coordinates[0][0][0];
+                } else if (feature.geometry.type === 'MultiPolygon') {
+                    spaceLat = feature.geometry.coordinates[0][0][0][1];
+                    spaceLon = feature.geometry.coordinates[0][0][0][0];
+                } else {
+                    return;
+                }
+                
+                // Offset in metri
+                const latDiff = (spaceLat - lat) * 111000;
+                const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+                const dist = Math.sqrt(latDiff * latDiff + lonDiff * lonDiff);
+                
+                if (dist < 500) { // Mostra entro 500m
+                    spacesNearby.push({
+                        feature: feature,
+                        distance: dist,
+                        x: centerX + (lonDiff * scale),
+                        y: centerY - (latDiff * scale), // inverted Y
+                        area: feature.properties.area_sqm || 0
+                    });
+                }
+            });
+            
+            if (spacesNearby.length === 0) return;
+            
+            // Identifica spazio target: più grande se multipli entro 300m, altrimenti più vicino
+            const within300 = spacesNearby.filter(s => s.distance <= 300);
+            let targetSpace;
+            
+            if (within300.length > 1) {
+                // Multipli: prendi il più grande
+                within300.sort((a, b) => b.area - a.area);
+                targetSpace = within300[0];
+            } else if (within300.length === 1) {
+                // Singolo entro 300m
+                targetSpace = within300[0];
+            } else {
+                // Nessuno entro 300m: prendi il più vicino
+                spacesNearby.sort((a, b) => a.distance - b.distance);
+                targetSpace = spacesNearby[0];
+            }
+            
+            // === LINEA TRATTEGGIATA AL TARGET ===
             ctx.strokeStyle = '#10b981';
             ctx.lineWidth = 2;
-            ctx.setLineDash([10, 5]);
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius300, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.setLineDash([]);
-            
-            // Calculate position of nearest space relative to user
-            const spaceLat = nearestSpace.geometry.coordinates[0][0][1];
-            const spaceLon = nearestSpace.geometry.coordinates[0][0][0];
-            
-            // Simple offset calculation (not accurate for large distances but OK for < 1km)
-            const latDiff = (spaceLat - lat) * 111000; // ~111km per degree latitude
-            const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
-            
-            const spaceX = centerX + (lonDiff * scale);
-            const spaceY = centerY - (latDiff * scale); // negative because canvas Y is inverted
-            
-            // Draw line to nearest space
-            ctx.strokeStyle = '#6b7280';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
+            ctx.setLineDash([4, 4]);
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
-            ctx.lineTo(spaceX, spaceY);
+            ctx.lineTo(targetSpace.x, targetSpace.y);
             ctx.stroke();
             ctx.setLineDash([]);
             
-            // Draw nearest space as green circle
+            // Distanza sulla linea
+            const midX = (centerX + targetSpace.x) / 2;
+            const midY = (centerY + targetSpace.y) / 2;
+            ctx.font = '800 14px Inter, sans-serif';
             ctx.fillStyle = '#10b981';
-            ctx.beginPath();
-            ctx.arc(spaceX, spaceY, 8, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Draw user position
-            ctx.fillStyle = '#ef4444';
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Add labels
-            ctx.fillStyle = '#1a1a1a';
-            ctx.font = 'bold 14px Inter, sans-serif';
             ctx.textAlign = 'center';
+            ctx.fillText(Math.round(targetSpace.distance) + 'm', midX, midY - 8);
             
-            // User label
-            ctx.fillText('Tu', centerX, centerY - 20);
+            // === DISEGNA SPAZI VERDI ===
+            spacesNearby.forEach(space => {
+                const isTarget = (space === targetSpace);
+                
+                // Dimensione basata su categoria
+                const sizeLabel = space.feature.properties.size_label || '';
+                let radius;
+                if (sizeLabel.includes('Grande') || sizeLabel.toLowerCase().includes('parco')) {
+                    radius = 14;
+                } else if (sizeLabel.includes('Medio') || sizeLabel.toLowerCase().includes('giardino')) {
+                    radius = 10;
+                } else {
+                    radius = 7;
+                }
+                
+                // Colore: verde intenso per target, chiaro per altri
+                ctx.fillStyle = isTarget ? '#10b981' : '#d1fae5';
+                ctx.beginPath();
+                ctx.arc(space.x, space.y, radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Label con nome
+                const name = space.feature.properties.name || space.feature.properties.size_label || 'Spazio verde';
+                const displayName = name.length > 20 ? name.substring(0, 18) + '...' : name;
+                
+                ctx.font = (isTarget ? '700 ' : '400 ') + '12px Inter, sans-serif';
+                ctx.fillStyle = isTarget ? '#10b981' : '#6b7280';
+                ctx.textAlign = 'center';
+                ctx.fillText(displayName, space.x, space.y - radius - 8);
+            });
             
-            // Space label
-            const spaceName = nearestSpace.properties.name || nearestSpace.properties.size_label || 'Spazio verde';
-            ctx.fillText(spaceName.substring(0, 25), spaceX, spaceY - 15);
+            // === UTENTE AL CENTRO ===
+            ctx.fillStyle = '#1a1a1a';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 12, 0, Math.PI * 2);
+            ctx.fill();
             
-            // Distance label
-            ctx.fillStyle = '#6b7280';
-            ctx.font = '12px Inter, sans-serif';
-            const midX = (centerX + spaceX) / 2;
-            const midY = (centerY + spaceY) / 2;
-            ctx.fillText(`${Math.round(distance)}m`, midX, midY - 5);
-            
-            // Legend
-            ctx.textAlign = 'left';
-            ctx.fillStyle = '#6b7280';
-            ctx.font = '11px Inter, sans-serif';
-            ctx.fillText('⊙ Cerchio 300m (standard WHO)', 10, canvas.height - 10);
+            // Label "Tu"
+            ctx.font = '600 13px Inter, sans-serif';
+            ctx.fillStyle = '#1a1a1a';
+            ctx.textAlign = 'center';
+            ctx.fillText('Tu', centerX, centerY + 40);
         }
 
         function analyzeLocation(lat, lon) {
