@@ -1667,11 +1667,11 @@
             // Show section
             section300.classList.add('visible');
             
-            // Initialize interactive map
-            initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300Count);
+            // Initialize interactive map - PASSA TUTTI GLI SPAZI
+            initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300);
         }
         
-        function initializeMap300(lat, lon, targetSpace, distance, totalSpacesCount) {
+        function initializeMap300(lat, lon, targetSpace, distance, allSpaces) {
             const mapDiv = document.getElementById('map');
             mapDiv.innerHTML = '';
             
@@ -1688,29 +1688,37 @@
             const ctx = canvas.getContext('2d');
             const centerX = 400;
             const centerY = 300;
-            const scale = 0.7; // FISSO: 0.7 pixel per metro
+            const scale = 0.85; // PIÙ GRANDE
             
             console.log('=== MAPPA ===');
-            console.log('Spazio:', targetSpace.properties.name || targetSpace.properties.size_label);
+            console.log('Spazio principale:', targetSpace.properties.name || targetSpace.properties.size_label);
             console.log('Distanza:', Math.round(distance), 'm');
+            console.log('Totale spazi entro 300m:', allSpaces.length);
             
-            // Posizione spazio
-            let targetLat, targetLon;
-            if (targetSpace.geometry.type === 'Polygon') {
-                targetLat = targetSpace.geometry.coordinates[0][0][1];
-                targetLon = targetSpace.geometry.coordinates[0][0][0];
-            } else if (targetSpace.geometry.type === 'MultiPolygon') {
-                targetLat = targetSpace.geometry.coordinates[0][0][0][1];
-                targetLon = targetSpace.geometry.coordinates[0][0][0][0];
-            }
+            // Calcola posizioni di TUTTI gli spazi
+            const spacePositions = allSpaces.map(space => {
+                let spaceLat, spaceLon;
+                if (space.geometry.type === 'Polygon') {
+                    spaceLat = space.geometry.coordinates[0][0][1];
+                    spaceLon = space.geometry.coordinates[0][0][0];
+                } else if (space.geometry.type === 'MultiPolygon') {
+                    spaceLat = space.geometry.coordinates[0][0][0][1];
+                    spaceLon = space.geometry.coordinates[0][0][0][0];
+                }
+                
+                const latDiff = (spaceLat - lat) * 111000;
+                const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+                
+                const x = centerX + (lonDiff * scale);
+                const y = centerY - (latDiff * scale);
+                
+                return { space, x, y };
+            });
             
-            const latDiff = (targetLat - lat) * 111000;
-            const lonDiff = (targetLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+            // Trova spazio principale
+            const mainSpace = spacePositions.find(p => p.space === targetSpace);
             
-            const targetX = centerX + (lonDiff * scale);
-            const targetY = centerY - (latDiff * scale);
-            
-            console.log('Coordinate spazio: X=' + Math.round(targetX) + ' Y=' + Math.round(targetY));
+            console.log('Spazio principale - X:', Math.round(mainSpace.x), 'Y:', Math.round(mainSpace.y));
             
             let hoveredLine = false;
             
@@ -1745,7 +1753,17 @@
                 ctx.fillStyle = '#10b981';
                 ctx.fillText('300m', centerX + (300 * scale) + 10, centerY + 5);
                 
-                // Linea
+                // DISEGNA TUTTI GLI SPAZI (tranne quello principale)
+                spacePositions.forEach(({ space, x, y }) => {
+                    if (space === targetSpace) return; // Skip principale
+                    
+                    ctx.fillStyle = '#34d399'; // Verde più chiaro
+                    ctx.beginPath();
+                    ctx.arc(x, y, 10, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                // Linea al principale
                 ctx.strokeStyle = hovLine ? '#34d399' : '#10b981';
                 ctx.lineWidth = hovLine ? 4 : 2;
                 if (hovLine) {
@@ -1755,15 +1773,15 @@
                 ctx.setLineDash([4, 4]);
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
-                ctx.lineTo(targetX, targetY);
+                ctx.lineTo(mainSpace.x, mainSpace.y);
                 ctx.stroke();
                 ctx.setLineDash([]);
                 ctx.shadowBlur = 0;
                 
                 // Distanza su hover
                 if (hovLine) {
-                    const midX = (centerX + targetX) / 2;
-                    const midY = (centerY + targetY) / 2;
+                    const midX = (centerX + mainSpace.x) / 2;
+                    const midY = (centerY + mainSpace.y) / 2;
                     ctx.font = '800 20px Inter, sans-serif';
                     const text = Math.round(distance) + 'm';
                     const textWidth = ctx.measureText(text).width;
@@ -1774,7 +1792,7 @@
                     ctx.fillText(text, midX + 23, midY + 4);
                 }
                 
-                // Spazio verde
+                // Spazio principale (PIÙ GRANDE)
                 const sizeLabel = targetSpace.properties.size_label || '';
                 let radius = 18;
                 if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
@@ -1784,19 +1802,19 @@
                 
                 ctx.fillStyle = '#10b981';
                 ctx.beginPath();
-                ctx.arc(targetX, targetY, radius, 0, Math.PI * 2);
+                ctx.arc(mainSpace.x, mainSpace.y, radius, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Nome
+                // Nome principale
                 const name = targetSpace.properties.name || targetSpace.properties.size_label || 'Spazio verde';
                 const displayName = name.length > 30 ? name.substring(0, 28) + '...' : name;
                 ctx.font = '700 18px Inter, sans-serif';
                 const textWidth2 = ctx.measureText(displayName).width;
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-                ctx.fillRect(targetX + radius + 12, targetY - 16, textWidth2 + 16, 32);
+                ctx.fillRect(mainSpace.x + radius + 12, mainSpace.y - 16, textWidth2 + 16, 32);
                 ctx.fillStyle = '#10b981';
                 ctx.textAlign = 'left';
-                ctx.fillText(displayName, targetX + radius + 20, targetY + 6);
+                ctx.fillText(displayName, mainSpace.x + radius + 20, mainSpace.y + 6);
                 
                 // Utente
                 ctx.fillStyle = '#1a1a1a';
@@ -1816,8 +1834,8 @@
                 const mouseX = (e.clientX - rect.left) * scaleX;
                 const mouseY = (e.clientY - rect.top) * scaleY;
                 
-                const dx = targetX - centerX;
-                const dy = targetY - centerY;
+                const dx = mainSpace.x - centerX;
+                const dy = mainSpace.y - centerY;
                 const len = Math.sqrt(dx * dx + dy * dy);
                 const t = Math.max(0, Math.min(1, ((mouseX - centerX) * dx + (mouseY - centerY) * dy) / (len * len)));
                 const projX = centerX + t * dx;
