@@ -1689,32 +1689,37 @@
             const ctx = canvas.getContext('2d');
             const centerX = 400;
             const centerY = 300;
-            const scale = 0.85; // PIÙ GRANDE
+            const scale = 0.85;
+            
+            // FIX: se array vuoto, usa solo lo spazio target
+            const spacesToDraw = (allSpaces && allSpaces.length > 0) ? allSpaces : [targetSpace];
             
             console.log('=== MAPPA ===');
             console.log('Spazio principale:', targetSpace.properties.name || targetSpace.properties.size_label);
             console.log('Distanza:', Math.round(distance), 'm');
-            console.log('Totale spazi entro 300m:', allSpaces.length);
+            console.log('Totale spazi:', spacesToDraw.length);
             
-            // Calcola posizioni di TUTTI gli spazi
-            const spacePositions = allSpaces.map(space => {
-                let spaceLat, spaceLon;
-                if (space.geometry.type === 'Polygon') {
-                    spaceLat = space.geometry.coordinates[0][0][1];
-                    spaceLon = space.geometry.coordinates[0][0][0];
-                } else if (space.geometry.type === 'MultiPolygon') {
-                    spaceLat = space.geometry.coordinates[0][0][0][1];
-                    spaceLon = space.geometry.coordinates[0][0][0][0];
-                }
-                
-                const latDiff = (spaceLat - lat) * 111000;
-                const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
-                
-                const x = centerX + (lonDiff * scale);
-                const y = centerY - (latDiff * scale);
-                
-                return { space, x, y };
-            });
+            // Calcola posizioni - FILTRA undefined
+            const spacePositions = spacesToDraw
+                .filter(space => space && space.geometry)
+                .map(space => {
+                    let spaceLat, spaceLon;
+                    if (space.geometry.type === 'Polygon') {
+                        spaceLat = space.geometry.coordinates[0][0][1];
+                        spaceLon = space.geometry.coordinates[0][0][0];
+                    } else if (space.geometry.type === 'MultiPolygon') {
+                        spaceLat = space.geometry.coordinates[0][0][0][1];
+                        spaceLon = space.geometry.coordinates[0][0][0][0];
+                    }
+                    
+                    const latDiff = (spaceLat - lat) * 111000;
+                    const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+                    
+                    const x = centerX + (lonDiff * scale);
+                    const y = centerY - (latDiff * scale);
+                    
+                    return { space, x, y };
+                });
             
             // Trova spazio principale
             const mainSpace = spacePositions.find(p => p.space === targetSpace);
@@ -1756,9 +1761,9 @@
                 
                 // DISEGNA TUTTI GLI SPAZI (tranne quello principale)
                 spacePositions.forEach(({ space, x, y }) => {
-                    if (space === targetSpace) return; // Skip principale
+                    if (space === targetSpace) return;
                     
-                    ctx.fillStyle = '#34d399'; // Verde più chiaro
+                    ctx.fillStyle = '#34d399';
                     ctx.beginPath();
                     ctx.arc(x, y, 10, 0, Math.PI * 2);
                     ctx.fill();
@@ -1793,7 +1798,7 @@
                     ctx.fillText(text, midX + 23, midY + 4);
                 }
                 
-                // Spazio principale (PIÙ GRANDE)
+                // Spazio principale
                 const sizeLabel = targetSpace.properties.size_label || '';
                 let radius = 18;
                 if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
@@ -1970,7 +1975,7 @@
                         return;
                     }
 
-                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300);
+                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300.map(s => s.feature));
                     document.getElementById('loading').classList.remove('active');
                     
                     console.log('=== ANALISI COMPLETATA ===');
