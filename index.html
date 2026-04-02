@@ -1688,6 +1688,174 @@
             const ctx = canvas.getContext('2d');
             const centerX = 400;
             const centerY = 300;
+            const scale = 0.7; // FISSO: 0.7 pixel per metro
+            
+            console.log('=== MAPPA ===');
+            console.log('Spazio:', targetSpace.properties.name || targetSpace.properties.size_label);
+            console.log('Distanza:', Math.round(distance), 'm');
+            
+            // Posizione spazio
+            let targetLat, targetLon;
+            if (targetSpace.geometry.type === 'Polygon') {
+                targetLat = targetSpace.geometry.coordinates[0][0][1];
+                targetLon = targetSpace.geometry.coordinates[0][0][0];
+            } else if (targetSpace.geometry.type === 'MultiPolygon') {
+                targetLat = targetSpace.geometry.coordinates[0][0][0][1];
+                targetLon = targetSpace.geometry.coordinates[0][0][0][0];
+            }
+            
+            const latDiff = (targetLat - lat) * 111000;
+            const lonDiff = (targetLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+            
+            const targetX = centerX + (lonDiff * scale);
+            const targetY = centerY - (latDiff * scale);
+            
+            console.log('Coordinate spazio: X=' + Math.round(targetX) + ' Y=' + Math.round(targetY));
+            
+            let hoveredLine = false;
+            
+            function drawMap(hovLine) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Cerchi concentrici
+                ctx.strokeStyle = '#e5e7eb';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 100 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 200 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 300 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Label distanze
+                ctx.textAlign = 'left';
+                ctx.font = '600 17px Inter, sans-serif';
+                ctx.fillStyle = '#6b7280';
+                ctx.fillText('100m', centerX + (100 * scale) + 6, centerY + 5);
+                ctx.fillText('200m', centerX + (200 * scale) + 6, centerY + 5);
+                
+                ctx.font = '900 17px Inter, sans-serif';
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('300m', centerX + (300 * scale) + 10, centerY + 5);
+                
+                // Linea
+                ctx.strokeStyle = hovLine ? '#34d399' : '#10b981';
+                ctx.lineWidth = hovLine ? 4 : 2;
+                if (hovLine) {
+                    ctx.shadowColor = '#10b981';
+                    ctx.shadowBlur = 10;
+                }
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(targetX, targetY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.shadowBlur = 0;
+                
+                // Distanza su hover
+                if (hovLine) {
+                    const midX = (centerX + targetX) / 2;
+                    const midY = (centerY + targetY) / 2;
+                    ctx.font = '800 20px Inter, sans-serif';
+                    const text = Math.round(distance) + 'm';
+                    const textWidth = ctx.measureText(text).width;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.fillRect(midX + 15, midY - 22, textWidth + 16, 34);
+                    ctx.fillStyle = '#10b981';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(text, midX + 23, midY + 4);
+                }
+                
+                // Spazio verde
+                const sizeLabel = targetSpace.properties.size_label || '';
+                let radius = 18;
+                if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
+                else if (sizeLabel.toLowerCase().includes('grande')) radius = 22;
+                else if (sizeLabel.toLowerCase().includes('giardino')) radius = 24;
+                else if (sizeLabel.toLowerCase().includes('piccolo')) radius = 12;
+                
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath();
+                ctx.arc(targetX, targetY, radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Nome
+                const name = targetSpace.properties.name || targetSpace.properties.size_label || 'Spazio verde';
+                const displayName = name.length > 30 ? name.substring(0, 28) + '...' : name;
+                ctx.font = '700 18px Inter, sans-serif';
+                const textWidth2 = ctx.measureText(displayName).width;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.fillRect(targetX + radius + 12, targetY - 16, textWidth2 + 16, 32);
+                ctx.fillStyle = '#10b981';
+                ctx.textAlign = 'left';
+                ctx.fillText(displayName, targetX + radius + 20, targetY + 6);
+                
+                // Utente
+                ctx.fillStyle = '#1a1a1a';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = '600 19px Inter, sans-serif';
+                ctx.fillStyle = '#1a1a1a';
+                ctx.textAlign = 'center';
+                ctx.fillText('Tu', centerX, centerY - 26);
+            }
+            
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const mouseX = (e.clientX - rect.left) * scaleX;
+                const mouseY = (e.clientY - rect.top) * scaleY;
+                
+                const dx = targetX - centerX;
+                const dy = targetY - centerY;
+                const len = Math.sqrt(dx * dx + dy * dy);
+                const t = Math.max(0, Math.min(1, ((mouseX - centerX) * dx + (mouseY - centerY) * dy) / (len * len)));
+                const projX = centerX + t * dx;
+                const projY = centerY + t * dy;
+                const distToLine = Math.sqrt((mouseX - projX) ** 2 + (mouseY - projY) ** 2);
+                
+                const newHovLine = distToLine < 20;
+                if (newHovLine !== hoveredLine) {
+                    hoveredLine = newHovLine;
+                    drawMap(hoveredLine);
+                }
+            });
+            
+            canvas.addEventListener('mouseleave', () => {
+                if (hoveredLine) {
+                    hoveredLine = false;
+                    drawMap(false);
+                }
+            });
+            
+            drawMap(false);
+        }
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = '';
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 600;
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+            canvas.style.borderRadius = '8px';
+            canvas.style.display = 'block';
+            canvas.style.cursor = 'pointer';
+            mapDiv.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = 400;
+            const centerY = 300;
             
             console.log('=== MAPPA ===');
             console.log('Target space:', targetSpace.properties.name || targetSpace.properties.size_label);
