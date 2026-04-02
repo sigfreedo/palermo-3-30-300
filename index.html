@@ -1608,7 +1608,7 @@
             );
         }
         
-        function displayResult300(distance, nearestSpace, lat, lon, spacesWithin300Count = 0) {
+        function displayResult300(distance, nearestSpace, lat, lon, spacesWithin300Array = []) {
             const section300 = document.getElementById('section300');
             const resultColumn = document.getElementById('resultColumn');
             const resultTitle = document.getElementById('resultTitle');
@@ -1623,6 +1623,7 @@
             const isFortunato = distance <= 300;
             const props = nearestSpace.properties;
             const distanceMeters = Math.round(distance);
+            const spacesWithin300Count = spacesWithin300Array.length;
             
             // Calculate walking time (assuming 4.5 km/h = 75 m/min)
             const walkingMinutes = Math.round(distanceMeters / 75);
@@ -1668,7 +1669,7 @@
             section300.classList.add('visible');
             
             // Initialize interactive map - PASSA TUTTI GLI SPAZI
-            initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300);
+            initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300Array);
         }
         
         function initializeMap300(lat, lon, targetSpace, distance, allSpaces) {
@@ -1969,7 +1970,7 @@
                         return;
                     }
 
-                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300.length);
+                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300);
                     document.getElementById('loading').classList.remove('active');
                     
                     console.log('=== ANALISI COMPLETATA ===');
