@@ -373,6 +373,172 @@
       border: 2px solid #e5e7eb;
     }
     
+    /* SECTION 300 - SPLIT LAYOUT */
+    .section-300 {
+      display: none;
+      margin-top: 2rem;
+    }
+    
+    .section-300.visible {
+      display: block;
+    }
+    
+    .section-300-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    .result-column {
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    }
+    
+    .result-column.fortunato {
+      background: #f0fdf4;
+      border: 2px solid #10b981;
+    }
+    
+    .result-column.svantaggiato {
+      background: #f9fafb;
+      border: 2px solid #6b7280;
+    }
+    
+    .rule-column {
+      padding: 2.5rem;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    }
+    
+    .section-300 h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-300 h2.fortunato {
+      color: #065f46;
+    }
+    
+    .section-300 h2.svantaggiato {
+      color: #374151;
+    }
+    
+    .section-300 .subtitle {
+      font-size: 18px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-300 .description {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #374151;
+      margin-bottom: 2rem;
+    }
+    
+    .space-details {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      border-left: 4px solid #10b981;
+    }
+    
+    .space-details h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    
+    .space-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      font-size: 16px;
+      color: #1a1a1a;
+    }
+    
+    .space-detail-item .icon {
+      font-size: 18px;
+    }
+    
+    .share-button {
+      margin-top: 2rem;
+      padding: 12px 24px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .share-button:hover {
+      background: #0d9488;
+      transform: translateY(-2px);
+    }
+    
+    .rule-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .rule-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .rule-section h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #065f46;
+      margin-bottom: 1rem;
+    }
+    
+    .rule-section p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #374151;
+      margin-bottom: 0.75rem;
+    }
+    
+    .rule-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    
+    .rule-section ul li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .rule-section ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #10b981;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
     .tree-count-section {
       display: none;
       margin-top: 2rem;
@@ -620,6 +786,18 @@
       #autocompleteResults {
         right: 0;
         margin-right: 0;
+      }
+      
+      .section-300-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .result-column, .rule-column {
+        padding: 1.5rem;
+      }
+      
+      .section-300 h2 {
+        font-size: 24px;
       }
     }
       .hero-title {
@@ -985,6 +1163,81 @@
         Inserendo l'indirizzo possiamo calcolare gli spazi verdi più vicini e la situazione nel tuo quartiere.<br>
         I tuoi dati vengono usati esclusivamente per l'analisi e non vengono memorizzati.
       </p>
+    </div>
+    
+    <!-- SECTION 300 -->
+    <div class="section-300" id="section300">
+      <div class="section-300-grid">
+        <!-- LEFT COLUMN: DYNAMIC RESULT -->
+        <div class="result-column" id="resultColumn">
+          <h2 id="resultTitle"></h2>
+          <p class="subtitle" id="resultSubtitle"></p>
+          <p class="description" id="resultDescription"></p>
+          
+          <div id="map"></div>
+          
+          <div class="space-details" id="spaceDetails">
+            <h3 id="spaceDetailsTitle"></h3>
+            <div class="space-detail-item">
+              <span class="icon">🌳</span>
+              <span id="spaceName"></span>
+            </div>
+            <div class="space-detail-item">
+              <span class="icon">📏</span>
+              <span id="spaceDistance"></span>
+            </div>
+            <div class="space-detail-item">
+              <span class="icon">⏱️</span>
+              <span id="spaceTime"></span>
+            </div>
+            <div class="space-detail-item">
+              <span class="icon">📐</span>
+              <span id="spaceArea"></span>
+            </div>
+          </div>
+          
+          <button class="share-button" id="shareButton">Condividi</button>
+        </div>
+        
+        <!-- RIGHT COLUMN: FIXED RULE EXPLANATION -->
+        <div class="rule-column">
+          <div class="rule-section">
+            <h3>📏 La regola 3-30-300</h3>
+            <p style="font-weight: 600; margin-bottom: 1rem;">🌳 Cos'è la regola 3-30-300?</p>
+            <p>Un framework urbanistico per città più verdi e vivibili:</p>
+            <ul>
+              <li>3 alberi visibili da ogni abitazione</li>
+              <li>30% di copertura arborea in ogni quartiere</li>
+              <li>300 metri di distanza massima da spazi verdi pubblici</li>
+            </ul>
+            <p style="margin-top: 1rem;">In questa analisi verifichiamo il terzo parametro: <strong>la regola del 300</strong>.</p>
+          </div>
+          
+          <div class="rule-section">
+            <h3>📍 Lo standard WHO</h3>
+            <p>L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico entro 300 metri dalla propria abitazione.</p>
+          </div>
+          
+          <div class="rule-section">
+            <h3>💚 Perché è importante</h3>
+            <ul>
+              <li>Salute fisica: incoraggia movimento quotidiano</li>
+              <li>Salute mentale: riduce stress e ansia</li>
+              <li>Socialità: spazi di incontro comunitari</li>
+              <li>Clima: mitiga isole di calore urbano</li>
+            </ul>
+          </div>
+          
+          <div class="rule-section">
+            <h3>⏱️ Cosa significa 300 metri</h3>
+            <ul>
+              <li>Circa 3-4 minuti a piedi</li>
+              <li>Una passeggiata quotidiana accessibile</li>
+              <li>Distanza percorribile anche da bambini e anziani</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
   <div class="container">
@@ -1354,6 +1607,165 @@
                 }
             );
         }
+        
+        function displayResult300(distance, nearestSpace, lat, lon, spacesWithin300Count = 0) {
+            const section300 = document.getElementById('section300');
+            const resultColumn = document.getElementById('resultColumn');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultSubtitle = document.getElementById('resultSubtitle');
+            const resultDescription = document.getElementById('resultDescription');
+            const spaceDetailsTitle = document.getElementById('spaceDetailsTitle');
+            const spaceName = document.getElementById('spaceName');
+            const spaceDistance = document.getElementById('spaceDistance');
+            const spaceTime = document.getElementById('spaceTime');
+            const spaceArea = document.getElementById('spaceArea');
+            
+            const isFortunato = distance <= 300;
+            const props = nearestSpace.properties;
+            const distanceMeters = Math.round(distance);
+            
+            // Calculate walking time (assuming 4.5 km/h = 75 m/min)
+            const walkingMinutes = Math.round(distanceMeters / 75);
+            
+            // Format area (convert from sqm to km²)
+            const areaKm2 = props.area_sqm / 1000000;
+            const areaFormatted = areaKm2 < 0.01 ? areaKm2.toFixed(3) : areaKm2.toFixed(2);
+            
+            // Determine display name
+            const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
+            const displayName = hasRealName ? props.name : (props.size_label || 'Spazio verde');
+            
+            // Set class for styling
+            resultColumn.className = 'result-column ' + (isFortunato ? 'fortunato' : 'svantaggiato');
+            resultTitle.className = isFortunato ? 'fortunato' : 'svantaggiato';
+            
+            // Populate content
+            if (isFortunato) {
+                resultTitle.textContent = '✅ Sei fortunat*!';
+                resultSubtitle.textContent = 'Hai un accesso facilitato alla natura in città.';
+                
+                if (spacesWithin300Count > 1) {
+                    resultDescription.innerHTML = `Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
+                    spaceDetailsTitle.textContent = 'Spazio più grande nelle vicinanze';
+                } else {
+                    resultDescription.textContent = 'Vivi a meno di 300 metri da uno spazio verde pubblico.';
+                    spaceDetailsTitle.textContent = 'Spazio verde più vicino';
+                }
+            } else {
+                resultTitle.textContent = '❌ Sei svantaggiat*!';
+                resultSubtitle.textContent = 'Purtroppo non hai accesso immediato alla natura in città.';
+                resultDescription.innerHTML = `Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
+                spaceDetailsTitle.textContent = 'Spazio verde più vicino';
+            }
+            
+            // Populate space details
+            spaceName.textContent = displayName;
+            spaceDistance.textContent = `${distanceMeters} metri`;
+            spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'} a piedi`;
+            spaceArea.textContent = `${areaFormatted} km²`;
+            
+            // Show section
+            section300.classList.add('visible');
+            
+            // Initialize map (will be implemented with existing map code)
+            initializeMap300(lat, lon, nearestSpace, distance);
+        }
+        
+        function initializeMap300(lat, lon, nearestSpace, distance) {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = '';
+            
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = mapDiv.clientWidth || 600;
+            canvas.height = 400;
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.borderRadius = '8px';
+            mapDiv.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Scale: 1 pixel = 2 meters (so 300m = 150px radius)
+            const scale = 0.5; // pixels per meter
+            const radius300 = 300 * scale;
+            
+            // Clear with light background
+            ctx.fillStyle = '#f9fafb';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw 300m circle (dashed)
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([10, 5]);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius300, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Calculate position of nearest space relative to user
+            const spaceLat = nearestSpace.geometry.coordinates[0][0][1];
+            const spaceLon = nearestSpace.geometry.coordinates[0][0][0];
+            
+            // Simple offset calculation (not accurate for large distances but OK for < 1km)
+            const latDiff = (spaceLat - lat) * 111000; // ~111km per degree latitude
+            const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+            
+            const spaceX = centerX + (lonDiff * scale);
+            const spaceY = centerY - (latDiff * scale); // negative because canvas Y is inverted
+            
+            // Draw line to nearest space
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(spaceX, spaceY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw nearest space as green circle
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath();
+            ctx.arc(spaceX, spaceY, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw user position
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Add labels
+            ctx.fillStyle = '#1a1a1a';
+            ctx.font = 'bold 14px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            
+            // User label
+            ctx.fillText('Tu', centerX, centerY - 20);
+            
+            // Space label
+            const spaceName = nearestSpace.properties.name || nearestSpace.properties.size_label || 'Spazio verde';
+            ctx.fillText(spaceName.substring(0, 25), spaceX, spaceY - 15);
+            
+            // Distance label
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '12px Inter, sans-serif';
+            const midX = (centerX + spaceX) / 2;
+            const midY = (centerY + spaceY) / 2;
+            ctx.fillText(`${Math.round(distance)}m`, midX, midY - 5);
+            
+            // Legend
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '11px Inter, sans-serif';
+            ctx.fillText('⊙ Cerchio 300m (standard WHO)', 10, canvas.height - 10);
+        }
 
         function analyzeLocation(lat, lon) {
             console.log('=== INIZIO ANALISI ===');
@@ -1464,7 +1876,7 @@
                         return;
                     }
 
-                    displayResult(selectedDistance, selectedSpace, lat, lon, spacesWithin300.length);
+                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300.length);
                     document.getElementById('loading').classList.remove('active');
                     
                     console.log('=== ANALISI COMPLETATA ===');
