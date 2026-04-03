@@ -442,31 +442,44 @@
     .space-details {
       margin-top: 2rem;
       padding: 1.5rem;
-      background: white;
+      background: #f0fdf4;
       border-radius: 8px;
       border-left: 4px solid #10b981;
     }
     
     .space-details h3 {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 700;
       color: #6b7280;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    
+    .space-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #10b981;
+      margin-bottom: 0.75rem;
+    }
+    
+    .space-divider {
+      width: 50%;
+      height: 2px;
+      background: #10b981;
       margin-bottom: 1rem;
     }
     
     .space-detail-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-      font-size: 16px;
-      color: #1a1a1a;
+      display: block;
+      padding: 0.25rem 0;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
     }
     
-    .space-detail-item .icon {
-      font-size: 18px;
+    .space-detail-label {
+      font-weight: 600;
     }
     
     .share-button {
@@ -1177,21 +1190,16 @@
           
           <div class="space-details" id="spaceDetails">
             <h3 id="spaceDetailsTitle"></h3>
+            <div class="space-name" id="spaceName"></div>
+            <div class="space-divider"></div>
             <div class="space-detail-item">
-              <span class="icon">🌳</span>
-              <span id="spaceName"></span>
+              <span class="space-detail-label">Distanza:</span> <span id="spaceDistance"></span>
             </div>
             <div class="space-detail-item">
-              <span class="icon">📏</span>
-              <span id="spaceDistance"></span>
+              <span class="space-detail-label">Tempo a piedi:</span> <span id="spaceTime"></span>
             </div>
             <div class="space-detail-item">
-              <span class="icon">⏱️</span>
-              <span id="spaceTime"></span>
-            </div>
-            <div class="space-detail-item">
-              <span class="icon">📐</span>
-              <span id="spaceArea"></span>
+              <span class="space-detail-label">Superficie:</span> <span id="spaceArea"></span>
             </div>
           </div>
           
@@ -1627,9 +1635,9 @@
             // Calculate walking time (assuming 4.5 km/h = 75 m/min)
             const walkingMinutes = Math.round(distanceMeters / 75);
             
-            // Format area (convert from sqm to km²)
-            const areaKm2 = props.area_sqm / 1000000;
-            const areaFormatted = areaKm2 < 0.01 ? areaKm2.toFixed(3) : areaKm2.toFixed(2);
+            // Format area (in sqm with thousand separator)
+            const areaSqm = Math.round(props.area_sqm);
+            const areaFormatted = areaSqm.toLocaleString('it-IT');
             
             // Determine display name
             const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
@@ -1644,23 +1652,23 @@
                 resultTitle.textContent = '✅ Sei fortunat*!';
                 
                 if (spacesWithin300Count > 1) {
-                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città. Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
+                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
                     spaceDetailsTitle.textContent = 'Spazio più grande nelle vicinanze';
                 } else {
-                    resultDescription.textContent = 'Hai un accesso facilitato alla natura in città. Vivi a meno di 300 metri da uno spazio verde pubblico.';
+                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 metri da uno spazio verde pubblico.`;
                     spaceDetailsTitle.textContent = 'Spazio verde più vicino';
                 }
             } else {
                 resultTitle.textContent = '❌ Sei svantaggiat*!';
-                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città. Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
+                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città.<br>Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
                 spaceDetailsTitle.textContent = 'Spazio verde più vicino';
             }
             
             // Populate space details
             spaceName.textContent = displayName;
             spaceDistance.textContent = `${distanceMeters} metri`;
-            spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'} a piedi`;
-            spaceArea.textContent = `${areaFormatted} km²`;
+            spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'}`;
+            spaceArea.textContent = `${areaFormatted} m²`;
             
             // Show section
             section300.classList.add('visible');
