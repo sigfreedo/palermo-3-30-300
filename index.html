@@ -442,9 +442,9 @@
     .space-details {
       margin-top: 2rem;
       padding: 1.5rem;
-      background: #f0fdf4;
+      background: #ffffff;
       border-radius: 8px;
-      border-left: 4px solid #10b981;
+      border: 2px solid #10b981;
     }
     
     .space-details h3 {
@@ -530,22 +530,22 @@
     .rule-section ul {
       list-style: none;
       padding: 0;
-      margin: 1rem 0;
+      margin: 0.75rem 0;
     }
     
     .rule-section ul li {
-      padding: 0.5rem 0;
+      padding: 0.35rem 0;
       padding-left: 1.5rem;
       position: relative;
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.6;
       color: #374151;
     }
     
     .rule-section ul li:before {
       content: "•";
       position: absolute;
-      left: 0;
+      left: 0.5rem;
       color: #10b981;
       font-weight: bold;
       font-size: 20px;
@@ -1209,15 +1209,14 @@
         <!-- RIGHT COLUMN: FIXED RULE EXPLANATION -->
         <div class="rule-column">
           <div class="rule-section">
-            <h3>📏 La regola 3-30-300</h3>
-            <p style="font-weight: 600; margin-bottom: 1rem;">🌳 Cos'è la regola 3-30-300?</p>
-            <p>Un framework urbanistico per città più verdi e vivibili:</p>
+            <h3>🌳 La regola 3-30-300</h3>
+            <p>Si tratta di un framework urbanistico sviluppato per progettare città più verdi e vivibili, basato su tre parametri chiave:</p>
             <ul>
               <li>3 alberi visibili da ogni abitazione</li>
               <li>30% di copertura arborea in ogni quartiere</li>
               <li>300 metri di distanza massima da spazi verdi pubblici</li>
             </ul>
-            <p style="margin-top: 1rem;">In questa analisi verifichiamo il terzo parametro: <strong>la regola del 300</strong>.</p>
+            <p style="margin-top: 1rem;">In questa sezione analizziamo il terzo parametro: <strong>la regola del 300</strong>.</p>
           </div>
           
           <div class="rule-section">
@@ -1227,18 +1226,13 @@
           
           <div class="rule-section">
             <h3>💚 Perché è importante</h3>
-            <ul>
-              <li>Salute fisica: incoraggia movimento quotidiano</li>
-              <li>Salute mentale: riduce stress e ansia</li>
-              <li>Socialità: spazi di incontro comunitari</li>
-              <li>Clima: mitiga isole di calore urbano</li>
-            </ul>
+            <p>La vicinanza agli spazi verdi migliora la salute fisica incoraggiando il movimento quotidiano e favorisce il benessere mentale riducendo stress e ansia. Gli spazi verdi sono inoltre luoghi di incontro e socialità per la comunità e contribuiscono a mitigare le isole di calore urbano.</p>
           </div>
           
           <div class="rule-section">
             <h3>⏱️ Cosa significa 300 metri</h3>
             <ul>
-              <li>Circa 3-4 minuti a piedi</li>
+              <li>Circa 4 minuti a piedi</li>
               <li>Una passeggiata quotidiana accessibile</li>
               <li>Distanza percorribile anche da bambini e anziani</li>
             </ul>
@@ -1660,7 +1654,7 @@
                 }
             } else {
                 resultTitle.textContent = '❌ Sei svantaggiat*!';
-                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città.<br>Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
+                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città.<br>Vivi a più di 300 metri da uno spazio verde pubblico.<br>Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
                 spaceDetailsTitle.textContent = 'Spazio verde più vicino';
             }
             
