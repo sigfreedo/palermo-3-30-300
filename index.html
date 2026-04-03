@@ -1678,7 +1678,7 @@
             
             const canvas = document.createElement('canvas');
             canvas.width = 800;
-            canvas.height = 700;
+            canvas.height = 800;
             canvas.style.width = '100%';
             canvas.style.height = 'auto';
             canvas.style.borderRadius = '8px';
@@ -1688,7 +1688,7 @@
             
             const ctx = canvas.getContext('2d');
             const centerX = 400;
-            const centerY = 350; // Centrato: 350±330 = 20 a 680 (dentro i 700!)
+            const centerY = 400; // Centrato in canvas quadrato
             const scale = 1.1; // Scala aumentata - cerchio 300m = 330px
             
             console.log('=== MAPPA ===');
@@ -1696,12 +1696,16 @@
             console.log('Distanza:', Math.round(distance), 'm');
             console.log('Totale spazi:', allSpaces.length);
             
+            // ASSICURATI che targetSpace sia nell'array (potrebbe essere oltre 300m!)
+            const hasTarget = allSpaces.some(item => item.feature === targetSpace);
+            const spacesToMap = hasTarget ? allSpaces : [...allSpaces, { feature: targetSpace, distance: distance }];
+            
             // Calcola posizioni usando DISTANZA RADIALE
-            const spacePositions = allSpaces
+            const spacePositions = spacesToMap
                 .filter(item => item && item.feature && item.feature.geometry)
                 .map(item => {
                     const space = item.feature;
-                    const dist = item.distance;
+                    const dist = item.distance; // Distanza REALE
                     
                     // Ottieni coordinate per calcolare ANGOLO
                     let spaceLat, spaceLon;
@@ -1718,15 +1722,23 @@
                     const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
                     const angle = Math.atan2(-latDiff, lonDiff);
                     
-                    // Posiziona usando DISTANZA RADIALE
-                    const x = centerX + (dist * scale * Math.cos(angle));
-                    const y = centerY + (dist * scale * Math.sin(angle));
+                    // DISTANZA DI VISUALIZZAZIONE: max 400m per spazi oltre 300m
+                    const displayDist = dist > 300 ? 400 : dist;
                     
-                    return { space, x, y, dist };
+                    // Posiziona usando DISTANZA DI VISUALIZZAZIONE
+                    const x = centerX + (displayDist * scale * Math.cos(angle));
+                    const y = centerY + (displayDist * scale * Math.sin(angle));
+                    
+                    return { space, x, y, dist }; // dist = distanza REALE per tooltip
                 });
             
             // Trova spazio principale
             const mainSpace = spacePositions.find(p => p.space === targetSpace);
+            
+            if (!mainSpace) {
+                console.error('❌ Spazio principale non trovato in spacePositions!');
+                return;
+            }
             
             console.log('Spazio principale - X:', Math.round(mainSpace.x), 'Y:', Math.round(mainSpace.y), 'Dist:', Math.round(mainSpace.dist), 'm');
             console.log('Cerchio 300m radius:', Math.round(300 * scale), 'px');
@@ -1766,9 +1778,10 @@
                 
                 // FASE 1: DISEGNA TRATTEGGIO (solo se hover)
                 if (hoveredSpace) {
-                    ctx.strokeStyle = '#34d399';
+                    const isDisadvantaged = hoveredSpace.dist > 300;
+                    ctx.strokeStyle = isDisadvantaged ? '#9ca3af' : '#34d399'; // Grigio se oltre 300m
                     ctx.lineWidth = 4;
-                    ctx.shadowColor = '#10b981';
+                    ctx.shadowColor = isDisadvantaged ? '#6b7280' : '#10b981';
                     ctx.shadowBlur = 10;
                     ctx.setLineDash([4, 4]);
                     ctx.beginPath();
@@ -1783,6 +1796,7 @@
                 spacePositions.forEach(({ space, x, y, dist }) => {
                     const isMain = space === targetSpace;
                     const isHovered = hoveredSpace && hoveredSpace.space === space;
+                    const isDisadvantaged = dist > 300;
                     
                     // Dimensione pallino
                     let radius = 10;
@@ -1795,17 +1809,21 @@
                         else radius = 18;
                     }
                     
-                    // Highlight se hover (alone più luminoso o più grande)
+                    // Highlight se hover
                     if (isHovered) {
-                        // Alone luminoso
-                        ctx.fillStyle = isMain ? 'rgba(16, 185, 129, 0.3)' : 'rgba(52, 211, 153, 0.3)';
+                        const haloColor = isDisadvantaged ? 'rgba(156, 163, 175, 0.3)' : (isMain ? 'rgba(16, 185, 129, 0.3)' : 'rgba(52, 211, 153, 0.3)');
+                        ctx.fillStyle = haloColor;
                         ctx.beginPath();
                         ctx.arc(x, y, radius + 6, 0, Math.PI * 2);
                         ctx.fill();
                     }
                     
-                    // Pallino normale
-                    ctx.fillStyle = isMain ? '#10b981' : '#34d399';
+                    // Pallino - GRIGIO se oltre 300m
+                    if (isDisadvantaged) {
+                        ctx.fillStyle = '#9ca3af'; // Grigio
+                    } else {
+                        ctx.fillStyle = isMain ? '#10b981' : '#34d399'; // Verde
+                    }
                     ctx.beginPath();
                     ctx.arc(x, y, radius, 0, Math.PI * 2);
                     ctx.fill();
