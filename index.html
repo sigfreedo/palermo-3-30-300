@@ -367,7 +367,6 @@
     
     #map {
       width: 100%;
-      height: 800px;
       border-radius: 8px;
       margin-top: 1.5rem;
       border: 2px solid #e5e7eb;
@@ -1171,7 +1170,7 @@
         <!-- LEFT COLUMN: DYNAMIC RESULT -->
         <div class="result-column" id="resultColumn">
           <h2 id="resultTitle"></h2>
-          <p class="subtitle" id="resultSubtitle"></p>
+          <p class="subtitle" id="resultSubtitle" style="display: none;"></p>
           <p class="description" id="resultDescription"></p>
           
           <div id="map"></div>
@@ -1643,19 +1642,17 @@
             // Populate content
             if (isFortunato) {
                 resultTitle.textContent = '✅ Sei fortunat*!';
-                resultSubtitle.textContent = 'Hai un accesso facilitato alla natura in città.';
                 
                 if (spacesWithin300Count > 1) {
-                    resultDescription.innerHTML = `Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
+                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città. Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
                     spaceDetailsTitle.textContent = 'Spazio più grande nelle vicinanze';
                 } else {
-                    resultDescription.textContent = 'Vivi a meno di 300 metri da uno spazio verde pubblico.';
+                    resultDescription.textContent = 'Hai un accesso facilitato alla natura in città. Vivi a meno di 300 metri da uno spazio verde pubblico.';
                     spaceDetailsTitle.textContent = 'Spazio verde più vicino';
                 }
             } else {
                 resultTitle.textContent = '❌ Sei svantaggiat*!';
-                resultSubtitle.textContent = 'Purtroppo non hai accesso immediato alla natura in città.';
-                resultDescription.innerHTML = `Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
+                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città. Vivi a più di 300 metri da uno spazio verde pubblico. Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
                 spaceDetailsTitle.textContent = 'Spazio verde più vicino';
             }
             
@@ -1875,20 +1872,24 @@
                         else if (sizeLabel.toLowerCase().includes('piccolo')) radius = 12;
                     }
                     
+                    // TOOLTIP A SINISTRA se pin a destra del centro, vice versa
+                    const isRight = x > centerX;
+                    const boxX = isRight ? (x - radius - boxWidth - 12) : (x + radius + 12);
+                    
                     // Box bianco
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-                    ctx.fillRect(x + radius + 12, y - 30, boxWidth, boxHeight);
+                    ctx.fillRect(boxX, y - 30, boxWidth, boxHeight);
                     
                     // Nome
                     ctx.font = '700 18px Inter, sans-serif';
                     ctx.fillStyle = '#10b981';
                     ctx.textAlign = 'left';
-                    ctx.fillText(displayName, x + radius + 20, y - 8);
+                    ctx.fillText(displayName, boxX + 8, y - 8);
                     
                     // Distanza
                     ctx.font = '600 16px Inter, sans-serif';
                     ctx.fillStyle = '#6b7280';
-                    ctx.fillText(distText, x + radius + 20, y + 14);
+                    ctx.fillText(distText, boxX + 8, y + 14);
                 }
                 
                 // Utente (sempre in cima)
