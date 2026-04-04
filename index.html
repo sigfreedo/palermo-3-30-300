@@ -493,9 +493,7 @@
       background: #1a1a1a;
       color: #ffffff;
       padding: 6rem 0;
-      min-height: 100vh;
       display: none;
-      margin-top: 4rem;
     }
     
     .dashboard-section.visible {
@@ -580,7 +578,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
-      margin-top: 3rem;
+      margin-bottom: 3rem;
     }
     
     .dashboard-column {
@@ -658,27 +656,56 @@
     }
     
     .quartiere-focus {
-      padding: 1.5rem;
-      border-radius: 8px;
-      border: 2px solid #34d399;
+      padding: 0;
     }
     
-    .quartiere-focus h4 {
-      font-size: 16px;
+    .quartiere-focus h3 {
+      font-size: 18px;
       font-weight: 700;
       color: #34d399;
       margin-bottom: 1rem;
     }
     
-    .quartiere-focus p {
-      font-size: 14px;
-      color: #e5e7eb;
-      margin-bottom: 0.5rem;
-      line-height: 1.6;
+    .quartiere-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #34d399;
+      margin-bottom: 1.5rem;
     }
     
-    .quartiere-focus .stat-row {
-      padding: 0.5rem 0;
+    .quartiere-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .quartiere-stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 14px;
+    }
+    
+    .quartiere-stat-label {
+      color: #9ca3af;
+    }
+    
+    .quartiere-stat-value {
+      font-weight: 700;
+      color: #34d399;
+      font-size: 16px;
+    }
+    
+    .quartiere-narrative {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+    
+    .map-full-width {
+      width: 100%;
+      margin-top: 2rem;
     }
     
     .map-container {
@@ -1477,7 +1504,7 @@
         </div>
         
         <div class="dashboard-grid">
-          <!-- LEFT COLUMN -->
+          <!-- LEFT COLUMN: Stats + Chart -->
           <div class="dashboard-column">
             <!-- Statistics Card -->
             <div class="dashboard-card">
@@ -1518,24 +1545,26 @@
                 <button class="chart-btn" onclick="switchChartMetric('area')">Area (km²)</button>
                 <button class="chart-btn" onclick="switchChartMetric('pct')">% Area</button>
               </div>
-              <canvas id="distributionChart"></canvas>
+              <canvas id="distributionChart" style="max-height: 300px;"></canvas>
             </div>
-            
-            <!-- Quartiere Focus -->
+          </div>
+          
+          <!-- RIGHT COLUMN: Il mio quartiere -->
+          <div class="dashboard-column">
             <div class="dashboard-card">
-              <h3>Il tuo quartiere</h3>
+              <h3>Il mio quartiere</h3>
               <div class="quartiere-focus" id="quartiereFocus">
                 <p style="color: #9ca3af; font-style: italic;">Completa la sezione precedente per vedere le statistiche del tuo quartiere</p>
               </div>
             </div>
           </div>
-          
-          <!-- RIGHT COLUMN -->
-          <div class="dashboard-column">
-            <div class="dashboard-card">
-              <h3>Mappa quartieri</h3>
-              <div class="map-container" id="quartieriMap"></div>
-            </div>
+        </div>
+        
+        <!-- FULL WIDTH MAP -->
+        <div class="map-full-width">
+          <div class="dashboard-card">
+            <h3>Mappa quartieri</h3>
+            <div class="map-container" id="quartieriMap"></div>
           </div>
         </div>
       </div>
@@ -1914,6 +1943,17 @@
             try {
                 const userPoint = turf.point([lon, lat]);
                 
+                // Calculate city average coverage
+                const cityAverage = dashboardStats[currentDataset].coverage_pct;
+                
+                // Create ranking of quartieri by coverage
+                const ranking = quartieriData.features
+                    .map(f => ({
+                        name: f.properties.quartiere,
+                        coverage: f.properties.pct_popolazione_coperta
+                    }))
+                    .sort((a, b) => b.coverage - a.coverage);
+                
                 for (const feature of quartieriData.features) {
                     const polygon = turf.polygon(feature.geometry.coordinates);
                     
@@ -1922,17 +1962,45 @@
                         const quartiereName = props.quartiere;
                         const popolazione = props.popolazione;
                         const coverage = props.pct_popolazione_coperta;
+                        const popCovered = Math.round((coverage / 100) * popolazione);
                         
+                        // Calculate ranking position
+                        const position = ranking.findIndex(q => q.name === quartiereName) + 1;
+                        const total = ranking.length;
+                        
+                        // Determine valutazione
+                        let valutazione;
+                        if (coverage < 30) valutazione = "scarsa";
+                        else if (coverage < 50) valutazione = "insufficiente";
+                        else if (coverage < 60) valutazione = "sufficiente";
+                        else if (coverage < 70) valutazione = "discreta";
+                        else if (coverage < 80) valutazione = "buona";
+                        else valutazione = "ottima";
+                        
+                        // Determine comparazione
+                        const comparazione = coverage > cityAverage ? "superiore" : "inferiore";
+                        
+                        // Generate HTML
                         const focusHtml = `
-                            <h4>${quartiereName}</h4>
-                            <div class="stat-row">
-                                <span class="stat-label">Popolazione</span>
-                                <span class="stat-value" style="font-size: 18px;">${popolazione.toLocaleString('it-IT')}</span>
+                            <div class="quartiere-name">${quartiereName}</div>
+                            
+                            <div class="quartiere-stats">
+                                <div class="quartiere-stat-item">
+                                    <span class="quartiere-stat-label">Spazi verdi</span>
+                                    <span class="quartiere-stat-value">-</span>
+                                </div>
+                                <div class="quartiere-stat-item">
+                                    <span class="quartiere-stat-label">Popolazione</span>
+                                    <span class="quartiere-stat-value">${popolazione.toLocaleString('it-IT')}</span>
+                                </div>
+                                <div class="quartiere-stat-item">
+                                    <span class="quartiere-stat-label">Persone con accesso al verde</span>
+                                    <span class="quartiere-stat-value">${popCovered.toLocaleString('it-IT')} (${coverage.toFixed(1)}%)</span>
+                                </div>
                             </div>
-                            <div class="stat-separator"></div>
-                            <div class="stat-row">
-                                <span class="stat-label">Copertura popolazione</span>
-                                <span class="stat-value" style="font-size: 18px;">${coverage.toFixed(1)}%</span>
+                            
+                            <div class="quartiere-narrative">
+                                Il tuo quartiere, <strong>${quartiereName}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo (${cityAverage.toFixed(1)}%). Complessivamente, si colloca al <strong>${position}° posto</strong> (su ${total}) tra i quartieri della città.
                             </div>
                         `;
                         
