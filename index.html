@@ -831,83 +831,33 @@
     }
 
     /* IL MIO QUARTIERE SECTION */
-    .quartiere-section {
-      background: #000000;
-      color: white;
-      padding: 3rem 2rem;
-      margin-top: 0;
-    }
     
-    .quartiere-result {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .quartiere-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #10b981;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .stat-item {
-      text-align: center;
-    }
-    
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #10b981;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    .separator {
-      height: 2px;
-      background: #10b981;
-      width: 50%;
-      margin: 2rem auto;
-    }
-    
-    .narrative-text {
-      line-height: 1.8;
-      color: #e5e7eb;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-    
-    /* DASHBOARD PALERMO */
+    /* DASHBOARD PALERMO - FULL WIDTH CON PARALLASSE */
     .palermo-dashboard {
       background: #000000;
+      background-attachment: fixed;
+      background-size: cover;
       color: #ffffff;
-      padding: 4rem 0;
+      padding: 6rem 0;
+      margin: 0;
+      width: 100vw;
       position: relative;
-      overflow: hidden;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
     }
     
     .palermo-dashboard::before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(180deg, rgba(16,185,129,0.03) 0%, rgba(0,0,0,0) 100%);
+      background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, rgba(0,0,0,0.3) 100%);
       pointer-events: none;
+      z-index: 0;
     }
     
     .dashboard-container {
@@ -1403,16 +1353,6 @@
     </div>
     
     <!-- IL MIO QUARTIERE SECTION -->
-    <div class="quartiere-section" id="quartiereSection" style="display: none;">
-      <div class="container">
-        <div class="quartiere-result">
-          <div class="quartiere-name" id="quartiereName"></div>
-          <div class="stats-grid" id="quartiereStats"></div>
-          <div class="separator"></div>
-          <div class="narrative-text" id="quartiereNarrative"></div>
-        </div>
-      </div>
-    </div>
     
     <!-- SECTION 300 -->
     <div class="section-300" id="section300">
@@ -1688,65 +1628,6 @@
         };
         
         // UPDATE QUARTIERE FOCUS
-        function updateQuartiereFocus(lat, lon) {
-            const quartiereInfo = findQuartiere(lat, lon);
-            if (!quartiereInfo) {
-                document.getElementById('quartiereSection').style.display = 'none';
-                return;
-            }
-            
-            const dataset = currentDataset || 'osm';
-            const stats = dashboardStats[dataset];
-            
-            // Mostra sezione
-            document.getElementById('quartiereSection').style.display = 'block';
-            
-            // Nome quartiere
-            document.getElementById('quartiereName').textContent = quartiereInfo.quartiere;
-            
-            // Statistiche
-            const statsHtml = `
-                <div class="stat-item">
-                    <div class="stat-value">${stats.spaces}</div>
-                    <div class="stat-label">Spazi verdi</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${quartiereInfo.popolazione?.toLocaleString() || 'N/A'}</div>
-                    <div class="stat-label">Popolazione</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${quartiereInfo.pct_popolazione_coperta || 0}%</div>
-                    <div class="stat-label">% accesso</div>
-                </div>
-            `;
-            document.getElementById('quartiereStats').innerHTML = statsHtml;
-            
-            // Narrativa
-            const pct = quartiereInfo.pct_popolazione_coperta || 0;
-            const cityAvg = stats.coverage_pct;
-            let valutazione, confronto;
-            
-            if (pct >= cityAvg + 10) {
-                valutazione = "eccellente";
-                confronto = "significativamente sopra";
-            } else if (pct >= cityAvg) {
-                valutazione = "buona";
-                confronto = "in linea con";
-            } else if (pct >= cityAvg - 10) {
-                valutazione = "nella media";
-                confronto = "leggermente sotto";
-            } else {
-                valutazione = "carente";
-                confronto = "significativamente sotto";
-            }
-            
-            const narrative = `Il quartiere ${quartiereInfo.quartiere} ha una situazione ${valutazione} per quanto riguarda l'accesso agli spazi verdi, con il ${pct}% della popolazione che vive entro 300 metri da un'area verde. Questo dato è ${confronto} la media cittadina del ${cityAvg.toFixed(1)}%.`;
-            
-            document.getElementById('quartiereNarrative').textContent = narrative;
-            
-            // Scroll alla sezione
-            document.getElementById('quartiereSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
         
         loadDataset('osm');
         loadQuartieri();
@@ -2368,9 +2249,6 @@
             }
 
             console.log('✓ Dataset caricato:', greenSpaces.features.length, 'spazi');
-            
-            // Aggiorna sezione quartiere
-            updateQuartiereFocus(lat, lon);
 
             document.getElementById('loading').classList.add('active');
             document.getElementById('result').style.display = 'none';
