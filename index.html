@@ -835,7 +835,7 @@
     .dataset-toggle {
       display: flex;
       justify-content: center;
-      margin: 2.5rem 0 0 0;
+      margin: 3rem 0 2rem 0;
     }
     
     .toggle-button {
@@ -1404,12 +1404,13 @@
             <!-- Toggle Dataset -->
             <div class="dataset-toggle">
                 <div class="toggle-button">
-                    <button class="toggle-option active" onclick="switchDataset('osm')">OpenStreetMap</button>
-                    <button class="toggle-option" onclick="switchDataset('copernicus')">Copernicus</button>
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDataset('copernicus')">Copernicus</button>
                 </div>
             </div>
             
             <!-- Dashboard Boxes -->
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             <div class="dashboard-grid">
                 <!-- Box 1: Statistiche Generali -->
                 <div class="dashboard-box">
@@ -1450,6 +1451,7 @@
                     <h3>Il mio quartiere</h3>
                     <p style="color: #9ca3af; font-size: 14px;">Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.</p>
                 </div>
+            </div>
             </div>
         </div>
     </section>
@@ -2549,10 +2551,10 @@
       
       currentDataset = dataset;
       
-      // Update toggle buttons
+      // Update toggle buttons using data-dataset attribute
       document.querySelectorAll('.toggle-option').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.textContent.toLowerCase().includes(dataset)) {
+        if (btn.getAttribute('data-dataset') === dataset) {
           btn.classList.add('active');
         }
       });
