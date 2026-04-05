@@ -1404,8 +1404,8 @@
             <!-- Toggle Dataset -->
             <div class="dataset-toggle">
                 <div class="toggle-button">
-                    <button class="toggle-option active" data-dataset="osm" onclick="switchDataset('osm')">OpenStreetMap</button>
-                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDataset('copernicus')">Copernicus</button>
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')">Copernicus</button>
                 </div>
             </div>
             
@@ -2546,7 +2546,7 @@
       }
     };
     
-    function switchDataset(dataset) {
+    function switchDashboardDataset(dataset) {
       if (currentDataset === dataset) return;
       
       currentDataset = dataset;
