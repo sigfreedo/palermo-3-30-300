@@ -2583,73 +2583,81 @@
       }
     };
     
-    // Dati quartieri (da sostituire con dati reali)
-    window.quartieriData = {
-      osm: {
-        'Centro Storico': { spazi: 8, popolazione: 25000, copertura: 45.2 },
-        'Politeama': { spazi: 5, popolazione: 18000, copertura: 52.1 },
-        'Libertà': { spazi: 7, popolazione: 22000, copertura: 48.3 },
-        'Malaspina-Palagonia': { spazi: 4, popolazione: 15000, copertura: 35.7 },
-        'Montegrappa': { spazi: 6, popolazione: 20000, copertura: 41.8 },
-        'Zisa': { spazi: 9, popolazione: 28000, copertura: 38.9 },
-        'Noce': { spazi: 5, popolazione: 19000, copertura: 42.5 },
-        'Uditore-Passo di Rigano': { spazi: 12, popolazione: 32000, copertura: 55.4 },
-        'Borgo Nuovo': { spazi: 8, popolazione: 24000, copertura: 44.6 },
-        'Cruillas-San Giovanni Apostolo': { spazi: 10, popolazione: 26000, copertura: 50.2 },
-        'CEP-San Giovanni Apostolo': { spazi: 7, popolazione: 21000, copertura: 39.8 },
-        'Partanna Mondello': { spazi: 15, popolazione: 30000, copertura: 68.3 },
-        'Tommaso Natale-Sferracavallo': { spazi: 11, popolazione: 25000, copertura: 58.7 },
-        'Resuttana-San Lorenzo': { spazi: 6, popolazione: 23000, copertura: 36.4 },
-        'Villagrazia-Falsomiele': { spazi: 8, popolazione: 27000, copertura: 43.1 },
-        'Strasburgo': { spazi: 4, popolazione: 16000, copertura: 33.2 },
-        'La Malfa-Palagonia': { spazi: 5, popolazione: 17000, copertura: 37.5 },
-        'Cuba': { spazi: 7, popolazione: 21000, copertura: 45.9 },
-        'Calatafimi-Mezzomonreale': { spazi: 9, popolazione: 24000, copertura: 47.8 },
-        'Altarello': { spazi: 6, popolazione: 19000, copertura: 40.3 },
-        'Boccadifalco': { spazi: 10, popolazione: 22000, copertura: 52.6 },
-        'Mezzomonreale': { spazi: 8, popolazione: 20000, copertura: 46.2 },
-        'Settecannoli': { spazi: 5, popolazione: 18000, copertura: 34.8 },
-        'Brancaccio-Ciaculli': { spazi: 11, popolazione: 29000, copertura: 41.2 },
-        'Oreto-Stazione': { spazi: 6, popolazione: 20000, copertura: 38.5 }
-      },
-      copernicus: {
-        'Centro Storico': { spazi: 12, popolazione: 25000, copertura: 58.3 },
-        'Politeama': { spazi: 8, popolazione: 18000, copertura: 64.7 },
-        'Libertà': { spazi: 10, popolazione: 22000, copertura: 61.2 },
-        'Malaspina-Palagonia': { spazi: 6, popolazione: 15000, copertura: 42.8 },
-        'Montegrappa': { spazi: 9, popolazione: 20000, copertura: 52.4 },
-        'Zisa': { spazi: 13, popolazione: 28000, copertura: 47.6 },
-        'Noce': { spazi: 7, popolazione: 19000, copertura: 51.9 },
-        'Uditore-Passo di Rigano': { spazi: 18, popolazione: 32000, copertura: 70.2 },
-        'Borgo Nuovo': { spazi: 11, popolazione: 24000, copertura: 56.3 },
-        'Cruillas-San Giovanni Apostolo': { spazi: 14, popolazione: 26000, copertura: 63.5 },
-        'CEP-San Giovanni Apostolo': { spazi: 10, popolazione: 21000, copertura: 48.7 },
-        'Partanna Mondello': { spazi: 22, popolazione: 30000, copertura: 82.1 },
-        'Tommaso Natale-Sferracavallo': { spazi: 16, popolazione: 25000, copertura: 72.4 },
-        'Resuttana-San Lorenzo': { spazi: 8, popolazione: 23000, copertura: 44.9 },
-        'Villagrazia-Falsomiele': { spazi: 12, popolazione: 27000, copertura: 54.8 },
-        'Strasburgo': { spazi: 6, popolazione: 16000, copertura: 40.5 },
-        'La Malfa-Palagonia': { spazi: 7, popolazione: 17000, copertura: 46.2 },
-        'Cuba': { spazi: 10, popolazione: 21000, copertura: 58.1 },
-        'Calatafimi-Mezzomonreale': { spazi: 13, popolazione: 24000, copertura: 60.4 },
-        'Altarello': { spazi: 9, popolazione: 19000, copertura: 50.7 },
-        'Boccadifalco': { spazi: 15, popolazione: 22000, copertura: 66.8 },
-        'Mezzomonreale': { spazi: 11, popolazione: 20000, copertura: 58.9 },
-        'Settecannoli': { spazi: 7, popolazione: 18000, copertura: 42.1 },
-        'Brancaccio-Ciaculli': { spazi: 16, popolazione: 29000, copertura: 52.3 },
-        'Oreto-Stazione': { spazi: 9, popolazione: 20000, copertura: 47.8 }
+    // Carica dati quartieri da file JSON esterno
+    window.quartieriData = null;
+    window.quartieriBoundaries = null;
+    
+    // Carica dati in modo asincrono
+    fetch('quartieri_data.json')
+      .then(response => response.json())
+      .then(data => {
+        window.quartieriData = {
+          osm: data.osm,
+          copernicus: data.copernicus
+        };
+        console.log('✓ Dati quartieri caricati:', Object.keys(data.osm).length, 'quartieri');
+      })
+      .catch(error => {
+        console.error('Errore caricamento dati quartieri:', error);
+        // Fallback: usa dati vuoti
+        window.quartieriData = { osm: {}, copernicus: {} };
+      });
+    
+    // Point-in-polygon check usando ray casting algorithm
+    window.pointInPolygon = function(point, polygon) {
+      const [x, y] = point;
+      let inside = false;
+      
+      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const [xi, yi] = polygon[i];
+        const [xj, yj] = polygon[j];
+        
+        const intersect = ((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        
+        if (intersect) inside = !inside;
       }
+      
+      return inside;
     };
     
-    // Funzione per determinare quartiere da coordinate (placeholder - da implementare con dati reali)
+    // Funzione per determinare quartiere da coordinate (semplificata)
     window.getQuartiereFromCoords = function(lat, lon) {
-      // PLACEHOLDER: ritorna un quartiere di esempio
-      // Da sostituire con reverse geocoding reale o controllo confini GeoJSON
-      return 'Centro Storico';
+      // Boundaries semplificati per quartieri principali
+      const bounds = {
+        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
+        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
+        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
+      };
+      
+      const point = [lon, lat];
+      
+      // Check quartieri definiti
+      for (const [nome, ring] of Object.entries(bounds)) {
+        if (window.pointInPolygon(point, ring)) {
+          return nome;
+        }
+      }
+      
+      // Fallback geografico approssimativo
+      if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
+      if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
+      if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
+      if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
+      
+      // Default
+      return "Politeama";
     };
     
     // Funzione per popolare il box quartiere
     window.updateQuartiereBox = function(nomeQuartiere) {
+      // Controlla se i dati sono stati caricati
+      if (!window.quartieriData) {
+        console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
+        setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
+        return;
+      }
+      
       const dataset = window.currentDataset || 'osm';
       const dati = window.quartieriData[dataset][nomeQuartiere];
       
