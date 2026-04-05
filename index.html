@@ -1449,7 +1449,38 @@
                 <!-- Box 2: Il Mio Quartiere -->
                 <div class="dashboard-box">
                     <h3>Il mio quartiere</h3>
-                    <p style="color: #9ca3af; font-size: 14px;">Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.</p>
+                    
+                    <div id="quartiere-placeholder" style="color: #9ca3af; font-size: 14px;">
+                        Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.
+                    </div>
+                    
+                    <div id="quartiere-stats" style="display: none;">
+                        <div class="stat-item">
+                            <div class="stat-label">Spazi verdi</div>
+                            <div>
+                                <span class="stat-value" id="quartiere-spazi">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-label">Popolazione</div>
+                            <div>
+                                <span class="stat-value" id="quartiere-popolazione">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-label">Persone con accesso al verde</div>
+                            <div>
+                                <span class="stat-value" id="quartiere-copertura">-</span>
+                                <span class="stat-unit">%</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #4b5563;">
+                            <p id="quartiere-descrizione" style="color: #e5e7eb; font-size: 15px; line-height: 1.7;"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>
@@ -2225,6 +2256,12 @@
                     setTimeout(() => {
                         const dashboard = document.getElementById('dashboardPalermo');
                         dashboard.style.display = 'block';
+                        
+                        // Determina e mostra quartiere
+                        const nomeQuartiere = window.getQuartiereFromCoords(lat, lon);
+                        window.currentQuartiere = nomeQuartiere;
+                        window.updateQuartiereBox(nomeQuartiere);
+                        
                         setTimeout(() => {
                             dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }, 300);
@@ -2536,14 +2573,127 @@
         spazi: '118',
         percentuale: '38.76',
         fortunati: '246,293',
-        svantaggiati: '388,707'
+        svantaggiati: '389,146'
       },
       copernicus: {
         spazi: '181',
         percentuale: '48.50',
         fortunati: '308,213',
-        svantaggiati: '326,787'
+        svantaggiati: '327,226'
       }
+    };
+    
+    // Dati quartieri (da sostituire con dati reali)
+    window.quartieriData = {
+      osm: {
+        'Centro Storico': { spazi: 8, popolazione: 25000, copertura: 45.2 },
+        'Politeama': { spazi: 5, popolazione: 18000, copertura: 52.1 },
+        'Libertà': { spazi: 7, popolazione: 22000, copertura: 48.3 },
+        'Malaspina-Palagonia': { spazi: 4, popolazione: 15000, copertura: 35.7 },
+        'Montegrappa': { spazi: 6, popolazione: 20000, copertura: 41.8 },
+        'Zisa': { spazi: 9, popolazione: 28000, copertura: 38.9 },
+        'Noce': { spazi: 5, popolazione: 19000, copertura: 42.5 },
+        'Uditore-Passo di Rigano': { spazi: 12, popolazione: 32000, copertura: 55.4 },
+        'Borgo Nuovo': { spazi: 8, popolazione: 24000, copertura: 44.6 },
+        'Cruillas-San Giovanni Apostolo': { spazi: 10, popolazione: 26000, copertura: 50.2 },
+        'CEP-San Giovanni Apostolo': { spazi: 7, popolazione: 21000, copertura: 39.8 },
+        'Partanna Mondello': { spazi: 15, popolazione: 30000, copertura: 68.3 },
+        'Tommaso Natale-Sferracavallo': { spazi: 11, popolazione: 25000, copertura: 58.7 },
+        'Resuttana-San Lorenzo': { spazi: 6, popolazione: 23000, copertura: 36.4 },
+        'Villagrazia-Falsomiele': { spazi: 8, popolazione: 27000, copertura: 43.1 },
+        'Strasburgo': { spazi: 4, popolazione: 16000, copertura: 33.2 },
+        'La Malfa-Palagonia': { spazi: 5, popolazione: 17000, copertura: 37.5 },
+        'Cuba': { spazi: 7, popolazione: 21000, copertura: 45.9 },
+        'Calatafimi-Mezzomonreale': { spazi: 9, popolazione: 24000, copertura: 47.8 },
+        'Altarello': { spazi: 6, popolazione: 19000, copertura: 40.3 },
+        'Boccadifalco': { spazi: 10, popolazione: 22000, copertura: 52.6 },
+        'Mezzomonreale': { spazi: 8, popolazione: 20000, copertura: 46.2 },
+        'Settecannoli': { spazi: 5, popolazione: 18000, copertura: 34.8 },
+        'Brancaccio-Ciaculli': { spazi: 11, popolazione: 29000, copertura: 41.2 },
+        'Oreto-Stazione': { spazi: 6, popolazione: 20000, copertura: 38.5 }
+      },
+      copernicus: {
+        'Centro Storico': { spazi: 12, popolazione: 25000, copertura: 58.3 },
+        'Politeama': { spazi: 8, popolazione: 18000, copertura: 64.7 },
+        'Libertà': { spazi: 10, popolazione: 22000, copertura: 61.2 },
+        'Malaspina-Palagonia': { spazi: 6, popolazione: 15000, copertura: 42.8 },
+        'Montegrappa': { spazi: 9, popolazione: 20000, copertura: 52.4 },
+        'Zisa': { spazi: 13, popolazione: 28000, copertura: 47.6 },
+        'Noce': { spazi: 7, popolazione: 19000, copertura: 51.9 },
+        'Uditore-Passo di Rigano': { spazi: 18, popolazione: 32000, copertura: 70.2 },
+        'Borgo Nuovo': { spazi: 11, popolazione: 24000, copertura: 56.3 },
+        'Cruillas-San Giovanni Apostolo': { spazi: 14, popolazione: 26000, copertura: 63.5 },
+        'CEP-San Giovanni Apostolo': { spazi: 10, popolazione: 21000, copertura: 48.7 },
+        'Partanna Mondello': { spazi: 22, popolazione: 30000, copertura: 82.1 },
+        'Tommaso Natale-Sferracavallo': { spazi: 16, popolazione: 25000, copertura: 72.4 },
+        'Resuttana-San Lorenzo': { spazi: 8, popolazione: 23000, copertura: 44.9 },
+        'Villagrazia-Falsomiele': { spazi: 12, popolazione: 27000, copertura: 54.8 },
+        'Strasburgo': { spazi: 6, popolazione: 16000, copertura: 40.5 },
+        'La Malfa-Palagonia': { spazi: 7, popolazione: 17000, copertura: 46.2 },
+        'Cuba': { spazi: 10, popolazione: 21000, copertura: 58.1 },
+        'Calatafimi-Mezzomonreale': { spazi: 13, popolazione: 24000, copertura: 60.4 },
+        'Altarello': { spazi: 9, popolazione: 19000, copertura: 50.7 },
+        'Boccadifalco': { spazi: 15, popolazione: 22000, copertura: 66.8 },
+        'Mezzomonreale': { spazi: 11, popolazione: 20000, copertura: 58.9 },
+        'Settecannoli': { spazi: 7, popolazione: 18000, copertura: 42.1 },
+        'Brancaccio-Ciaculli': { spazi: 16, popolazione: 29000, copertura: 52.3 },
+        'Oreto-Stazione': { spazi: 9, popolazione: 20000, copertura: 47.8 }
+      }
+    };
+    
+    // Funzione per determinare quartiere da coordinate (placeholder - da implementare con dati reali)
+    window.getQuartiereFromCoords = function(lat, lon) {
+      // PLACEHOLDER: ritorna un quartiere di esempio
+      // Da sostituire con reverse geocoding reale o controllo confini GeoJSON
+      return 'Centro Storico';
+    };
+    
+    // Funzione per popolare il box quartiere
+    window.updateQuartiereBox = function(nomeQuartiere) {
+      const dataset = window.currentDataset || 'osm';
+      const dati = window.quartieriData[dataset][nomeQuartiere];
+      
+      if (!dati) {
+        console.error('Quartiere non trovato:', nomeQuartiere);
+        return;
+      }
+      
+      // Nascondi placeholder, mostra stats
+      document.getElementById('quartiere-placeholder').style.display = 'none';
+      document.getElementById('quartiere-stats').style.display = 'block';
+      
+      // Popola statistiche
+      document.getElementById('quartiere-spazi').textContent = dati.spazi;
+      document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('it-IT');
+      document.getElementById('quartiere-copertura').textContent = dati.copertura.toFixed(1);
+      
+      // Calcola valutazione
+      let valutazione = '';
+      const copertura = dati.copertura;
+      if (copertura < 30) valutazione = 'scarsa';
+      else if (copertura < 50) valutazione = 'insufficiente';
+      else if (copertura < 60) valutazione = 'sufficiente';
+      else if (copertura < 70) valutazione = 'discreta';
+      else if (copertura < 80) valutazione = 'buona';
+      else valutazione = 'ottima';
+      
+      // Calcola comparazione con media cittadina
+      const mediaCittadina = parseFloat(window.datasetStats[dataset].percentuale);
+      const comparazione = dati.copertura > mediaCittadina ? 'superiore' : 'inferiore';
+      
+      // Calcola posizione in classifica
+      const quartieri = window.quartieriData[dataset];
+      const classificaArray = Object.entries(quartieri)
+        .map(([nome, dati]) => ({ nome, copertura: dati.copertura }))
+        .sort((a, b) => b.copertura - a.copertura);
+      
+      const posizione = classificaArray.findIndex(q => q.nome === nomeQuartiere) + 1;
+      const totale = classificaArray.length;
+      
+      // Genera testo descrittivo
+      const descrizione = `Il tuo quartiere, ${nomeQuartiere}, ha una ${valutazione} accessibilità al verde pubblico, ${comparazione} a quella media di Palermo. Complessivamente, si colloca al ${posizione}° posto (su ${totale}) tra i quartieri della città.`;
+      
+      document.getElementById('quartiere-descrizione').textContent = descrizione;
     };
     
     window.switchDashboardDataset = function(dataset) {
@@ -2565,6 +2715,15 @@
       document.getElementById('stat-percentuale').textContent = stats.percentuale;
       document.getElementById('stat-fortunati').textContent = stats.fortunati;
       document.getElementById('stat-svantaggiati').textContent = stats.svantaggiati;
+      
+      // Update quartiere box if visible
+      const quartiereStats = document.getElementById('quartiere-stats');
+      if (quartiereStats && quartiereStats.style.display !== 'none') {
+        const nomeQuartiere = window.currentQuartiere;
+        if (nomeQuartiere) {
+          window.updateQuartiereBox(nomeQuartiere);
+        }
+      }
     }
   </script>
 </body>
