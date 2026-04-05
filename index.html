@@ -1402,7 +1402,7 @@
             </div>
             
             <!-- Toggle Dataset -->
-            <div class="dataset-toggle">
+            <div class="dataset-toggle" style="display: flex; justify-content: center; margin: 3rem 0 2rem 0;">
                 <div class="toggle-button">
                     <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')">OpenStreetMap</button>
                     <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')">Copernicus</button>
@@ -2528,10 +2528,10 @@
       requestAnimationFrame(animation);
     });
     
-    // Dashboard dataset toggle
-    let currentDataset = 'osm';
+    // Dashboard dataset toggle - make globally accessible
+    window.currentDataset = 'osm';
     
-    const datasetStats = {
+    window.datasetStats = {
       osm: {
         spazi: '118',
         percentuale: '38.76',
@@ -2546,10 +2546,10 @@
       }
     };
     
-    function switchDashboardDataset(dataset) {
-      if (currentDataset === dataset) return;
+    window.switchDashboardDataset = function(dataset) {
+      if (window.currentDataset === dataset) return;
       
-      currentDataset = dataset;
+      window.currentDataset = dataset;
       
       // Update toggle buttons using data-dataset attribute
       document.querySelectorAll('.toggle-option').forEach(btn => {
@@ -2560,7 +2560,7 @@
       });
       
       // Update stats
-      const stats = datasetStats[dataset];
+      const stats = window.datasetStats[dataset];
       document.getElementById('stat-spazi').textContent = stats.spazi;
       document.getElementById('stat-percentuale').textContent = stats.percentuale;
       document.getElementById('stat-fortunati').textContent = stats.fortunati;
