@@ -7,9 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
   <style>
     * {
@@ -483,317 +480,6 @@
     
     .space-detail-label {
       font-weight: 600;
-    }
-    
-    /* ========================================
-       DASHBOARD SECTION
-       ======================================== */
-    
-    .dashboard-section {
-      background: #1a1a1a;
-      color: #ffffff;
-      padding: 6rem 0;
-      display: none;
-    }
-    
-    .dashboard-section.visible {
-      display: block;
-    }
-    
-    .dashboard-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    
-    .dashboard-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    .dashboard-header h2 {
-      font-size: 32px;
-      font-weight: 900;
-      margin-bottom: 1.5rem;
-      color: #34d399;
-    }
-    
-    .dashboard-intro {
-      max-width: 900px;
-      margin: 0 auto 2rem;
-      font-size: 16px;
-      line-height: 1.7;
-      color: #e5e7eb;
-    }
-    
-    .dashboard-intro p {
-      margin-bottom: 1rem;
-    }
-    
-    .dataset-toggle {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      align-items: center;
-      margin-top: 2rem;
-    }
-    
-    .dataset-toggle label {
-      font-size: 16px;
-      font-weight: 600;
-      color: #9ca3af;
-    }
-    
-    .toggle-buttons {
-      display: flex;
-      gap: 0.5rem;
-      background: #374151;
-      padding: 4px;
-      border-radius: 8px;
-    }
-    
-    .toggle-btn {
-      padding: 8px 20px;
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-    
-    .toggle-btn.active {
-      background: #34d399;
-      color: #1a1a1a;
-    }
-    
-    .toggle-btn:hover:not(.active) {
-      background: #4b5563;
-      color: #ffffff;
-    }
-    
-    .dashboard-grid-top {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-    
-    .dashboard-column {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    .dashboard-card {
-      background: #374151;
-      border-radius: 12px;
-      padding: 2rem;
-      border: 2px solid #34d399;
-    }
-    
-    .dashboard-card h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #34d399;
-      margin-bottom: 1.5rem;
-    }
-    
-    .stat-separator {
-      height: 2px;
-      background: #34d399;
-      margin: 1.5rem 0;
-      width: 50%;
-    }
-    
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.75rem 0;
-    }
-    
-    .stat-label {
-      font-size: 14px;
-      color: #9ca3af;
-    }
-    
-    .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: #34d399;
-    }
-    
-    .chart-controls {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      justify-content: center;
-    }
-    
-    .chart-btn {
-      padding: 6px 14px;
-      border: 1px solid #4b5563;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 13px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .chart-btn.active {
-      background: #34d399;
-      color: #1a1a1a;
-      border-color: #34d399;
-    }
-    
-    .chart-btn:hover:not(.active) {
-      border-color: #34d399;
-      color: #ffffff;
-    }
-    
-    .quartiere-focus {
-      padding: 0;
-    }
-    
-    .quartiere-focus h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #34d399;
-      margin-bottom: 1rem;
-    }
-    
-    .quartiere-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: #34d399;
-      margin-bottom: 1.5rem;
-    }
-    
-    .quartiere-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .quartiere-stat-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: 14px;
-    }
-    
-    .quartiere-stat-label {
-      color: #9ca3af;
-    }
-    
-    .quartiere-stat-value {
-      font-weight: 700;
-      color: #34d399;
-      font-size: 16px;
-    }
-    
-    .quartiere-narrative {
-      font-size: 16px;
-      line-height: 1.7;
-      color: #e5e7eb;
-    }
-    
-    .map-full-width {
-      width: 100%;
-      margin-top: 2rem;
-    }
-    
-    .map-container {
-      height: 600px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #374151;
-      border: 2px solid #34d399;
-    }
-    
-    
-    
-    /* IL MIO QUARTIERE - NEW STYLE */
-    .quartiere-section h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #34d399;
-      margin-bottom: 1rem;
-    }
-    
-    .quartiere-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: #10b981;
-      margin-bottom: 1.5rem;
-    }
-    
-    .quartiere-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .quartiere-stat-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: 14px;
-      color: #e5e7eb;
-    }
-    
-    .quartiere-stat-label {
-      color: #9ca3af;
-    }
-    
-    .quartiere-stat-value {
-      font-weight: 700;
-      color: #34d399;
-      font-size: 16px;
-    }
-    
-    .quartiere-separator {
-      width: 50%;
-      height: 2px;
-      background: #10b981;
-      margin: 1rem 0;
-    }
-    
-    .quartiere-description {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #e5e7eb;
-    }
-    
-    .quartiere-placeholder {
-      color: #9ca3af;
-      font-style: italic;
-      font-size: 14px;
-    }
-    
-    /* MAP SECTION - FULL WIDTH */
-    .map-section-full {
-      margin-top: 3rem;
-    }
-    
-    .map-section-full h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #34d399;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    
-    @media (max-width: 1024px) {
-      .dashboard-grid-top-top {
-        grid-template-columns: 1fr;
-      }
     }
     
     .share-button {
@@ -1555,94 +1241,6 @@
       </div>
     </div>
 
-    <!-- ========================================
-         DASHBOARD SECTION
-         ======================================== -->
-    <div class="dashboard-section" id="dashboardSection">
-      <div class="dashboard-container">
-        <div class="dashboard-header">
-          <h2>Spazi verdi e accessibilità a Palermo</h2>
-          
-          <div class="dashboard-intro">
-            <p>L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥0.5 ettari) entro 300 metri dalla propria abitazione. Città virtuose come Ljubljana (Slovenia) raggiungono una copertura del 100% della popolazione.</p>
-            
-            <p>Per questa analisi ci siamo basati su due dataset distinti degli spazi verdi: <a href="https://www.openstreetmap.org/" target="_blank" style="color: #34d399; text-decoration: underline;">OpenStreetMap</a> (OSM) e <a href="https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-change-2018-2021" target="_blank" style="color: #34d399; text-decoration: underline;">Copernicus Urban Atlas</a>, che hanno dato risultati simili. Il calcolo della copertura è stato effettuato incrociando i dati sugli spazi verdi con le <a href="https://www.istat.it/it/archivio/104317" target="_blank" style="color: #34d399; text-decoration: underline;">sezioni di censimento ISTAT 2021</a>, utilizzando il metodo dell'interpolazione ponderata per area.</p>
-          </div>
-          
-          <div class="dataset-toggle">
-            <label>Dataset:</label>
-            <div class="toggle-buttons">
-              <button class="toggle-btn active" onclick="switchDataset('osm'); return false;">OSM</button>
-              <button class="toggle-btn" onclick="switchDataset('copernicus'); return false;">Copernicus</button>
-            </div>
-          </div>
-        </div>
-        
-        <div class="dashboard-grid-top">
-          <!-- LEFT COLUMN: Stats + Chart -->
-          <div class="dashboard-column">
-            <!-- Statistics Card -->
-            <div class="dashboard-card">
-              <h3>Statistiche generali</h3>
-              
-              <div class="stat-row">
-                <span class="stat-label">Spazi verdi</span>
-                <span class="stat-value" id="totalSpaces">118</span>
-              </div>
-              
-              <div class="stat-separator"></div>
-              
-              <div class="stat-row">
-                <span class="stat-label">Popolazione coperta</span>
-                <span class="stat-value" id="coveragePct">38.8%</span>
-              </div>
-              
-              <div class="stat-separator"></div>
-              
-              <div class="stat-row">
-                <span class="stat-label">Abitanti coperti</span>
-                <span class="stat-value" id="popCovered">246,293</span>
-              </div>
-              
-              <div class="stat-separator"></div>
-              
-              <div class="stat-row">
-                <span class="stat-label">Abitanti non coperti</span>
-                <span class="stat-value" id="popNotCovered">389,146</span>
-              </div>
-            </div>
-            
-            <!-- Chart -->
-            <div class="dashboard-card">
-              <h3>Distribuzione spazi verdi</h3>
-              <div class="chart-controls">
-                <button class="chart-btn active" onclick="switchChartMetric('count')">Numero</button>
-                <button class="chart-btn" onclick="switchChartMetric('area')">Area (km²)</button>
-                <button class="chart-btn" onclick="switchChartMetric('pct')">% Area</button>
-              </div>
-              <canvas id="distributionChart" width="400" height="300"></canvas>
-            </div>
-          </div>
-          
-          <!-- RIGHT COLUMN: Il mio quartiere -->
-          <div class="dashboard-column">
-            <div class="dashboard-card quartiere-section">
-              <h3>Il mio quartiere</h3>
-              <div id="quartiereFocus">
-                <p class="quartiere-placeholder">Completa la sezione precedente per vedere le statistiche del tuo quartiere</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- FULL WIDTH MAP -->
-        <div class="map-section-full">
-          <h3>Mappa quartieri</h3>
-          <div class="map-container" id="quartieriMap"></div>
-        </div>
-      </div>
-    </div>
-
   <div class="container">
         <div class="loading" id="loading">
             <p>🔍 Analisi in corso...</p>
@@ -1820,28 +1418,11 @@
         }
 
         function switchDataset(dataset) {
-            console.log('switchDataset called with:', dataset);
             currentDataset = dataset;
-            
-            // Update toggle buttons
-            const osmBtn = document.querySelector('button[onclick*="osm"]');
-            const copBtn = document.querySelector('button[onclick*="copernicus"]');
-            
-            if (osmBtn && copBtn) {
-                if (dataset === 'osm') {
-                    osmBtn.classList.add('active');
-                    copBtn.classList.remove('active');
-                } else {
-                    copBtn.classList.add('active');
-                    osmBtn.classList.remove('active');
-                }
-            } else {
-                console.error('Toggle buttons not found!');
-            }
-            
-            updateDashboardStats();
-            updateChart();
-            console.log('Dataset switched to:', dataset);
+            document.getElementById('btnOsm').classList.toggle('active', dataset === 'osm');
+            document.getElementById('btnCopernicus').classList.toggle('active', dataset === 'copernicus');
+            loadDataset(dataset);
+            document.getElementById('result').style.display = 'none';
         }
 
         // Autocomplete
@@ -2028,225 +1609,714 @@
             );
         }
         
-        // QUARTIERI DATA (25 quartieri con popolazione e % copertura)
-        
-        
-        let currentDataset = 'osm';
-        let currentMetric = 'count';
-        let distributionChart = null;
-        let quartieriMapInstance = null;
-        
-        // SWITCH DATASET
-        function switchDataset(dataset) {
-            console.log('switchDataset called with:', dataset);
-            currentDataset = dataset;
+        function displayResult300(distance, nearestSpace, lat, lon, spacesWithin300Array = []) {
+            const section300 = document.getElementById('section300');
+            const resultColumn = document.getElementById('resultColumn');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultSubtitle = document.getElementById('resultSubtitle');
+            const resultDescription = document.getElementById('resultDescription');
+            const spaceDetailsTitle = document.getElementById('spaceDetailsTitle');
+            const spaceName = document.getElementById('spaceName');
+            const spaceDistance = document.getElementById('spaceDistance');
+            const spaceTime = document.getElementById('spaceTime');
+            const spaceArea = document.getElementById('spaceArea');
             
-            // Update toggle buttons
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent.toLowerCase() === dataset.toLowerCase()) {
-                    btn.classList.add('active');
+            const isFortunato = distance <= 300;
+            const props = nearestSpace.properties;
+            const distanceMeters = Math.round(distance);
+            const spacesWithin300Count = spacesWithin300Array.length;
+            
+            // Calculate walking time (assuming 4.5 km/h = 75 m/min)
+            const walkingMinutes = Math.round(distanceMeters / 75);
+            
+            // Format area (in sqm with thousand separator)
+            const areaSqm = Math.round(props.area_sqm);
+            const areaFormatted = areaSqm.toLocaleString('it-IT');
+            
+            // Determine display name
+            const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
+            const displayName = hasRealName ? props.name : (props.size_label || 'Spazio verde');
+            
+            // Set class for styling
+            resultColumn.className = 'result-column ' + (isFortunato ? 'fortunato' : 'svantaggiato');
+            resultTitle.className = isFortunato ? 'fortunato' : 'svantaggiato';
+            
+            // Populate content
+            if (isFortunato) {
+                resultTitle.textContent = '✅ Sei fortunat*!';
+                
+                if (spacesWithin300Count > 1) {
+                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 metri da <strong>${spacesWithin300Count} spazi verdi pubblici</strong>.`;
+                    spaceDetailsTitle.textContent = 'Spazio più grande nelle vicinanze';
+                } else {
+                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 metri da uno spazio verde pubblico.`;
+                    spaceDetailsTitle.textContent = 'Spazio verde più vicino';
                 }
-            });
-            
-            // Update stats
-            updateDashboardStats();
-            updateChart();
-            console.log('Dataset switched to:', currentDataset);
-        }
-        
-        // SWITCH CHART METRIC
-        function switchChartMetric(metric) {
-            currentMetric = metric;
-            
-            // Update chart buttons
-            document.querySelectorAll('.chart-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Find and activate the clicked button
-            const metricNames = {
-                'count': 'Numero',
-                'area': 'Area (km²)',
-                'pct': '% Area'
-            };
-            
-            document.querySelectorAll('.chart-btn').forEach(btn => {
-                if (btn.textContent === metricNames[metric]) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            updateChart();
-        }
-        
-        // UPDATE STATS
-        function updateDashboardStats() {
-            const stats = dashboardStats[currentDataset];
-            
-            document.getElementById('totalSpaces').textContent = stats.spaces;
-            document.getElementById('coveragePct').textContent = stats.coverage_pct.toFixed(1) + '%';
-            document.getElementById('popCovered').textContent = stats.population_covered.toLocaleString('it-IT');
-            document.getElementById('popNotCovered').textContent = stats.population_not_covered.toLocaleString('it-IT');
-        }
-        
-        // UPDATE CHART
-        function updateChart() {
-            const stats = dashboardStats[currentDataset];
-            const categories = stats.categories;
-            
-            const labels = categories.map(c => c.name);
-            let data, yLabel;
-            
-            if (currentMetric === 'count') {
-                data = categories.map(c => c.count);
-                yLabel = 'Numero di spazi';
-            } else if (currentMetric === 'area') {
-                data = categories.map(c => c.area_km2);
-                yLabel = 'Area (km²)';
             } else {
-                data = categories.map(c => c.pct_area);
-                yLabel = '% Area totale';
+                resultTitle.textContent = '❌ Sei svantaggiat*!';
+                resultDescription.innerHTML = `Purtroppo non hai accesso immediato alla natura in città.<br>Vivi a più di 300 metri da uno spazio verde pubblico.<br>Il più vicino dista <strong>${distanceMeters} metri</strong>.`;
+                spaceDetailsTitle.textContent = 'Spazio verde più vicino';
             }
             
-            if (distributionChart) {
-                distributionChart.data.labels = labels;
-                distributionChart.data.datasets[0].data = data;
-                distributionChart.options.scales.y.title.text = yLabel;
-                distributionChart.update();
-            } else {
-                initChart(labels, data, yLabel);
-            }
+            // Populate space details
+            spaceName.textContent = displayName;
+            spaceDistance.textContent = `${distanceMeters} metri`;
+            spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'}`;
+            spaceArea.textContent = `${areaFormatted} m²`;
+            
+            // Show section
+            section300.classList.add('visible');
+            
+            // Initialize interactive map - PASSA TUTTI GLI SPAZI
+            initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300Array);
         }
         
-        // INITIALIZE CHART
-        function initChart(labels, data, yLabel) {
-            const ctx = document.getElementById('distributionChart').getContext('2d');
+        function initializeMap300(lat, lon, targetSpace, distance, allSpaces) {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = '';
             
-            distributionChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: yLabel,
-                        data: data,
-                        backgroundColor: '#34d399',
-                        borderColor: '#34d399',
-                        borderWidth: 0,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 1.5,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: '#9ca3af',
-                                font: {
-                                    size: 11
-                                },
-                                maxRotation: 45,
-                                minRotation: 45
-                            },
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#9ca3af'
-                            },
-                            grid: {
-                                color: '#4b5563'
-                            },
-                            title: {
-                                display: true,
-                                text: yLabel,
-                                color: '#e5e7eb',
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                }
-                            }
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 800;
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+            canvas.style.borderRadius = '8px';
+            canvas.style.display = 'block';
+            canvas.style.cursor = 'pointer';
+            mapDiv.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = 400;
+            const centerY = 400; // Centrato in canvas quadrato
+            const scale = 1.1; // Scala aumentata - cerchio 300m = 330px
+            
+            console.log('=== MAPPA ===');
+            console.log('Spazio principale:', targetSpace.properties.name || targetSpace.properties.size_label);
+            console.log('Distanza:', Math.round(distance), 'm');
+            console.log('Totale spazi:', allSpaces.length);
+            
+            // ASSICURATI che targetSpace sia nell'array (potrebbe essere oltre 300m!)
+            const hasTarget = allSpaces.some(item => item.feature === targetSpace);
+            const spacesToMap = hasTarget ? allSpaces : [...allSpaces, { feature: targetSpace, distance: distance }];
+            
+            // Calcola posizioni usando DISTANZA RADIALE
+            const spacePositions = spacesToMap
+                .filter(item => item && item.feature && item.feature.geometry)
+                .map(item => {
+                    const space = item.feature;
+                    const dist = item.distance; // Distanza REALE
+                    
+                    // Ottieni coordinate per calcolare ANGOLO
+                    let spaceLat, spaceLon;
+                    if (space.geometry.type === 'Polygon') {
+                        spaceLat = space.geometry.coordinates[0][0][1];
+                        spaceLon = space.geometry.coordinates[0][0][0];
+                    } else if (space.geometry.type === 'MultiPolygon') {
+                        spaceLat = space.geometry.coordinates[0][0][0][1];
+                        spaceLon = space.geometry.coordinates[0][0][0][0];
+                    }
+                    
+                    // Calcola angolo (direzione)
+                    const latDiff = (spaceLat - lat) * 111000;
+                    const lonDiff = (spaceLon - lon) * 111000 * Math.cos(lat * Math.PI / 180);
+                    let angle = Math.atan2(-latDiff, lonDiff);
+                    
+                    // DISTANZA DI VISUALIZZAZIONE: max 400m per spazi oltre 300m
+                    const displayDist = dist > 300 ? 400 : dist;
+                    
+                    // FORZA DIAGONALE per spazi oltre 300m (evita uscita dai bordi)
+                    if (dist > 300) {
+                        // Converti in gradi per facilità
+                        let degrees = angle * 180 / Math.PI;
+                        // Normalizza 0-360
+                        if (degrees < 0) degrees += 360;
+                        
+                        // Determina quadrante e forza diagonale più vicina
+                        if (degrees < 90) {
+                            angle = Math.PI / 4; // 45° (basso-destra)
+                        } else if (degrees < 180) {
+                            angle = 3 * Math.PI / 4; // 135° (basso-sinistra)
+                        } else if (degrees < 270) {
+                            angle = -3 * Math.PI / 4; // 225° (alto-sinistra)
+                        } else {
+                            angle = -Math.PI / 4; // 315° (alto-destra)
                         }
                     }
+                    
+                    // Posiziona usando DISTANZA DI VISUALIZZAZIONE
+                    const x = centerX + (displayDist * scale * Math.cos(angle));
+                    const y = centerY + (displayDist * scale * Math.sin(angle));
+                    
+                    return { space, x, y, dist }; // dist = distanza REALE per tooltip
+                });
+            
+            // Trova spazio principale
+            const mainSpace = spacePositions.find(p => p.space === targetSpace);
+            
+            if (!mainSpace) {
+                console.error('❌ Spazio principale non trovato in spacePositions!');
+                return;
+            }
+            
+            console.log('Spazio principale - X:', Math.round(mainSpace.x), 'Y:', Math.round(mainSpace.y), 'Dist:', Math.round(mainSpace.dist), 'm');
+            console.log('Cerchio 300m radius:', Math.round(300 * scale), 'px');
+            
+            let hoveredSpace = null; // Spazio sotto il mouse
+            
+            function drawMap() {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Cerchi concentrici
+                ctx.strokeStyle = '#e5e7eb';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 100 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 200 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 300 * scale, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Label distanze
+                ctx.textAlign = 'left';
+                ctx.font = '600 17px Inter, sans-serif';
+                ctx.fillStyle = '#6b7280';
+                ctx.fillText('100m', centerX + (100 * scale) + 6, centerY + 5);
+                ctx.fillText('200m', centerX + (200 * scale) + 6, centerY + 5);
+                
+                ctx.font = '900 17px Inter, sans-serif';
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('300m', centerX + (300 * scale) + 10, centerY + 5);
+                
+                // FASE 1: DISEGNA TRATTEGGIO (solo se hover)
+                if (hoveredSpace) {
+                    const isDisadvantaged = hoveredSpace.dist > 300;
+                    ctx.strokeStyle = isDisadvantaged ? '#9ca3af' : '#34d399'; // Grigio se oltre 300m
+                    ctx.lineWidth = 4;
+                    ctx.shadowColor = isDisadvantaged ? '#6b7280' : '#10b981';
+                    ctx.shadowBlur = 10;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.lineTo(hoveredSpace.x, hoveredSpace.y);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
+                }
+                
+                // FASE 2: DISEGNA TUTTI I PALLINI (sopra i tratteggi)
+                spacePositions.forEach(({ space, x, y, dist }) => {
+                    const isMain = space === targetSpace;
+                    const isHovered = hoveredSpace && hoveredSpace.space === space;
+                    const isDisadvantaged = dist > 300;
+                    
+                    // Dimensione pallino
+                    let radius = 10;
+                    if (isMain) {
+                        const sizeLabel = space.properties.size_label || '';
+                        if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('grande')) radius = 22;
+                        else if (sizeLabel.toLowerCase().includes('giardino')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('piccolo')) radius = 12;
+                        else radius = 18;
+                    }
+                    
+                    // Highlight se hover
+                    if (isHovered) {
+                        const haloColor = isDisadvantaged ? 'rgba(156, 163, 175, 0.3)' : (isMain ? 'rgba(16, 185, 129, 0.3)' : 'rgba(52, 211, 153, 0.3)');
+                        ctx.fillStyle = haloColor;
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius + 6, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    
+                    // Pallino - GRIGIO se oltre 300m
+                    if (isDisadvantaged) {
+                        ctx.fillStyle = '#9ca3af'; // Grigio
+                    } else {
+                        ctx.fillStyle = isMain ? '#10b981' : '#34d399'; // Verde
+                    }
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                // FASE 3: NOME + DISTANZA (solo se hover)
+                if (hoveredSpace) {
+                    const { space, x, y, dist } = hoveredSpace;
+                    const name = space.properties.name || space.properties.size_label || 'Spazio verde';
+                    const displayName = name.length > 30 ? name.substring(0, 28) + '...' : name;
+                    
+                    ctx.font = '700 18px Inter, sans-serif';
+                    const nameWidth = ctx.measureText(displayName).width;
+                    
+                    ctx.font = '600 16px Inter, sans-serif';
+                    const distText = Math.round(dist) + 'm';
+                    const distWidth = ctx.measureText(distText).width;
+                    
+                    const boxWidth = Math.max(nameWidth, distWidth) + 16;
+                    const boxHeight = 60;
+                    
+                    // Determina radius per offset
+                    const isMain = space === targetSpace;
+                    let radius = isMain ? 18 : 10;
+                    if (isMain) {
+                        const sizeLabel = space.properties.size_label || '';
+                        if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('grande')) radius = 22;
+                        else if (sizeLabel.toLowerCase().includes('giardino')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('piccolo')) radius = 12;
+                    }
+                    
+                    // TOOLTIP A SINISTRA se pin a destra del centro, vice versa
+                    const isRight = x > centerX;
+                    const boxX = isRight ? (x - radius - boxWidth - 12) : (x + radius + 12);
+                    
+                    // Box bianco
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.fillRect(boxX, y - 30, boxWidth, boxHeight);
+                    
+                    // Nome
+                    ctx.font = '700 18px Inter, sans-serif';
+                    ctx.fillStyle = '#10b981';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(displayName, boxX + 8, y - 8);
+                    
+                    // Distanza
+                    ctx.font = '600 16px Inter, sans-serif';
+                    ctx.fillStyle = '#6b7280';
+                    ctx.fillText(distText, boxX + 8, y + 14);
+                }
+                
+                // Utente (sempre in cima)
+                ctx.fillStyle = '#1a1a1a';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = '600 19px Inter, sans-serif';
+                ctx.fillStyle = '#1a1a1a';
+                ctx.textAlign = 'center';
+                ctx.fillText('Tu', centerX, centerY - 26);
+            }
+            
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const mouseX = (e.clientX - rect.left) * scaleX;
+                const mouseY = (e.clientY - rect.top) * scaleY;
+                
+                // Trova spazio sotto il mouse
+                let newHoveredSpace = null;
+                for (const pos of spacePositions) {
+                    const isMain = pos.space === targetSpace;
+                    let radius = isMain ? 18 : 10;
+                    if (isMain) {
+                        const sizeLabel = pos.space.properties.size_label || '';
+                        if (sizeLabel.toLowerCase().includes('molto grande')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('grande')) radius = 22;
+                        else if (sizeLabel.toLowerCase().includes('giardino')) radius = 24;
+                        else if (sizeLabel.toLowerCase().includes('piccolo')) radius = 12;
+                    }
+                    
+                    const dx = mouseX - pos.x;
+                    const dy = mouseY - pos.y;
+                    const distToSpace = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distToSpace < radius + 5) {
+                        newHoveredSpace = pos;
+                        break;
+                    }
+                }
+                
+                if (newHoveredSpace !== hoveredSpace) {
+                    hoveredSpace = newHoveredSpace;
+                    drawMap();
                 }
             });
-        }
-        
-        
-        // INITIALIZE QUARTIERI MAP
-        function initQuartieriMap() {
-            try {
-                const map = L.map('quartieriMap').setView([38.1157, 13.3615], 11);
-                
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
-                
-                // Add quartieri layer with colors based on coverage
-                L.geoJSON(quartieriData, {
-                    style: function(feature) {
-                        const pct = feature.properties.pct_popolazione_coperta || 0;
-                        return {
-                            fillColor: getColorForCoverage(pct),
-                            weight: 1,
-                            opacity: 1,
-                            color: '#ffffff',
-                            fillOpacity: 0.7
-                        };
-                    },
-                    onEachFeature: function(feature, layer) {
-                        const props = feature.properties;
-                        const popup = `
-                            <strong>${props.quartiere}</strong><br>
-                            Popolazione: ${props.popolazione?.toLocaleString('it-IT')}<br>
-                            Copertura: ${props.pct_popolazione_coperta?.toFixed(1)}%
-                        `;
-                        layer.bindPopup(popup);
-                        
-                        layer.on('mouseover', function() {
-                            this.setStyle({ weight: 3, color: '#34d399' });
-                        });
-                        
-                        layer.on('mouseout', function() {
-                            this.setStyle({ weight: 1, color: '#ffffff' });
-                        });
-                    }
-                }).addTo(map);
-                
-                quartieriMapInstance = map;
-            } catch (error) {
-                console.error('Error loading quartieri map:', error);
-            }
-        }
-        
-        // GET COLOR FOR COVERAGE PERCENTAGE
-        function getColorForCoverage(pct) {
-            if (pct >= 60) return '#34d399'; // Green
-            if (pct >= 40) return '#fbbf24'; // Yellow
-            if (pct >= 20) return '#fb923c'; // Orange
-            return '#ef4444'; // Red
-        }
-        
-        // INITIALIZE DASHBOARD
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('📊 Initializing dashboard...');
-            updateDashboardStats();
-            updateChart();
             
-            // Delay map init to ensure DOM is ready
+            canvas.addEventListener('mouseleave', () => {
+                if (hoveredSpace) {
+                    hoveredSpace = null;
+                    drawMap();
+                }
+            });
+            
+            drawMap();
+        }
+        
+
+        function analyzeLocation(lat, lon) {
+            console.log('=== INIZIO ANALISI ===');
+            console.log('Coordinate:', lat, lon);
+            
+            if (!greenSpaces) {
+                console.error('❌ greenSpaces non caricato!');
+                alert('Errore: Dati non ancora caricati. Attendi qualche secondo e riprova.');
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+
+            if (!greenSpaces.features || greenSpaces.features.length === 0) {
+                console.error('❌ greenSpaces.features vuoto!');
+                alert('Errore: Dataset vuoto. Ricarica la pagina.');
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+
+            console.log('✓ Dataset caricato:', greenSpaces.features.length, 'spazi');
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('result').style.display = 'none';
+
+            // Usa setTimeout per non bloccare l'UI
             setTimeout(() => {
-                initQuartieriMap();
+                try {
+                    const userPoint = turf.point([lon, lat]);
+                    console.log('✓ Punto utente creato:', userPoint);
+                    
+                    let nearestDistance = Infinity;
+                    let nearestSpace = null;
+                    let spacesWithin300 = [];
+                    let errorCount = 0;
+
+                    greenSpaces.features.forEach((feature, index) => {
+                        try {
+                            if (!feature.geometry) {
+                                console.warn(`Spazio ${index} senza geometria, skip`);
+                                errorCount++;
+                                return;
+                            }
+
+                            let distance;
+                            
+                            // Calcola distanza in base al tipo di geometria
+                            if (feature.geometry.type === 'Polygon') {
+                                // Converti perimetro poligono in linestring
+                                const line = turf.lineString(feature.geometry.coordinates[0]);
+                                distance = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
+                            } else if (feature.geometry.type === 'MultiPolygon') {
+                                // Per MultiPolygon, trova la distanza minima tra tutti i poligoni
+                                let minDist = Infinity;
+                                feature.geometry.coordinates.forEach(polyCoords => {
+                                    const line = turf.lineString(polyCoords[0]);
+                                    const dist = turf.pointToLineDistance(userPoint, line, {units: 'meters'});
+                                    if (dist < minDist) minDist = dist;
+                                });
+                                distance = minDist;
+                            } else {
+                                console.warn(`Spazio ${index} tipo sconosciuto: ${feature.geometry.type}`);
+                                errorCount++;
+                                return;
+                            }
+                            
+                            // Traccia il più vicino
+                            if (distance < nearestDistance) {
+                                nearestDistance = distance;
+                                nearestSpace = feature;
+                            }
+                            
+                            // Se entro 300m, aggiungi alla lista
+                            if (distance <= 300) {
+                                spacesWithin300.push({
+                                    feature: feature,
+                                    distance: distance,
+                                    area: feature.properties.area_sqm || 0
+                                });
+                            }
+                        } catch (err) {
+                            console.error(`Errore calcolo spazio ${index}:`, err);
+                            errorCount++;
+                        }
+                    });
+
+                    console.log('✓ Calcolo completato');
+                    console.log('  - Spazi processati:', greenSpaces.features.length);
+                    console.log('  - Errori:', errorCount);
+                    console.log('  - Spazi entro 300m:', spacesWithin300.length);
+                    console.log('  - Distanza minima:', Math.round(nearestDistance), 'm');
+                    
+                    // Se ci sono spazi entro 300m, scegli il PIÙ GRANDE
+                    let selectedSpace = nearestSpace;
+                    let selectedDistance = nearestDistance;
+                    
+                    if (spacesWithin300.length > 0) {
+                        // Ordina per area (più grande prima)
+                        spacesWithin300.sort((a, b) => b.area - a.area);
+                        selectedSpace = spacesWithin300[0].feature;
+                        selectedDistance = spacesWithin300[0].distance;
+                        console.log('  - Spazio più grande entro 300m:', selectedSpace.properties.size_label, selectedSpace.properties.area_sqm, 'm²');
+                    }
+
+                    if (!selectedSpace) {
+                        console.error('❌ Nessuno spazio trovato!');
+                        alert('Errore nel calcolo. Verifica di essere a Palermo e riprova.');
+                        document.getElementById('loading').classList.remove('active');
+                        return;
+                    }
+
+                    displayResult300(selectedDistance, selectedSpace, lat, lon, spacesWithin300);
+                    document.getElementById('loading').classList.remove('active');
+                    
+                    console.log('=== ANALISI COMPLETATA ===');
+                } catch (error) {
+                    console.error('❌ ERRORE CRITICO:', error);
+                    alert('Errore nell\'analisi: ' + error.message + '\n\nApri la console (F12) per dettagli.');
+                    document.getElementById('loading').classList.remove('active');
+                }
             }, 500);
+        }
+
+        function displayResult(distance, nearestSpace, lat, lon, spacesWithin300 = 0) {
+            const resultDiv = document.getElementById('result');
+            const isFortunato = distance <= 300;
+            const props = nearestSpace.properties;
+            const distanceMeters = Math.round(distance);
+            
+            // Trova quartiere
+            const quartiereData = findQuartiere(lat, lon);
+            
+            // Determina cosa mostrare: nome reale se disponibile, altrimenti categoria
+            const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
+            const displayName = hasRealName ? props.name : props.size_label;
+            
+            // Formato area adattivo (3 decimali se < 0.01 km², altrimenti 2)
+            const areaKm2 = props.area_sqm / 1000000;
+            const areaFormatted = areaKm2 < 0.01 ? areaKm2.toFixed(3) : areaKm2.toFixed(2);
+            
+            // Etichetta spazio: cambia se ci sono più spazi entro 300m
+            const spaceLabel = isFortunato && spacesWithin300 > 1 
+                ? "Spazio più grande nelle vicinanze" 
+                : "Spazio più vicino";
+
+            resultDiv.className = 'result ' + (isFortunato ? 'fortunato' : 'svantaggiato');
+            
+            // Testo principale: cambia se ci sono più spazi
+            let mainText = '';
+            if (isFortunato) {
+                if (spacesWithin300 > 1) {
+                    mainText = `Vivi <strong>entro 300 metri da ${spacesWithin300} spazi verdi pubblici</strong>. Hai accesso facilitato alla natura in città!`;
+                } else {
+                    mainText = `Vivi <strong>entro 300 metri</strong> da uno spazio verde pubblico. Hai accesso facilitato alla natura in città!`;
+                }
+            } else {
+                mainText = `Vivi a <strong>più di 300 metri</strong> dal verde pubblico più vicino. Secondo gli standard WHO, dovresti avere accesso a uno spazio verde entro questa distanza.`;
+            }
+            
+            let html = `
+                <h2>${isFortunato ? '🎉 Sei fortunato!' : '😔 Sei svantaggiato'}</h2>
+                <p>${mainText}</p>
+                
+                <div class="result-details">
+                    <div class="detail-card">
+                        <div class="detail-label">Distanza</div>
+                        <div class="detail-value">${distanceMeters} m</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">${spaceLabel}</div>
+                        <div class="detail-value" style="font-size: ${hasRealName ? '1.3rem' : '1.1rem'}; font-weight: ${hasRealName ? '600' : '500'};">
+                            ${hasRealName ? '🏛️ ' : ''}${displayName}
+                        </div>
+                        ${hasRealName ? 
+                            `<div style="font-size: 0.85rem; color: rgba(0,0,0,0.6); margin-top: 0.25rem;">${props.size_label}</div>` 
+                            : ''}
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-label">Dimensione</div>
+                        <div class="detail-value">${areaFormatted} km²</div>
+                    </div>
+                </div>
+            `;
+
+            // Aggiungi sezione quartiere con statistiche E copertura arborea
+            if (quartiereData) {
+                const canopyClass = quartiereData.classificazione_canopy === 'Scarsa' ? 'scarsa' : 
+                                   quartiereData.classificazione_canopy === 'Ridotta' ? 'ridotta' : 'quasi-sufficiente';
+                
+                html += `
+                    <div class="tree-canopy-section">
+                        <h3>
+                            📍 Il tuo Quartiere: ${quartiereData.quartiere}
+                        </h3>
+                        
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🌳 Copertura Arborea
+                            <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
+                        </h4>
+                        <div class="quartiere-stats">
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.tree_canopy_pct.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Copertura Arborea</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            La copertura arborea misura la percentuale di suolo coperto dalle chiome degli alberi. 
+                            Lo standard WHO/EEA raccomanda almeno il 30%. 
+                            Il tuo quartiere ha un <strong>deficit di ${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                        </p>
+                        
+                        <h4 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
+                            🏞️ Accesso agli Spazi Verdi
+                        </h4>
+                        <div class="quartiere-stats">
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${Math.round(quartiereData.distanza_media_m)} m</div>
+                                <div class="quartiere-stat-label">Distanza Media</div>
+                            </div>
+                            <div class="quartiere-stat-item">
+                                <div class="quartiere-stat-value">${quartiereData.pct_popolazione_coperta.toFixed(1)}%</div>
+                                <div class="quartiere-stat-label">Popolazione Coperta</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
+                            Nel tuo quartiere, in media i residenti distano <strong>${Math.round(quartiereData.distanza_media_m)} metri</strong> dal verde pubblico più vicino. 
+                            Il <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong> della popolazione vive entro 300 metri da uno spazio verde.
+                        </p>
+                    </div>
+                `;
+            }
+
+            if (!isFortunato) {
+                const deficit = distanceMeters - 300;
+                html += `
+                    <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                        💡 <strong>Sei ${deficit} metri oltre lo standard WHO.</strong> 
+                        Questo significa che per raggiungere uno spazio verde devi percorrere una distanza maggiore di quella raccomandata per un accesso equo alla natura urbana.
+                    </p>
+                `;
+            }
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+            
+            // Mostra la sezione tree count
+            showTreeCountSection();
+        }
+
+        // Mostra la sezione tree count dopo il risultato
+        function showTreeCountSection() {
+            const section = document.getElementById('treeCountSection');
+            section.classList.add('visible');
+            
+            // Reset input
+            const input = document.getElementById('treeCountInput');
+            const btn = document.getElementById('btnSubmitTreeCount');
+            const feedback = document.getElementById('treeCountFeedback');
+            
+            input.value = '';
+            input.disabled = false;
+            btn.disabled = false;
+            btn.textContent = 'Invia';
+            feedback.classList.remove('visible');
+            
+            // Carica e mostra statistiche esistenti
+            loadCityStats();
+        }
+
+        // Carica statistiche cittadine
+        async function loadCityStats() {
+            try {
+                console.log('📊 Caricamento statistiche tree count...');
+                
+                const response = await fetch(`${WORKER_URL}/api/tree-stats`);
+                
+                if (!response.ok) {
+                    console.warn('Errore caricamento stats:', response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('✓ Statistiche ricevute:', data);
+                
+                if (data.count > 0) {
+                    document.getElementById('cityStatsValue').textContent = data.average;
+                    document.getElementById('responseCount').textContent = data.count;
+                    document.getElementById('cityStats').style.display = 'block';
+                }
+            } catch (error) {
+                console.warn('⚠️ Errore caricamento stats:', error);
+                // Non mostrare errore all'utente, semplicemente non mostrare stats
+            }
+        }
+
+        // Submit tree count
+        async function submitTreeCount() {
+            const input = document.getElementById('treeCountInput');
+            const treeCount = parseInt(input.value);
+            
+            if (isNaN(treeCount) || treeCount < 0 || treeCount > 99) {
+                alert('Inserisci un numero tra 0 e 99');
+                return;
+            }
+            
+            const btn = document.getElementById('btnSubmitTreeCount');
+            btn.disabled = true;
+            btn.textContent = 'Salvataggio...';
+            
+            try {
+                console.log('💾 Salvataggio tree count:', treeCount);
+                
+                // Chiamata API Cloudflare Worker
+                const response = await fetch(`${WORKER_URL}/api/tree-count`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ count: treeCount })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('✓ Salvato con UUID:', result.uuid);
+                
+                // Mostra feedback
+                const feedback = document.getElementById('treeCountFeedback');
+                const meetsStandard = treeCount >= 3;
+                
+                feedback.className = 'tree-count-feedback visible ' + (meetsStandard ? 'success' : 'warning');
+                
+                if (meetsStandard) {
+                    feedback.innerHTML = `
+                        <strong>✅ Ottimo!</strong> Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra.
+                        Rispetti lo standard WHO che raccomanda almeno 3 alberi visibili.
+                    `;
+                } else {
+                    feedback.innerHTML = `
+                        <strong>❌ Sotto lo standard</strong><br>
+                        Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra, ma lo standard WHO raccomanda di vederne almeno 3.
+                        Considera di piantare alberi nelle vicinanze o di valorizzare la vegetazione urbana.
+                    `;
+                }
+                
+                // Ricarica statistiche (con un piccolo delay per dare tempo al KV di propagarsi)
+                setTimeout(() => loadCityStats(), 500);
+                
+                // Disabilita input
+                input.disabled = true;
+                btn.textContent = 'Inviato ✓';
+                
+            } catch (error) {
+                console.error('❌ Errore salvataggio:', error);
+                alert('Errore nel salvataggio. Riprova.');
+                btn.disabled = false;
+                btn.textContent = 'Invia';
+            }
+        }
+
+        // Enter key
+        addressInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && selectedLocation) {
+                searchAddress();
+            }
         });
     </script>
 </body>
