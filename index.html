@@ -835,11 +835,11 @@
     .dataset-toggle {
       display: flex;
       justify-content: center;
-      margin: 3rem 0;
+      margin: 2.5rem 0 0 0;
     }
     
     .toggle-button {
-      display: flex;
+      display: inline-flex;
       background: #374151;
       border-radius: 8px;
       padding: 4px;
@@ -847,14 +847,14 @@
     }
     
     .toggle-option {
-      padding: 0.75rem 2rem;
+      padding: 0.5rem 1.5rem;
       background: transparent;
       color: #9ca3af;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       transition: all 0.3s ease;
       font-family: 'Inter', sans-serif;
     }
@@ -879,7 +879,7 @@
     
     .dashboard-box {
       background: #374151;
-      border-left: 4px solid #34d399;
+      border: 2px solid #10b981;
       border-radius: 12px;
       padding: 2.5rem;
     }
@@ -2552,10 +2552,12 @@
       // Update toggle buttons
       document.querySelectorAll('.toggle-option').forEach(btn => {
         btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(dataset)) {
+          btn.classList.add('active');
+        }
       });
-      event.target.classList.add('active');
       
-      // Update stats with animation
+      // Update stats
       const stats = datasetStats[dataset];
       document.getElementById('stat-spazi').textContent = stats.spazi;
       document.getElementById('stat-percentuale').textContent = stats.percentuale;
