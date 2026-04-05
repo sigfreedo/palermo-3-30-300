@@ -830,6 +830,94 @@
         font-size: 16px;
       }
     }
+    
+    /* Dashboard Toggle Button */
+    .dataset-toggle {
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+    
+    .toggle-button {
+      display: flex;
+      background: #374151;
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+    
+    .toggle-option {
+      padding: 0.75rem 2rem;
+      background: transparent;
+      color: #9ca3af;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .toggle-option.active {
+      background: #10b981;
+      color: white;
+    }
+    
+    .toggle-option:hover:not(.active) {
+      background: #4b5563;
+      color: #e5e7eb;
+    }
+    
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .dashboard-box {
+      background: #374151;
+      border-left: 4px solid #34d399;
+      border-radius: 12px;
+      padding: 2.5rem;
+    }
+    
+    .dashboard-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #10b981;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-item {
+      margin-bottom: 1.5rem;
+    }
+    
+    .stat-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: 900;
+      color: #10b981;
+    }
+    
+    .stat-unit {
+      font-size: 16px;
+      color: #e5e7eb;
+      margin-left: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -1311,6 +1399,57 @@
                 <p style="margin-bottom: 1rem;">L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥0.5 ettari) entro <strong style="color: #10b981;">300 metri</strong> dalla propria abitazione. Città virtuose come Ljubljana raggiungono una copertura del 100% della popolazione.</p>
                 
                 <p style="margin-bottom: 0;">Per questa analisi sono stati utilizzati due dataset distinti: <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">OpenStreetMap</a> e <a href="https://land.copernicus.eu/local/urban-atlas" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Urban Atlas</a>. I risultati sono simili e puoi confrontarli usando il toggle qui sotto. Il calcolo si basa sull'incrocio dei dati sugli spazi verdi con le sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a>.</p>
+            </div>
+            
+            <!-- Toggle Dataset -->
+            <div class="dataset-toggle">
+                <div class="toggle-button">
+                    <button class="toggle-option active" onclick="switchDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" onclick="switchDataset('copernicus')">Copernicus</button>
+                </div>
+            </div>
+            
+            <!-- Dashboard Boxes -->
+            <div class="dashboard-grid">
+                <!-- Box 1: Statistiche Generali -->
+                <div class="dashboard-box">
+                    <h3>Statistiche generali</h3>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label">Spazi verdi</div>
+                        <div>
+                            <span class="stat-value" id="stat-spazi">118</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label">Popolazione con accesso al verde</div>
+                        <div>
+                            <span class="stat-value" id="stat-percentuale">38.76</span>
+                            <span class="stat-unit">%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label">Cittadini fortunati</div>
+                        <div>
+                            <span class="stat-value" id="stat-fortunati">246,293</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label">Cittadini svantaggiati</div>
+                        <div>
+                            <span class="stat-value" id="stat-svantaggiati">388,707</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Box 2: Il Mio Quartiere -->
+                <div class="dashboard-box">
+                    <h3>Il mio quartiere</h3>
+                    <p style="color: #9ca3af; font-size: 14px;">Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -2386,6 +2525,43 @@
       
       requestAnimationFrame(animation);
     });
+    
+    // Dashboard dataset toggle
+    let currentDataset = 'osm';
+    
+    const datasetStats = {
+      osm: {
+        spazi: '118',
+        percentuale: '38.76',
+        fortunati: '246,293',
+        svantaggiati: '388,707'
+      },
+      copernicus: {
+        spazi: '181',
+        percentuale: '48.50',
+        fortunati: '308,213',
+        svantaggiati: '326,787'
+      }
+    };
+    
+    function switchDataset(dataset) {
+      if (currentDataset === dataset) return;
+      
+      currentDataset = dataset;
+      
+      // Update toggle buttons
+      document.querySelectorAll('.toggle-option').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Update stats with animation
+      const stats = datasetStats[dataset];
+      document.getElementById('stat-spazi').textContent = stats.spazi;
+      document.getElementById('stat-percentuale').textContent = stats.percentuale;
+      document.getElementById('stat-fortunati').textContent = stats.fortunati;
+      document.getElementById('stat-svantaggiati').textContent = stats.svantaggiati;
+    }
   </script>
 </body>
 </html>
