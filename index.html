@@ -829,179 +829,22 @@
         font-size: 16px;
       }
     }
-
-    /* IL MIO QUARTIERE SECTION */
     
-    /* DASHBOARD PALERMO - FULL WIDTH CON PARALLASSE */
-    .palermo-dashboard {
-      background: #000000;
-      background-attachment: fixed;
-      background-size: cover;
-      color: #ffffff;
+    /* DASHBOARD PALERMO */
+    .dashboard-palermo {
+      background: #1a1a1a;
+      width: 100%;
       padding: 6rem 0;
       margin: 0;
-      width: 100vw;
-      position: relative;
-      left: 50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-    }
-    
-    .palermo-dashboard::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, rgba(0,0,0,0.3) 100%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    .dashboard-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 1;
     }
     
     .dashboard-title {
-      font-size: 2.5rem;
+      font-size: 32px;
       font-weight: 900;
       text-align: center;
-      margin-bottom: 2rem;
       color: #10b981;
-    }
-    
-    .dashboard-intro {
-      max-width: 900px;
-      margin: 0 auto 3rem;
-      text-align: center;
-      line-height: 1.8;
-      color: #e5e7eb;
-    }
-    
-    .dashboard-intro p {
-      margin-bottom: 1rem;
-    }
-    
-    .dashboard-intro strong {
-      color: #10b981;
-    }
-    
-    .dashboard-toggle {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-    
-    .toggle-btn {
-      padding: 0.75rem 2rem;
-      border: 2px solid #10b981;
-      background: transparent;
-      color: #10b981;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .toggle-btn:hover {
-      background: rgba(16,185,129,0.1);
-    }
-    
-    .toggle-btn.active {
-      background: #10b981;
-      color: #000000;
-    }
-    
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-    
-    @media (max-width: 968px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .dashboard-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    .stats-summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-    
-    .stat-card {
-      background: rgba(16,185,129,0.1);
-      border: 1px solid #10b981;
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: #10b981;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    .chart-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .chart-controls label {
-      color: #e5e7eb;
-      font-weight: 600;
-    }
-    
-    .chart-controls select {
-      flex: 1;
-      padding: 0.75rem;
-      background: rgba(16,185,129,0.1);
-      border: 1px solid #10b981;
-      color: #ffffff;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    
-    #categoryChart {
-      background: rgba(16,185,129,0.05);
-      border-radius: 12px;
-      padding: 1rem;
-    }
-    
-    .dashboard-right {
-      position: relative;
-    }
-    
-    #quartieriMap {
-      width: 100%;
-      height: 600px;
-      border-radius: 12px;
-      border: 2px solid #10b981;
+      margin: 0;
+      padding: 0 2rem;
     }
     
   </style>
@@ -1352,8 +1195,6 @@
       </p>
     </div>
     
-    <!-- IL MIO QUARTIERE SECTION -->
-    
     <!-- SECTION 300 -->
     <div class="section-300" id="section300">
       <div class="section-300-grid">
@@ -1478,56 +1319,8 @@
         </div>
 
     <!-- DASHBOARD PALERMO -->
-    <section id="palermoDashboard" class="palermo-dashboard" style="display: none;">
-        <div class="dashboard-container">
-            <h2 class="dashboard-title">Spazi verdi e accessibilità a Palermo</h2>
-            
-            <div class="dashboard-intro">
-                <p>Secondo l'Organizzazione Mondiale della Sanità (WHO), almeno il 50% della popolazione dovrebbe vivere entro <strong>300 metri</strong> da uno spazio verde pubblico per garantire benessere e salute urbana.</p>
-                <p>Per questa analisi sono stati utilizzati due dataset distinti: <strong>OpenStreetMap</strong> e <strong>Copernicus Urban Atlas</strong>. I risultati sono simili e puoi confrontarli usando il toggle qui sotto. Il calcolo si basa sull'incrocio dei dati sugli spazi verdi con le sezioni di censimento ISTAT 2021.</p>
-            </div>
-            
-            <div class="dashboard-toggle">
-                <button class="toggle-btn active" data-dataset="osm">OpenStreetMap</button>
-                <button class="toggle-btn" data-dataset="copernicus">Copernicus</button>
-            </div>
-            
-            <div class="dashboard-grid">
-                <!-- SINISTRA: Stats + Chart -->
-                <div class="dashboard-left">
-                    <div class="stats-summary" id="statsSummary">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalSpaces">118</div>
-                            <div class="stat-label">Spazi verdi</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="coveragePct">38.76%</div>
-                            <div class="stat-label">Popolazione coperta</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="coveredPop">246,293</div>
-                            <div class="stat-label">Cittadini raggiunti</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-controls">
-                        <label>Visualizza:</label>
-                        <select id="chartMetric">
-                            <option value="count">Numero spazi</option>
-                            <option value="area">Area totale</option>
-                            <option value="pct">% Area</option>
-                        </select>
-                    </div>
-                    
-                    <canvas id="categoryChart"></canvas>
-                </div>
-                
-                <!-- DESTRA: Mappa quartieri -->
-                <div class="dashboard-right">
-                    <div id="quartieriMap"></div>
-                </div>
-            </div>
-        </div>
+    <section class="dashboard-palermo" id="dashboardPalermo" style="display: none;">
+        <h2 class="dashboard-title">Spazi verdi e accessibilità a Palermo</h2>
     </section>
 
         <footer>
@@ -1552,37 +1345,6 @@
             osm: { coverage: '38.70', spaces: 118, area: '4.31' },
             copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
         };
-        
-        // DASHBOARD DATA
-        const dashboardData = {
-            osm: {
-                spaces: 118,
-                coverage_pct: 38.76,
-                covered_pop: 246293,
-                categories: {
-                    'Piccolo': { count: 45, area_sqm: 125000 },
-                    'Medio': { count: 38, area_sqm: 850000 },
-                    'Grande': { count: 25, area_sqm: 2200000 },
-                    'Molto grande': { count: 10, area_sqm: 1135000 }
-                }
-            },
-            copernicus: {
-                spaces: 181,
-                coverage_pct: 48.50,
-                covered_pop: 308213,
-                categories: {
-                    'Piccolo': { count: 72, area_sqm: 185000 },
-                    'Medio': { count: 54, area_sqm: 1100000 },
-                    'Grande': { count: 38, area_sqm: 1850000 },
-                    'Molto grande': { count: 17, area_sqm: 895000 }
-                }
-            }
-        };
-        
-        let currentDashboardDataset = 'osm';
-        let dashboardChart = null;
-        let quartieriMapInstance = null;
-
 
         // Carica quartieri al load
         async function loadQuartieri() {
@@ -1612,23 +1374,6 @@
         }
 
         // Carica dataset iniziale
-        
-        // DASHBOARD STATS
-        const dashboardStats = {
-            osm: {
-                spaces: 118,
-                coverage_pct: 38.76,
-                population_covered: 246293
-            },
-            copernicus: {
-                spaces: 181,
-                coverage_pct: 48.50,
-                population_covered: 308213
-            }
-        };
-        
-        // UPDATE QUARTIERE FOCUS
-        
         loadDataset('osm');
         loadQuartieri();
 
@@ -2344,8 +2089,13 @@
                     
                     console.log('=== ANALISI COMPLETATA ===');
                     
-                    // Mostra dashboard Palermo
-                    showDashboard(lat, lon);
+                    // Mostra dashboard
+                    setTimeout(() => {
+                        document.getElementById('dashboardPalermo').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('dashboardPalermo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }, 500);
                 } catch (error) {
                     console.error('❌ ERRORE CRITICO:', error);
                     alert('Errore nell\'analisi: ' + error.message + '\n\nApri la console (F12) per dettagli.');
@@ -2599,205 +2349,6 @@
                 searchAddress();
             }
         });
-        
-        // ========================================
-        // DASHBOARD PALERMO FUNCTIONS
-        // ========================================
-        
-        function showDashboard(lat, lon) {
-            // Mostra la sezione dashboard con smooth scroll
-            const dashboard = document.getElementById('palermoDashboard');
-            dashboard.style.display = 'block';
-            
-            // Init dashboard (solo la prima volta)
-            if (!dashboardChart) {
-                initDashboard();
-            }
-            
-            // Update con dataset corrente
-            updateDashboardStats(currentDashboardDataset);
-            
-            // Scroll alla dashboard
-            setTimeout(() => {
-                dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
-        }
-        
-        function initDashboard() {
-            // Init Chart.js
-            initCategoryChart();
-            
-            // Init Leaflet map quartieri
-            initQuartieriMap();
-            
-            // Toggle buttons
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const dataset = this.dataset.dataset;
-                    currentDashboardDataset = dataset;
-                    updateDashboardStats(dataset);
-                });
-            });
-            
-            // Chart metric selector
-            document.getElementById('chartMetric').addEventListener('change', function() {
-                updateChart(this.value);
-            });
-        }
-        
-        function updateDashboardStats(dataset) {
-            const data = dashboardData[dataset];
-            
-            // Update summary stats
-            document.getElementById('totalSpaces').textContent = data.spaces;
-            document.getElementById('coveragePct').textContent = data.coverage_pct.toFixed(2) + '%';
-            document.getElementById('coveredPop').textContent = data.covered_pop.toLocaleString();
-            
-            // Update chart
-            const metric = document.getElementById('chartMetric').value;
-            updateChart(metric);
-        }
-        
-        function initCategoryChart() {
-            const ctx = document.getElementById('categoryChart').getContext('2d');
-            
-            dashboardChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Piccolo', 'Medio', 'Grande', 'Molto grande'],
-                    datasets: [{
-                        label: 'Numero spazi',
-                        data: [0, 0, 0, 0],
-                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
-                        borderColor: '#10b981',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#e5e7eb'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: '#e5e7eb'
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        function updateChart(metric) {
-            const data = dashboardData[currentDashboardDataset];
-            const categories = data.categories;
-            
-            let values = [];
-            let label = '';
-            
-            if (metric === 'count') {
-                values = Object.values(categories).map(cat => cat.count);
-                label = 'Numero spazi';
-            } else if (metric === 'area') {
-                values = Object.values(categories).map(cat => (cat.area_sqm / 1000000).toFixed(2));
-                label = 'Area (km²)';
-            } else if (metric === 'pct') {
-                const total = Object.values(categories).reduce((sum, cat) => sum + cat.area_sqm, 0);
-                values = Object.values(categories).map(cat => ((cat.area_sqm / total) * 100).toFixed(1));
-                label = '% Area';
-            }
-            
-            dashboardChart.data.datasets[0].data = values;
-            dashboardChart.data.datasets[0].label = label;
-            dashboardChart.update();
-        }
-        
-        function initQuartieriMap() {
-            if (!quartieri) {
-                console.warn('Quartieri non caricati, mappa non disponibile');
-                return;
-            }
-            
-            // Create Leaflet map
-            quartieriMapInstance = L.map('quartieriMap', {
-                scrollWheelZoom: false
-            }).setView([38.1157, 13.3615], 12);
-            
-            // Add dark tile layer
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-                maxZoom: 19
-            }).addTo(quartieriMapInstance);
-            
-            // Add quartieri layer with colors based on coverage
-            L.geoJSON(quartieri, {
-                style: function(feature) {
-                    const pct = feature.properties.pct_popolazione_coperta || 0;
-                    let color;
-                    
-                    if (pct >= 50) color = '#10b981'; // Verde
-                    else if (pct >= 40) color = '#fbbf24'; // Giallo
-                    else color = '#ef4444'; // Rosso
-                    
-                    return {
-                        fillColor: color,
-                        weight: 2,
-                        opacity: 1,
-                        color: '#ffffff',
-                        fillOpacity: 0.6
-                    };
-                },
-                onEachFeature: function(feature, layer) {
-                    const props = feature.properties;
-                    const popupContent = `
-                        <div style="color: #1a1a1a;">
-                            <strong style="font-size: 1.1rem; color: #10b981;">${props.quartiere}</strong><br>
-                            <strong>Popolazione:</strong> ${(props.popolazione || 0).toLocaleString()}<br>
-                            <strong>% Coperta:</strong> ${(props.pct_popolazione_coperta || 0).toFixed(1)}%
-                        </div>
-                    `;
-                    
-                    layer.bindTooltip(popupContent, {
-                        permanent: false,
-                        direction: 'top'
-                    });
-                    
-                    layer.on('mouseover', function() {
-                        this.setStyle({
-                            weight: 4,
-                            fillOpacity: 0.8
-                        });
-                    });
-                    
-                    layer.on('mouseout', function() {
-                        this.setStyle({
-                            weight: 2,
-                            fillOpacity: 0.6
-                        });
-                    });
-                }
-            }).addTo(quartieriMapInstance);
-        }
-        
     </script>
 </body>
   
