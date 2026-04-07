@@ -2937,6 +2937,14 @@
         .leaflet-interactive:focus {
           outline: none !important;
         }
+        /* Force map container to full width */
+        #quartieri-map {
+          width: 100% !important;
+        }
+        #quartieri-map .leaflet-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
       `;
       document.head.appendChild(style);
       
@@ -2950,6 +2958,11 @@
         touchZoom: true,
         boxZoom: false
       });
+      
+      // Force size recalculation after a brief delay
+      setTimeout(() => {
+        quartieriMap.invalidateSize();
+      }, 100);
       
       // Add base layer
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
