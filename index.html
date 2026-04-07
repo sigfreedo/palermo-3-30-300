@@ -1548,6 +1548,104 @@
         <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: #065f46;">GitHub</a></p>
     </footer>
     <script>
+        // ===== CRITICAL FUNCTIONS - MUST BE DEFINED FIRST =====
+        window.getColorFromPercentage = function(percentage) {
+            if (percentage < 30) return '#E24B4A';
+            if (percentage < 50) return '#D85A30';
+            if (percentage < 60) return '#EF9F27';
+            if (percentage < 70) return '#5DCAA5';
+            if (percentage < 80) return '#1D9E75';
+            return '#185FA5';
+        };
+        
+        window.calculateProgressOffset = function(percentage) {
+            const circumference = 628;
+            return circumference - (circumference * percentage / 100);
+        };
+        
+        window.pointInPolygon = function(point, polygon) {
+            const [x, y] = point;
+            let inside = false;
+            
+            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                const [xi, yi] = polygon[i];
+                const [xj, yj] = polygon[j];
+                
+                const intersect = ((yi > y) !== (yj > y)) &&
+                    (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                
+                if (intersect) inside = !inside;
+            }
+            
+            return inside;
+        };
+        
+        window.getQuartiereFromCoords = function(lat, lon) {
+            const bounds = {
+                "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
+                "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
+                "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
+            };
+            
+            const point = [lon, lat];
+            
+            for (const [nome, ring] of Object.entries(bounds)) {
+                if (window.pointInPolygon(point, ring)) {
+                    return nome;
+                }
+            }
+            
+            if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
+            if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
+            if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
+            if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
+            
+            return "Politeama";
+        };
+        
+        window.updateQuartiereBox = function(nomeQuartiere) {
+            console.log('updateQuartiereBox called for:', nomeQuartiere);
+            
+            if (!window.quartieriData) {
+                console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
+                setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
+                return;
+            }
+            
+            const dataset = window.currentDataset || 'osm';
+            const dati = window.quartieriData[dataset][nomeQuartiere];
+            
+            if (!dati) {
+                console.error('Quartiere non trovato:', nomeQuartiere, 'in dataset:', dataset);
+                console.log('Quartieri disponibili:', Object.keys(window.quartieriData[dataset]));
+                return;
+            }
+            
+            const copertura = dati.pct_popolazione_coperta || 0;
+            const color = window.getColorFromPercentage(copertura);
+            const offset = window.calculateProgressOffset(copertura);
+            
+            document.getElementById('quartiere-title').textContent = nomeQuartiere;
+            document.getElementById('quartiere-spazi').textContent = dati.num_spazi || 0;
+            document.getElementById('quartiere-popolazione').textContent = (dati.popolazione_totale || 0).toLocaleString('it-IT');
+            document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
+            document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
+            document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
+            
+            const descrizione = copertura < 30
+                ? `Solo il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere necessita di maggiori aree verdi accessibili.`
+                : copertura < 50
+                ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è insufficiente rispetto agli standard WHO.`
+                : copertura < 70
+                ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è discreta ma può essere migliorata.`
+                : `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere ha una buona accessibilità al verde urbano.`;
+            
+            document.getElementById('quartiere-descrizione').innerHTML = descrizione;
+            document.getElementById('quartiere-placeholder').style.display = 'none';
+            document.getElementById('quartiere-stats').style.display = 'block';
+        };
+        // ===== END CRITICAL FUNCTIONS =====
+        
         let greenSpaces = null;
         let quartieri = null; // Dati quartieri con tree canopy e statistiche
         let currentDataset = 'osm';
@@ -2598,103 +2696,6 @@
     // Global variables - set immediately
     window.currentDataset = 'osm';
     let currentMetric = 'count';
-    
-    // Critical functions needed by first script - define immediately
-    window.getColorFromPercentage = function(percentage) {
-      if (percentage < 30) return '#E24B4A';
-      if (percentage < 50) return '#D85A30';
-      if (percentage < 60) return '#EF9F27';
-      if (percentage < 70) return '#5DCAA5';
-      if (percentage < 80) return '#1D9E75';
-      return '#185FA5';
-    };
-    
-    window.calculateProgressOffset = function(percentage) {
-      const circumference = 628;
-      return circumference - (circumference * percentage / 100);
-    };
-    
-    // Point-in-polygon check
-    window.pointInPolygon = function(point, polygon) {
-      const [x, y] = point;
-      let inside = false;
-      
-      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const [xi, yi] = polygon[i];
-        const [xj, yj] = polygon[j];
-        
-        const intersect = ((yi > y) !== (yj > y)) &&
-          (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        
-        if (intersect) inside = !inside;
-      }
-      
-      return inside;
-    };
-    
-    // Get quartiere from coordinates
-    window.getQuartiereFromCoords = function(lat, lon) {
-      const bounds = {
-        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
-        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
-        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
-      };
-      
-      const point = [lon, lat];
-      
-      for (const [nome, ring] of Object.entries(bounds)) {
-        if (window.pointInPolygon(point, ring)) {
-          return nome;
-        }
-      }
-      
-      if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
-      if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
-      if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
-      if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
-      
-      return "Politeama";
-    };
-    
-    // Update quartiere box
-    window.updateQuartiereBox = function(nomeQuartiere) {
-      if (!window.quartieriData) {
-        console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
-        setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
-        return;
-      }
-      
-      const dataset = window.currentDataset || 'osm';
-      const dati = window.quartieriData[dataset][nomeQuartiere];
-      
-      if (!dati) {
-        console.error('Quartiere non trovato:', nomeQuartiere);
-        return;
-      }
-      
-      const copertura = dati.pct_popolazione_coperta;
-      const color = window.getColorFromPercentage(copertura);
-      const offset = window.calculateProgressOffset(copertura);
-      
-      document.getElementById('quartiere-title').textContent = nomeQuartiere;
-      document.getElementById('quartiere-spazi').textContent = dati.num_spazi;
-      document.getElementById('quartiere-popolazione').textContent = dati.popolazione_totale.toLocaleString('it-IT');
-      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
-      document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
-      document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
-      
-      const descrizione = dati.pct_popolazione_coperta < 30
-        ? `Solo il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere necessita di maggiori aree verdi accessibili.`
-        : dati.pct_popolazione_coperta < 50
-        ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è insufficiente rispetto agli standard WHO.`
-        : dati.pct_popolazione_coperta < 70
-        ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è discreta ma può essere migliorata.`
-        : `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere ha una buona accessibilità al verde urbano.`;
-      
-      document.getElementById('quartiere-descrizione').innerHTML = descrizione;
-      document.getElementById('quartiere-placeholder').style.display = 'none';
-      document.getElementById('quartiere-stats').style.display = 'block';
-    };
     
     // switchMetric function
     window.switchMetric = function(metric) {
