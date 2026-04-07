@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * {
       margin: 0;
@@ -918,7 +919,23 @@
       color: #e5e7eb;
       margin-left: 0.5rem;
     }
+    
+    /* Leaflet custom tooltip */
+    .custom-tooltip {
+      background: rgba(26, 26, 26, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+      color: #ffffff !important;
+    }
+    
+    .custom-tooltip::before {
+      border-top-color: rgba(26, 26, 26, 0.95) !important;
+    }
   </style>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <section class="hero">
@@ -1499,6 +1516,15 @@
                     <!-- SVG chart will be inserted here -->
                 </div>
             </div>
+            
+            <!-- Mappa Quartieri -->
+            <div class="dashboard-box" style="margin-top: 2rem;">
+                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Copertura per quartiere</h3>
+                
+                <div id="quartieri-map" style="height: 500px; border-radius: 8px; overflow: hidden;">
+                    <!-- Leaflet map will be inserted here -->
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -1528,18 +1554,18 @@
         // Dati categorizzazione verde urbano
         const categoryData = {
             osm: [
-                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300.000 mq' },
-                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 mq' },
-                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 mq' },
-                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 mq' },
-                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 mq' }
+                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.48, avgArea: 1908694, range: '> 300.000 m²' },
+                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 m²' },
+                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 m²' },
+                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 m²' },
+                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 m²' }
             ],
             copernicus: [
-                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 8.68, avgArea: 349530, range: '> 300.000 mq' },
-                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 32.48, avgArea: 163434, range: '100.000 - 300.000 mq' },
-                { category: 'Parco di quartiere', count: 18, totalArea: 966031, percentage: 24.00, avgArea: 53668, range: '30.000 - 100.000 mq' },
-                { category: 'Giardino', count: 54, totalArea: 852650, percentage: 21.18, avgArea: 15790, range: '10.000 - 30.000 mq' },
-                { category: 'Piccolo spazio verde', count: 100, totalArea: 550170, percentage: 13.67, avgArea: 5502, range: '< 10.000 mq' }
+                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 8.68, avgArea: 349530, range: '> 300.000 m²' },
+                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 32.48, avgArea: 163434, range: '100.000 - 300.000 m²' },
+                { category: 'Parco di quartiere', count: 18, totalArea: 966031, percentage: 24.00, avgArea: 53668, range: '30.000 - 100.000 m²' },
+                { category: 'Giardino', count: 54, totalArea: 852650, percentage: 21.18, avgArea: 15790, range: '10.000 - 30.000 m²' },
+                { category: 'Piccolo spazio verde', count: 100, totalArea: 550170, percentage: 13.67, avgArea: 5502, range: '< 10.000 m²' }
             ]
         };
 
@@ -2933,7 +2959,108 @@
     // Initialize category chart on page load
     window.addEventListener('DOMContentLoaded', function() {
       renderCategoryChart('osm', 'count');
+      initQuartieriMap();
     });
+    
+    // Initialize Quartieri Map
+    async function initQuartieriMap() {
+      try {
+        const response = await fetch('quartieri_dati_completi.geojson');
+        if (!response.ok) throw new Error('Quartieri non trovati');
+        const quartieriData = await response.json();
+        
+        // Create map
+        const map = L.map('quartieri-map', {
+          center: [38.1157, 13.3615],
+          zoom: 11,
+          zoomControl: true,
+          scrollWheelZoom: false
+        });
+        
+        // Add tile layer (CartoDB Dark Matter)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          maxZoom: 19
+        }).addTo(map);
+        
+        // Sort quartieri by coverage for ranking
+        const sortedQuartieri = quartieriData.features
+          .map(f => ({ 
+            name: f.properties.quartiere, 
+            coverage: f.properties.pct_popolazione_coperta 
+          }))
+          .sort((a, b) => b.coverage - a.coverage);
+        
+        const getRanking = (quartiereName) => {
+          const index = sortedQuartieri.findIndex(q => q.name === quartiereName);
+          return index + 1;
+        };
+        
+        // Add quartieri layer
+        L.geoJSON(quartieriData, {
+          style: function(feature) {
+            const coverage = feature.properties.pct_popolazione_coperta;
+            const color = window.getColorFromPercentage(coverage);
+            
+            return {
+              fillColor: color,
+              weight: 1,
+              opacity: 1,
+              color: 'rgba(255,255,255,0.3)',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function(feature, layer) {
+            const props = feature.properties;
+            const ranking = getRanking(props.quartiere);
+            
+            // Tooltip on hover
+            layer.bindTooltip(`
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0.5rem;">
+                <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.25rem;">${props.quartiere}</div>
+                <div style="font-size: 12px; color: #d1d5db;">
+                  <div>Copertura: <strong>${props.pct_popolazione_coperta.toFixed(1)}%</strong></div>
+                  <div>Popolazione: ${props.popolazione.toLocaleString('it-IT')}</div>
+                  <div>Classifica: ${ranking}° su 25</div>
+                </div>
+              </div>
+            `, {
+              permanent: false,
+              direction: 'top',
+              className: 'custom-tooltip'
+            });
+            
+            // Highlight on hover
+            layer.on({
+              mouseover: function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 2,
+                  color: '#ffffff',
+                  fillOpacity: 0.9
+                });
+                layer.bringToFront();
+              },
+              mouseout: function(e) {
+                const layer = e.target;
+                const coverage = feature.properties.pct_popolazione_coperta;
+                const color = window.getColorFromPercentage(coverage);
+                layer.setStyle({
+                  weight: 1,
+                  color: 'rgba(255,255,255,0.3)',
+                  fillOpacity: 0.7
+                });
+              }
+            });
+          }
+        }).addTo(map);
+        
+      } catch (error) {
+        console.error('Errore caricamento mappa quartieri:', error);
+        document.getElementById('quartieri-map').innerHTML = 
+          '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #9ca3af; font-size: 14px;">Mappa non disponibile</div>';
+      }
+    }
   </script>
 </body>
 </html>
