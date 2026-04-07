@@ -919,6 +919,12 @@
       margin-left: 0.5rem;
     }
   </style>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
   <section class="hero">
@@ -1498,6 +1504,12 @@
                 <div id="category-chart" style="height: 450px; position: relative;">
                     <!-- SVG chart will be inserted here -->
                 </div>
+            </div>
+            
+            <!-- Mappa Quartieri -->
+            <div class="dashboard-box" style="margin-top: 2rem;">
+                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Mappa quartieri</h3>
+                <div id="quartieri-map" style="height: 650px; border-radius: 8px; overflow: hidden;"></div>
             </div>
             </div>
         </div>
@@ -2294,6 +2306,7 @@
                         // Render istogramma categorie (dopo che dashboard è visibile)
                         setTimeout(() => {
                             window.renderCategoryChart('osm', 'count');
+                            window.initQuartieriMap();
                         }, 50);
                         
                         // Determina e mostra quartiere
@@ -2894,6 +2907,65 @@
       
       svg += '</svg>';
       container.innerHTML = svg;
+    };
+    
+    // Mappa quartieri
+    let quartieriMap = null;
+    let quartieriLayer = null;
+    
+    window.initQuartieriMap = function() {
+      if (quartieriMap) return; // Already initialized
+      
+      // Initialize map
+      quartieriMap = L.map('quartieri-map', {
+        center: [38.115, 13.361],
+        zoom: 12,
+        zoomControl: true,
+        scrollWheelZoom: true
+      });
+      
+      // Add base layer
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxZoom: 19
+      }).addTo(quartieriMap);
+      
+      // Load quartieri data
+      fetch('quartieri_dati_completi.geojson')
+        .then(response => response.json())
+        .then(data => {
+          const dataset = window.currentDataset || 'osm';
+          
+          quartieriLayer = L.geoJSON(data, {
+            style: function(feature) {
+              const coverage = feature.properties.pct_popolazione_coperta || 0;
+              const color = window.getColorFromPercentage(coverage);
+              
+              return {
+                fillColor: color,
+                weight: 2,
+                opacity: 1,
+                color: '#ffffff',
+                fillOpacity: 0.7
+              };
+            },
+            onEachFeature: function(feature, layer) {
+              const props = feature.properties;
+              const coverage = props.pct_popolazione_coperta || 0;
+              
+              layer.bindTooltip(
+                `<strong>${props.nome}</strong><br>` +
+                `Copertura: ${coverage.toFixed(1)}%<br>` +
+                `Popolazione: ${(props.popolazione_totale || 0).toLocaleString('it-IT')}`,
+                {
+                  permanent: false,
+                  direction: 'top'
+                }
+              );
+            }
+          }).addTo(quartieriMap);
+        })
+        .catch(error => console.error('Errore caricamento quartieri:', error));
     };
     
     window.switchDashboardDataset = function(dataset) {
