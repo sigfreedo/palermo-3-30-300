@@ -1418,12 +1418,12 @@
                     
                     <!-- Progress Circle -->
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                        <svg width="200" height="200" viewBox="0 0 200 200" id="city-progress-circle">
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
-                            <circle cx="100" cy="100" r="80" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="308" stroke-linecap="round" transform="rotate(-90 100 100)"/>
-                            <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="city-percentage">38,8%</text>
-                            <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
-                            <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
+                        <svg width="240" height="240" viewBox="0 0 240 240" id="city-progress-circle">
+                            <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                            <circle cx="120" cy="120" r="100" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="308" stroke-linecap="round" transform="rotate(-90 120 120)"/>
+                            <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="city-percentage">38,8%</text>
+                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">dal verde urbano</text>
                         </svg>
                     </div>
                     
@@ -1455,12 +1455,12 @@
                     <div id="quartiere-stats" style="display: none;">
                         <!-- Progress Circle -->
                         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                            <svg width="200" height="200" viewBox="0 0 200 200" id="quartiere-progress-circle">
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
-                                <circle cx="100" cy="100" r="80" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 100 100)"/>
-                                <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
-                                <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
-                                <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
+                            <svg width="240" height="240" viewBox="0 0 240 240" id="quartiere-progress-circle">
+                                <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                                <circle cx="120" cy="120" r="100" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 120 120)"/>
+                                <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
+                                <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                                <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">dal verde urbano</text>
                             </svg>
                         </div>
                         
@@ -2724,8 +2724,8 @@
     };
     
     window.calculateProgressOffset = function(percentage) {
-      // SVG circle circumference: 2πr = 2 * 3.14159 * 80 ≈ 503
-      const circumference = 503;
+      // SVG circle circumference: 2πr = 2 * 3.14159 * 100 ≈ 628
+      const circumference = 628;
       return circumference - (circumference * percentage / 100);
     };
     
