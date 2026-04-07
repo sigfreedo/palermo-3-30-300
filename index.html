@@ -1482,6 +1482,23 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Categorizzazione del verde urbano -->
+            <div class="dashboard-box" style="margin-top: 2rem;">
+                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano</h3>
+                
+                <!-- Metric Toggle -->
+                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
+                    <button class="metric-btn active" onclick="switchMetric('count')" data-metric="count" style="padding: 0.5rem 1rem; background: #10b981; color: #000000; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Numero spazi</button>
+                    <button class="metric-btn" onclick="switchMetric('area')" data-metric="area" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Superficie (km²)</button>
+                    <button class="metric-btn" onclick="switchMetric('percentage')" data-metric="percentage" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">% Superficie</button>
+                </div>
+                
+                <!-- Chart Container -->
+                <div id="category-chart" style="height: 450px; position: relative;">
+                    <!-- SVG chart will be inserted here -->
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -1506,6 +1523,24 @@
         const stats = {
             osm: { coverage: '38.70', spaces: 118, area: '4.31' },
             copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
+        };
+
+        // Dati categorizzazione verde urbano
+        const categoryData = {
+            osm: [
+                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300.000 mq' },
+                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 mq' },
+                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 mq' },
+                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 mq' },
+                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 mq' }
+            ],
+            copernicus: [
+                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 8.68, avgArea: 349530, range: '> 300.000 mq' },
+                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 32.48, avgArea: 163434, range: '100.000 - 300.000 mq' },
+                { category: 'Parco di quartiere', count: 18, totalArea: 966031, percentage: 24.00, avgArea: 53668, range: '30.000 - 100.000 mq' },
+                { category: 'Giardino', count: 54, totalArea: 852650, percentage: 21.18, avgArea: 15790, range: '10.000 - 30.000 mq' },
+                { category: 'Piccolo spazio verde', count: 100, totalArea: 550170, percentage: 13.67, avgArea: 5502, range: '< 10.000 mq' }
+            ]
         };
 
         // Carica quartieri al load
@@ -2729,6 +2764,133 @@
       return circumference - (circumference * percentage / 100);
     };
     
+    // Category chart functions
+    let currentMetric = 'count';
+    
+    window.switchMetric = function(metric) {
+      currentMetric = metric;
+      
+      // Update button states
+      document.querySelectorAll('.metric-btn').forEach(btn => {
+        const btnMetric = btn.getAttribute('data-metric');
+        if (btnMetric === metric) {
+          btn.classList.add('active');
+          btn.style.background = '#10b981';
+          btn.style.color = '#000000';
+        } else {
+          btn.classList.remove('active');
+          btn.style.background = 'rgba(255,255,255,0.1)';
+          btn.style.color = '#9ca3af';
+        }
+      });
+      
+      // Re-render chart
+      renderCategoryChart(window.currentDataset, metric);
+    };
+    
+    window.renderCategoryChart = function(dataset, metric = 'count') {
+      const data = categoryData[dataset];
+      const container = document.getElementById('category-chart');
+      
+      if (!data || !container) return;
+      
+      // Chart dimensions
+      const width = container.offsetWidth;
+      const height = 450;
+      const margin = { top: 20, right: 40, bottom: 100, left: 60 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      
+      // Fixed scales per metric
+      let maxValue, scaleSteps, formatLabel;
+      
+      if (metric === 'count') {
+        maxValue = 100;
+        scaleSteps = [0, 20, 40, 60, 80, 100];
+        formatLabel = (v) => v.toFixed(0);
+      } else if (metric === 'area') {
+        // Convert to km²
+        maxValue = 2000000; // 2.0 km² in mq
+        scaleSteps = [0, 0.4, 0.8, 1.2, 1.6, 2.0];
+        formatLabel = (v) => v.toFixed(1).replace('.', ',');
+      } else {
+        maxValue = 50;
+        scaleSteps = [0, 10, 20, 30, 40, 50];
+        formatLabel = (v) => v.toFixed(0) + '%';
+      }
+      
+      // Create SVG
+      let svg = `<svg width="${width}" height="${height}" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">`;
+      
+      // Grid lines with fixed scales
+      scaleSteps.forEach((step, i) => {
+        const y = margin.top + chartHeight - (chartHeight / (scaleSteps.length - 1)) * i;
+        const label = metric === 'area' ? formatLabel(step) : formatLabel(step);
+        
+        svg += `<line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${margin.left - 10}" y="${y + 4}" text-anchor="end" fill="#9ca3af" font-size="12">${label}</text>`;
+      });
+      
+      // Y-axis label for km²
+      if (metric === 'area') {
+        svg += `<text x="${margin.left - 45}" y="${margin.top + chartHeight / 2}" text-anchor="middle" fill="#9ca3af" font-size="12" transform="rotate(-90, ${margin.left - 45}, ${margin.top + chartHeight / 2})">km²</text>`;
+      }
+      
+      // Draw bars - reduced width by 20% (from 0.7 to 0.56)
+      const barWidth = chartWidth / data.length * 0.56;
+      const barSpacing = chartWidth / data.length;
+      
+      data.forEach((category, i) => {
+        let value;
+        if (metric === 'count') {
+          value = category.count;
+        } else if (metric === 'area') {
+          value = category.totalArea;
+        } else {
+          value = category.percentage;
+        }
+        
+        const barHeight = (value / maxValue) * chartHeight;
+        const x = margin.left + barSpacing * i + (barSpacing - barWidth) / 2;
+        const y = margin.top + chartHeight - barHeight;
+        
+        // Bar with smooth animation (only height/y, no opacity)
+        svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="#10b981" rx="4">
+          <animate attributeName="height" from="0" to="${barHeight}" dur="0.5s" fill="freeze"/>
+          <animate attributeName="y" from="${margin.top + chartHeight}" to="${y}" dur="0.5s" fill="freeze"/>
+        </rect>`;
+        
+        // Value on top of bar
+        let displayValue;
+        if (metric === 'area') {
+          displayValue = (value / 1000000).toFixed(2).replace('.', ',');
+        } else if (metric === 'percentage') {
+          displayValue = value.toFixed(1).replace('.', ',') + '%';
+        } else {
+          displayValue = value;
+        }
+        
+        svg += `<text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="600">${displayValue}</text>`;
+        
+        // Category label (wrapped)
+        const labelY = height - margin.bottom + 20;
+        const words = category.category.split(' ');
+        
+        if (words.length <= 2) {
+          svg += `<text x="${x + barWidth / 2}" y="${labelY}" text-anchor="middle" fill="#e5e7eb" font-size="13">${category.category}</text>`;
+        } else {
+          svg += `<text x="${x + barWidth / 2}" y="${labelY}" text-anchor="middle" fill="#e5e7eb" font-size="13">${words[0]} ${words[1]}</text>`;
+          svg += `<text x="${x + barWidth / 2}" y="${labelY + 16}" text-anchor="middle" fill="#e5e7eb" font-size="13">${words.slice(2).join(' ')}</text>`;
+        }
+        
+        // Range below label
+        svg += `<text x="${x + barWidth / 2}" y="${labelY + 36}" text-anchor="middle" fill="#9ca3af" font-size="11">${category.range}</text>`;
+      });
+      
+      svg += '</svg>';
+      container.innerHTML = svg;
+    };
+    
     window.switchDashboardDataset = function(dataset) {
       if (window.currentDataset === dataset) return;
       
@@ -2763,7 +2925,15 @@
           window.updateQuartiereBox(nomeQuartiere);
         }
       }
+      
+      // Update category chart
+      renderCategoryChart(dataset, currentMetric);
     }
+    
+    // Initialize category chart on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      renderCategoryChart('osm', 'count');
+    });
   </script>
 </body>
 </html>
