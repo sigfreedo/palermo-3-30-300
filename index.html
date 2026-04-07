@@ -2599,6 +2599,21 @@
     window.currentDataset = 'osm';
     let currentMetric = 'count';
     
+    // Critical functions needed by first script - define immediately
+    window.getColorFromPercentage = function(percentage) {
+      if (percentage < 30) return '#E24B4A';
+      if (percentage < 50) return '#D85A30';
+      if (percentage < 60) return '#EF9F27';
+      if (percentage < 70) return '#5DCAA5';
+      if (percentage < 80) return '#1D9E75';
+      return '#185FA5';
+    };
+    
+    window.calculateProgressOffset = function(percentage) {
+      const circumference = 628;
+      return circumference - (circumference * percentage / 100);
+    };
+    
     // PARALLAX EFFECT
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
@@ -2788,22 +2803,6 @@
       const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.`;
       
       document.getElementById('quartiere-descrizione').innerHTML = descrizione;
-    };
-    
-    // Helper functions for progress circles
-    window.getColorFromPercentage = function(percentage) {
-      if (percentage < 30) return '#E24B4A';  // Scarsa - Red 400
-      if (percentage < 50) return '#D85A30';  // Insufficiente - Coral 400
-      if (percentage < 60) return '#EF9F27';  // Sufficiente - Amber 400
-      if (percentage < 70) return '#5DCAA5';  // Discreta - Teal 200
-      if (percentage < 80) return '#1D9E75';  // Buona - Teal 400
-      return '#185FA5';                       // Ottima - Blue 600
-    };
-    
-    window.calculateProgressOffset = function(percentage) {
-      // SVG circle circumference: 2πr = 2 * 3.14159 * 100 ≈ 628
-      const circumference = 628;
-      return circumference - (circumference * percentage / 100);
     };
     
     // Category chart functions
