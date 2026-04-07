@@ -1507,9 +1507,13 @@
             </div>
             
             <!-- Mappa Quartieri -->
-            <div class="dashboard-box" style="margin-top: 2rem; padding: 1.5rem 0 0 0;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; padding: 0 2rem; color: #ffffff;">Mappa quartieri</h3>
-                <div id="quartieri-map" style="height: 650px;"></div>
+            <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
+                <div id="quartieri-map" style="height: 650px; position: relative;">
+                    <!-- Titolo overlay -->
+                    <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                        <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere</h3>
+                    </div>
+                </div>
             </div>
             </div>
         </div>
