@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * {
       margin: 0;
@@ -919,28 +918,7 @@
       color: #e5e7eb;
       margin-left: 0.5rem;
     }
-    
-    /* Leaflet custom tooltip */
-    .custom-tooltip {
-      background: rgba(26, 26, 26, 0.95) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      border-radius: 6px !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-      color: #ffffff !important;
-    }
-    
-    .custom-tooltip::before {
-      border-top-color: rgba(26, 26, 26, 0.95) !important;
-    }
-    
-    /* Loader spinner */
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
   </style>
-  
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <section class="hero">
@@ -1440,12 +1418,12 @@
                     
                     <!-- Progress Circle -->
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                        <svg width="240" height="240" viewBox="0 0 240 240" id="city-progress-circle">
-                            <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
-                            <circle cx="120" cy="120" r="100" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="308" stroke-linecap="round" transform="rotate(-90 120 120)"/>
-                            <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="city-percentage">38,8%</text>
-                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
-                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">dal verde urbano</text>
+                        <svg width="200" height="200" viewBox="0 0 200 200" id="city-progress-circle">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                            <circle cx="100" cy="100" r="80" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="308" stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                            <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="city-percentage">38,8%</text>
+                            <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                            <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
                         </svg>
                     </div>
                     
@@ -1477,12 +1455,12 @@
                     <div id="quartiere-stats" style="display: none;">
                         <!-- Progress Circle -->
                         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                            <svg width="240" height="240" viewBox="0 0 240 240" id="quartiere-progress-circle">
-                                <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
-                                <circle cx="120" cy="120" r="100" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 120 120)"/>
-                                <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
-                                <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
-                                <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">dal verde urbano</text>
+                            <svg width="200" height="200" viewBox="0 0 200 200" id="quartiere-progress-circle">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                                <circle cx="100" cy="100" r="80" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                                <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
+                                <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                                <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
                             </svg>
                         </div>
                         
@@ -1504,39 +1482,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Categorizzazione del verde urbano -->
-            <div class="dashboard-box" style="margin-top: 2rem;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano</h3>
-                
-                <!-- Metric Toggle -->
-                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
-                    <button class="metric-btn active" onclick="switchMetric('count')" data-metric="count" style="padding: 0.5rem 1rem; background: #10b981; color: #000000; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Numero spazi</button>
-                    <button class="metric-btn" onclick="switchMetric('area')" data-metric="area" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Superficie (km²)</button>
-                    <button class="metric-btn" onclick="switchMetric('percentage')" data-metric="percentage" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">% Superficie</button>
-                </div>
-                
-                <!-- Chart Container -->
-                <div id="category-chart" style="height: 450px; position: relative;">
-                    <!-- SVG chart will be inserted here -->
-                </div>
-            </div>
-            
-            <!-- Mappa Quartieri -->
-            <div class="dashboard-box" style="margin-top: 2rem; padding: 1.5rem 0 0 0;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff; padding: 0 2rem;">Copertura per quartiere</h3>
-                
-                <div id="quartieri-map" style="height: 650px; position: relative;">
-                    <!-- Loader -->
-                    <div id="map-loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: #1a1a1a; z-index: 1000;">
-                        <div style="text-align: center;">
-                            <div style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
-                            <div style="color: #9ca3af; font-size: 14px;">Caricamento mappa...</div>
-                        </div>
-                    </div>
-                    <!-- Leaflet map will be inserted here -->
-                </div>
-            </div>
             </div>
         </div>
     </section>
@@ -1548,104 +1493,6 @@
         <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: #065f46;">GitHub</a></p>
     </footer>
     <script>
-        // ===== CRITICAL FUNCTIONS - MUST BE DEFINED FIRST =====
-        window.getColorFromPercentage = function(percentage) {
-            if (percentage < 30) return '#E24B4A';
-            if (percentage < 50) return '#D85A30';
-            if (percentage < 60) return '#EF9F27';
-            if (percentage < 70) return '#5DCAA5';
-            if (percentage < 80) return '#1D9E75';
-            return '#185FA5';
-        };
-        
-        window.calculateProgressOffset = function(percentage) {
-            const circumference = 628;
-            return circumference - (circumference * percentage / 100);
-        };
-        
-        window.pointInPolygon = function(point, polygon) {
-            const [x, y] = point;
-            let inside = false;
-            
-            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-                const [xi, yi] = polygon[i];
-                const [xj, yj] = polygon[j];
-                
-                const intersect = ((yi > y) !== (yj > y)) &&
-                    (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-                
-                if (intersect) inside = !inside;
-            }
-            
-            return inside;
-        };
-        
-        window.getQuartiereFromCoords = function(lat, lon) {
-            const bounds = {
-                "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
-                "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
-                "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
-            };
-            
-            const point = [lon, lat];
-            
-            for (const [nome, ring] of Object.entries(bounds)) {
-                if (window.pointInPolygon(point, ring)) {
-                    return nome;
-                }
-            }
-            
-            if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
-            if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
-            if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
-            if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
-            
-            return "Politeama";
-        };
-        
-        window.updateQuartiereBox = function(nomeQuartiere) {
-            console.log('updateQuartiereBox called for:', nomeQuartiere);
-            
-            if (!window.quartieriData) {
-                console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
-                setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
-                return;
-            }
-            
-            const dataset = window.currentDataset || 'osm';
-            const dati = window.quartieriData[dataset][nomeQuartiere];
-            
-            if (!dati) {
-                console.error('Quartiere non trovato:', nomeQuartiere, 'in dataset:', dataset);
-                console.log('Quartieri disponibili:', Object.keys(window.quartieriData[dataset]));
-                return;
-            }
-            
-            const copertura = dati.pct_popolazione_coperta || 0;
-            const color = window.getColorFromPercentage(copertura);
-            const offset = window.calculateProgressOffset(copertura);
-            
-            document.getElementById('quartiere-title').textContent = nomeQuartiere;
-            document.getElementById('quartiere-spazi').textContent = dati.num_spazi || 0;
-            document.getElementById('quartiere-popolazione').textContent = (dati.popolazione_totale || 0).toLocaleString('it-IT');
-            document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
-            document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
-            document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
-            
-            const descrizione = copertura < 30
-                ? `Solo il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere necessita di maggiori aree verdi accessibili.`
-                : copertura < 50
-                ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è insufficiente rispetto agli standard WHO.`
-                : copertura < 70
-                ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è discreta ma può essere migliorata.`
-                : `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere ha una buona accessibilità al verde urbano.`;
-            
-            document.getElementById('quartiere-descrizione').innerHTML = descrizione;
-            document.getElementById('quartiere-placeholder').style.display = 'none';
-            document.getElementById('quartiere-stats').style.display = 'block';
-        };
-        // ===== END CRITICAL FUNCTIONS =====
-        
         let greenSpaces = null;
         let quartieri = null; // Dati quartieri con tree canopy e statistiche
         let currentDataset = 'osm';
@@ -1659,24 +1506,6 @@
         const stats = {
             osm: { coverage: '38.70', spaces: 118, area: '4.31' },
             copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
-        };
-
-        // Dati categorizzazione verde urbano
-        const categoryData = {
-            osm: [
-                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.48, avgArea: 1908694, range: '> 300.000 m²' },
-                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 m²' },
-                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 m²' },
-                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 m²' },
-                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 m²' }
-            ],
-            copernicus: [
-                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 8.68, avgArea: 349530, range: '> 300.000 m²' },
-                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 32.48, avgArea: 163434, range: '100.000 - 300.000 m²' },
-                { category: 'Parco di quartiere', count: 18, totalArea: 966031, percentage: 24.00, avgArea: 53668, range: '30.000 - 100.000 m²' },
-                { category: 'Giardino', count: 54, totalArea: 852650, percentage: 21.18, avgArea: 15790, range: '10.000 - 30.000 m²' },
-                { category: 'Piccolo spazio verde', count: 100, totalArea: 550170, percentage: 13.67, avgArea: 5502, range: '< 10.000 m²' }
-            ]
         };
 
         // Carica quartieri al load
@@ -2693,30 +2522,6 @@
 </body>
   
   <script>
-    // Global variables - set immediately
-    window.currentDataset = 'osm';
-    let currentMetric = 'count';
-    
-    // switchMetric function
-    window.switchMetric = function(metric) {
-      currentMetric = metric;
-      
-      document.querySelectorAll('.metric-btn').forEach(btn => {
-        const btnMetric = btn.getAttribute('data-metric');
-        if (btnMetric === metric) {
-          btn.classList.add('active');
-          btn.style.background = '#10b981';
-          btn.style.color = '#000000';
-        } else {
-          btn.classList.remove('active');
-          btn.style.background = 'rgba(255,255,255,0.1)';
-          btn.style.color = '#9ca3af';
-        }
-      });
-      
-      renderCategoryChart(window.currentDataset, metric);
-    };
-    
     // PARALLAX EFFECT
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
@@ -2799,107 +2604,129 @@
         window.quartieriData = { osm: {}, copernicus: {} };
       });
     
-    window.renderCategoryChart = function(dataset, metric = 'count') {
-      const data = categoryData[dataset];
-      const container = document.getElementById('category-chart');
+    // Point-in-polygon check usando ray casting algorithm
+    window.pointInPolygon = function(point, polygon) {
+      const [x, y] = point;
+      let inside = false;
       
-      if (!data || !container) return;
-      
-      // Chart dimensions
-      const width = container.offsetWidth;
-      const height = 450;
-      const margin = { top: 20, right: 40, bottom: 100, left: 60 };
-      const chartWidth = width - margin.left - margin.right;
-      const chartHeight = height - margin.top - margin.bottom;
-      
-      // Fixed scales per metric
-      let maxValue, scaleSteps, formatLabel;
-      
-      if (metric === 'count') {
-        maxValue = 100;
-        scaleSteps = [0, 20, 40, 60, 80, 100];
-        formatLabel = (v) => v.toFixed(0);
-      } else if (metric === 'area') {
-        // Convert to km²
-        maxValue = 2000000; // 2.0 km² in mq
-        scaleSteps = [0, 0.4, 0.8, 1.2, 1.6, 2.0];
-        formatLabel = (v) => v.toFixed(1).replace('.', ',');
-      } else {
-        maxValue = 50;
-        scaleSteps = [0, 10, 20, 30, 40, 50];
-        formatLabel = (v) => v.toFixed(0) + '%';
+      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const [xi, yi] = polygon[i];
+        const [xj, yj] = polygon[j];
+        
+        const intersect = ((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        
+        if (intersect) inside = !inside;
       }
       
-      // Create SVG
-      let svg = `<svg width="${width}" height="${height}" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">`;
+      return inside;
+    };
+    
+    // Funzione per determinare quartiere da coordinate (semplificata)
+    window.getQuartiereFromCoords = function(lat, lon) {
+      // Boundaries semplificati per quartieri principali
+      const bounds = {
+        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
+        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
+        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
+      };
       
-      // Grid lines with fixed scales
-      scaleSteps.forEach((step, i) => {
-        const y = margin.top + chartHeight - (chartHeight / (scaleSteps.length - 1)) * i;
-        const label = metric === 'area' ? formatLabel(step) : formatLabel(step);
-        
-        svg += `<line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
-        svg += `<text x="${margin.left - 10}" y="${y + 4}" text-anchor="end" fill="#9ca3af" font-size="12">${label}</text>`;
-      });
+      const point = [lon, lat];
       
-      // Y-axis label for km²
-      if (metric === 'area') {
-        svg += `<text x="${margin.left - 45}" y="${margin.top + chartHeight / 2}" text-anchor="middle" fill="#9ca3af" font-size="12" transform="rotate(-90, ${margin.left - 45}, ${margin.top + chartHeight / 2})">km²</text>`;
+      // Check quartieri definiti
+      for (const [nome, ring] of Object.entries(bounds)) {
+        if (window.pointInPolygon(point, ring)) {
+          return nome;
+        }
       }
       
-      // Draw bars - reduced width by 20% (from 0.7 to 0.56)
-      const barWidth = chartWidth / data.length * 0.56;
-      const barSpacing = chartWidth / data.length;
+      // Fallback geografico approssimativo
+      if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
+      if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
+      if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
+      if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
       
-      data.forEach((category, i) => {
-        let value;
-        if (metric === 'count') {
-          value = category.count;
-        } else if (metric === 'area') {
-          value = category.totalArea;
-        } else {
-          value = category.percentage;
-        }
-        
-        const barHeight = (value / maxValue) * chartHeight;
-        const x = margin.left + barSpacing * i + (barSpacing - barWidth) / 2;
-        const y = margin.top + chartHeight - barHeight;
-        
-        // Bar with smooth animation (only height/y, no opacity)
-        svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="#10b981" rx="4">
-          <animate attributeName="height" from="0" to="${barHeight}" dur="0.5s" fill="freeze"/>
-          <animate attributeName="y" from="${margin.top + chartHeight}" to="${y}" dur="0.5s" fill="freeze"/>
-        </rect>`;
-        
-        // Value on top of bar
-        let displayValue;
-        if (metric === 'area') {
-          displayValue = (value / 1000000).toFixed(2).replace('.', ',');
-        } else if (metric === 'percentage') {
-          displayValue = value.toFixed(1).replace('.', ',') + '%';
-        } else {
-          displayValue = value;
-        }
-        
-        svg += `<text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="600">${displayValue}</text>`;
-        
-        // Category label (wrapped)
-        const labelY = height - margin.bottom + 20;
-        const words = category.category.split(' ');
-        
-        if (words.length <= 2) {
-          svg += `<text x="${x + barWidth / 2}" y="${labelY}" text-anchor="middle" fill="#e5e7eb" font-size="13">${category.category}</text>`;
-        } else {
-          svg += `<text x="${x + barWidth / 2}" y="${labelY}" text-anchor="middle" fill="#e5e7eb" font-size="13">${words[0]} ${words[1]}</text>`;
-          svg += `<text x="${x + barWidth / 2}" y="${labelY + 16}" text-anchor="middle" fill="#e5e7eb" font-size="13">${words.slice(2).join(' ')}</text>`;
-        }
-        
-        // Range below label
-        svg += `<text x="${x + barWidth / 2}" y="${labelY + 36}" text-anchor="middle" fill="#9ca3af" font-size="11">${category.range}</text>`;
-      });
+      // Default
+      return "Politeama";
+    };
+    
+    // Funzione per popolare il box quartiere
+    window.updateQuartiereBox = function(nomeQuartiere) {
+      // Controlla se i dati sono stati caricati
+      if (!window.quartieriData) {
+        console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
+        setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
+        return;
+      }
       
-      svg += '</svg>';
-      container.innerHTML = svg;
+      const dataset = window.currentDataset || 'osm';
+      const dati = window.quartieriData[dataset][nomeQuartiere];
+      
+      if (!dati) {
+        console.error('Quartiere non trovato:', nomeQuartiere);
+        return;
+      }
+      
+      // Aggiorna titolo con nome quartiere
+      document.getElementById('quartiere-title').textContent = `Il tuo quartiere: ${nomeQuartiere}`;
+      
+      // Nascondi placeholder, mostra stats
+      document.getElementById('quartiere-placeholder').style.display = 'none';
+      document.getElementById('quartiere-stats').style.display = 'block';
+      
+      // Popola statistiche
+      const copertura = dati.copertura;
+      const color = window.getColorFromPercentage(copertura);
+      const offset = window.calculateProgressOffset(copertura);
+      
+      document.getElementById('quartiere-spazi').textContent = dati.spazi;
+      document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('it-IT');
+      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
+      document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
+      
+      // Calcola valutazione
+      let valutazione = '';
+      if (copertura < 30) valutazione = 'scarsa';
+      else if (copertura < 50) valutazione = 'insufficiente';
+      else if (copertura < 60) valutazione = 'sufficiente';
+      else if (copertura < 70) valutazione = 'discreta';
+      else if (copertura < 80) valutazione = 'buona';
+      else valutazione = 'ottima';
+      
+      // Calcola comparazione con media cittadina
+      const mediaCittadina = parseFloat(window.datasetStats[dataset].percentuale);
+      const comparazione = dati.copertura > mediaCittadina ? 'superiore' : 'inferiore';
+      
+      // Calcola posizione in classifica
+      const quartieri = window.quartieriData[dataset];
+      const classificaArray = Object.entries(quartieri)
+        .map(([nome, dati]) => ({ nome, copertura: dati.copertura }))
+        .sort((a, b) => b.copertura - a.copertura);
+      
+      const posizione = classificaArray.findIndex(q => q.nome === nomeQuartiere) + 1;
+      const totale = classificaArray.length;
+      
+      // Genera testo descrittivo con grassetti
+      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.`;
+      
+      document.getElementById('quartiere-descrizione').innerHTML = descrizione;
+    };
+    
+    // Helper functions for progress circles
+    window.getColorFromPercentage = function(percentage) {
+      if (percentage < 30) return '#E24B4A';  // Scarsa - Red 400
+      if (percentage < 50) return '#D85A30';  // Insufficiente - Coral 400
+      if (percentage < 60) return '#EF9F27';  // Sufficiente - Amber 400
+      if (percentage < 70) return '#5DCAA5';  // Discreta - Teal 200
+      if (percentage < 80) return '#1D9E75';  // Buona - Teal 400
+      return '#185FA5';                       // Ottima - Blue 600
+    };
+    
+    window.calculateProgressOffset = function(percentage) {
+      // SVG circle circumference: 2πr = 2 * 3.14159 * 80 ≈ 503
+      const circumference = 503;
+      return circumference - (circumference * percentage / 100);
     };
     
     window.switchDashboardDataset = function(dataset) {
@@ -2935,159 +2762,6 @@
         if (nomeQuartiere) {
           window.updateQuartiereBox(nomeQuartiere);
         }
-      }
-      
-      // Update category chart
-      renderCategoryChart(dataset, currentMetric);
-      
-      // Note: Quartieri map uses same data for both datasets (from GeoJSON)
-      // If separate OSM/Copernicus data becomes available, uncomment:
-      // if (window.updateQuartieriMapLayer) {
-      //   window.updateQuartieriMapLayer();
-      // }
-    }
-    
-    // Initialize category chart on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      renderCategoryChart(window.currentDataset, 'count');
-      initQuartieriMap();
-    });
-    
-    // Global map instance
-    window.quartieriMap = null;
-    window.quartieriLayer = null;
-    window.quartieriBoundariesData = null;
-    
-    // Initialize Quartieri Map
-    async function initQuartieriMap() {
-      try {
-        // Load boundaries (contains coverage data)
-        const boundariesResponse = await fetch('quartieri_dati_completi.geojson');
-        if (!boundariesResponse.ok) throw new Error('Quartieri boundaries non trovati');
-        window.quartieriBoundariesData = await boundariesResponse.json();
-        
-        // Create map
-        window.quartieriMap = L.map('quartieri-map', {
-          center: [38.1157, 13.3615],
-          zoom: 12,
-          zoomControl: true,
-          scrollWheelZoom: false
-        });
-        
-        // Add tile layer (CartoDB Dark Matter)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          maxZoom: 19
-        }).addTo(window.quartieriMap);
-        
-        // Initial render
-        updateQuartieriMapLayer();
-        
-        // Hide loader
-        document.getElementById('map-loader').style.display = 'none';
-        
-      } catch (error) {
-        console.error('Errore caricamento mappa quartieri:', error);
-        document.getElementById('map-loader').innerHTML = 
-          '<div style="color: #ef4444; font-size: 14px;">Errore caricamento mappa</div>';
-      }
-    }
-    
-    // Update map layer (simplified - uses GeoJSON data directly)
-    window.updateQuartieriMapLayer = function() {
-      if (!window.quartieriMap || !window.quartieriBoundariesData) {
-        console.warn('Mappa non pronta');
-        return;
-      }
-      
-      // Remove existing layer
-      if (window.quartieriLayer) {
-        window.quartieriMap.removeLayer(window.quartieriLayer);
-      }
-      
-      // Create ranking array
-      const quartieriForRanking = window.quartieriBoundariesData.features
-        .map(f => ({
-          name: f.properties.quartiere,
-          coverage: f.properties.pct_popolazione_coperta || 0
-        }))
-        .sort((a, b) => b.coverage - a.coverage);
-      
-      const getRanking = (quartiereName) => {
-        const index = quartieriForRanking.findIndex(q => q.name === quartiereName);
-        return index + 1;
-      };
-      
-      // Add new layer
-      window.quartieriLayer = L.geoJSON(window.quartieriBoundariesData, {
-        style: function(feature) {
-          const coverage = feature.properties.pct_popolazione_coperta || 0;
-          const color = window.getColorFromPercentage(coverage);
-          
-          return {
-            fillColor: color,
-            weight: 1,
-            opacity: 1,
-            color: 'rgba(255,255,255,0.3)',
-            fillOpacity: 0.7
-          };
-        },
-        onEachFeature: function(feature, layer) {
-          const props = feature.properties;
-          const ranking = getRanking(props.quartiere);
-          
-          // Tooltip on hover
-          layer.bindTooltip(`
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0.5rem;">
-              <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.25rem;">${props.quartiere}</div>
-              <div style="font-size: 12px; color: #d1d5db;">
-                <div>Copertura: <strong>${(props.pct_popolazione_coperta || 0).toFixed(1)}%</strong></div>
-                <div>Popolazione: ${props.popolazione.toLocaleString('it-IT')}</div>
-                <div>Classifica: ${ranking}° su 25</div>
-              </div>
-            </div>
-          `, {
-            permanent: false,
-            direction: 'top',
-            className: 'custom-tooltip'
-          });
-          
-          // Highlight on hover
-          layer.on({
-            mouseover: function(e) {
-              const layer = e.target;
-              layer.setStyle({
-                weight: 2,
-                color: '#ffffff',
-                fillOpacity: 0.9
-              });
-              layer.bringToFront();
-            },
-            mouseout: function(e) {
-              const layer = e.target;
-              const coverage = feature.properties.pct_popolazione_coperta || 0;
-              const color = window.getColorFromPercentage(coverage);
-              layer.setStyle({
-                weight: 1,
-                color: 'rgba(255,255,255,0.3)',
-                fillOpacity: 0.7
-              });
-            }
-          });
-        }
-      }).addTo(window.quartieriMap);
-    };
-                  fillOpacity: 0.7
-                });
-              }
-            });
-          }
-        }).addTo(map);
-        
-      } catch (error) {
-        console.error('Errore caricamento mappa quartieri:', error);
-        document.getElementById('quartieri-map').innerHTML = 
-          '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #9ca3af; font-size: 14px;">Mappa non disponibile</div>';
       }
     }
   </script>
