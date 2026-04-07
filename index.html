@@ -932,6 +932,11 @@
     .custom-tooltip::before {
       border-top-color: rgba(26, 26, 26, 0.95) !important;
     }
+    
+    /* Loader spinner */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
   
   <!-- Leaflet CSS -->
@@ -1518,10 +1523,17 @@
             </div>
             
             <!-- Mappa Quartieri -->
-            <div class="dashboard-box" style="margin-top: 2rem;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Copertura per quartiere</h3>
+            <div class="dashboard-box" style="margin-top: 2rem; padding: 1.5rem 0 0 0;">
+                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff; padding: 0 2rem;">Copertura per quartiere</h3>
                 
-                <div id="quartieri-map" style="height: 500px; border-radius: 8px; overflow: hidden;">
+                <div id="quartieri-map" style="height: 650px; position: relative;">
+                    <!-- Loader -->
+                    <div id="map-loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: #1a1a1a; z-index: 1000;">
+                        <div style="text-align: center;">
+                            <div style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                            <div style="color: #9ca3af; font-size: 14px;">Caricamento mappa...</div>
+                        </div>
+                    </div>
                     <!-- Leaflet map will be inserted here -->
                 </div>
             </div>
@@ -2793,6 +2805,9 @@
     // Category chart functions
     let currentMetric = 'count';
     
+    // Set global currentDataset before DOMContentLoaded
+    window.currentDataset = 'osm';
+    
     window.switchMetric = function(metric) {
       currentMetric = metric;
       
@@ -2954,25 +2969,36 @@
       
       // Update category chart
       renderCategoryChart(dataset, currentMetric);
+      
+      // Update quartieri map
+      if (window.updateQuartieriMapLayer) {
+        window.updateQuartieriMapLayer(dataset);
+      }
     }
     
     // Initialize category chart on page load
     window.addEventListener('DOMContentLoaded', function() {
-      renderCategoryChart('osm', 'count');
+      renderCategoryChart(window.currentDataset, 'count');
       initQuartieriMap();
     });
+    
+    // Global map instance
+    window.quartieriMap = null;
+    window.quartieriLayer = null;
+    window.quartieriBoundariesData = null;
     
     // Initialize Quartieri Map
     async function initQuartieriMap() {
       try {
-        const response = await fetch('quartieri_dati_completi.geojson');
-        if (!response.ok) throw new Error('Quartieri non trovati');
-        const quartieriData = await response.json();
+        // Load boundaries
+        const boundariesResponse = await fetch('quartieri_dati_completi.geojson');
+        if (!boundariesResponse.ok) throw new Error('Quartieri boundaries non trovati');
+        window.quartieriBoundariesData = await boundariesResponse.json();
         
         // Create map
-        const map = L.map('quartieri-map', {
+        window.quartieriMap = L.map('quartieri-map', {
           center: [38.1157, 13.3615],
-          zoom: 11,
+          zoom: 12,
           zoomControl: true,
           scrollWheelZoom: false
         });
@@ -2981,73 +3007,116 @@
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
           maxZoom: 19
-        }).addTo(map);
+        }).addTo(window.quartieriMap);
         
-        // Sort quartieri by coverage for ranking
-        const sortedQuartieri = quartieriData.features
-          .map(f => ({ 
-            name: f.properties.quartiere, 
-            coverage: f.properties.pct_popolazione_coperta 
-          }))
-          .sort((a, b) => b.coverage - a.coverage);
+        // Initial render with OSM data
+        updateQuartieriMapLayer(window.currentDataset);
         
-        const getRanking = (quartiereName) => {
-          const index = sortedQuartieri.findIndex(q => q.name === quartiereName);
-          return index + 1;
-        };
+        // Hide loader
+        document.getElementById('map-loader').style.display = 'none';
         
-        // Add quartieri layer
-        L.geoJSON(quartieriData, {
-          style: function(feature) {
-            const coverage = feature.properties.pct_popolazione_coperta;
-            const color = window.getColorFromPercentage(coverage);
-            
-            return {
-              fillColor: color,
-              weight: 1,
-              opacity: 1,
-              color: 'rgba(255,255,255,0.3)',
-              fillOpacity: 0.7
-            };
-          },
-          onEachFeature: function(feature, layer) {
-            const props = feature.properties;
-            const ranking = getRanking(props.quartiere);
-            
-            // Tooltip on hover
-            layer.bindTooltip(`
-              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0.5rem;">
-                <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.25rem;">${props.quartiere}</div>
-                <div style="font-size: 12px; color: #d1d5db;">
-                  <div>Copertura: <strong>${props.pct_popolazione_coperta.toFixed(1)}%</strong></div>
-                  <div>Popolazione: ${props.popolazione.toLocaleString('it-IT')}</div>
-                  <div>Classifica: ${ranking}° su 25</div>
-                </div>
+      } catch (error) {
+        console.error('Errore caricamento mappa quartieri:', error);
+        document.getElementById('quartieri-map').innerHTML = 
+          '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #9ca3af; font-size: 14px;">Mappa non disponibile</div>';
+      }
+    }
+    
+    // Update map layer when dataset changes
+    window.updateQuartieriMapLayer = function(dataset) {
+      if (!window.quartieriMap || !window.quartieriBoundariesData || !window.quartieriData) {
+        console.warn('Mappa non pronta o dati mancanti');
+        return;
+      }
+      
+      // Remove existing layer
+      if (window.quartieriLayer) {
+        window.quartieriMap.removeLayer(window.quartieriLayer);
+      }
+      
+      const datasetQuartieri = window.quartieriData[dataset];
+      
+      if (!datasetQuartieri) {
+        console.error('Dati quartieri non disponibili per dataset:', dataset);
+        return;
+      }
+      
+      // Create array for ranking
+      const quartieriForRanking = Object.entries(datasetQuartieri).map(([name, data]) => ({
+        name: name,
+        coverage: data.pct_popolazione_coperta
+      })).sort((a, b) => b.coverage - a.coverage);
+      
+      const getRanking = (quartiereName) => {
+        const index = quartieriForRanking.findIndex(q => q.name === quartiereName);
+        return index + 1;
+      };
+      
+      // Add new layer
+      window.quartieriLayer = L.geoJSON(window.quartieriBoundariesData, {
+        style: function(feature) {
+          const quartiereName = feature.properties.quartiere;
+          const quartiereData = datasetQuartieri[quartiereName];
+          const coverage = quartiereData ? quartiereData.pct_popolazione_coperta : 0;
+          const color = window.getColorFromPercentage(coverage);
+          
+          return {
+            fillColor: color,
+            weight: 1,
+            opacity: 1,
+            color: 'rgba(255,255,255,0.3)',
+            fillOpacity: 0.7
+          };
+        },
+        onEachFeature: function(feature, layer) {
+          const quartiereName = feature.properties.quartiere;
+          const quartiereData = datasetQuartieri[quartiereName];
+          
+          if (!quartiereData) return;
+          
+          const ranking = getRanking(quartiereName);
+          
+          // Tooltip on hover
+          layer.bindTooltip(`
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0.5rem;">
+              <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.25rem;">${quartiereName}</div>
+              <div style="font-size: 12px; color: #d1d5db;">
+                <div>Copertura: <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong></div>
+                <div>Popolazione: ${feature.properties.popolazione.toLocaleString('it-IT')}</div>
+                <div>Classifica: ${ranking}° su 25</div>
               </div>
-            `, {
-              permanent: false,
-              direction: 'top',
-              className: 'custom-tooltip'
-            });
-            
-            // Highlight on hover
-            layer.on({
-              mouseover: function(e) {
-                const layer = e.target;
-                layer.setStyle({
-                  weight: 2,
-                  color: '#ffffff',
-                  fillOpacity: 0.9
-                });
-                layer.bringToFront();
-              },
-              mouseout: function(e) {
-                const layer = e.target;
-                const coverage = feature.properties.pct_popolazione_coperta;
-                const color = window.getColorFromPercentage(coverage);
-                layer.setStyle({
-                  weight: 1,
-                  color: 'rgba(255,255,255,0.3)',
+            </div>
+          `, {
+            permanent: false,
+            direction: 'top',
+            className: 'custom-tooltip'
+          });
+          
+          // Highlight on hover
+          layer.on({
+            mouseover: function(e) {
+              const layer = e.target;
+              layer.setStyle({
+                weight: 2,
+                color: '#ffffff',
+                fillOpacity: 0.9
+              });
+              layer.bringToFront();
+            },
+            mouseout: function(e) {
+              const layer = e.target;
+              const coverage = quartiereData.pct_popolazione_coperta;
+              const color = window.getColorFromPercentage(coverage);
+              layer.setStyle({
+                weight: 1,
+                color: 'rgba(255,255,255,0.3)',
+                fillOpacity: 0.7
+              });
+            }
+          });
+        }
+      }).addTo(window.quartieriMap);
+    };
                   fillOpacity: 0.7
                 });
               }
