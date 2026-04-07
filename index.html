@@ -2614,6 +2614,108 @@
       return circumference - (circumference * percentage / 100);
     };
     
+    // Point-in-polygon check
+    window.pointInPolygon = function(point, polygon) {
+      const [x, y] = point;
+      let inside = false;
+      
+      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const [xi, yi] = polygon[i];
+        const [xj, yj] = polygon[j];
+        
+        const intersect = ((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        
+        if (intersect) inside = !inside;
+      }
+      
+      return inside;
+    };
+    
+    // Get quartiere from coordinates
+    window.getQuartiereFromCoords = function(lat, lon) {
+      const bounds = {
+        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
+        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
+        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
+      };
+      
+      const point = [lon, lat];
+      
+      for (const [nome, ring] of Object.entries(bounds)) {
+        if (window.pointInPolygon(point, ring)) {
+          return nome;
+        }
+      }
+      
+      if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
+      if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
+      if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
+      if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
+      
+      return "Politeama";
+    };
+    
+    // Update quartiere box
+    window.updateQuartiereBox = function(nomeQuartiere) {
+      if (!window.quartieriData) {
+        console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
+        setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
+        return;
+      }
+      
+      const dataset = window.currentDataset || 'osm';
+      const dati = window.quartieriData[dataset][nomeQuartiere];
+      
+      if (!dati) {
+        console.error('Quartiere non trovato:', nomeQuartiere);
+        return;
+      }
+      
+      const copertura = dati.pct_popolazione_coperta;
+      const color = window.getColorFromPercentage(copertura);
+      const offset = window.calculateProgressOffset(copertura);
+      
+      document.getElementById('quartiere-title').textContent = nomeQuartiere;
+      document.getElementById('quartiere-spazi').textContent = dati.num_spazi;
+      document.getElementById('quartiere-popolazione').textContent = dati.popolazione_totale.toLocaleString('it-IT');
+      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
+      document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
+      
+      const descrizione = dati.pct_popolazione_coperta < 30
+        ? `Solo il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere necessita di maggiori aree verdi accessibili.`
+        : dati.pct_popolazione_coperta < 50
+        ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è insufficiente rispetto agli standard WHO.`
+        : dati.pct_popolazione_coperta < 70
+        ? `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. La copertura è discreta ma può essere migliorata.`
+        : `Il <strong>${copertura.toFixed(1).replace('.', ',')}%</strong> della popolazione vive entro 300 metri da uno spazio verde. Il quartiere ha una buona accessibilità al verde urbano.`;
+      
+      document.getElementById('quartiere-descrizione').innerHTML = descrizione;
+      document.getElementById('quartiere-placeholder').style.display = 'none';
+      document.getElementById('quartiere-stats').style.display = 'block';
+    };
+    
+    // switchMetric function
+    window.switchMetric = function(metric) {
+      currentMetric = metric;
+      
+      document.querySelectorAll('.metric-btn').forEach(btn => {
+        const btnMetric = btn.getAttribute('data-metric');
+        if (btnMetric === metric) {
+          btn.classList.add('active');
+          btn.style.background = '#10b981';
+          btn.style.color = '#000000';
+        } else {
+          btn.classList.remove('active');
+          btn.style.background = 'rgba(255,255,255,0.1)';
+          btn.style.color = '#9ca3af';
+        }
+      });
+      
+      renderCategoryChart(window.currentDataset, metric);
+    };
+    
     // PARALLAX EFFECT
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
@@ -2695,137 +2797,6 @@
         // Fallback: usa dati vuoti
         window.quartieriData = { osm: {}, copernicus: {} };
       });
-    
-    // Point-in-polygon check usando ray casting algorithm
-    window.pointInPolygon = function(point, polygon) {
-      const [x, y] = point;
-      let inside = false;
-      
-      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const [xi, yi] = polygon[i];
-        const [xj, yj] = polygon[j];
-        
-        const intersect = ((yi > y) !== (yj > y)) &&
-          (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        
-        if (intersect) inside = !inside;
-      }
-      
-      return inside;
-    };
-    
-    // Funzione per determinare quartiere da coordinate (semplificata)
-    window.getQuartiereFromCoords = function(lat, lon) {
-      // Boundaries semplificati per quartieri principali
-      const bounds = {
-        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
-        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
-        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
-      };
-      
-      const point = [lon, lat];
-      
-      // Check quartieri definiti
-      for (const [nome, ring] of Object.entries(bounds)) {
-        if (window.pointInPolygon(point, ring)) {
-          return nome;
-        }
-      }
-      
-      // Fallback geografico approssimativo
-      if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
-      if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
-      if (lat >= 38.115 && lat <= 38.125 && lon >= 13.329 && lon <= 13.35) return "Noce";
-      if (lat >= 38.10 && lat <= 38.115 && lon >= 13.35 && lon <= 13.44) return "Oreto-Stazione";
-      
-      // Default
-      return "Politeama";
-    };
-    
-    // Funzione per popolare il box quartiere
-    window.updateQuartiereBox = function(nomeQuartiere) {
-      // Controlla se i dati sono stati caricati
-      if (!window.quartieriData) {
-        console.warn('Dati quartieri non ancora caricati, riprovo tra 500ms...');
-        setTimeout(() => window.updateQuartiereBox(nomeQuartiere), 500);
-        return;
-      }
-      
-      const dataset = window.currentDataset || 'osm';
-      const dati = window.quartieriData[dataset][nomeQuartiere];
-      
-      if (!dati) {
-        console.error('Quartiere non trovato:', nomeQuartiere);
-        return;
-      }
-      
-      // Aggiorna titolo con nome quartiere
-      document.getElementById('quartiere-title').textContent = `Il tuo quartiere: ${nomeQuartiere}`;
-      
-      // Nascondi placeholder, mostra stats
-      document.getElementById('quartiere-placeholder').style.display = 'none';
-      document.getElementById('quartiere-stats').style.display = 'block';
-      
-      // Popola statistiche
-      const copertura = dati.copertura;
-      const color = window.getColorFromPercentage(copertura);
-      const offset = window.calculateProgressOffset(copertura);
-      
-      document.getElementById('quartiere-spazi').textContent = dati.spazi;
-      document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('it-IT');
-      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
-      document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
-      document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
-      
-      // Calcola valutazione
-      let valutazione = '';
-      if (copertura < 30) valutazione = 'scarsa';
-      else if (copertura < 50) valutazione = 'insufficiente';
-      else if (copertura < 60) valutazione = 'sufficiente';
-      else if (copertura < 70) valutazione = 'discreta';
-      else if (copertura < 80) valutazione = 'buona';
-      else valutazione = 'ottima';
-      
-      // Calcola comparazione con media cittadina
-      const mediaCittadina = parseFloat(window.datasetStats[dataset].percentuale);
-      const comparazione = dati.copertura > mediaCittadina ? 'superiore' : 'inferiore';
-      
-      // Calcola posizione in classifica
-      const quartieri = window.quartieriData[dataset];
-      const classificaArray = Object.entries(quartieri)
-        .map(([nome, dati]) => ({ nome, copertura: dati.copertura }))
-        .sort((a, b) => b.copertura - a.copertura);
-      
-      const posizione = classificaArray.findIndex(q => q.nome === nomeQuartiere) + 1;
-      const totale = classificaArray.length;
-      
-      // Genera testo descrittivo con grassetti
-      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.`;
-      
-      document.getElementById('quartiere-descrizione').innerHTML = descrizione;
-    };
-    
-    // Category chart functions
-    window.switchMetric = function(metric) {
-      currentMetric = metric;
-      
-      // Update button states
-      document.querySelectorAll('.metric-btn').forEach(btn => {
-        const btnMetric = btn.getAttribute('data-metric');
-        if (btnMetric === metric) {
-          btn.classList.add('active');
-          btn.style.background = '#10b981';
-          btn.style.color = '#000000';
-        } else {
-          btn.classList.remove('active');
-          btn.style.background = 'rgba(255,255,255,0.1)';
-          btn.style.color = '#9ca3af';
-        }
-      });
-      
-      // Re-render chart
-      renderCategoryChart(window.currentDataset, metric);
-    };
     
     window.renderCategoryChart = function(dataset, metric = 'count') {
       const data = categoryData[dataset];
