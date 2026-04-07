@@ -2931,6 +2931,10 @@
         .quartiere-tooltip::before {
           border-top-color: rgba(0, 0, 0, 0.9) !important;
         }
+        /* Remove ugly click outline */
+        .leaflet-interactive:focus {
+          outline: none !important;
+        }
       `;
       document.head.appendChild(style);
       
@@ -2959,7 +2963,7 @@
           
           // Calculate rankings
           const quartieri = data.features.map(f => ({
-            nome: f.properties.nome,
+            nome: f.properties.quartiere,
             coverage: f.properties.pct_popolazione_coperta || 0
           })).sort((a, b) => b.coverage - a.coverage);
           
@@ -2983,18 +2987,17 @@
             },
             onEachFeature: function(feature, layer) {
               const props = feature.properties;
+              const nomeQuartiere = props.quartiere || 'N/D';
               const coverage = props.pct_popolazione_coperta || 0;
-              const numSpazi = props.num_spazi || 0;
-              const popolazione = props.popolazione_totale || 0;
-              const ranking = rankings[props.nome] || '?';
+              const popolazione = props.popolazione || 0;
+              const ranking = rankings[nomeQuartiere] || '?';
               const totalQuartieri = quartieri.length;
               
               // Tooltip HTML con formato richiesto
               const tooltipHTML = `
                 <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
-                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${props.nome}</div>
+                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Copertura:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
-                  <div><strong>Spazi verdi:</strong> ${numSpazi}</div>
                   <div><strong>Popolazione:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
                   <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
@@ -3007,7 +3010,7 @@
                 offset: [0, -10]
               });
               
-              // Hover interactivity
+              // Hover interactivity - smooth highlight
               layer.on('mouseover', function(e) {
                 const layer = e.target;
                 layer.setStyle({
@@ -3020,6 +3023,24 @@
               
               layer.on('mouseout', function(e) {
                 quartieriLayer.resetStyle(e.target);
+              });
+              
+              // Click - smooth pulse effect instead of ugly outline
+              layer.on('click', function(e) {
+                const layer = e.target;
+                // Brief pulse animation
+                layer.setStyle({
+                  weight: 4,
+                  color: '#10b981',
+                  fillOpacity: 1
+                });
+                setTimeout(() => {
+                  layer.setStyle({
+                    weight: 3,
+                    color: '#ffffff',
+                    fillOpacity: 0.9
+                  });
+                }, 200);
               });
             }
           }).addTo(quartieriMap);
