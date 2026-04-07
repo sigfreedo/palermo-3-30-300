@@ -2291,6 +2291,11 @@
                         const dashboard = document.getElementById('dashboardPalermo');
                         dashboard.style.display = 'block';
                         
+                        // Render istogramma categorie (dopo che dashboard è visibile)
+                        setTimeout(() => {
+                            window.renderCategoryChart('osm', 'count');
+                        }, 50);
+                        
                         // Determina e mostra quartiere
                         const nomeQuartiere = window.getQuartiereFromCoords(lat, lon);
                         window.currentQuartiere = nomeQuartiere;
@@ -2929,11 +2934,6 @@
       // Update category chart
       renderCategoryChart(dataset, currentMetric);
     }
-    
-    // Initialize category chart on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      renderCategoryChart('osm', 'count');
-    });
   </script>
 </body>
 </html>
