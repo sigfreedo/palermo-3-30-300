@@ -1507,13 +1507,9 @@
             </div>
             
             <!-- Mappa Quartieri -->
-            <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
-                <div id="quartieri-map" style="height: 650px; position: relative;">
-                    <!-- Titolo overlay -->
-                    <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
-                        <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere</h3>
-                    </div>
-                </div>
+            <div class="dashboard-box" style="margin-top: 2rem;">
+                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Copertura per quartiere</h3>
+                <div id="quartieri-map" style="height: 700px; border-radius: 8px; overflow: hidden;"></div>
             </div>
             </div>
         </div>
@@ -2916,16 +2912,37 @@
     // Mappa quartieri
     let quartieriMap = null;
     let quartieriLayer = null;
+    let allQuartieriData = null;
     
     window.initQuartieriMap = function() {
       if (quartieriMap) return; // Already initialized
       
-      // Initialize map
+      // Add custom CSS for tooltip
+      const style = document.createElement('style');
+      style.textContent = `
+        .quartiere-tooltip {
+          background: rgba(0, 0, 0, 0.9) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 8px !important;
+          padding: 0.75rem !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        }
+        .quartiere-tooltip::before {
+          border-top-color: rgba(0, 0, 0, 0.9) !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Initialize map with scroll zoom disabled
       quartieriMap = L.map('quartieri-map', {
         center: [38.115, 13.361],
         zoom: 12,
         zoomControl: true,
-        scrollWheelZoom: true
+        scrollWheelZoom: false,  // Disabilita zoom con scroll
+        doubleClickZoom: true,
+        touchZoom: true,
+        boxZoom: false  // Rimuove rettangolo selezione
       });
       
       // Add base layer
@@ -2938,7 +2955,18 @@
       fetch('quartieri_dati_completi.geojson')
         .then(response => response.json())
         .then(data => {
-          const dataset = window.currentDataset || 'osm';
+          allQuartieriData = data;
+          
+          // Calculate rankings
+          const quartieri = data.features.map(f => ({
+            nome: f.properties.nome,
+            coverage: f.properties.pct_popolazione_coperta || 0
+          })).sort((a, b) => b.coverage - a.coverage);
+          
+          const rankings = {};
+          quartieri.forEach((q, index) => {
+            rankings[q.nome] = index + 1;
+          });
           
           quartieriLayer = L.geoJSON(data, {
             style: function(feature) {
@@ -2949,23 +2977,50 @@
                 fillColor: color,
                 weight: 2,
                 opacity: 1,
-                color: '#ffffff',
+                color: 'rgba(255, 255, 255, 0.3)',
                 fillOpacity: 0.7
               };
             },
             onEachFeature: function(feature, layer) {
               const props = feature.properties;
               const coverage = props.pct_popolazione_coperta || 0;
+              const numSpazi = props.num_spazi || 0;
+              const popolazione = props.popolazione_totale || 0;
+              const ranking = rankings[props.nome] || '?';
+              const totalQuartieri = quartieri.length;
               
-              layer.bindTooltip(
-                `<strong>${props.nome}</strong><br>` +
-                `Copertura: ${coverage.toFixed(1)}%<br>` +
-                `Popolazione: ${(props.popolazione_totale || 0).toLocaleString('it-IT')}`,
-                {
-                  permanent: false,
-                  direction: 'top'
-                }
-              );
+              // Tooltip HTML con formato richiesto
+              const tooltipHTML = `
+                <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
+                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${props.nome}</div>
+                  <div><strong>Copertura:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
+                  <div><strong>Spazi verdi:</strong> ${numSpazi}</div>
+                  <div><strong>Popolazione:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
+                  <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
+                </div>
+              `;
+              
+              layer.bindTooltip(tooltipHTML, {
+                className: 'quartiere-tooltip',
+                permanent: false,
+                direction: 'top',
+                offset: [0, -10]
+              });
+              
+              // Hover interactivity
+              layer.on('mouseover', function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 3,
+                  color: '#ffffff',
+                  fillOpacity: 0.9
+                });
+                layer.bringToFront();
+              });
+              
+              layer.on('mouseout', function(e) {
+                quartieriLayer.resetStyle(e.target);
+              });
             }
           }).addTo(quartieriMap);
         })
