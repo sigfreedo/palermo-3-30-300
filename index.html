@@ -1508,8 +1508,13 @@
             
             <!-- Mappa Quartieri -->
             <div class="dashboard-box" style="margin-top: 2rem;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Copertura per quartiere</h3>
-                <div id="quartieri-map" style="height: 700px; border-radius: 8px; overflow: hidden;"></div>
+                <div style="position: relative;">
+                    <!-- Titolo overlay -->
+                    <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                        <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere</h3>
+                    </div>
+                    <div id="quartieri-map" style="height: 700px; border-radius: 8px; overflow: hidden;"></div>
+                </div>
             </div>
             </div>
         </div>
@@ -2912,7 +2917,6 @@
     // Mappa quartieri
     let quartieriMap = null;
     let quartieriLayer = null;
-    let allQuartieriData = null;
     
     window.initQuartieriMap = function() {
       if (quartieriMap) return; // Already initialized
@@ -2943,10 +2947,10 @@
         center: [38.115, 13.361],
         zoom: 12,
         zoomControl: true,
-        scrollWheelZoom: false,  // Disabilita zoom con scroll
+        scrollWheelZoom: false,
         doubleClickZoom: true,
         touchZoom: true,
-        boxZoom: false  // Rimuove rettangolo selezione
+        boxZoom: false
       });
       
       // Add base layer
@@ -2955,16 +2959,25 @@
         maxZoom: 19
       }).addTo(quartieriMap);
       
-      // Load quartieri data
+      // Load geometries from GeoJSON
       fetch('quartieri_dati_completi.geojson')
         .then(response => response.json())
-        .then(data => {
-          allQuartieriData = data;
+        .then(geoData => {
+          const dataset = window.currentDataset || 'osm';
+          
+          // Check if quartieri data is loaded
+          if (!window.quartieriData) {
+            console.warn('quartieri_data.json not loaded yet, waiting...');
+            setTimeout(() => window.initQuartieriMap(), 500);
+            return;
+          }
+          
+          const dataByQuartiere = window.quartieriData[dataset];
           
           // Calculate rankings
-          const quartieri = data.features.map(f => ({
-            nome: f.properties.quartiere,
-            coverage: f.properties.pct_popolazione_coperta || 0
+          const quartieri = Object.keys(dataByQuartiere).map(nome => ({
+            nome: nome,
+            coverage: dataByQuartiere[nome].copertura || 0
           })).sort((a, b) => b.coverage - a.coverage);
           
           const rankings = {};
@@ -2972,9 +2985,11 @@
             rankings[q.nome] = index + 1;
           });
           
-          quartieriLayer = L.geoJSON(data, {
+          quartieriLayer = L.geoJSON(geoData, {
             style: function(feature) {
-              const coverage = feature.properties.pct_popolazione_coperta || 0;
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = dataByQuartiere[nomeQuartiere];
+              const coverage = dati ? dati.copertura : 0;
               const color = window.getColorFromPercentage(coverage);
               
               return {
@@ -2986,18 +3001,26 @@
               };
             },
             onEachFeature: function(feature, layer) {
-              const props = feature.properties;
-              const nomeQuartiere = props.quartiere || 'N/D';
-              const coverage = props.pct_popolazione_coperta || 0;
-              const popolazione = props.popolazione || 0;
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = dataByQuartiere[nomeQuartiere];
+              
+              if (!dati) {
+                console.warn('Dati non trovati per:', nomeQuartiere);
+                return;
+              }
+              
+              const coverage = dati.copertura || 0;
+              const spazi = dati.spazi || 0;
+              const popolazione = dati.popolazione || 0;
               const ranking = rankings[nomeQuartiere] || '?';
               const totalQuartieri = quartieri.length;
               
-              // Tooltip HTML con formato richiesto
+              // Tooltip HTML
               const tooltipHTML = `
                 <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Copertura:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
+                  <div><strong>Spazi verdi:</strong> ${spazi}</div>
                   <div><strong>Popolazione:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
                   <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
@@ -3010,7 +3033,7 @@
                 offset: [0, -10]
               });
               
-              // Hover interactivity - smooth highlight
+              // Hover interactivity
               layer.on('mouseover', function(e) {
                 const layer = e.target;
                 layer.setStyle({
@@ -3025,10 +3048,9 @@
                 quartieriLayer.resetStyle(e.target);
               });
               
-              // Click - smooth pulse effect instead of ugly outline
+              // Click - smooth pulse effect
               layer.on('click', function(e) {
                 const layer = e.target;
-                // Brief pulse animation
                 layer.setStyle({
                   weight: 4,
                   color: '#10b981',
@@ -3045,7 +3067,7 @@
             }
           }).addTo(quartieriMap);
         })
-        .catch(error => console.error('Errore caricamento quartieri:', error));
+        .catch(error => console.error('Errore caricamento quartieri GeoJSON:', error));
     };
     
     window.switchDashboardDataset = function(dataset) {
