@@ -1414,41 +1414,39 @@
             <div class="dashboard-grid">
                 <!-- Box 1: Statistiche Generali -->
                 <div class="dashboard-box">
-                    <div style="text-align: center; margin-bottom: 1.5rem;">
-                        <div style="font-size: 14px; font-weight: 500; color: #9ca3af; margin-bottom: 0.5rem;">PALERMO</div>
-                        <div style="font-size: 13px; color: #6b7280;" id="dataset-label">OpenStreetMap</div>
-                    </div>
+                    <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Palermo</h3>
                     
                     <!-- Progress Circle -->
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                        <svg width="120" height="120" viewBox="0 0 120 120" id="city-progress-circle">
-                            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
-                            <circle cx="60" cy="60" r="52" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="200" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-                            <text x="60" y="55" text-anchor="middle" style="font-size: 28px; font-weight: 500; fill: #ffffff;" id="city-percentage">38.8%</text>
-                            <text x="60" y="72" text-anchor="middle" style="font-size: 11px; fill: #9ca3af;">con accesso</text>
+                        <svg width="200" height="200" viewBox="0 0 200 200" id="city-progress-circle">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                            <circle cx="100" cy="100" r="80" fill="none" id="city-progress-bar" stroke="#D85A30" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="308" stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                            <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="city-percentage">38,8%</text>
+                            <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                            <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
                         </svg>
                     </div>
                     
                     <!-- Stats Grid -->
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
                         <div style="text-align: center;">
-                            <div style="font-size: 20px; font-weight: 500; color: #ffffff;" id="stat-spazi">118</div>
-                            <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">Spazi verdi</div>
+                            <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="stat-spazi">118</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Spazi verdi</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 20px; font-weight: 500; color: #ffffff;" id="stat-abitanti">635,439</div>
-                            <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">Abitanti totali</div>
+                            <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="stat-abitanti">635.439</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Abitanti totali</div>
                         </div>
                     </div>
                     
-                    <p style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; line-height: 1.6; color: #e5e7eb; margin: 0;">
-                        In entrambi i casi, oltre la metà degli abitanti di Palermo, ossia più di 300.000 persone, non ha uno spazio verde pubblico nelle vicinanze.
+                    <p style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 15px; line-height: 1.6; color: #e5e7eb; margin: 0;">
+                        Con entrambi i dataset, l'analisi mostra che più della metà degli abitanti di Palermo (oltre 300.000 persone) vive troppo lontano dal verde pubblico.
                     </p>
                 </div>
                 
                 <!-- Box 2: Il Mio Quartiere -->
                 <div class="dashboard-box">
-                    <h3 id="quartiere-title" style="text-align: center; margin-bottom: 1.5rem;">Il tuo quartiere</h3>
+                    <h3 id="quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il tuo quartiere</h3>
                     
                     <div id="quartiere-placeholder" style="color: #9ca3af; font-size: 14px; text-align: center;">
                         Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.
@@ -1457,23 +1455,24 @@
                     <div id="quartiere-stats" style="display: none;">
                         <!-- Progress Circle -->
                         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                            <svg width="120" height="120" viewBox="0 0 120 120" id="quartiere-progress-circle">
-                                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
-                                <circle cx="60" cy="60" r="52" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="98" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-                                <text x="60" y="55" text-anchor="middle" style="font-size: 28px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
-                                <text x="60" y="72" text-anchor="middle" style="font-size: 11px; fill: #9ca3af;">con accesso</text>
+                            <svg width="200" height="200" viewBox="0 0 200 200" id="quartiere-progress-circle">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
+                                <circle cx="100" cy="100" r="80" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="503" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                                <text x="100" y="92" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="quartiere-copertura-display">-</text>
+                                <text x="100" y="112" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">entro 300m</text>
+                                <text x="100" y="128" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">da verde urbano</text>
                             </svg>
                         </div>
                         
                         <!-- Stats Grid -->
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
                             <div style="text-align: center;">
-                                <div style="font-size: 20px; font-weight: 500; color: #ffffff;" id="quartiere-spazi">-</div>
-                                <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">Spazi verdi</div>
+                                <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="quartiere-spazi">-</div>
+                                <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Spazi verdi</div>
                             </div>
                             <div style="text-align: center;">
-                                <div style="font-size: 20px; font-weight: 500; color: #ffffff;" id="quartiere-popolazione">-</div>
-                                <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">Abitanti totali</div>
+                                <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="quartiere-popolazione">-</div>
+                                <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Abitanti totali</div>
                             </div>
                         </div>
                         
@@ -2571,17 +2570,17 @@
     window.datasetStats = {
       osm: {
         spazi: '118',
-        percentuale: '38.76',
-        abitanti: '635,439',
-        fortunati: '246,293',
-        svantaggiati: '389,146'
+        percentuale: '38,76',
+        abitanti: '635.439',
+        fortunati: '246.293',
+        svantaggiati: '389.146'
       },
       copernicus: {
         spazi: '181',
-        percentuale: '48.50',
-        abitanti: '635,439',
-        fortunati: '308,213',
-        svantaggiati: '327,226'
+        percentuale: '48,50',
+        abitanti: '635.439',
+        fortunati: '308.213',
+        svantaggiati: '327.226'
       }
     };
     
@@ -2682,7 +2681,7 @@
       
       document.getElementById('quartiere-spazi').textContent = dati.spazi;
       document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('it-IT');
-      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1) + '%';
+      document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
       document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
       document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
       
@@ -2725,8 +2724,8 @@
     };
     
     window.calculateProgressOffset = function(percentage) {
-      // SVG circle circumference: 2πr = 2 * 3.14159 * 52 ≈ 327
-      const circumference = 327;
+      // SVG circle circumference: 2πr = 2 * 3.14159 * 80 ≈ 503
+      const circumference = 503;
       return circumference - (circumference * percentage / 100);
     };
     
@@ -2752,12 +2751,9 @@
       // Update city stats
       document.getElementById('stat-spazi').textContent = stats.spazi;
       document.getElementById('stat-abitanti').textContent = stats.abitanti;
-      document.getElementById('city-percentage').textContent = percentage.toFixed(1) + '%';
+      document.getElementById('city-percentage').textContent = stats.percentuale.replace('.', ',') + '%';
       document.getElementById('city-progress-bar').setAttribute('stroke', color);
       document.getElementById('city-progress-bar').setAttribute('stroke-dashoffset', offset);
-      
-      // Update dataset label
-      document.getElementById('dataset-label').textContent = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus Urban Atlas';
       
       // Update quartiere box if visible
       const quartiereStats = document.getElementById('quartiere-stats');
