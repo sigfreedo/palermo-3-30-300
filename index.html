@@ -1518,6 +1518,92 @@
         </div>
     </section>
 
+    <!-- Sezione Regola del 30 -->
+    <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0; display: none;" id="section30">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <h2 style="font-size: 36px; font-weight: 900; text-align: center; color: #065f46; margin: 0 0 3rem 0;">La regola del 30%</h2>
+            
+            <!-- Two Column Layout -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+                
+                <!-- Colonna Sinistra: Box Quartiere -->
+                <div style="background: #ffffff; border: 3px solid #10b981; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 2rem 0; color: #065f46;" id="canopy-quartiere-title">Il tuo quartiere</h3>
+                    
+                    <!-- Progress Circle -->
+                    <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+                        <svg width="220" height="220" viewBox="0 0 220 220">
+                            <circle cx="110" cy="110" r="90" fill="none" stroke="rgba(16, 185, 129, 0.1)" stroke-width="20"/>
+                            <circle cx="110" cy="110" r="90" fill="none" id="canopy-progress-bar" stroke="#10b981" stroke-width="20" stroke-dasharray="565" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 110 110)"/>
+                            <text x="110" y="100" text-anchor="middle" style="font-size: 40px; font-weight: 600; fill: #065f46;" id="canopy-percentage">-</text>
+                            <text x="110" y="125" text-anchor="middle" style="font-size: 15px; fill: #6b7280;">copertura arborea</text>
+                        </svg>
+                    </div>
+                    
+                    <!-- Badge Classificazione -->
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <span id="canopy-badge" style="display: inline-block; padding: 0.5rem 1.5rem; border-radius: 9999px; font-size: 14px; font-weight: 600; background: #fee2e2; color: #991b1b;">
+                            Scarsa
+                        </span>
+                    </div>
+                    
+                    <!-- Stats Grid -->
+                    <div style="display: grid; gap: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #e5e7eb;">
+                        <div>
+                            <div style="font-size: 13px; color: #6b7280; margin-bottom: 0.25rem;">Classifica</div>
+                            <div style="font-size: 20px; font-weight: 600; color: #065f46;" id="canopy-ranking">-</div>
+                        </div>
+                        
+                        <div>
+                            <div style="font-size: 13px; color: #6b7280; margin-bottom: 0.25rem;">Deficit dallo standard WHO/EEA</div>
+                            <div style="font-size: 20px; font-weight: 600; color: #dc2626;" id="canopy-deficit">-</div>
+                        </div>
+                        
+                        <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border: 2px solid #10b981;">
+                            <div style="font-size: 13px; color: #065f46; margin-bottom: 0.5rem; font-weight: 600;">Alberi da piantare per raggiungere il 30%</div>
+                            <div style="font-size: 28px; font-weight: 700; color: #065f46;" id="canopy-alberi">-</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 0.5rem;">Stimato su alberi maturi con chioma media di 35 m²</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Colonna Destra: Spiegazione -->
+                <div style="background: #ffffff; padding: 2.5rem; border-radius: 16px; border: 2px solid #e5e7eb;">
+                    <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 1.5rem 0; color: #065f46;">Cos'è la regola del 30%?</h3>
+                    
+                    <p style="font-size: 16px; line-height: 1.8; color: #374151; margin-bottom: 1.5rem;">
+                        La <strong>regola del 30%</strong> stabilisce che almeno il <strong>30% della superficie urbana</strong> dovrebbe essere coperta da chiome arboree (<em>tree canopy</em>) per garantire benefici ambientali e di salute pubblica ottimali.
+                    </p>
+                    
+                    <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981; margin-bottom: 1.5rem;">
+                        <p style="font-size: 15px; line-height: 1.7; color: #065f46; margin: 0;">
+                            <strong>Tree canopy</strong> = proiezione verticale delle chiome degli alberi sul suolo. Include tutta l'area ombreggiata visibile dall'alto, essenziale per raffreddare la città e migliorare la qualità dell'aria.
+                        </p>
+                    </div>
+                    
+                    <h4 style="font-size: 18px; font-weight: 600; margin: 2rem 0 1rem 0; color: #065f46;">Perché è importante?</h4>
+                    
+                    <ul style="font-size: 15px; line-height: 1.8; color: #374151; margin: 0; padding-left: 1.5rem;">
+                        <li style="margin-bottom: 0.75rem;"><strong>Riduzione temperatura:</strong> Gli alberi abbassano la temperatura fino a 5°C in estate</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>Qualità dell'aria:</strong> Filtrano inquinanti e particolato sottile (PM2.5 e PM10)</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>Biodiversità:</strong> Creano habitat per uccelli e insetti impollinatori</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>Benessere mentale:</strong> Spazi verdi riducono stress e migliorano salute mentale</li>
+                        <li><strong>Gestione acque:</strong> Riducono il rischio di allagamenti assorbendo acqua piovana</li>
+                    </ul>
+                    
+                    <p style="font-size: 14px; line-height: 1.6; color: #6b7280; margin: 2rem 0 0 0; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
+                        Fonte: <a href="https://www.eea.europa.eu/publications/nature-based-solutions-in-europe" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">European Environment Agency (EEA)</a> e <a href="https://www.who.int/publications/i/item/9789240034228" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">World Health Organization (WHO)</a>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Placeholder per quartiere -->
+            <div id="canopy-placeholder" style="text-align: center; padding: 3rem; color: #6b7280;">
+                <p style="font-size: 16px;">Cerca un indirizzo per visualizzare i dati del tuo quartiere</p>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <p><strong>Palermo 3-30-300</strong> - Analisi civica sull'accesso al verde urbano<br>
         La regola 3-30-300: 3 alberi visibili, 30% copertura arborea, 300m da spazi verdi<br>
@@ -2316,6 +2402,7 @@
                         const nomeQuartiere = window.getQuartiereFromCoords(lat, lon);
                         window.currentQuartiere = nomeQuartiere;
                         window.updateQuartiereBox(nomeQuartiere);
+                        window.updateCanopyBox(nomeQuartiere);
                         
                         setTimeout(() => {
                             dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2659,6 +2746,84 @@
         // Fallback: usa dati vuoti
         window.quartieriData = { osm: {}, copernicus: {} };
       });
+    
+    // Carica dati tree canopy
+    fetch('quartieri_tree_canopy.json')
+      .then(response => response.json())
+      .then(data => {
+        window.treeCanopyData = data.tree_canopy;
+        console.log('✓ Dati tree canopy caricati:', Object.keys(data.tree_canopy).length, 'quartieri');
+      })
+      .catch(error => {
+        console.error('Errore caricamento tree canopy:', error);
+        window.treeCanopyData = {};
+      });
+    
+    // Funzione per popolare box tree canopy
+    window.updateCanopyBox = function(nomeQuartiere) {
+      if (!window.treeCanopyData || !window.treeCanopyData[nomeQuartiere]) {
+        console.warn('Dati tree canopy non disponibili per:', nomeQuartiere);
+        return;
+      }
+      
+      const dati = window.treeCanopyData[nomeQuartiere];
+      const canopyPct = dati.canopy_pct;
+      const classificazione = dati.classificazione;
+      const deficitPct = dati.deficit_pct;
+      const alberiNecessari = dati.alberi_necessari;
+      
+      // Calcola classifica
+      const quartieri = Object.keys(window.treeCanopyData)
+        .map(nome => ({
+          nome: nome,
+          canopy: window.treeCanopyData[nome].canopy_pct
+        }))
+        .sort((a, b) => b.canopy - a.canopy);
+      
+      const ranking = quartieri.findIndex(q => q.nome === nomeQuartiere) + 1;
+      
+      // Determina colore badge e progress
+      let badgeColor, badgeBg, progressColor;
+      if (classificazione === 'Scarsa') {
+        badgeColor = '#991b1b';
+        badgeBg = '#fee2e2';
+        progressColor = '#dc2626';
+      } else if (classificazione === 'Ridotta') {
+        badgeColor = '#9a3412';
+        badgeBg = '#fed7aa';
+        progressColor = '#ea580c';
+      } else {
+        badgeColor = '#854d0e';
+        badgeBg = '#fef3c7';
+        progressColor = '#eab308';
+      }
+      
+      // Update UI
+      document.getElementById('canopy-quartiere-title').textContent = nomeQuartiere;
+      document.getElementById('canopy-percentage').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('canopy-badge').textContent = classificazione;
+      document.getElementById('canopy-badge').style.background = badgeBg;
+      document.getElementById('canopy-badge').style.color = badgeColor;
+      document.getElementById('canopy-ranking').textContent = `${ranking}° su ${quartieri.length} quartieri`;
+      document.getElementById('canopy-deficit').textContent = deficitPct.toFixed(1).replace('.', ',') + ' punti percentuali';
+      document.getElementById('canopy-alberi').textContent = alberiNecessari.toLocaleString('it-IT') + ' alberi';
+      
+      // Update progress circle
+      const circumference = 565; // 2 * π * 90
+      const offset = circumference - (circumference * canopyPct / 100);
+      document.getElementById('canopy-progress-bar').setAttribute('stroke', progressColor);
+      document.getElementById('canopy-progress-bar').setAttribute('stroke-dashoffset', offset);
+      
+      // Hide placeholder, show content
+      document.getElementById('canopy-placeholder').style.display = 'none';
+      const section30 = document.getElementById('section30');
+      section30.style.display = 'block';
+      
+      // Scroll to section after dashboard
+      setTimeout(() => {
+        section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 1500);
+    };
     
     // Point-in-polygon check usando ray casting algorithm
     window.pointInPolygon = function(point, polygon) {
