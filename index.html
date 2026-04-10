@@ -2896,10 +2896,10 @@
     
     // Funzione per determinare valutazione copertura
     function getValutazione(canopyPct) {
-      if (canopyPct < 10) return "scarsa";
-      if (canopyPct < 20) return "scarsa";
-      if (canopyPct < 25) return "ridotta";
-      return "quasi sufficiente";
+      if (canopyPct < 10) return "scarsa";              // 🔴 Rosso
+      if (canopyPct < 20) return "ridotta";             // 🟠 Arancione
+      if (canopyPct < 30) return "quasi sufficiente";   // 🟡 Giallo
+      return "sufficiente";                              // 🟢 Verde/Teal/Blu
     }
     
     // Funzione per popolare dashboard copertura arborea
