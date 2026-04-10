@@ -1647,7 +1647,7 @@
     </section>
 
     <!-- DASHBOARD COPERTURA ARBOREA -->
-    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0; display: none;" id="dashboardCanopy">
+    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 0 0 6rem 0; display: none;" id="dashboardCanopy">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Copertura arborea a Palermo</h2>
             
@@ -1658,8 +1658,8 @@
             </div>
             
             <!-- Dashboard Boxes -->
-            <div style="margin-top: 3rem;">
-            <div class="dashboard-grid">
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <div class="dashboard-grid" style="margin-top: 3rem;">
                 <!-- Box 1: Statistiche Generali Palermo -->
                 <div class="dashboard-box">
                     <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Palermo</h3>
@@ -1670,8 +1670,7 @@
                             <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
                             <circle cx="120" cy="120" r="100" fill="none" id="canopy-city-progress-bar" stroke="#ea580c" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 120 120)"/>
                             <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="canopy-city-percentage">-</text>
-                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
-                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">media</text>
+                            <text x="120" y="142" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
                         </svg>
                     </div>
                     
@@ -1702,8 +1701,7 @@
                             <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
                             <circle cx="120" cy="120" r="100" fill="none" id="canopy-quartiere-progress-bar" stroke="#ea580c" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 120 120)"/>
                             <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="canopy-quartiere-percentage">-</text>
-                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
-                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">media</text>
+                            <text x="120" y="142" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
                         </svg>
                     </div>
                     
@@ -1724,6 +1722,15 @@
                     </div>
                 </div>
             </div>
+            </div>
+            
+            <!-- Mappa Quartieri Copertura Arborea -->
+            <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
+                <!-- Titolo overlay -->
+                <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura arborea per quartiere</h3>
+                </div>
+                <div id="canopy-quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
             </div>
         </div>
     </section>
@@ -2926,9 +2933,6 @@
       
       document.getElementById('canopy-city-description').textContent = 
         'Palermo ha una copertura arborea media del 12,1%, ben al di sotto dello standard del 30%. Nessuno tra i suoi quartieri raggiunge una copertura sufficiente.';
-      
-      // Show dashboard
-      document.getElementById('dashboardCanopy').style.display = 'block';
     }
     
     // Funzione per popolare box quartiere nella dashboard canopy
@@ -2971,6 +2975,14 @@
       
       document.getElementById('canopy-quartiere-description').textContent = 
         `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i quartieri della città.`;
+      
+      // Show dashboard
+      document.getElementById('dashboardCanopy').style.display = 'block';
+      
+      // Initialize map
+      setTimeout(() => {
+        window.initCanopyQuartieriMap();
+      }, 300);
     };
     
     // Funzione per determinare aggettivo basato su copertura
@@ -3456,6 +3468,8 @@
     // Mappa quartieri
     let quartieriMap = null;
     let quartieriLayer = null;
+    let canopyQuartieriMap = null;
+    let canopyQuartieriLayer = null;
     
     window.initQuartieriMap = function() {
       if (quartieriMap) return; // Already initialized
@@ -3620,6 +3634,140 @@
           }).addTo(quartieriMap);
         })
         .catch(error => console.error('Errore caricamento quartieri GeoJSON:', error));
+    };
+    
+    // Initialize canopy quartieri map
+    window.initCanopyQuartieriMap = function() {
+      if (canopyQuartieriMap) return; // Already initialized
+      
+      // Initialize map
+      canopyQuartieriMap = L.map('canopy-quartieri-map', {
+        center: [38.115, 13.361],
+        zoom: 12,
+        zoomControl: true,
+        scrollWheelZoom: false,
+        doubleClickZoom: true,
+        touchZoom: true,
+        boxZoom: false
+      });
+      
+      setTimeout(() => {
+        canopyQuartieriMap.invalidateSize();
+      }, 100);
+      
+      // Add base layer
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxZoom: 19
+      }).addTo(canopyQuartieriMap);
+      
+      // Load geometries
+      fetch('quartieri_dati_completi.geojson')
+        .then(response => response.json())
+        .then(geoData => {
+          if (!window.treeCanopyData) {
+            console.warn('Tree canopy data not loaded yet, waiting...');
+            setTimeout(() => window.initCanopyQuartieriMap(), 500);
+            return;
+          }
+          
+          // Calculate rankings
+          const quartieri = Object.keys(window.treeCanopyData).map(nome => ({
+            nome: nome,
+            canopy: window.treeCanopyData[nome].canopy_pct
+          })).sort((a, b) => b.canopy - a.canopy);
+          
+          const rankings = {};
+          quartieri.forEach((q, index) => {
+            rankings[q.nome] = index + 1;
+          });
+          
+          canopyQuartieriLayer = L.geoJSON(geoData, {
+            style: function(feature) {
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = window.treeCanopyData[nomeQuartiere];
+              const canopyPct = dati ? dati.canopy_pct : 0;
+              const color = getCanopyColor(canopyPct);
+              
+              return {
+                fillColor: color,
+                weight: 2,
+                opacity: 1,
+                color: 'rgba(255, 255, 255, 0.3)',
+                fillOpacity: 0.7
+              };
+            },
+            onEachFeature: function(feature, layer) {
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = window.treeCanopyData[nomeQuartiere];
+              
+              if (!dati) {
+                console.warn('Dati canopy non trovati per:', nomeQuartiere);
+                return;
+              }
+              
+              const canopyPct = dati.canopy_pct || 0;
+              const valutazione = getValutazione(canopyPct);
+              const ranking = rankings[nomeQuartiere] || '?';
+              const totalQuartieri = quartieri.length;
+              
+              // Tooltip HTML
+              const tooltipHTML = `
+                <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
+                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
+                  <div><strong>Copertura arborea:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
+                  <div><strong>Valutazione:</strong> ${valutazione}</div>
+                  <div><strong>Posizione:</strong> ${ranking}° su ${totalQuartieri}</div>
+                </div>
+              `;
+              
+              layer.bindTooltip(tooltipHTML, {
+                className: 'quartiere-tooltip',
+                permanent: false,
+                direction: 'top',
+                offset: [0, -10]
+              });
+              
+              // Hover interactivity
+              layer.on('mouseover', function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 3,
+                  color: '#ffffff',
+                  fillOpacity: 0.9
+                });
+                layer.bringToFront();
+              });
+              
+              layer.on('mouseout', function(e) {
+                canopyQuartieriLayer.resetStyle(e.target);
+              });
+              
+              // Click effect
+              layer.on('click', function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 4,
+                  color: '#10b981',
+                  fillOpacity: 1
+                });
+                setTimeout(() => {
+                  layer.setStyle({
+                    weight: 3,
+                    color: '#ffffff',
+                    fillOpacity: 0.9
+                  });
+                }, 150);
+                setTimeout(() => {
+                  canopyQuartieriLayer.resetStyle(layer);
+                }, 300);
+              });
+            }
+          }).addTo(canopyQuartieriMap);
+        })
+        .catch(error => {
+          console.error('Errore caricamento GeoJSON per mappa canopy:', error);
+        });
     };
     
     window.switchDashboardDataset = function(dataset) {
