@@ -418,6 +418,12 @@
       margin-bottom: 0.5rem;
     }
     
+    #section30 h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
     .section-300 h2.fortunato {
       color: #065f46;
     }
@@ -434,6 +440,13 @@
     }
     
     .section-300 .description {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #374151;
+      margin-bottom: 2rem;
+    }
+    
+    #section30 .description {
       font-size: 16px;
       line-height: 1.7;
       color: #374151;
@@ -1526,18 +1539,21 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                 
                 <!-- Colonna Sinistra: Visualizzazione Copertura Arborea -->
-                <div>
-                    <h3 style="font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 1rem 0; color: #065f46; transition: all 0.3s ease;" id="canopy-main-title">Com'è il tuo quartiere</h3>
+                <div class="result-column" id="canopy-result-column">
+                    <!-- Titolo Fortunato/Svantaggiato -->
+                    <h2 id="canopy-status-title"></h2>
                     
                     <!-- Testo descrittivo -->
-                    <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #374151; margin: 0 0 1.5rem 0;" id="canopy-description">
+                    <p class="description" id="canopy-description">
                         Il tuo quartiere, <strong id="canopy-nome-text">-</strong>, ha una copertura arborea del <strong id="canopy-pct-text">-</strong>, <strong id="canopy-aggettivo-text">-</strong> a quella raccomandata.
                     </p>
                     
-                    <!-- Box Visualizzazione -->
-                    <div style="background: #ffffff; border: 2px solid #10b981; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <!-- Box Visualizzazione Alberi -->
+                    <div style="background: #ffffff; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #065f46; transition: all 0.3s ease;" id="canopy-main-title">Com'è il tuo quartiere</h3>
+                        
                         <!-- Canvas SVG Alberi -->
-                        <svg id="treeCanvas" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; display: block;">
+                        <svg id="treeCanvas" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; display: block; margin-bottom: 1rem;">
                             <rect width="400" height="400" fill="#ffffff"/>
                             <g id="treesLayer"></g>
                         </svg>
@@ -1568,26 +1584,24 @@
                         </div>
                     </div>
                     
-                    <!-- Stats Grid -->
-                    <div style="display: grid; gap: 1.5rem; padding-top: 1.5rem; margin-top: 1.5rem;">
-                        <div>
-                            <div style="font-size: 13px; color: #6b7280; margin-bottom: 0.25rem;">Classifica</div>
-                            <div style="font-size: 20px; font-weight: 600; color: #065f46;" id="canopy-ranking">-</div>
+                    <!-- Box Alberi da Piantare (stile space-details) -->
+                    <div class="space-details">
+                        <h3>Alberi da piantare</h3>
+                        <div style="font-size: 22px; font-weight: 700; color: #10b981; margin: 1rem 0;" id="canopy-alberi">-</div>
+                        <div class="space-divider"></div>
+                        <div class="space-detail-item">
+                            <span class="space-detail-label">Copertura attuale:</span> <span id="canopy-classificazione">-</span>
                         </div>
-                        
-                        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; border: 2px solid #10b981;">
-                            <div style="font-size: 12px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Alberi da piantare per raggiungere il 30% di copertura</div>
-                            <div style="font-size: 22px; font-weight: 700; color: #10b981; margin-bottom: 0.75rem;" id="canopy-alberi">-</div>
-                            <div style="width: 50%; height: 2px; background: #10b981; margin-bottom: 1rem;"></div>
-                            <div style="display: block; padding: 0.25rem 0; font-size: 14px; color: #374151; line-height: 1.6;">
-                                <span style="font-weight: 600;">Copertura arborea attuale:</span> <span id="canopy-classificazione">-</span>
-                            </div>
-                            <div style="display: block; padding: 0.25rem 0; font-size: 14px; color: #374151; line-height: 1.6;">
-                                <span style="font-weight: 600;">Deficit da colmare:</span> <span id="canopy-deficit-value">-</span>
-                            </div>
-                            <div style="font-size: 12px; color: #9ca3af; margin-top: 1rem;">La stima sul numero di alberi è fatta considerando alberi maturi con chioma media di 35 m²</div>
+                        <div class="space-detail-item">
+                            <span class="space-detail-label">Deficit da colmare:</span> <span id="canopy-deficit-value">-</span>
                         </div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-top: 1rem;">La stima è fatta considerando alberi maturi con chioma media di 35 m²</div>
                     </div>
+                    
+                    <!-- Call to Action -->
+                    <button class="share-button" id="canopy-cta-button" onclick="window.open('https://www.comune.palermo.it', '_blank')" style="margin-top: 1.5rem;">
+                        Scopri le iniziative di forestazione urbana
+                    </button>
                 </div>
                 
                 <!-- Colonna Destra: Spiegazione -->
@@ -2960,15 +2974,20 @@
       const deficitPct = dati.deficit_pct;
       const alberiNecessari = dati.alberi_necessari;
       
-      // Calcola classifica
-      const quartieri = Object.keys(window.treeCanopyData)
-        .map(nome => ({
-          nome: nome,
-          canopy: window.treeCanopyData[nome].canopy_pct
-        }))
-        .sort((a, b) => b.canopy - a.canopy);
+      // Determina se fortunato o svantaggiato
+      const isFortunato = canopyPct >= 30;
       
-      const ranking = quartieri.findIndex(q => q.nome === nomeQuartiere) + 1;
+      // Update titolo principale e classe box
+      const statusTitle = document.getElementById('canopy-status-title');
+      const resultColumn = document.getElementById('canopy-result-column');
+      
+      if (isFortunato) {
+        statusTitle.textContent = '🎉 Sei fortunato!';
+        resultColumn.className = 'result-column fortunato';
+      } else {
+        statusTitle.textContent = '😔 Sei svantaggiato';
+        resultColumn.className = 'result-column svantaggiato';
+      }
       
       // Determina aggettivo per descrizione
       const aggettivo = getAggettivo(canopyPct);
@@ -2983,7 +3002,6 @@
       document.getElementById('canopy-legend-missing').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
       
       // Update stats
-      document.getElementById('canopy-ranking').textContent = `${ranking}° su ${quartieri.length} quartieri`;
       document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
       document.getElementById('canopy-classificazione').textContent = classificazione;
       document.getElementById('canopy-deficit-value').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
