@@ -1652,9 +1652,9 @@
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Copertura arborea a Palermo</h2>
             
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
-                <p style="margin-bottom: 1rem;">La <strong style="color: #10b981;">regola del 30%</strong> stabilisce che almeno il 30% della superficie urbana dovrebbe essere coperta da chiome arboree per garantire benefici ambientali e di salute pubblica ottimali. Città virtuose come Seattle e Vancouver superano il 30% di copertura.</p>
+                <p style="margin-bottom: 1rem;">Dal punto di vista della <strong style="color: #10b981;">copertura arborea</strong>, Palermo si colloca molto al di sotto dello standard del 30% raccomandato da WHO ed EEA. Città virtuose come <strong style="color: #10b981;">Vancouver</strong> (Canada, 40%), <strong style="color: #10b981;">Oslo</strong> (Norvegia, 45%), <strong style="color: #10b981;">Torino</strong> (Italia, 34%), e <strong style="color: #10b981;">Vienna</strong> (Austria, 50%) raggiungono e superano ampiamente questa quota, garantendo ai loro cittadini i benefici ambientali e sanitari di un'adeguata copertura arborea.</p>
                 
-                <p style="margin-bottom: 0;">I dati sulla copertura arborea provengono dal <a href="https://land.copernicus.eu/local/urban-atlas" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Urban Atlas</a> e sono stati incrociati con le sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a> per calcolare la copertura media per quartiere. La stima degli alberi necessari è basata su alberi maturi con chioma media di 35 m².</p>
+                <p style="margin-bottom: 0;">I dati sulla copertura arborea provengono dal <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover/tree-cover-density-2023-raster-10-m-100-m-europe-yearly" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Tree Cover Density 2023</a> e sono stati incrociati con le sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a> per calcolare la copertura media per quartiere. La stima degli alberi necessari è basata su alberi maturi con chioma media di 35 m².</p>
             </div>
             
             <!-- Dashboard Boxes -->
@@ -1670,8 +1670,8 @@
                             <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
                             <circle cx="120" cy="120" r="100" fill="none" id="canopy-city-progress-bar" stroke="#ea580c" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 120 120)"/>
                             <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="canopy-city-percentage">-</text>
-                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura</text>
-                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">arborea media</text>
+                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
+                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">media</text>
                         </svg>
                     </div>
                     
@@ -1679,11 +1679,11 @@
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="canopy-city-trees">-</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Alberi necessari</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Alberi da piantare</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="canopy-city-deficit-quartieri">-</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Quartieri sotto 30%</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Quartieri con<br>copertura insufficiente</div>
                         </div>
                     </div>
                     
@@ -1694,7 +1694,7 @@
                 
                 <!-- Box 2: Il Mio Quartiere -->
                 <div class="dashboard-box">
-                    <h3 id="canopy-quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il tuo quartiere</h3>
+                    <h3 id="canopy-quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il mio quartiere</h3>
                     
                     <!-- Progress Circle -->
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
@@ -1702,8 +1702,8 @@
                             <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
                             <circle cx="120" cy="120" r="100" fill="none" id="canopy-quartiere-progress-bar" stroke="#ea580c" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 120 120)"/>
                             <text x="120" y="110" text-anchor="middle" style="font-size: 36px; font-weight: 500; fill: #ffffff;" id="canopy-quartiere-percentage">-</text>
-                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura</text>
-                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">arborea</text>
+                            <text x="120" y="135" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">copertura arborea</text>
+                            <text x="120" y="153" text-anchor="middle" style="font-size: 14px; fill: #9ca3af;">media</text>
                         </svg>
                     </div>
                     
@@ -1711,11 +1711,11 @@
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="canopy-quartiere-alberi">-</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Alberi necessari</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Alberi da piantare</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="canopy-quartiere-ranking">-</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Classifica</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Posizione tra<br>i quartieri</div>
                         </div>
                     </div>
                     
@@ -2887,6 +2887,14 @@
         window.treeCanopyData = {};
       });
     
+    // Funzione per determinare valutazione copertura
+    function getValutazione(canopyPct) {
+      if (canopyPct < 10) return "scarsa";
+      if (canopyPct < 20) return "scarsa";
+      if (canopyPct < 25) return "ridotta";
+      return "quasi sufficiente";
+    }
+    
     // Funzione per popolare dashboard copertura arborea
     function populateCanopyDashboard() {
       if (!window.treeCanopyData) return;
@@ -2917,7 +2925,7 @@
       document.getElementById('canopy-city-deficit-quartieri').textContent = quartieriSotto30 + '/' + quartieri.length;
       
       document.getElementById('canopy-city-description').textContent = 
-        `Palermo ha una copertura arborea media del ${avgCanopy.toFixed(1).replace('.', ',')}%, ${avgCanopy < 30 ? 'sotto' : 'sopra'} lo standard WHO/EEA del 30%. ${quartieriSotto30} quartieri su ${quartieri.length} non raggiungono questo standard.`;
+        'Palermo ha una copertura arborea media del 12,1%, ben al di sotto dello standard del 30%. Nessuno tra i suoi quartieri raggiunge una copertura sufficiente.';
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
@@ -2943,6 +2951,9 @@
       
       const ranking = quartieri.findIndex(q => q.nome === nomeQuartiere) + 1;
       
+      // Determina valutazione
+      const valutazione = getValutazione(canopyPct);
+      
       // Update progress circle
       const circumference = 628;
       const offset = circumference - (circumference * canopyPct / 100);
@@ -2953,13 +2964,13 @@
       document.getElementById('canopy-quartiere-progress-bar').setAttribute('stroke', barColor);
       
       // Update UI
-      document.getElementById('canopy-quartiere-title').textContent = nomeQuartiere;
+      document.getElementById('canopy-quartiere-title').textContent = `Il mio quartiere: ${nomeQuartiere}`;
       document.getElementById('canopy-quartiere-percentage').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
       document.getElementById('canopy-quartiere-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
-      document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/${quartieri.length}`;
+      document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').textContent = 
-        `${nomeQuartiere} ha una copertura arborea del ${canopyPct.toFixed(1).replace('.', ',')}%, ${canopyPct >= 30 ? 'superiore' : 'inferiore'} allo standard del 30%. Si posiziona al ${ranking}° posto tra i quartieri di Palermo.`;
+        `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i quartieri della città.`;
     };
     
     // Funzione per determinare aggettivo basato su copertura
