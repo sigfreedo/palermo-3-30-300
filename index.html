@@ -1525,29 +1525,51 @@
             <!-- Two Column Layout -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                 
-                <!-- Colonna Sinistra: Box Quartiere -->
-                <div style="background: #ffffff; border: 2px solid #10b981; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                    <h3 style="font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 2rem 0; color: #065f46;" id="canopy-quartiere-title">Il tuo quartiere</h3>
+                <!-- Colonna Sinistra: Visualizzazione Copertura Arborea -->
+                <div>
+                    <h3 style="font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 1rem 0; color: #065f46; transition: all 0.3s ease;" id="canopy-main-title">Com'è il tuo quartiere</h3>
                     
-                    <!-- Progress Circle -->
-                    <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
-                        <svg width="220" height="220" viewBox="0 0 220 220">
-                            <circle cx="110" cy="110" r="90" fill="none" stroke="rgba(16, 185, 129, 0.1)" stroke-width="20"/>
-                            <circle cx="110" cy="110" r="90" fill="none" id="canopy-progress-bar" stroke="#10b981" stroke-width="20" stroke-dasharray="565" stroke-dashoffset="400" stroke-linecap="round" transform="rotate(-90 110 110)"/>
-                            <text x="110" y="100" text-anchor="middle" style="font-size: 40px; font-weight: 600; fill: #065f46;" id="canopy-percentage">-</text>
-                            <text x="110" y="125" text-anchor="middle" style="font-size: 15px; fill: #6b7280;">copertura arborea</text>
+                    <!-- Testo descrittivo -->
+                    <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #374151; margin: 0 0 1.5rem 0;" id="canopy-description">
+                        Il tuo quartiere, <strong id="canopy-nome-text">-</strong>, ha una copertura arborea del <strong id="canopy-pct-text">-</strong>, <strong id="canopy-aggettivo-text">-</strong> a quella raccomandata.
+                    </p>
+                    
+                    <!-- Box Visualizzazione -->
+                    <div style="background: #ffffff; border: 2px solid #10b981; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                        <!-- Canvas SVG Alberi -->
+                        <svg id="treeCanvas" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; display: block;">
+                            <rect width="400" height="400" fill="#ffffff"/>
+                            <g id="treesLayer"></g>
                         </svg>
-                    </div>
-                    
-                    <!-- Badge Classificazione -->
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <span id="canopy-badge" style="display: inline-block; padding: 0.5rem 1.5rem; border-radius: 9999px; font-size: 14px; font-weight: 600; background: #fee2e2; color: #991b1b;">
-                            Scarsa
-                        </span>
+                        
+                        <!-- Legenda -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; font-size: 14px;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                                    <span>Copertura attuale: <span id="canopy-legend-current">-</span></span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #d1d5db; flex-shrink: 0;"></div>
+                                    <span>Copertura mancante: <span id="canopy-legend-missing">-</span></span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; justify-content: flex-start;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #34d399; flex-shrink: 0;"></div>
+                                    <span>Copertura ideale: 30%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hint -->
+                        <div style="text-align: center; font-size: 13px; color: #9ca3af; margin-top: 1rem; font-style: italic;">
+                            Tocca o passa sopra per vedere come dovrebbe essere
+                        </div>
                     </div>
                     
                     <!-- Stats Grid -->
-                    <div style="display: grid; gap: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #e5e7eb;">
+                    <div style="display: grid; gap: 1.5rem; padding-top: 1.5rem; margin-top: 1.5rem;">
                         <div>
                             <div style="font-size: 13px; color: #6b7280; margin-bottom: 0.25rem;">Classifica</div>
                             <div style="font-size: 20px; font-weight: 600; color: #065f46;" id="canopy-ranking">-</div>
@@ -2766,6 +2788,165 @@
         window.treeCanopyData = {};
       });
     
+    // Funzione per determinare aggettivo basato su copertura
+    function getAggettivo(canopyPct) {
+      if (canopyPct < 10) return "nettamente inferiore";
+      if (canopyPct < 20) return "inferiore";
+      if (canopyPct < 30) return "leggermente inferiore";
+      if (canopyPct < 40) return "leggermente superiore";
+      if (canopyPct < 50) return "superiore";
+      return "nettamente superiore";
+    }
+    
+    // Funzione per generare posizioni alberi (max 50% sovrapposizione)
+    function generateTreePositions(count, size = 400, margin = 30) {
+      const positions = [];
+      const treeRadius = 12;
+      const minDistance = treeRadius * 1.5; // 18px - permette max 50% sovrapposizione
+      
+      for (let i = 0; i < count; i++) {
+        let attempts = 0;
+        let x, y, valid;
+        
+        do {
+          x = margin + Math.random() * (size - 2 * margin);
+          y = margin + Math.random() * (size - 2 * margin);
+          
+          valid = positions.every(pos => {
+            const dx = pos.x - x;
+            const dy = pos.y - y;
+            return Math.sqrt(dx * dx + dy * dy) >= minDistance;
+          });
+          
+          attempts++;
+        } while (!valid && attempts < 150);
+        
+        if (attempts < 150) {
+          positions.push({ x, y });
+        }
+      }
+      
+      return positions;
+    }
+    
+    // Funzione per renderizzare alberi SVG
+    function renderTrees(canopyPct) {
+      const treesLayer = document.getElementById('treesLayer');
+      treesLayer.innerHTML = ''; // Clear previous trees
+      
+      const totalTrees = 100;
+      const greenTrees = Math.round(totalTrees * canopyPct / 30);
+      const grayTrees = totalTrees - greenTrees;
+      
+      const allPositions = generateTreePositions(totalTrees);
+      
+      allPositions.forEach((pos, i) => {
+        const isGreen = i < greenTrees;
+        
+        const treeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        treeGroup.classList.add(isGreen ? 'tree-green' : 'tree-gray');
+        treeGroup.setAttribute('transform', `translate(${pos.x}, ${pos.y})`);
+        
+        // Tronco
+        const trunk = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        trunk.setAttribute('x', '-2');
+        trunk.setAttribute('y', '8');
+        trunk.setAttribute('width', '4');
+        trunk.setAttribute('height', '8');
+        trunk.setAttribute('fill', isGreen ? '#78350f' : '#9ca3af');
+        trunk.setAttribute('opacity', isGreen ? '1' : '0.3');
+        trunk.style.transition = 'fill 0.3s ease, opacity 0.3s ease';
+        
+        // Chioma
+        const foliage = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        foliage.setAttribute('cx', '0');
+        foliage.setAttribute('cy', '0');
+        foliage.setAttribute('r', '12');
+        foliage.setAttribute('fill', isGreen ? '#10b981' : '#d1d5db');
+        foliage.setAttribute('opacity', isGreen ? '1' : '0.4');
+        foliage.classList.add('foliage');
+        foliage.style.transition = 'fill 0.3s ease, opacity 0.3s ease';
+        
+        treeGroup.appendChild(foliage);
+        treeGroup.appendChild(trunk);
+        treesLayer.appendChild(treeGroup);
+      });
+      
+      // Setup hover e touch events
+      setupTreeInteraction();
+    }
+    
+    // Funzione per setup interazione alberi
+    function setupTreeInteraction() {
+      const canvas = document.getElementById('treeCanvas');
+      const mainTitle = document.getElementById('canopy-main-title');
+      
+      function showIdealState() {
+        mainTitle.textContent = 'Come dovrebbe essere';
+        
+        const allFoliage = document.querySelectorAll('.foliage');
+        allFoliage.forEach(foliage => {
+          foliage.setAttribute('fill', '#34d399');
+          foliage.setAttribute('opacity', '1');
+        });
+        
+        const allTrunks = document.querySelectorAll('#treesLayer g rect');
+        allTrunks.forEach(trunk => {
+          trunk.setAttribute('fill', '#78350f');
+          trunk.setAttribute('opacity', '1');
+        });
+      }
+      
+      function showCurrentState() {
+        mainTitle.textContent = "Com'è il tuo quartiere";
+        
+        const greenFoliage = document.querySelectorAll('.tree-green .foliage');
+        greenFoliage.forEach(foliage => {
+          foliage.setAttribute('fill', '#10b981');
+          foliage.setAttribute('opacity', '1');
+        });
+        
+        const grayFoliage = document.querySelectorAll('.tree-gray .foliage');
+        grayFoliage.forEach(foliage => {
+          foliage.setAttribute('fill', '#d1d5db');
+          foliage.setAttribute('opacity', '0.4');
+        });
+        
+        const greenTrunks = document.querySelectorAll('.tree-green rect');
+        greenTrunks.forEach(trunk => {
+          trunk.setAttribute('fill', '#78350f');
+          trunk.setAttribute('opacity', '1');
+        });
+        
+        const grayTrunks = document.querySelectorAll('.tree-gray rect');
+        grayTrunks.forEach(trunk => {
+          trunk.setAttribute('fill', '#9ca3af');
+          trunk.setAttribute('opacity', '0.3');
+        });
+      }
+      
+      // Remove old listeners
+      const newCanvas = canvas.cloneNode(true);
+      canvas.parentNode.replaceChild(newCanvas, canvas);
+      const freshCanvas = document.getElementById('treeCanvas');
+      
+      // Desktop: hover
+      freshCanvas.addEventListener('mouseenter', showIdealState);
+      freshCanvas.addEventListener('mouseleave', showCurrentState);
+      
+      // Mobile: touch toggle
+      let isTouched = false;
+      freshCanvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isTouched = !isTouched;
+        if (isTouched) {
+          showIdealState();
+        } else {
+          showCurrentState();
+        }
+      });
+    }
+    
     // Funzione per popolare box tree canopy
     window.updateCanopyBox = function(nomeQuartiere) {
       if (!window.treeCanopyData || !window.treeCanopyData[nomeQuartiere]) {
@@ -2789,38 +2970,44 @@
       
       const ranking = quartieri.findIndex(q => q.nome === nomeQuartiere) + 1;
       
-      // Determina colore badge e progress
-      let badgeColor, badgeBg, progressColor;
-      if (classificazione === 'Scarsa') {
-        badgeColor = '#991b1b';
-        badgeBg = '#fee2e2';
-        progressColor = '#dc2626';
-      } else if (classificazione === 'Ridotta') {
-        badgeColor = '#9a3412';
-        badgeBg = '#fed7aa';
-        progressColor = '#ea580c';
-      } else {
-        badgeColor = '#854d0e';
-        badgeBg = '#fef3c7';
-        progressColor = '#eab308';
-      }
+      // Determina aggettivo per descrizione
+      const aggettivo = getAggettivo(canopyPct);
       
-      // Update UI
-      document.getElementById('canopy-quartiere-title').textContent = nomeQuartiere;
-      document.getElementById('canopy-percentage').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
-      document.getElementById('canopy-badge').textContent = classificazione;
-      document.getElementById('canopy-badge').style.background = badgeBg;
-      document.getElementById('canopy-badge').style.color = badgeColor;
+      // Update testo descrittivo
+      document.getElementById('canopy-nome-text').textContent = nomeQuartiere;
+      document.getElementById('canopy-pct-text').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('canopy-aggettivo-text').textContent = aggettivo;
+      
+      // Update legenda
+      document.getElementById('canopy-legend-current').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('canopy-legend-missing').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
+      
+      // Update stats
       document.getElementById('canopy-ranking').textContent = `${ranking}° su ${quartieri.length} quartieri`;
       document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
       document.getElementById('canopy-classificazione').textContent = classificazione;
       document.getElementById('canopy-deficit-value').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
       
-      // Update progress circle
-      const circumference = 565; // 2 * π * 90
-      const offset = circumference - (circumference * canopyPct / 100);
-      document.getElementById('canopy-progress-bar').setAttribute('stroke', progressColor);
-      document.getElementById('canopy-progress-bar').setAttribute('stroke-dashoffset', offset);
+      // Render alberi
+      renderTrees(canopyPct);
+      
+      // Hide placeholder, show content
+      document.getElementById('canopy-placeholder').style.display = 'none';
+      const section30 = document.getElementById('section30');
+      section30.style.display = 'block';
+      
+      // Scroll to section after dashboard
+      setTimeout(() => {
+        section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 1500);
+    };
+      document.getElementById('canopy-ranking').textContent = `${ranking}° su ${quartieri.length} quartieri`;
+      document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
+      document.getElementById('canopy-classificazione').textContent = classificazione;
+      document.getElementById('canopy-deficit-value').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
+      
+      // Render alberi
+      renderTrees(canopyPct);
       
       // Hide placeholder, show content
       document.getElementById('canopy-placeholder').style.display = 'none';
