@@ -3001,24 +3001,6 @@
         section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 1500);
     };
-      document.getElementById('canopy-ranking').textContent = `${ranking}° su ${quartieri.length} quartieri`;
-      document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
-      document.getElementById('canopy-classificazione').textContent = classificazione;
-      document.getElementById('canopy-deficit-value').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
-      
-      // Render alberi
-      renderTrees(canopyPct);
-      
-      // Hide placeholder, show content
-      document.getElementById('canopy-placeholder').style.display = 'none';
-      const section30 = document.getElementById('section30');
-      section30.style.display = 'block';
-      
-      // Scroll to section after dashboard
-      setTimeout(() => {
-        section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 1500);
-    };
     
     // Point-in-polygon check usando ray casting algorithm
     window.pointInPolygon = function(point, polygon) {
