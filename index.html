@@ -1578,10 +1578,10 @@
                 
                 <p style="font-size: 14px; line-height: 1.6; color: #6b7280; margin: 2rem 0 0 0; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
                     Fonti: 
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/38591755/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Zhang et al. (2024)</a>, 
+                    <a href="https://www.tandfonline.com/doi/full/10.1080/09603123.2024.2334767" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Zhang et al. (2024)</a>, 
+                    <a href="https://english.elpais.com/society/2022-12-13/the-mental-health-benefits-of-being-able-to-see-three-trees-from-home.html" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">El País</a>, 
                     <a href="https://canopy.org/blog/impacts-of-trees-on-mental-health/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Canopy</a>, 
-                    <a href="https://yaleclimateconnections.org/2023/02/the-little-known-physical-and-mental-health-benefits-of-urban-trees/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Yale Climate Connections</a>, 
-                    <a href="https://www.treesforstreets.org/how-trees-support-our-mental-health/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Trees for Streets</a>
+                    <a href="https://yaleclimateconnections.org/2023/02/the-little-known-physical-and-mental-health-benefits-of-urban-trees/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Yale Climate Connections</a>
                 </p>
             </div>
         </div>
@@ -3261,12 +3261,14 @@
       
       // Hide placeholder, show content
       document.getElementById('canopy-placeholder').style.display = 'none';
+      const section3 = document.getElementById('section3');
       const section30 = document.getElementById('section30');
+      section3.style.display = 'block';
       section30.style.display = 'block';
       
-      // Scroll to section after dashboard
+      // Scroll to section3 first
       setTimeout(() => {
-        section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        section3.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 1500);
     };
     
