@@ -1533,7 +1533,7 @@
     </section>
 
     <!-- Sezione Regola del 30 -->
-    <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0; display: none;" id="section30">
+    <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0 0 0; display: none;" id="section30">
         <!-- Two Column Layout -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
             
@@ -1647,12 +1647,12 @@
     </section>
 
     <!-- DASHBOARD COPERTURA ARBOREA -->
-    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 0 0 6rem 0; display: none;" id="dashboardCanopy">
+    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0 6rem 0; display: none;" id="dashboardCanopy">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Copertura arborea a Palermo</h2>
             
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
-                <p style="margin-bottom: 1rem;">Dal punto di vista della <strong style="color: #10b981;">copertura arborea</strong>, Palermo si colloca molto al di sotto dello standard del 30% raccomandato da WHO ed EEA. Città virtuose come <strong style="color: #10b981;">Vancouver</strong> (Canada, 40%), <strong style="color: #10b981;">Oslo</strong> (Norvegia, 45%), <strong style="color: #10b981;">Torino</strong> (Italia, 34%), e <strong style="color: #10b981;">Vienna</strong> (Austria, 50%) raggiungono e superano ampiamente questa quota, garantendo ai loro cittadini i benefici ambientali e sanitari di un'adeguata copertura arborea.</p>
+                <p style="margin-bottom: 1rem;">Dal punto di vista della <strong style="color: #10b981;">copertura arborea</strong>, Palermo si colloca molto al di sotto dello standard del 30% raccomandato. Città virtuose come <strong style="color: #10b981;">Oslo</strong> (Norvegia, 45%), <strong style="color: #10b981;">Torino</strong> (Italia, 34%), e <strong style="color: #10b981;">Vienna</strong> (Austria, 50%) raggiungono e superano ampiamente questa quota, garantendo ai loro cittadini i benefici ambientali e sanitari di un'adeguata copertura arborea.</p>
                 
                 <p style="margin-bottom: 0;">I dati sulla copertura arborea provengono dal <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover/tree-cover-density-2023-raster-10-m-100-m-europe-yearly" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Tree Cover Density 2023</a> e sono stati incrociati con le sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a> per calcolare la copertura media per quartiere. La stima degli alberi necessari è basata su alberi maturi con chioma media di 35 m².</p>
             </div>
@@ -1722,7 +1722,6 @@
                     </div>
                 </div>
             </div>
-            </div>
             
             <!-- Mappa Quartieri Copertura Arborea -->
             <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
@@ -1731,6 +1730,7 @@
                     <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura arborea per quartiere</h3>
                 </div>
                 <div id="canopy-quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
+            </div>
             </div>
         </div>
     </section>
@@ -2899,7 +2899,9 @@
       if (canopyPct < 10) return "scarsa";              // 🔴 Rosso
       if (canopyPct < 20) return "ridotta";             // 🟠 Arancione
       if (canopyPct < 30) return "quasi sufficiente";   // 🟡 Giallo
-      return "sufficiente";                              // 🟢 Verde/Teal/Blu
+      if (canopyPct < 40) return "sufficiente";         // 🔵 Teal chiaro
+      if (canopyPct < 50) return "buona";               // 🟢 Teal
+      return "ottima";                                   // 🔵 Blu
     }
     
     // Funzione per popolare dashboard copertura arborea
