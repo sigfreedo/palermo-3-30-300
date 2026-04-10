@@ -1549,7 +1549,7 @@
                     </p>
                     
                     <!-- Box Visualizzazione Alberi -->
-                    <div style="background: #ffffff; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                    <div style="background: #ffffff; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2.5rem; margin-bottom: 1.5rem;">
                         <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #065f46; transition: all 0.3s ease;" id="canopy-main-title">Com'è il tuo quartiere</h3>
                         
                         <!-- Canvas SVG Alberi -->
@@ -1599,8 +1599,8 @@
                     </div>
                     
                     <!-- Call to Action -->
-                    <button class="share-button" id="canopy-cta-button" onclick="window.open('https://www.comune.palermo.it', '_blank')" style="margin-top: 1.5rem;">
-                        Scopri le iniziative di forestazione urbana
+                    <button class="share-button" onclick="window.open('https://www.metropolitree.com/', '_blank')" style="margin-top: 1.5rem;">
+                        Contribuisci a piantare più alberi nella tua città
                     </button>
                 </div>
                 
@@ -1624,7 +1624,7 @@
                     <div style="margin-bottom: 0;">
                         <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 1rem 0; color: #065f46;">💚 Perché è importante?</h3>
                         <p style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0 0 1rem 0;">
-                            Le città con un'adeguata copertura arborea registrano temperature fino a <strong>8°C più basse</strong> rispetto ad aree prive di alberi, riducendo drasticamente l'effetto "isola di calore". Gli alberi filtrano inquinanti atmosferici come PM2.5 e PM10, migliorando la qualità dell'aria che respiriamo quotidianamente. Uno studio europeo ha dimostrato che il 30% di copertura arborea potrebbe prevenire quasi 2.700 morti premature ogni estate nelle città del continente.
+                            Le città con un'adeguata copertura arborea registrano temperature fino a <strong>8°C più basse</strong> rispetto ad aree prive di alberi, riducendo drasticamente l'effetto "isola di calore". Gli alberi filtrano inquinanti atmosferici come PM2.5 e PM10, migliorando la qualità dell'aria che respiriamo quotidianamente. Il 30% di copertura arborea potrebbe prevenire 2.700 morti premature ogni estate nelle città europee.
                         </p>
                         <p style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0;">
                             Sul fronte economico, le case circondate da alberi si vendono <strong>dal 5% al 15% in più</strong> rispetto a quelle senza vegetazione, arrivando fino al 25% se l'intera strada è alberata. Gli alberi riducono i costi energetici del 20-50% per il raffrescamento estivo e del 10-15% per il riscaldamento invernale. Infine, assorbendo grandi quantità di acqua piovana, prevengono allagamenti e riducono il carico sulle infrastrutture di drenaggio urbano.
@@ -2982,10 +2982,10 @@
       const resultColumn = document.getElementById('canopy-result-column');
       
       if (isFortunato) {
-        statusTitle.textContent = '🎉 Sei fortunato!';
+        statusTitle.textContent = '🌳 Hai abbastanza alberi!';
         resultColumn.className = 'result-column fortunato';
       } else {
-        statusTitle.textContent = '😔 Sei svantaggiato';
+        statusTitle.textContent = '🌱 Ti servono più alberi';
         resultColumn.className = 'result-column svantaggiato';
       }
       
