@@ -1735,7 +1735,7 @@
                     <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #065f46;">Vista dalla tua finestra</h3>
                     
                     <!-- SVG Finestra -->
-                    <svg id="windowView" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 1.5rem;">
+                    <svg id="windowView" viewBox="0 0 400 450" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 1.5rem;">
                         <!-- Sfondo cielo -->
                         <defs>
                             <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -1745,18 +1745,18 @@
                         </defs>
                         
                         <!-- Vista attraverso finestra -->
-                        <rect x="0" y="0" width="400" height="400" fill="url(#skyGradient)"/>
+                        <rect x="0" y="0" width="400" height="450" fill="url(#skyGradient)"/>
                         
-                        <!-- Orizzonte/terreno -->
-                        <rect x="0" y="320" width="400" height="80" fill="#90EE90" opacity="0.3"/>
+                        <!-- Orizzonte/terreno - più area erba -->
+                        <rect x="0" y="320" width="400" height="130" fill="#90EE90" opacity="0.3"/>
                         
                         <!-- Container alberi -->
                         <g id="treesContainer"></g>
                         
                         <!-- Cornice finestra -->
-                        <rect x="0" y="0" width="400" height="400" fill="none" stroke="#8B4513" stroke-width="12"/>
-                        <line x1="200" y1="0" x2="200" y2="400" stroke="#8B4513" stroke-width="8"/>
-                        <line x1="0" y1="200" x2="400" y2="200" stroke="#8B4513" stroke-width="8"/>
+                        <rect x="0" y="0" width="400" height="450" fill="none" stroke="#8B4513" stroke-width="12"/>
+                        <line x1="200" y1="0" x2="200" y2="450" stroke="#8B4513" stroke-width="8"/>
+                        <line x1="0" y1="225" x2="400" y2="225" stroke="#8B4513" stroke-width="8"/>
                     </svg>
                     
                     <!-- Input e Feedback (alternati) -->
@@ -3382,12 +3382,12 @@
         
         // Try to find non-overlapping position
         do {
-          x = 30 + Math.random() * 340;
-          y = 230 + Math.random() * 90;  // Adjusted for 400px height
-          size = 30 + Math.random() * 20;  // Slightly larger trees
+          x = 40 + Math.random() * 320;  // More margin from edges
+          y = 280 + Math.random() * 120; // Trees on ground area (280-400)
+          size = 35 + Math.random() * 25; // Varied tree sizes
           attempts++;
-        } while (attempts < 20 && positions.some(pos => 
-          Math.abs(pos.x - x) < 50 && Math.abs(pos.y - y) < 40
+        } while (attempts < 30 && positions.some(pos => 
+          Math.abs(pos.x - x) < 60 && Math.abs(pos.y - y) < 50  // Increased spacing
         ));
         
         positions.push({x, y, size});
@@ -3559,15 +3559,28 @@
         }
         
         const data = await response.json();
-        console.log('📊 Stats received:', data);
+        console.log('📊 Stats received from worker:', data);
+        console.log('📊 Fields:', Object.keys(data));
+        console.log('📊 percentageAbove3:', data.percentageAbove3);
         
         if (data.count > 0) {
           // Update UI
           document.getElementById('avgTrees').textContent = `${data.average.toFixed(1)} alberi`;
           document.getElementById('totalResponses').textContent = `${data.count} cittadini`;
           
-          // Handle percentageAbove3 - may be undefined
-          const pct = data.percentageAbove3 !== undefined ? data.percentageAbove3 : 0;
+          // Handle percentageAbove3
+          let pct = 0;
+          if (data.percentageAbove3 !== undefined && data.percentageAbove3 !== null) {
+            pct = data.percentageAbove3;
+            console.log('✅ Using percentageAbove3 from worker:', pct);
+          } else if (data.above3 !== undefined && data.count > 0) {
+            // Calculate from above3 count if available
+            pct = Math.round((data.above3 / data.count) * 100);
+            console.log('✅ Calculated percentageAbove3 from above3 count:', pct);
+          } else {
+            console.warn('⚠️ percentageAbove3 not available in response, showing 0%');
+          }
+          
           document.getElementById('pctAbove3').textContent = `${pct}%`;
         } else {
           // No data yet
