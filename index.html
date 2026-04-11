@@ -1357,28 +1357,6 @@
 
         <div class="result" id="result"></div>
 
-        <div id="treeCountSection" class="tree-count-section">
-            <h3>🌳 Quanti alberi vedi dalla tua finestra?</h3>
-            <p style="color: #065f46; margin-bottom: 1rem;">
-                Il criterio WHO raccomanda di vedere <strong>almeno 3 alberi</strong> dalla propria abitazione.
-            </p>
-            
-            <div class="tree-count-input-wrapper">
-                <input type="number" id="treeCountInput" min="0" max="99" placeholder="0" />
-                <button onclick="submitTreeCount()" id="btnSubmitTreeCount">Invia</button>
-            </div>
-            
-            <div id="treeCountFeedback" class="tree-count-feedback"></div>
-            
-            <div id="cityStats" class="city-stats" style="display: none;">
-                <div class="city-stats-label">Media cittadina</div>
-                <div class="city-stats-value" id="cityStatsValue">-</div>
-                <div class="city-stats-label">alberi visibili dalla finestra</div>
-                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #9ca3af;" id="cityStatsCount">
-                    Basato su <span id="responseCount">0</span> risposte
-                </div>
-            </div>
-        </div>
 
         <div class="info-section">
             <h3>📊 La regola 3-30-300 per città vivibili</h3>
@@ -2810,10 +2788,11 @@
             resultDiv.style.display = 'block';
             
             // Mostra la sezione tree count
-            showTreeCountSection();
+            // showTreeCountSection(); // OLD - now using section3
         }
 
-        // Mostra la sezione tree count dopo il risultato
+        // OLD FUNCTION - replaced by section3
+        /*
         function showTreeCountSection() {
             const section = document.getElementById('treeCountSection');
             section.classList.add('visible');
@@ -2832,6 +2811,7 @@
             // Carica e mostra statistiche esistenti
             loadCityStats();
         }
+        */
 
         // Carica statistiche cittadine
         async function loadCityStats() {
