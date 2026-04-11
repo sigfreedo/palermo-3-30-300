@@ -1796,7 +1796,7 @@
                                 style="flex: 1; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
                             />
                             <button 
-                                onclick="submitTreeCount()" 
+                                onclick="submitTreeCount(event)" 
                                 style="padding: 0.5rem 1.5rem; background: #059669; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.2s;"
                                 onmouseover="this.style.background='#047857'"
                                 onmouseout="this.style.background='#059669'"
@@ -3462,20 +3462,45 @@
     }
     
     // Submit tree count
-    window.submitTreeCount = async function() {
-      const input = document.getElementById('treeCountInput');
+    window.submitTreeCount = async function(event) {
+      // Prevent any default behavior
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       
       console.log('=== SUBMIT TREE COUNT ===');
-      console.log('Input element:', input);
+      console.log('Event:', event);
+      
+      // Try multiple ways to get the input
+      const input1 = document.getElementById('treeCountInput');
+      const input2 = document.querySelector('#treeCountInput');
+      const input3 = document.querySelector('input[type="number"]');
+      
+      console.log('getElementById:', input1);
+      console.log('querySelector #id:', input2);
+      console.log('querySelector type:', input3);
+      
+      const input = input1 || input2 || input3;
+      
+      if (!input) {
+        console.error('❌ Input element not found!');
+        alert('Errore: campo input non trovato');
+        return;
+      }
+      
+      console.log('Using input:', input);
       console.log('Input value (raw):', input.value);
       console.log('Input value type:', typeof input.value);
+      console.log('Input value length:', input.value.length);
       
       // Get value as string first
-      const rawValue = input.value.trim();
+      const rawValue = String(input.value).trim();
       console.log('Raw value trimmed:', rawValue);
+      console.log('Raw value length:', rawValue.length);
       
       // Check if empty
-      if (rawValue === '') {
+      if (rawValue === '' || rawValue.length === 0) {
         console.log('❌ Empty input');
         alert('Per favore inserisci un numero');
         return;
