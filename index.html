@@ -1792,7 +1792,7 @@
                                 id="treeCountInput" 
                                 min="0" 
                                 max="99" 
-                                value="0"
+                                placeholder="Inserisci un numero da 0 a 99"
                                 style="flex: 1; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
                             />
                             <button 
@@ -3368,15 +3368,6 @@
     let currentTreeCount = 0;
     const MAX_TREES_DISPLAY = 15; // Massimo alberi visualizzati nella finestra
     
-    // Generate UUID for anonymous storage
-    function generateUUID() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    }
-    
     // Draw a single tree SVG
     function drawTree(x, y, size) {
       const svg = `
@@ -3451,45 +3442,56 @@
       
       input.addEventListener('input', (e) => {
         let value = parseInt(e.target.value);
-        if (isNaN(value) || value < 0) value = 0;
+        
+        // If empty or NaN, show 0 trees
+        if (isNaN(value) || e.target.value === '') {
+          updateWindowView(0);
+          return;
+        }
+        
+        // Clamp to valid range
+        if (value < 0) value = 0;
         if (value > 99) {
           value = 99;
           e.target.value = 99;
         }
+        
         console.log('Updating view with', value, 'trees');
         updateWindowView(value);
       });
-      
-      // Also trigger on initial load if there's a value
-      if (input.value) {
-        updateWindowView(parseInt(input.value) || 0);
-      }
     }
     
     // Submit tree count
     window.submitTreeCount = async function() {
       const input = document.getElementById('treeCountInput');
       
-      // Get value - use 0 as default if empty/invalid
+      // Get value
       let value = parseInt(input.value);
       
-      // If NaN or empty, default to 0
-      if (isNaN(value)) {
-        value = 0;
+      // Validation
+      if (isNaN(value) || value < 0 || value > 99) {
+        alert('Inserisci un numero tra 0 e 99');
+        return;
       }
-      
-      // Clamp to valid range
-      if (value < 0) value = 0;
-      if (value > 99) value = 99;
       
       console.log('✅ Submitting tree count:', value);
       
-      // Save to storage
+      // Save to worker
       try {
-        const uuid = generateUUID();
-        const key = `tree-count:${uuid}`;
-        await window.storage.set(key, value.toString(), true);
-        console.log('✅ Tree count saved to storage');
+        const response = await fetch(`${WORKER_URL}/api/tree-count`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ count: value })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Saved with UUID:', result.uuid);
       } catch (error) {
         console.error('❌ Storage error:', error);
         alert('Errore nel salvare i dati. Riprova.');
@@ -3531,49 +3533,30 @@
       }
     }
     
-    // Update statistics from storage
+    // Update statistics from worker
     async function updateTreeStats() {
       try {
-        // List all tree-count keys
-        const result = await window.storage.list('tree-count:', true);
+        const response = await fetch(`${WORKER_URL}/api/tree-stats`);
         
-        if (!result || !result.keys || result.keys.length === 0) {
+        if (!response.ok) {
+          console.warn('Error loading stats:', response.status);
+          return;
+        }
+        
+        const data = await response.json();
+        console.log('📊 Stats received:', data);
+        
+        if (data.count > 0) {
+          // Update UI
+          document.getElementById('avgTrees').textContent = `${data.average.toFixed(1)} alberi`;
+          document.getElementById('totalResponses').textContent = `${data.count} cittadini`;
+          document.getElementById('pctAbove3').textContent = `${data.percentageAbove3}%`;
+        } else {
           // No data yet
           document.getElementById('avgTrees').textContent = '0 alberi';
           document.getElementById('totalResponses').textContent = '0 cittadini';
           document.getElementById('pctAbove3').textContent = '0%';
-          return;
         }
-        
-        let total = 0;
-        let count = 0;
-        let above3 = 0;
-        
-        // Fetch all values
-        for (const key of result.keys) {
-          try {
-            const data = await window.storage.get(key, true);
-            if (data && data.value) {
-              const trees = parseInt(data.value);
-              total += trees;
-              count++;
-              if (trees >= 3) above3++;
-            }
-          } catch (e) {
-            console.warn('Could not read key:', key);
-          }
-        }
-        
-        // Calculate stats
-        const avg = count > 0 ? (total / count).toFixed(1) : 0;
-        const pctAbove = count > 0 ? Math.round((above3 / count) * 100) : 0;
-        
-        // Update UI
-        document.getElementById('avgTrees').textContent = `${avg} alberi`;
-        document.getElementById('totalResponses').textContent = `${count} cittadini`;
-        document.getElementById('pctAbove3').textContent = `${pctAbove}%`;
-        
-        console.log('📊 Tree stats updated:', {avg, count, pctAbove});
       } catch (error) {
         console.error('❌ Error updating tree stats:', error);
       }
