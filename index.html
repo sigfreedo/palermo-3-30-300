@@ -1792,7 +1792,7 @@
                                 id="treeCountInput" 
                                 min="0" 
                                 max="99" 
-                                placeholder="Inserisci un numero da 0 a 99"
+                                placeholder="Es: 5"
                                 style="flex: 1; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
                             />
                             <button 
@@ -3465,19 +3465,51 @@
     window.submitTreeCount = async function() {
       const input = document.getElementById('treeCountInput');
       
-      // Get value
-      let value = parseInt(input.value);
+      console.log('=== SUBMIT TREE COUNT ===');
+      console.log('Input element:', input);
+      console.log('Input value (raw):', input.value);
+      console.log('Input value type:', typeof input.value);
       
-      // Validation
-      if (isNaN(value) || value < 0 || value > 99) {
-        alert('Inserisci un numero tra 0 e 99');
+      // Get value as string first
+      const rawValue = input.value.trim();
+      console.log('Raw value trimmed:', rawValue);
+      
+      // Check if empty
+      if (rawValue === '') {
+        console.log('❌ Empty input');
+        alert('Per favore inserisci un numero');
         return;
       }
       
-      console.log('✅ Submitting tree count:', value);
+      // Parse to integer
+      const value = parseInt(rawValue, 10);
+      console.log('Parsed value:', value);
+      console.log('Is NaN?', isNaN(value));
+      
+      // Validation
+      if (isNaN(value)) {
+        console.log('❌ NaN value');
+        alert('Per favore inserisci un numero valido');
+        return;
+      }
+      
+      if (value < 0) {
+        console.log('❌ Negative value');
+        alert('Il numero deve essere almeno 0');
+        return;
+      }
+      
+      if (value > 99) {
+        console.log('❌ Too large value');
+        alert('Il numero non può essere maggiore di 99');
+        return;
+      }
+      
+      console.log('✅ Validation passed, submitting:', value);
       
       // Save to worker
       try {
+        console.log('Calling worker API...');
         const response = await fetch(`${WORKER_URL}/api/tree-count`, {
           method: 'POST',
           headers: {
@@ -3485,6 +3517,8 @@
           },
           body: JSON.stringify({ count: value })
         });
+        
+        console.log('Response status:', response.status);
         
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
