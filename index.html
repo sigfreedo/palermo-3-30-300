@@ -1727,7 +1727,7 @@
                 
                 <!-- Descrizione -->
                 <p class="description" style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0 0 2rem 0;">
-                    Conta quanti alberi riesci a vedere dalla tua finestra di casa e scopri se rispetti questo principio. In questo caso, non avendo dati attendibili, è necessario basarsi su un'indagine tra i partecipanti.
+                    Conta quanti alberi riesci a vedere dalla tua finestra di casa e scopri se rispetti questo principio.<br>In questo caso, non avendo dati attendibili, è necessario basarsi su un'indagine tra i partecipanti.
                 </p>
                 
                 <!-- Box Finestra -->
@@ -1794,7 +1794,7 @@
                     <h3>I palermitani e la vista del verde</h3>
                     <div class="space-divider"></div>
                     <div class="space-detail-item">
-                        <span class="space-detail-label">Media alberi visibili:</span> <span id="avgTrees">-</span>
+                        <span class="space-detail-label">Alberi visibili in media:</span> <span id="avgTrees">-</span>
                     </div>
                     <div class="space-detail-item">
                         <span class="space-detail-label">Risposte raccolte:</span> <span id="totalResponses">-</span>
@@ -1802,7 +1802,7 @@
                     <div class="space-detail-item">
                         <span class="space-detail-label">Sopra lo standard (≥3):</span> <span id="pctAbove3">-</span>
                     </div>
-                    <div style="font-size: 12px; color: #9ca3af; margin-top: 1rem;">Dati anonimi raccolti dai cittadini di Palermo</div>
+                    <div style="font-size: 12px; color: #9ca3af; margin-top: 1rem;">Dati raccolti in modo anonimo dai cittadini e le cittadine di Palermo.</div>
                 </div>
             </div>
             
@@ -3374,24 +3374,33 @@
       // Limit display
       const displayCount = Math.min(count, MAX_TREES_DISPLAY);
       
-      // Generate tree positions
-      const positions = [];
-      for (let i = 0; i < displayCount; i++) {
-        let x, y, size;
-        let attempts = 0;
-        
-        // Try to find non-overlapping position
-        do {
-          x = 40 + Math.random() * 320;  // More margin from edges
-          y = 280 + Math.random() * 120; // Trees on ground area (280-400)
-          size = 35 + Math.random() * 25; // Varied tree sizes
-          attempts++;
-        } while (attempts < 30 && positions.some(pos => 
-          Math.abs(pos.x - x) < 60 && Math.abs(pos.y - y) < 50  // Increased spacing
-        ));
-        
-        positions.push({x, y, size});
+      // Create a grid of possible positions (5 columns x 3 rows = 15 positions)
+      const gridPositions = [];
+      const cols = 5;
+      const rows = 3;
+      const xStart = 60;
+      const xSpacing = 70;
+      const yStart = 290;
+      const ySpacing = 50;
+      
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          gridPositions.push({
+            x: xStart + col * xSpacing + (Math.random() - 0.5) * 20,  // Small random offset
+            y: yStart + row * ySpacing + (Math.random() - 0.5) * 15,
+            size: 35 + Math.random() * 25
+          });
+        }
       }
+      
+      // Shuffle grid positions for variety
+      for (let i = gridPositions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [gridPositions[i], gridPositions[j]] = [gridPositions[j], gridPositions[i]];
+      }
+      
+      // Take first N positions
+      const positions = gridPositions.slice(0, displayCount);
       
       // Draw trees
       positions.forEach((pos, index) => {
@@ -3564,9 +3573,10 @@
         console.log('📊 percentageAbove3:', data.percentageAbove3);
         
         if (data.count > 0) {
-          // Update UI
-          document.getElementById('avgTrees').textContent = `${data.average.toFixed(1)} alberi`;
-          document.getElementById('totalResponses').textContent = `${data.count} cittadini`;
+          // Update UI with comma as decimal separator, no redundant words
+          const avgFormatted = data.average.toFixed(1).replace('.', ',');
+          document.getElementById('avgTrees').textContent = avgFormatted;
+          document.getElementById('totalResponses').textContent = data.count;
           
           // Handle percentageAbove3
           let pct = 0;
@@ -3584,8 +3594,8 @@
           document.getElementById('pctAbove3').textContent = `${pct}%`;
         } else {
           // No data yet
-          document.getElementById('avgTrees').textContent = '0 alberi';
-          document.getElementById('totalResponses').textContent = '0 cittadini';
+          document.getElementById('avgTrees').textContent = '0';
+          document.getElementById('totalResponses').textContent = '0';
           document.getElementById('pctAbove3').textContent = '0%';
         }
       } catch (error) {
