@@ -3366,7 +3366,6 @@
     // ========================================
     
     let currentTreeCount = 0;
-    let currentInputValue = null; // Store the input value globally
     const MAX_TREES_DISPLAY = 15; // Massimo alberi visualizzati nella finestra
     
     // Draw a single tree SVG
@@ -3431,7 +3430,7 @@
       currentTreeCount = count;
     }
     
-    // Handle input changes (real-time preview)
+    // Handle input changes (real-time preview of trees)
     function setupTreeInput() {
       const input = document.getElementById('treeCountInput');
       if (!input) {
@@ -3439,30 +3438,22 @@
         return;
       }
       
-      console.log('✅ Tree input setup');
+      console.log('✅ Tree input setup for visualization');
       
       input.addEventListener('input', (e) => {
         let value = parseInt(e.target.value);
         
         // If empty or NaN, show 0 trees
         if (isNaN(value) || e.target.value === '') {
-          currentInputValue = null;
           updateWindowView(0);
-          console.log('Input cleared, currentInputValue set to null');
           return;
         }
         
         // Clamp to valid range
         if (value < 0) value = 0;
-        if (value > 99) {
-          value = 99;
-          e.target.value = 99;
-        }
+        if (value > 99) value = 99;
         
-        // Save to global variable
-        currentInputValue = value;
-        console.log('Input changed, currentInputValue =', currentInputValue);
-        
+        // Update visualization
         updateWindowView(value);
       });
     }
@@ -3476,34 +3467,46 @@
       }
       
       console.log('=== SUBMIT TREE COUNT ===');
-      console.log('currentInputValue from global:', currentInputValue);
       
-      // Use the global variable instead of reading from input
-      const value = currentInputValue;
+      // Read directly from input at submit time
+      const input = document.getElementById('treeCountInput');
       
-      // Check if we have a value
-      if (value === null || value === undefined) {
-        console.log('❌ No value stored');
-        alert('Per favore inserisci un numero');
+      if (!input) {
+        console.error('❌ Input not found');
+        alert('Errore: campo non trovato');
         return;
       }
       
-      console.log('✅ Using stored value:', value);
+      console.log('Input element found:', input);
+      console.log('Input.value =', input.value);
+      console.log('Input.valueAsNumber =', input.valueAsNumber);
       
-      // Validation (should already be valid from input handler, but double-check)
+      // Try valueAsNumber first (for number inputs)
+      let value = input.valueAsNumber;
+      
+      // If NaN, try parsing the string value
       if (isNaN(value)) {
-        console.log('❌ NaN value');
+        value = parseInt(input.value, 10);
+        console.log('Parsed from string:', value);
+      } else {
+        console.log('Using valueAsNumber:', value);
+      }
+      
+      // Check if still NaN or empty
+      if (isNaN(value)) {
+        console.log('❌ Invalid number');
         alert('Per favore inserisci un numero valido');
         return;
       }
       
+      // Validate range
       if (value < 0 || value > 99) {
         console.log('❌ Out of range:', value);
         alert('Il numero deve essere tra 0 e 99');
         return;
       }
       
-      console.log('✅ Validation passed, submitting:', value);
+      console.log('✅ Valid value:', value);
       
       // Save to worker
       try {
