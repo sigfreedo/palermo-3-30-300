@@ -1783,7 +1783,7 @@
                     
                     <!-- Input e Feedback (alternati) -->
                     <div id="treeInputContainer">
-                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <div style="display: flex; gap: 0.75rem; align-items: center; width: 100%;">
                             <label for="treeCountInput" style="font-size: 15px; font-weight: 600; color: #374151; white-space: nowrap;">
                                 Alberi visibili:
                             </label>
@@ -1792,8 +1792,8 @@
                                 id="treeCountInput" 
                                 min="0" 
                                 max="99" 
-                                placeholder="0"
-                                style="width: 80px; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
+                                value="0"
+                                style="flex: 1; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
                             />
                             <button 
                                 onclick="submitTreeCount()" 
@@ -3469,39 +3469,31 @@
     // Submit tree count
     window.submitTreeCount = async function() {
       const input = document.getElementById('treeCountInput');
-      const rawValue = input.value;
       
-      console.log('Submit clicked, raw value:', rawValue);
+      // Get value - use 0 as default if empty/invalid
+      let value = parseInt(input.value);
       
-      // Check if empty
-      if (rawValue === '' || rawValue === null || rawValue === undefined) {
-        alert('Per favore inserisci un numero');
-        return;
-      }
-      
-      const value = parseInt(rawValue);
-      
-      // Validation
+      // If NaN or empty, default to 0
       if (isNaN(value)) {
-        alert('Per favore inserisci un numero valido');
-        return;
+        value = 0;
       }
       
-      if (value < 0 || value > 99) {
-        alert('Per favore inserisci un numero tra 0 e 99');
-        return;
-      }
+      // Clamp to valid range
+      if (value < 0) value = 0;
+      if (value > 99) value = 99;
       
-      console.log('Submitting tree count:', value);
+      console.log('✅ Submitting tree count:', value);
       
       // Save to storage
       try {
         const uuid = generateUUID();
         const key = `tree-count:${uuid}`;
-        await window.storage.set(key, value.toString(), true); // shared storage
-        console.log('✅ Tree count saved:', value);
+        await window.storage.set(key, value.toString(), true);
+        console.log('✅ Tree count saved to storage');
       } catch (error) {
-        console.error('❌ Error saving tree count:', error);
+        console.error('❌ Storage error:', error);
+        alert('Errore nel salvare i dati. Riprova.');
+        return;
       }
       
       // Show feedback
