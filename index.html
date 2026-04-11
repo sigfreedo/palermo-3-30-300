@@ -1735,7 +1735,7 @@
                     <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #065f46;">Vista dalla tua finestra</h3>
                     
                     <!-- SVG Finestra -->
-                    <svg id="windowView" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 1.5rem;">
+                    <svg id="windowView" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 1.5rem;">
                         <!-- Sfondo cielo -->
                         <defs>
                             <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -1745,18 +1745,18 @@
                         </defs>
                         
                         <!-- Vista attraverso finestra -->
-                        <rect x="0" y="0" width="400" height="300" fill="url(#skyGradient)"/>
+                        <rect x="0" y="0" width="400" height="400" fill="url(#skyGradient)"/>
                         
                         <!-- Orizzonte/terreno -->
-                        <rect x="0" y="220" width="400" height="80" fill="#90EE90" opacity="0.3"/>
+                        <rect x="0" y="320" width="400" height="80" fill="#90EE90" opacity="0.3"/>
                         
                         <!-- Container alberi -->
                         <g id="treesContainer"></g>
                         
                         <!-- Cornice finestra -->
-                        <rect x="0" y="0" width="400" height="300" fill="none" stroke="#8B4513" stroke-width="12"/>
-                        <line x1="200" y1="0" x2="200" y2="300" stroke="#8B4513" stroke-width="8"/>
-                        <line x1="0" y1="150" x2="400" y2="150" stroke="#8B4513" stroke-width="8"/>
+                        <rect x="0" y="0" width="400" height="400" fill="none" stroke="#8B4513" stroke-width="12"/>
+                        <line x1="200" y1="0" x2="200" y2="400" stroke="#8B4513" stroke-width="8"/>
+                        <line x1="0" y1="200" x2="400" y2="200" stroke="#8B4513" stroke-width="8"/>
                     </svg>
                     
                     <!-- Input e Feedback (alternati) -->
@@ -3353,11 +3353,11 @@
       const svg = `
         <g transform="translate(${x}, ${y})" opacity="0" class="tree-animate">
           <!-- Tronco -->
-          <rect x="${-size*0.15}" y="${size*0.6}" width="${size*0.3}" height="${size*0.4}" fill="#8B4513"/>
-          <!-- Chioma -->
-          <ellipse cx="0" cy="${size*0.3}" rx="${size*0.5}" ry="${size*0.6}" fill="#10b981"/>
-          <ellipse cx="${-size*0.2}" cy="${size*0.4}" rx="${size*0.35}" ry="${size*0.45}" fill="#059669"/>
-          <ellipse cx="${size*0.2}" cy="${size*0.4}" rx="${size*0.35}" ry="${size*0.45}" fill="#059669"/>
+          <rect x="${-size*0.1}" y="${size*0.5}" width="${size*0.2}" height="${size*0.5}" fill="#6B4423"/>
+          <!-- Chioma (cerchio semplice) -->
+          <circle cx="0" cy="${size*0.4}" r="${size*0.4}" fill="#10b981"/>
+          <!-- Highlight sulla chioma -->
+          <circle cx="${-size*0.15}" cy="${size*0.3}" r="${size*0.15}" fill="#34d399" opacity="0.6"/>
         </g>
       `;
       return svg;
@@ -3383,11 +3383,11 @@
         // Try to find non-overlapping position
         do {
           x = 30 + Math.random() * 340;
-          y = 180 + Math.random() * 60;
-          size = 25 + Math.random() * 15;
+          y = 230 + Math.random() * 90;  // Adjusted for 400px height
+          size = 30 + Math.random() * 20;  // Slightly larger trees
           attempts++;
         } while (attempts < 20 && positions.some(pos => 
-          Math.abs(pos.x - x) < 40 && Math.abs(pos.y - y) < 30
+          Math.abs(pos.x - x) < 50 && Math.abs(pos.y - y) < 40
         ));
         
         positions.push({x, y, size});
@@ -3565,7 +3565,10 @@
           // Update UI
           document.getElementById('avgTrees').textContent = `${data.average.toFixed(1)} alberi`;
           document.getElementById('totalResponses').textContent = `${data.count} cittadini`;
-          document.getElementById('pctAbove3').textContent = `${data.percentageAbove3}%`;
+          
+          // Handle percentageAbove3 - may be undefined
+          const pct = data.percentageAbove3 !== undefined ? data.percentageAbove3 : 0;
+          document.getElementById('pctAbove3').textContent = `${pct}%`;
         } else {
           // No data yet
           document.getElementById('avgTrees').textContent = '0 alberi';
