@@ -1745,11 +1745,11 @@
             <!-- Colonna Sinistra: Visualizzazione -->
             <div class="result-column" id="trees-result-column">
                 <!-- Titolo -->
-                <h2 id="trees-title" style="font-size: 28px; font-weight: 900; color: #065f46; margin: 0 0 1rem 0;">🌳 Quanti alberi vedi dalla tua finestra?</h2>
+                <h2 id="trees-title" style="font-size: 28px; font-weight: 900; color: #065f46; margin: 0 0 1rem 0;">🌳 Quanti alberi vedi dalla finestra?</h2>
                 
                 <!-- Descrizione -->
                 <p class="description" style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0 0 2rem 0;">
-                    Conta quanti alberi riesci a vedere dalla finestra di casa tua e scopri se rispetti questo principio.
+                    Conta quanti alberi riesci a vedere dalla tua finestra di casa e scopri se rispetti questo principio. In questo caso, non avendo dati attendibili, è necessario basarsi su un'indagine tra i partecipanti.
                 </p>
                 
                 <!-- Box Finestra -->
@@ -1783,23 +1783,21 @@
                     
                     <!-- Input e Feedback (alternati) -->
                     <div id="treeInputContainer">
-                        <div style="display: flex; gap: 0.75rem; align-items: flex-end;">
-                            <div style="flex: 1;">
-                                <label for="treeCountInput" style="display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                                    Alberi visibili (0-99)
-                                </label>
-                                <input 
-                                    type="number" 
-                                    id="treeCountInput" 
-                                    min="0" 
-                                    max="99" 
-                                    placeholder="Es: 5"
-                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46;"
-                                />
-                            </div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                            <label for="treeCountInput" style="font-size: 15px; font-weight: 600; color: #374151; white-space: nowrap;">
+                                Alberi visibili:
+                            </label>
+                            <input 
+                                type="number" 
+                                id="treeCountInput" 
+                                min="0" 
+                                max="99" 
+                                placeholder="0"
+                                style="width: 80px; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
+                            />
                             <button 
                                 onclick="submitTreeCount()" 
-                                style="padding: 0.75rem 1.5rem; background: #059669; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.2s;"
+                                style="padding: 0.5rem 1.5rem; background: #059669; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.2s;"
                                 onmouseover="this.style.background='#047857'"
                                 onmouseout="this.style.background='#059669'"
                             >
@@ -3352,6 +3350,11 @@
       section3.style.display = 'block';
       section30.style.display = 'block';
       
+      // Setup tree input when section3 becomes visible
+      setTimeout(() => {
+        setupTreeInput();
+      }, 100);
+      
       // Scroll to section30 (regola del 30)
       setTimeout(() => {
         section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3439,7 +3442,12 @@
     // Handle input changes (real-time preview)
     function setupTreeInput() {
       const input = document.getElementById('treeCountInput');
-      if (!input) return;
+      if (!input) {
+        console.warn('Tree input not found');
+        return;
+      }
+      
+      console.log('✅ Tree input setup');
       
       input.addEventListener('input', (e) => {
         let value = parseInt(e.target.value);
@@ -3448,20 +3456,43 @@
           value = 99;
           e.target.value = 99;
         }
+        console.log('Updating view with', value, 'trees');
         updateWindowView(value);
       });
+      
+      // Also trigger on initial load if there's a value
+      if (input.value) {
+        updateWindowView(parseInt(input.value) || 0);
+      }
     }
     
     // Submit tree count
     window.submitTreeCount = async function() {
       const input = document.getElementById('treeCountInput');
-      const value = parseInt(input.value);
+      const rawValue = input.value;
+      
+      console.log('Submit clicked, raw value:', rawValue);
+      
+      // Check if empty
+      if (rawValue === '' || rawValue === null || rawValue === undefined) {
+        alert('Per favore inserisci un numero');
+        return;
+      }
+      
+      const value = parseInt(rawValue);
       
       // Validation
-      if (isNaN(value) || value < 0 || value > 99) {
+      if (isNaN(value)) {
+        alert('Per favore inserisci un numero valido');
+        return;
+      }
+      
+      if (value < 0 || value > 99) {
         alert('Per favore inserisci un numero tra 0 e 99');
         return;
       }
+      
+      console.log('Submitting tree count:', value);
       
       // Save to storage
       try {
