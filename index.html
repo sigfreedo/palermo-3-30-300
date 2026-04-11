@@ -1744,7 +1744,90 @@
             
             <!-- Colonna Sinistra: Visualizzazione -->
             <div class="result-column" id="trees-result-column">
-                <!-- Contenuto visualizzazione -->
+                <!-- Titolo -->
+                <h2 id="trees-title" style="font-size: 28px; font-weight: 900; color: #065f46; margin: 0 0 1rem 0;">🌳 Quanti alberi vedi dalla tua finestra?</h2>
+                
+                <!-- Descrizione -->
+                <p class="description" style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0 0 2rem 0;">
+                    Conta quanti alberi riesci a vedere dalla finestra di casa tua e scopri se rispetti questo principio.
+                </p>
+                
+                <!-- Box Finestra -->
+                <div style="background: #ffffff; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #065f46;">Vista dalla tua finestra</h3>
+                    
+                    <!-- SVG Finestra -->
+                    <svg id="windowView" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 1.5rem;">
+                        <!-- Sfondo cielo -->
+                        <defs>
+                            <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Vista attraverso finestra -->
+                        <rect x="0" y="0" width="400" height="300" fill="url(#skyGradient)"/>
+                        
+                        <!-- Orizzonte/terreno -->
+                        <rect x="0" y="220" width="400" height="80" fill="#90EE90" opacity="0.3"/>
+                        
+                        <!-- Container alberi -->
+                        <g id="treesContainer"></g>
+                        
+                        <!-- Cornice finestra -->
+                        <rect x="0" y="0" width="400" height="300" fill="none" stroke="#8B4513" stroke-width="12"/>
+                        <line x1="200" y1="0" x2="200" y2="300" stroke="#8B4513" stroke-width="8"/>
+                        <line x1="0" y1="150" x2="400" y2="150" stroke="#8B4513" stroke-width="8"/>
+                    </svg>
+                    
+                    <!-- Input e Feedback (alternati) -->
+                    <div id="treeInputContainer">
+                        <div style="display: flex; gap: 0.75rem; align-items: flex-end;">
+                            <div style="flex: 1;">
+                                <label for="treeCountInput" style="display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
+                                    Alberi visibili (0-99)
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="treeCountInput" 
+                                    min="0" 
+                                    max="99" 
+                                    placeholder="Es: 5"
+                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46;"
+                                />
+                            </div>
+                            <button 
+                                onclick="submitTreeCount()" 
+                                style="padding: 0.75rem 1.5rem; background: #059669; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.2s;"
+                                onmouseover="this.style.background='#047857'"
+                                onmouseout="this.style.background='#059669'"
+                            >
+                                Invia
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="treeFeedback" style="display: none; margin-top: 1rem; padding: 1rem; border-radius: 8px; font-size: 15px; line-height: 1.6;">
+                        <!-- Feedback dinamico inserito qui -->
+                    </div>
+                </div>
+                
+                <!-- Box Statistiche -->
+                <div class="space-details" id="treeStats" style="display: none;">
+                    <h3>I palermitani e la vista del verde</h3>
+                    <div class="space-divider"></div>
+                    <div class="space-detail-item">
+                        <span class="space-detail-label">Media alberi visibili:</span> <span id="avgTrees">-</span>
+                    </div>
+                    <div class="space-detail-item">
+                        <span class="space-detail-label">Risposte raccolte:</span> <span id="totalResponses">-</span>
+                    </div>
+                    <div class="space-detail-item">
+                        <span class="space-detail-label">Sopra lo standard (≥3):</span> <span id="pctAbove3">-</span>
+                    </div>
+                    <div style="font-size: 12px; color: #9ca3af; margin-top: 1rem;">Dati anonimi raccolti dai cittadini di Palermo</div>
+                </div>
             </div>
             
             <!-- Colonna Destra: Spiegazione -->
@@ -3274,6 +3357,209 @@
         section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 1500);
     };
+    
+    // ========================================
+    // SEZIONE 3: TREE VISIBILITY FUNCTIONS
+    // ========================================
+    
+    let currentTreeCount = 0;
+    const MAX_TREES_DISPLAY = 15; // Massimo alberi visualizzati nella finestra
+    
+    // Generate UUID for anonymous storage
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+    
+    // Draw a single tree SVG
+    function drawTree(x, y, size) {
+      const svg = `
+        <g transform="translate(${x}, ${y})" opacity="0" class="tree-animate">
+          <!-- Tronco -->
+          <rect x="${-size*0.15}" y="${size*0.6}" width="${size*0.3}" height="${size*0.4}" fill="#8B4513"/>
+          <!-- Chioma -->
+          <ellipse cx="0" cy="${size*0.3}" rx="${size*0.5}" ry="${size*0.6}" fill="#10b981"/>
+          <ellipse cx="${-size*0.2}" cy="${size*0.4}" rx="${size*0.35}" ry="${size*0.45}" fill="#059669"/>
+          <ellipse cx="${size*0.2}" cy="${size*0.4}" rx="${size*0.35}" ry="${size*0.45}" fill="#059669"/>
+        </g>
+      `;
+      return svg;
+    }
+    
+    // Update window view with trees
+    function updateWindowView(count) {
+      const container = document.getElementById('treesContainer');
+      if (!container) return;
+      
+      // Clear existing trees
+      container.innerHTML = '';
+      
+      // Limit display
+      const displayCount = Math.min(count, MAX_TREES_DISPLAY);
+      
+      // Generate tree positions
+      const positions = [];
+      for (let i = 0; i < displayCount; i++) {
+        let x, y, size;
+        let attempts = 0;
+        
+        // Try to find non-overlapping position
+        do {
+          x = 30 + Math.random() * 340;
+          y = 180 + Math.random() * 60;
+          size = 25 + Math.random() * 15;
+          attempts++;
+        } while (attempts < 20 && positions.some(pos => 
+          Math.abs(pos.x - x) < 40 && Math.abs(pos.y - y) < 30
+        ));
+        
+        positions.push({x, y, size});
+      }
+      
+      // Draw trees
+      positions.forEach((pos, index) => {
+        container.innerHTML += drawTree(pos.x, pos.y, pos.size);
+        
+        // Animate in sequence
+        setTimeout(() => {
+          const trees = container.querySelectorAll('.tree-animate');
+          if (trees[index]) {
+            trees[index].style.transition = 'opacity 0.3s ease-in';
+            trees[index].setAttribute('opacity', '1');
+          }
+        }, index * 100);
+      });
+      
+      currentTreeCount = count;
+    }
+    
+    // Handle input changes (real-time preview)
+    function setupTreeInput() {
+      const input = document.getElementById('treeCountInput');
+      if (!input) return;
+      
+      input.addEventListener('input', (e) => {
+        let value = parseInt(e.target.value);
+        if (isNaN(value) || value < 0) value = 0;
+        if (value > 99) {
+          value = 99;
+          e.target.value = 99;
+        }
+        updateWindowView(value);
+      });
+    }
+    
+    // Submit tree count
+    window.submitTreeCount = async function() {
+      const input = document.getElementById('treeCountInput');
+      const value = parseInt(input.value);
+      
+      // Validation
+      if (isNaN(value) || value < 0 || value > 99) {
+        alert('Per favore inserisci un numero tra 0 e 99');
+        return;
+      }
+      
+      // Save to storage
+      try {
+        const uuid = generateUUID();
+        const key = `tree-count:${uuid}`;
+        await window.storage.set(key, value.toString(), true); // shared storage
+        console.log('✅ Tree count saved:', value);
+      } catch (error) {
+        console.error('❌ Error saving tree count:', error);
+      }
+      
+      // Show feedback
+      showTreeFeedback(value);
+      
+      // Update stats
+      await updateTreeStats();
+      
+      // Hide input, show feedback
+      document.getElementById('treeInputContainer').style.display = 'none';
+      document.getElementById('treeFeedback').style.display = 'block';
+      document.getElementById('treeStats').style.display = 'block';
+    };
+    
+    // Show feedback message
+    function showTreeFeedback(count) {
+      const feedbackDiv = document.getElementById('treeFeedback');
+      
+      if (count >= 3) {
+        feedbackDiv.style.background = '#d1fae5';
+        feedbackDiv.style.border = '2px solid #10b981';
+        feedbackDiv.style.color = '#065f46';
+        feedbackDiv.innerHTML = `
+          <strong style="font-size: 16px;">✅ Ottimo! Hai almeno 3 alberi visibili.</strong><br>
+          <span style="margin-top: 0.5rem; display: block;">La vista del verde dalla finestra migliora il tuo benessere quotidiano.</span>
+        `;
+      } else {
+        feedbackDiv.style.background = '#fee2e2';
+        feedbackDiv.style.border = '2px solid #ef4444';
+        feedbackDiv.style.color = '#991b1b';
+        feedbackDiv.innerHTML = `
+          <strong style="font-size: 16px;">❌ Purtroppo hai meno di 3 alberi visibili.</strong><br>
+          <span style="margin-top: 0.5rem; display: block;">Considera di chiedere al tuo Comune di piantare più alberi nella tua strada.</span>
+        `;
+      }
+    }
+    
+    // Update statistics from storage
+    async function updateTreeStats() {
+      try {
+        // List all tree-count keys
+        const result = await window.storage.list('tree-count:', true);
+        
+        if (!result || !result.keys || result.keys.length === 0) {
+          // No data yet
+          document.getElementById('avgTrees').textContent = '0 alberi';
+          document.getElementById('totalResponses').textContent = '0 cittadini';
+          document.getElementById('pctAbove3').textContent = '0%';
+          return;
+        }
+        
+        let total = 0;
+        let count = 0;
+        let above3 = 0;
+        
+        // Fetch all values
+        for (const key of result.keys) {
+          try {
+            const data = await window.storage.get(key, true);
+            if (data && data.value) {
+              const trees = parseInt(data.value);
+              total += trees;
+              count++;
+              if (trees >= 3) above3++;
+            }
+          } catch (e) {
+            console.warn('Could not read key:', key);
+          }
+        }
+        
+        // Calculate stats
+        const avg = count > 0 ? (total / count).toFixed(1) : 0;
+        const pctAbove = count > 0 ? Math.round((above3 / count) * 100) : 0;
+        
+        // Update UI
+        document.getElementById('avgTrees').textContent = `${avg} alberi`;
+        document.getElementById('totalResponses').textContent = `${count} cittadini`;
+        document.getElementById('pctAbove3').textContent = `${pctAbove}%`;
+        
+        console.log('📊 Tree stats updated:', {avg, count, pctAbove});
+      } catch (error) {
+        console.error('❌ Error updating tree stats:', error);
+      }
+    }
+    
+    // Initialize tree input on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      setupTreeInput();
+    });
     
     // Point-in-polygon check usando ray casting algorithm
     window.pointInPolygon = function(point, polygon) {
