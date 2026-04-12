@@ -13,14 +13,8 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.7;
-            color: #374151;
             background: #f9fafb;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+            margin: 0;
         }
         
         /* Header */
@@ -36,145 +30,78 @@
             margin: 0;
         }
         
-        /* Section style - come section300 */
-        section {
-            background: white;
-            margin: 2rem auto;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            max-width: 1400px;
-        }
-        
-        section h2 {
-            color: #065f46;
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0 0 1rem 0;
-        }
-        
-        .description {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #374151;
-            margin: 0 0 2rem 0;
-        }
-        
-        /* Toggle buttons */
-        .toggle-container {
+        /* Toggle button styles - ESATTO come dashboard */
+        .dataset-toggle {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            justify-content: center;
+            margin: 3rem 0 2rem 0;
         }
         
-        .toggle-btn {
-            flex: 1;
-            padding: 1rem;
-            background: white;
-            border: 2px solid #e5e7eb;
+        .toggle-button {
+            display: inline-flex;
+            background: rgba(255,255,255,0.1);
             border-radius: 8px;
+            padding: 4px;
+        }
+        
+        .toggle-option {
+            padding: 0.75rem 2rem;
+            border: none;
+            background: transparent;
+            color: #9ca3af;
             cursor: pointer;
             font-size: 15px;
             font-weight: 600;
-            color: #6b7280;
+            border-radius: 6px;
             transition: all 0.2s;
-            text-align: center;
         }
         
-        .toggle-btn:hover {
-            border-color: #059669;
-            background: #f0fdf4;
+        .toggle-option:hover:not(.active) {
+            color: #e5e7eb;
         }
         
-        .toggle-btn.active {
-            background: #059669;
+        .toggle-option.active {
+            background: #10b981;
             color: white;
-            border-color: #059669;
         }
         
         /* Map */
         #map-spazi {
             height: 600px;
             border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            background: #f9fafb;
+            margin: 2rem 0;
         }
         
-        /* Stats box */
-        .stats-box {
-            background: #f0fdf4;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #059669;
-            margin-top: 2rem;
-        }
-        
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .stat-item {
+            gap: 2rem;
+            max-width: 800px;
+            margin: 3rem auto 0 auto;
             text-align: center;
         }
         
+        .stat-item {
+            color: #e5e7eb;
+        }
+        
         .stat-value {
-            font-size: 28px;
+            font-size: 36px;
             font-weight: 700;
-            color: #065f46;
+            color: #10b981;
         }
         
         .stat-label {
-            font-size: 13px;
-            color: #047857;
-            margin-top: 0.25rem;
-        }
-        
-        /* Categories explanation */
-        .categories {
-            background: #f9fafb;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-        }
-        
-        .categories h3 {
-            color: #065f46;
-            font-size: 16px;
-            font-weight: 700;
-            margin: 0 0 1rem 0;
-        }
-        
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .category-item {
-            padding: 0.75rem;
-            background: white;
-            border-radius: 6px;
-            border-left: 3px solid #10b981;
-        }
-        
-        .category-item strong {
-            color: #065f46;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-        
-        .category-item.excluded {
-            border-left-color: #dc2626;
-            opacity: 0.7;
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 0.5rem;
         }
         
         /* Back link */
         .back-link {
             display: inline-block;
-            margin: 2rem 0;
+            margin: 2rem;
             padding: 0.75rem 1.5rem;
             background: #059669;
             color: white;
@@ -194,53 +121,28 @@
         <h1>Mappe e dataset</h1>
     </header>
 
-    <!-- SEZIONE 1: Mappa spazi verdi -->
-    <section>
-        <h2>Mappa degli spazi verdi di Palermo</h2>
-        
-        <p class="description">
-            Gli spazi verdi pubblici sono stati mappati utilizzando due dataset complementari: OpenStreetMap (dati collaborativi aggiornati dalla community) e Copernicus Urban Atlas (dati satellitari ufficiali dell'Agenzia Spaziale Europea). Ogni dataset è stato categorizzato per garantire accessibilità pubblica e fruibilità degli spazi.
-        </p>
-        
-        <!-- Categorizzazione -->
-        <div class="categories">
-            <h3>Categorie di spazi verdi inclusi</h3>
-            <div class="category-grid">
-                <div class="category-item">
-                    <strong>Categoria A</strong>
-                    <div style="font-size: 14px; color: #6b7280;">Parchi e giardini pubblici</div>
-                </div>
-                <div class="category-item">
-                    <strong>Categoria B</strong>
-                    <div style="font-size: 14px; color: #6b7280;">Aree ricreative pubbliche</div>
-                </div>
-                <div class="category-item">
-                    <strong>Categoria C</strong>
-                    <div style="font-size: 14px; color: #6b7280;">Spazi naturali urbani</div>
-                </div>
-                <div class="category-item excluded">
-                    <strong>Categoria D (esclusa)</strong>
-                    <div style="font-size: 14px; color: #6b7280;">Impianti sportivi - esclusi per dati insufficienti su accessibilità pubblica</div>
+    <!-- SEZIONE 1: Spazi verdi -->
+    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Mappa degli spazi verdi di Palermo</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
+                <p style="margin-bottom: 0;">L'analisi riguarda esclusivamente il verde pubblico accessibile. Sono stati esclusi dall'analisi gli spazi privati, gli impianti sportivi e gli spazi di dimensioni ridotte (inferiori a 2000mq).</p>
+            </div>
+            
+            <!-- Toggle Dataset -->
+            <div class="dataset-toggle">
+                <div class="toggle-button">
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDataset('copernicus')">Copernicus</button>
                 </div>
             </div>
-        </div>
-        
-        <!-- Toggle dataset -->
-        <div class="toggle-container">
-            <button class="toggle-btn active" data-dataset="osm" onclick="switchDataset('osm')">
-                OpenStreetMap
-            </button>
-            <button class="toggle-btn" data-dataset="copernicus" onclick="switchDataset('copernicus')">
-                Copernicus Urban Atlas
-            </button>
-        </div>
-        
-        <!-- Mappa -->
-        <div id="map-spazi"></div>
-        
-        <!-- Statistiche -->
-        <div class="stats-box">
-            <strong style="font-size: 18px; color: #065f46;">Statistiche copertura (regola del 300)</strong>
+            
+            <!-- Mappa -->
+            <div id="map-spazi"></div>
+            
+            <!-- Statistiche -->
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value" id="stat-coverage">38,76%</div>
@@ -248,31 +150,32 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="stat-fortunati">246.293</div>
-                    <div class="stat-label">Fortunati (entro 300m)</div>
+                    <div class="stat-label">Fortunati</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="stat-svantaggiati">389.146</div>
-                    <div class="stat-label">Svantaggiati (oltre 300m)</div>
+                    <div class="stat-label">Svantaggiati</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="stat-spazi">118</div>
-                    <div class="stat-label">Spazi verdi pubblici</div>
+                    <div class="stat-label">Spazi verdi</div>
                 </div>
             </div>
+            
         </div>
     </section>
 
-    <!-- PLACEHOLDER: Sezione 2 - Copertura arborea -->
-    <section style="min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f9fafb;">
+    <!-- PLACEHOLDER Sezione 2 -->
+    <section style="background: #f9fafb; padding: 4rem 2rem; text-align: center;">
         <p style="color: #9ca3af; font-size: 18px;">Sezione 2: Mappa copertura arborea (in arrivo)</p>
     </section>
 
-    <!-- PLACEHOLDER: Sezione 3 - Dataset -->
-    <section style="min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f9fafb;">
+    <!-- PLACEHOLDER Sezione 3 -->
+    <section style="background: #1a1a1a; padding: 4rem 2rem; text-align: center;">
         <p style="color: #9ca3af; font-size: 18px;">Sezione 3: Dataset utilizzati (in arrivo)</p>
     </section>
 
-    <div class="container">
+    <div style="text-align: center; background: #f9fafb; padding: 2rem;">
         <a href="index.html" class="back-link">← Torna alla dashboard</a>
     </div>
 
@@ -281,14 +184,13 @@
         // Inizializza mappa
         const map = L.map('map-spazi').setView([38.115, 13.361], 12);
         
-        // Tile layer chiaro
+        // Tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(map);
 
         let currentLayer = null;
-        let currentDataset = 'osm';
 
         // Statistiche per dataset
         const stats = {
@@ -308,49 +210,51 @@
 
         // Switch dataset
         function switchDataset(dataset) {
-            currentDataset = dataset;
-            
             // Update buttons
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
+            document.querySelectorAll('.toggle-option').forEach(btn => {
                 btn.classList.remove('active');
             });
             document.querySelector(`[data-dataset="${dataset}"]`).classList.add('active');
             
-            // Load data
+            // Load GeoJSON
             loadGeoJSON(dataset);
             
             // Update stats
             updateStats(dataset);
         }
 
-        // Load GeoJSON
+        // Load GeoJSON - ATTENZIONE: I PATH DEVONO ESSERE CORRETTI
         function loadGeoJSON(dataset) {
             // Remove existing layer
             if (currentLayer) {
                 map.removeLayer(currentLayer);
             }
 
-            // Determine URL
-            const url = dataset === 'osm'
-                ? 'https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_osm_final.geojson'
-                : 'https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_copernicus_final.geojson';
+            // TODO: SOSTITUISCI CON I PATH CORRETTI DEI TUOI FILE
+            const paths = {
+                osm: 'data/coverage_osm_final.geojson',
+                copernicus: 'data/coverage_copernicus_final.geojson'
+            };
 
-            console.log('Loading:', url);
+            const url = paths[dataset];
+            console.log('📂 Loading:', url);
 
-            // Load and display
             fetch(url)
                 .then(response => {
+                    console.log('📡 Response status:', response.status);
                     if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
                     return response.json();
                 })
                 .then(data => {
+                    console.log('✅ Loaded', data.features.length, 'features');
+                    
                     currentLayer = L.geoJSON(data, {
                         style: {
-                            color: '#059669',
+                            color: '#10b981',
                             weight: 2,
-                            fillColor: '#10b981',
+                            fillColor: '#059669',
                             fillOpacity: 0.3
                         },
                         onEachFeature: (feature, layer) => {
@@ -359,13 +263,13 @@
                                 popup += '<strong style="color: #065f46;">Spazio verde</strong><br>';
                                 
                                 if (feature.properties.name) {
-                                    popup += `<strong>Nome:</strong> ${feature.properties.name}<br>`;
+                                    popup += `Nome: ${feature.properties.name}<br>`;
                                 }
                                 if (feature.properties.category) {
-                                    popup += `<strong>Categoria:</strong> ${feature.properties.category}<br>`;
+                                    popup += `Categoria: ${feature.properties.category}<br>`;
                                 }
                                 if (feature.properties.area_ha) {
-                                    popup += `<strong>Area:</strong> ${feature.properties.area_ha.toFixed(2)} ha`;
+                                    popup += `Area: ${feature.properties.area_ha.toFixed(2)} ha`;
                                 }
                                 
                                 popup += '</div>';
@@ -375,13 +279,13 @@
                     }).addTo(map);
 
                     // Fit bounds
-                    map.fitBounds(currentLayer.getBounds(), { padding: [50, 50] });
-                    
-                    console.log('✅ Loaded', data.features.length, 'features');
+                    if (currentLayer.getBounds().isValid()) {
+                        map.fitBounds(currentLayer.getBounds(), { padding: [50, 50] });
+                    }
                 })
                 .catch(err => {
-                    console.error('❌ Error loading GeoJSON:', err);
-                    alert('Impossibile caricare i dati. Verifica la connessione o il percorso del file.');
+                    console.error('❌ Error:', err);
+                    alert(`Impossibile caricare i dati.\n\nErrore: ${err.message}\n\nVerifica che i file GeoJSON siano nella cartella corretta:\n- data/coverage_osm_final.geojson\n- data/coverage_copernicus_final.geojson`);
                 });
         }
 
