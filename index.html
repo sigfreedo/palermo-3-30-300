@@ -1852,6 +1852,64 @@
         </div>
     </section>
 
+    <!-- SEZIONE CALL TO ACTION -->
+    <section style="background: linear-gradient(135deg, #065f46 0%, #059669 100%); padding: 4rem 2rem; margin-top: 0;">
+        <div class="container">
+            <h2 style="text-align: center; color: white; font-size: 32px; font-weight: 700; margin: 0 0 3rem 0;">
+                Esplora il progetto
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                
+                <!-- CTA 1: Metodologia -->
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="font-size: 48px; margin-bottom: 1rem;">📊</div>
+                    <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Approfondisci la metodologia</h3>
+                    <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
+                        Scopri come sono stati raccolti e analizzati i dati sulla copertura verde di Palermo
+                    </p>
+                    <a href="metodologia.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
+                        Leggi la ricerca
+                    </a>
+                </div>
+                
+                <!-- CTA 2: Mappe e Dataset -->
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="font-size: 48px; margin-bottom: 1rem;">🗺️</div>
+                    <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Visualizza le mappe e i dati</h3>
+                    <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
+                        Esplora le mappe interattive e scarica i dataset aperti in formato GeoJSON e CSV
+                    </p>
+                    <a href="dati.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
+                        Vai ai dati
+                    </a>
+                </div>
+                
+                <!-- CTA 3: Condividi -->
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="font-size: 48px; margin-bottom: 1rem;">📱</div>
+                    <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Condividi il progetto</h3>
+                    <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
+                        Diffondi i dati sul verde urbano di Palermo sui tuoi canali social
+                    </p>
+                    <div style="display: flex; gap: 0.75rem; justify-content: center;">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://sigfreedo.github.io/palermo-verde/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #1877f2; color: white; border-radius: 8px; text-decoration: none; font-weight: 700; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Condividi su Facebook">
+                            f
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sigfreedo.github.io/palermo-verde/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #0a66c2; color: white; border-radius: 8px; text-decoration: none; font-weight: 700; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Condividi su LinkedIn">
+                            in
+                        </a>
+                        <button onclick="copyShareLink()" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #059669; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Copia link">
+                            🔗
+                        </button>
+                    </div>
+                    <p style="font-size: 12px; color: #9ca3af; margin-top: 0.75rem;">Per Instagram: screenshot e tag @comune_palermo</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
     <footer>
         <p><strong>Palermo 3-30-300</strong> - Analisi civica sull'accesso al verde urbano<br>
         La regola 3-30-300: 3 alberi visibili, 30% copertura arborea, 300m da spazi verdi<br>
@@ -3636,6 +3694,24 @@ Cordiali saluti,
       } catch (error) {
         console.error('❌ Error updating tree stats:', error);
       }
+    }
+    
+    
+    // Copy share link to clipboard
+    function copyShareLink() {
+      const url = 'https://sigfreedo.github.io/palermo-verde/';
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Link copiato! Condividilo dove vuoi.');
+      }).catch(err => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Link copiato! Condividilo dove vuoi.');
+      });
     }
     
     // Initialize tree input on page load
