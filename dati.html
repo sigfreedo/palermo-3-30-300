@@ -30,7 +30,7 @@
             margin: 0;
         }
         
-        /* Toggle button styles - ESATTO come dashboard */
+        /* Toggle button styles - TEMA CHIARO */
         .dataset-toggle {
             display: flex;
             justify-content: center;
@@ -39,7 +39,7 @@
         
         .toggle-button {
             display: inline-flex;
-            background: rgba(255,255,255,0.1);
+            background: #f3f4f6;
             border-radius: 8px;
             padding: 4px;
         }
@@ -48,7 +48,7 @@
             padding: 0.75rem 2rem;
             border: none;
             background: transparent;
-            color: #9ca3af;
+            color: #6b7280;
             cursor: pointer;
             font-size: 15px;
             font-weight: 600;
@@ -57,11 +57,12 @@
         }
         
         .toggle-option:hover:not(.active) {
-            color: #e5e7eb;
+            color: #374151;
+            background: #e5e7eb;
         }
         
         .toggle-option.active {
-            background: #10b981;
+            background: #059669;
             color: white;
         }
         
@@ -83,18 +84,18 @@
         }
         
         .stat-item {
-            color: #e5e7eb;
+            color: #374151;
         }
         
         .stat-value {
             font-size: 36px;
             font-weight: 700;
-            color: #10b981;
+            color: #059669;
         }
         
         .stat-label {
             font-size: 14px;
-            color: #9ca3af;
+            color: #6b7280;
             margin-top: 0.5rem;
         }
         
@@ -122,12 +123,12 @@
     </header>
 
     <!-- SEZIONE 1: Spazi verdi -->
-    <section style="background: #1a1a1a; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             
-            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Mappa degli spazi verdi di Palermo</h2>
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Mappa degli spazi verdi di Palermo</h2>
             
-            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
+            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
                 <p style="margin-bottom: 0;">L'analisi riguarda esclusivamente il verde pubblico accessibile. Sono stati esclusi dall'analisi gli spazi privati, gli impianti sportivi e gli spazi di dimensioni ridotte (inferiori a 2000mq).</p>
             </div>
             
@@ -184,10 +185,11 @@
         // Inizializza mappa
         const map = L.map('map-spazi').setView([38.115, 13.361], 12);
         
-        // Tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
+        // Tile layer NEUTRO - CartoDB Positron (minimal e chiaro)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            maxZoom: 19,
+            subdomains: 'abcd'
         }).addTo(map);
 
         let currentLayer = null;
@@ -223,17 +225,17 @@
             updateStats(dataset);
         }
 
-        // Load GeoJSON - ATTENZIONE: I PATH DEVONO ESSERE CORRETTI
+        // Load GeoJSON
         function loadGeoJSON(dataset) {
             // Remove existing layer
             if (currentLayer) {
                 map.removeLayer(currentLayer);
             }
 
-            // TODO: SOSTITUISCI CON I PATH CORRETTI DEI TUOI FILE
+            // Path ai file GeoJSON sul repository GitHub
             const paths = {
-                osm: 'data/coverage_osm_final.geojson',
-                copernicus: 'data/coverage_copernicus_final.geojson'
+                osm: 'https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/data/coverage_osm_final.geojson',
+                copernicus: 'https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/data/coverage_copernicus_final.geojson'
             };
 
             const url = paths[dataset];
@@ -252,29 +254,54 @@
                     
                     currentLayer = L.geoJSON(data, {
                         style: {
-                            color: '#10b981',
+                            color: '#059669',
                             weight: 2,
-                            fillColor: '#059669',
-                            fillOpacity: 0.3
+                            fillColor: '#10b981',
+                            fillOpacity: 0.4
                         },
                         onEachFeature: (feature, layer) => {
+                            // Popup con nome, categoria, superficie
                             if (feature.properties) {
-                                let popup = '<div style="font-family: sans-serif;">';
-                                popup += '<strong style="color: #065f46;">Spazio verde</strong><br>';
+                                let popup = '<div style="font-family: sans-serif; min-width: 200px;">';
+                                popup += '<strong style="color: #059669; font-size: 15px; display: block; margin-bottom: 8px;">Spazio verde</strong>';
                                 
-                                if (feature.properties.name) {
-                                    popup += `Nome: ${feature.properties.name}<br>`;
-                                }
-                                if (feature.properties.category) {
-                                    popup += `Categoria: ${feature.properties.category}<br>`;
-                                }
+                                // Nome
+                                const nome = feature.properties.name || feature.properties.nome || 'Senza nome';
+                                popup += `<div style="margin-bottom: 4px;"><strong>Nome:</strong> ${nome}</div>`;
+                                
+                                // Categoria
+                                const categoria = feature.properties.category || feature.properties.categoria || 'Non specificata';
+                                popup += `<div style="margin-bottom: 4px;"><strong>Categoria:</strong> ${categoria}</div>`;
+                                
+                                // Superficie
                                 if (feature.properties.area_ha) {
-                                    popup += `Area: ${feature.properties.area_ha.toFixed(2)} ha`;
+                                    popup += `<div><strong>Superficie:</strong> ${feature.properties.area_ha.toFixed(2)} ha</div>`;
+                                } else if (feature.properties.area_mq) {
+                                    popup += `<div><strong>Superficie:</strong> ${feature.properties.area_mq.toFixed(0)} m²</div>`;
+                                } else {
+                                    popup += `<div><strong>Superficie:</strong> Non disponibile</div>`;
                                 }
                                 
                                 popup += '</div>';
                                 layer.bindPopup(popup);
                             }
+                            
+                            // HIGHLIGHT ON HOVER
+                            layer.on('mouseover', function() {
+                                this.setStyle({
+                                    fillColor: '#059669',
+                                    fillOpacity: 0.7,
+                                    weight: 3
+                                });
+                            });
+                            
+                            layer.on('mouseout', function() {
+                                this.setStyle({
+                                    fillColor: '#10b981',
+                                    fillOpacity: 0.4,
+                                    weight: 2
+                                });
+                            });
                         }
                     }).addTo(map);
 
