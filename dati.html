@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mappe e Dati - Palermo 3-30-300</title>
+    <title>Mappe e Dataset - Palermo 3-30-300</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
@@ -18,89 +18,160 @@
             background: #f9fafb;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
+        
+        /* Header */
         header {
-            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+            background: #059669;
             color: white;
             padding: 3rem 2rem;
             text-align: center;
         }
         header h1 {
             font-size: 36px;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin: 0;
         }
-        header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        .content {
+        
+        /* Section style - come section300 */
+        section {
             background: white;
-            padding: 2rem;
-            margin: 2rem 0;
+            margin: 2rem auto;
+            padding: 3rem;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            max-width: 1400px;
         }
-        h2 {
+        
+        section h2 {
             color: #065f46;
             font-size: 28px;
-            margin: 0 0 1.5rem 0;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
         }
-        h3 {
-            color: #047857;
-            font-size: 20px;
-            margin: 1.5rem 0 1rem 0;
+        
+        .description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #374151;
+            margin: 0 0 2rem 0;
         }
-        #map {
-            height: 500px;
+        
+        /* Toggle buttons */
+        .toggle-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .toggle-btn {
+            flex: 1;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
-            margin: 1rem 0;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-align: center;
         }
-        .dataset-grid {
+        
+        .toggle-btn:hover {
+            border-color: #059669;
+            background: #f0fdf4;
+        }
+        
+        .toggle-btn.active {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        
+        /* Map */
+        #map-spazi {
+            height: 600px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        /* Stats box */
+        .stats-box {
+            background: #f0fdf4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #059669;
+            margin-top: 2rem;
+        }
+        
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin-top: 1rem;
         }
-        .dataset-card {
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #065f46;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #047857;
+            margin-top: 0.25rem;
+        }
+        
+        /* Categories explanation */
+        .categories {
             background: #f9fafb;
             padding: 1.5rem;
             border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            transition: all 0.2s;
+            margin: 1.5rem 0;
         }
-        .dataset-card:hover {
-            border-color: #059669;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .dataset-card h4 {
+        
+        .categories h3 {
             color: #065f46;
-            font-size: 18px;
-            margin-bottom: 0.75rem;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
         }
-        .dataset-card p {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 1rem;
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
-        .download-btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #059669;
-            color: white;
-            text-decoration: none;
+        
+        .category-item {
+            padding: 0.75rem;
+            background: white;
             border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: background 0.2s;
+            border-left: 3px solid #10b981;
         }
-        .download-btn:hover {
-            background: #047857;
+        
+        .category-item strong {
+            color: #065f46;
+            display: block;
+            margin-bottom: 0.25rem;
         }
+        
+        .category-item.excluded {
+            border-left-color: #dc2626;
+            opacity: 0.7;
+        }
+        
+        /* Back link */
         .back-link {
             display: inline-block;
             margin: 2rem 0;
@@ -112,175 +183,114 @@
             font-weight: 600;
             transition: background 0.2s;
         }
+        
         .back-link:hover {
             background: #047857;
-        }
-        .map-controls {
-            background: #f3f4f6;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        .map-controls label {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .map-controls input[type="radio"] {
-            margin-right: 0.5rem;
-        }
-        .stats-box {
-            background: #d1fae5;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #059669;
-            margin: 1.5rem 0;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #065f46;
-        }
-        .stat-label {
-            font-size: 14px;
-            color: #047857;
-            margin-top: 0.25rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🗺️ Mappe e Dataset</h1>
-        <p>Esplora gli spazi verdi di Palermo e scarica i dati aperti</p>
+        <h1>Mappe e dataset</h1>
     </header>
 
+    <!-- SEZIONE 1: Mappa spazi verdi -->
+    <section>
+        <h2>Mappa degli spazi verdi di Palermo</h2>
+        
+        <p class="description">
+            Gli spazi verdi pubblici sono stati mappati utilizzando due dataset complementari: OpenStreetMap (dati collaborativi aggiornati dalla community) e Copernicus Urban Atlas (dati satellitari ufficiali dell'Agenzia Spaziale Europea). Ogni dataset è stato categorizzato per garantire accessibilità pubblica e fruibilità degli spazi.
+        </p>
+        
+        <!-- Categorizzazione -->
+        <div class="categories">
+            <h3>Categorie di spazi verdi inclusi</h3>
+            <div class="category-grid">
+                <div class="category-item">
+                    <strong>Categoria A</strong>
+                    <div style="font-size: 14px; color: #6b7280;">Parchi e giardini pubblici</div>
+                </div>
+                <div class="category-item">
+                    <strong>Categoria B</strong>
+                    <div style="font-size: 14px; color: #6b7280;">Aree ricreative pubbliche</div>
+                </div>
+                <div class="category-item">
+                    <strong>Categoria C</strong>
+                    <div style="font-size: 14px; color: #6b7280;">Spazi naturali urbani</div>
+                </div>
+                <div class="category-item excluded">
+                    <strong>Categoria D (esclusa)</strong>
+                    <div style="font-size: 14px; color: #6b7280;">Impianti sportivi - esclusi per dati insufficienti su accessibilità pubblica</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toggle dataset -->
+        <div class="toggle-container">
+            <button class="toggle-btn active" data-dataset="osm" onclick="switchDataset('osm')">
+                OpenStreetMap
+            </button>
+            <button class="toggle-btn" data-dataset="copernicus" onclick="switchDataset('copernicus')">
+                Copernicus Urban Atlas
+            </button>
+        </div>
+        
+        <!-- Mappa -->
+        <div id="map-spazi"></div>
+        
+        <!-- Statistiche -->
+        <div class="stats-box">
+            <strong style="font-size: 18px; color: #065f46;">Statistiche copertura (regola del 300)</strong>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-coverage">38,76%</div>
+                    <div class="stat-label">Copertura popolazione</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-fortunati">246.293</div>
+                    <div class="stat-label">Fortunati (entro 300m)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-svantaggiati">389.146</div>
+                    <div class="stat-label">Svantaggiati (oltre 300m)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-spazi">118</div>
+                    <div class="stat-label">Spazi verdi pubblici</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLACEHOLDER: Sezione 2 - Copertura arborea -->
+    <section style="min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f9fafb;">
+        <p style="color: #9ca3af; font-size: 18px;">Sezione 2: Mappa copertura arborea (in arrivo)</p>
+    </section>
+
+    <!-- PLACEHOLDER: Sezione 3 - Dataset -->
+    <section style="min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f9fafb;">
+        <p style="color: #9ca3af; font-size: 18px;">Sezione 3: Dataset utilizzati (in arrivo)</p>
+    </section>
+
     <div class="container">
-        <!-- Mappa Interattiva -->
-        <div class="content">
-            <h2>Mappa interattiva degli spazi verdi</h2>
-            
-            <div class="map-controls">
-                <label>
-                    <input type="radio" name="dataset" value="osm" checked>
-                    OpenStreetMap
-                </label>
-                <label>
-                    <input type="radio" name="dataset" value="copernicus">
-                    Copernicus Urban Atlas
-                </label>
-            </div>
-
-            <div id="map"></div>
-
-            <div class="stats-box">
-                <strong style="font-size: 18px; color: #065f46;">📊 Statistiche copertura</strong>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="coverage">38,76%</div>
-                        <div class="stat-label">Copertura</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="fortunati">246.293</div>
-                        <div class="stat-label">Fortunati</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="svantaggiati">389.146</div>
-                        <div class="stat-label">Svantaggiati</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="spazi">118</div>
-                        <div class="stat-label">Spazi verdi</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Download Dataset -->
-        <div class="content">
-            <h2>Scarica i dataset aperti</h2>
-            <p style="margin-bottom: 2rem;">
-                Tutti i dati sono rilasciati con licenza open data e possono essere utilizzati liberamente per ricerca, analisi e progetti di advocacy civica.
-            </p>
-
-            <div class="dataset-grid">
-                <div class="dataset-card">
-                    <h4>🗺️ Spazi verdi OSM</h4>
-                    <p>233 spazi verdi da OpenStreetMap con categorie A, B, C e geometrie validate</p>
-                    <a href="https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_osm_final.geojson" class="download-btn" download>GeoJSON</a>
-                    <a href="https://github.com/sigfreedo/palermo-verde/blob/main/data/coverage_osm_final.geojson" target="_blank" class="download-btn">Visualizza</a>
-                </div>
-
-                <div class="dataset-card">
-                    <h4>🛰️ Spazi verdi Copernicus</h4>
-                    <p>Copertura verde da dati satellitari Urban Atlas 2018 dell'Agenzia Spaziale Europea</p>
-                    <a href="https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_copernicus_final.geojson" class="download-btn" download>GeoJSON</a>
-                    <a href="https://github.com/sigfreedo/palermo-verde/blob/main/data/coverage_copernicus_final.geojson" target="_blank" class="download-btn">Visualizza</a>
-                </div>
-
-                <div class="dataset-card">
-                    <h4>🏘️ Statistiche per quartiere</h4>
-                    <p>Copertura verde, popolazione servita e tree canopy aggregati per i 55 quartieri di Palermo</p>
-                    <a href="https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/quartieri_data.json" class="download-btn" download>JSON</a>
-                    <a href="https://github.com/sigfreedo/palermo-verde/blob/main/data/quartieri_data.json" target="_blank" class="download-btn">Visualizza</a>
-                </div>
-
-                <div class="dataset-card">
-                    <h4>🌳 Tree Cover Density</h4>
-                    <p>Percentuale di copertura arborea (dati Copernicus 2018) per quartiere con interpolazione ponderata</p>
-                    <a href="https://github.com/sigfreedo/palermo-verde/tree/main/data" target="_blank" class="download-btn">Repository</a>
-                </div>
-
-                <div class="dataset-card">
-                    <h4>📍 Sezioni di censimento ISTAT</h4>
-                    <p>Geometrie e popolazione 2021 delle sezioni di censimento utilizzate per i calcoli</p>
-                    <a href="https://www.istat.it/it/archivio/104317" target="_blank" class="download-btn">ISTAT</a>
-                </div>
-
-                <div class="dataset-card">
-                    <h4>💻 Codice sorgente</h4>
-                    <p>Script Python per elaborazione dati, calcoli statistici e generazione mappe</p>
-                    <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank" class="download-btn">GitHub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Licenza -->
-        <div class="content">
-            <h2>📜 Licenza e attribuzione</h2>
-            <p>
-                I dati del progetto Palermo 3-30-300 sono rilasciati con <strong>licenza Open Database License (ODbL)</strong> e possono essere utilizzati liberamente con attribuzione.
-            </p>
-            <p style="margin-top: 1rem;">
-                <strong>Attribuzione richiesta:</strong><br>
-                "Dati dal progetto Palermo 3-30-300 | Fonti: OpenStreetMap contributors, Copernicus Urban Atlas, ISTAT 2021"
-            </p>
-        </div>
-
         <a href="index.html" class="back-link">← Torna alla dashboard</a>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Inizializza mappa
-        const map = L.map('map').setView([38.115, 13.361], 12);
+        const map = L.map('map-spazi').setView([38.115, 13.361], 12);
         
-        // Tile layer
+        // Tile layer chiaro
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
         }).addTo(map);
 
         let currentLayer = null;
+        let currentDataset = 'osm';
+
+        // Statistiche per dataset
         const stats = {
             osm: {
                 coverage: '38,76%',
@@ -296,21 +306,45 @@
             }
         };
 
-        // Carica dataset
-        function loadDataset(dataset) {
-            // Rimuovi layer esistente
+        // Switch dataset
+        function switchDataset(dataset) {
+            currentDataset = dataset;
+            
+            // Update buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-dataset="${dataset}"]`).classList.add('active');
+            
+            // Load data
+            loadGeoJSON(dataset);
+            
+            // Update stats
+            updateStats(dataset);
+        }
+
+        // Load GeoJSON
+        function loadGeoJSON(dataset) {
+            // Remove existing layer
             if (currentLayer) {
                 map.removeLayer(currentLayer);
             }
 
-            // URL del GeoJSON
-            const url = dataset === 'osm' 
+            // Determine URL
+            const url = dataset === 'osm'
                 ? 'https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_osm_final.geojson'
                 : 'https://raw.githubusercontent.com/sigfreedo/palermo-verde/main/data/coverage_copernicus_final.geojson';
 
-            // Carica e visualizza
+            console.log('Loading:', url);
+
+            // Load and display
             fetch(url)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     currentLayer = L.geoJSON(data, {
                         style: {
@@ -321,45 +355,49 @@
                         },
                         onEachFeature: (feature, layer) => {
                             if (feature.properties) {
-                                let popup = '<strong>Spazio verde</strong><br>';
-                                if (feature.properties.name) popup += `Nome: ${feature.properties.name}<br>`;
-                                if (feature.properties.category) popup += `Categoria: ${feature.properties.category}<br>`;
-                                if (feature.properties.area_ha) popup += `Area: ${feature.properties.area_ha} ha`;
+                                let popup = '<div style="font-family: sans-serif;">';
+                                popup += '<strong style="color: #065f46;">Spazio verde</strong><br>';
+                                
+                                if (feature.properties.name) {
+                                    popup += `<strong>Nome:</strong> ${feature.properties.name}<br>`;
+                                }
+                                if (feature.properties.category) {
+                                    popup += `<strong>Categoria:</strong> ${feature.properties.category}<br>`;
+                                }
+                                if (feature.properties.area_ha) {
+                                    popup += `<strong>Area:</strong> ${feature.properties.area_ha.toFixed(2)} ha`;
+                                }
+                                
+                                popup += '</div>';
                                 layer.bindPopup(popup);
                             }
                         }
                     }).addTo(map);
 
-                    // Zoom to bounds
-                    map.fitBounds(currentLayer.getBounds());
-
-                    // Update stats
-                    updateStats(dataset);
+                    // Fit bounds
+                    map.fitBounds(currentLayer.getBounds(), { padding: [50, 50] });
+                    
+                    console.log('✅ Loaded', data.features.length, 'features');
                 })
                 .catch(err => {
-                    console.error('Errore caricamento dati:', err);
-                    alert('Impossibile caricare i dati. Verifica la connessione.');
+                    console.error('❌ Error loading GeoJSON:', err);
+                    alert('Impossibile caricare i dati. Verifica la connessione o il percorso del file.');
                 });
         }
 
         // Update statistics
         function updateStats(dataset) {
             const data = stats[dataset];
-            document.getElementById('coverage').textContent = data.coverage;
-            document.getElementById('fortunati').textContent = data.fortunati;
-            document.getElementById('svantaggiati').textContent = data.svantaggiati;
-            document.getElementById('spazi').textContent = data.spazi;
+            document.getElementById('stat-coverage').textContent = data.coverage;
+            document.getElementById('stat-fortunati').textContent = data.fortunati;
+            document.getElementById('stat-svantaggiati').textContent = data.svantaggiati;
+            document.getElementById('stat-spazi').textContent = data.spazi;
         }
 
-        // Radio button handler
-        document.querySelectorAll('input[name="dataset"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                loadDataset(e.target.value);
-            });
+        // Load OSM by default
+        window.addEventListener('load', () => {
+            loadGeoJSON('osm');
         });
-
-        // Carica OSM di default
-        loadDataset('osm');
     </script>
 </body>
 </html>
