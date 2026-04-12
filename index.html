@@ -3538,6 +3538,24 @@
     function showTreeFeedback(count) {
       const feedbackDiv = document.getElementById('treeFeedback');
       
+      // Mailto link con testo precompilato
+      const subject = "richiesta di piantumazione alberi";
+      const body = `Gentile Ufficio autonomo gestione verde urbano, agricoltura urbana e rapporti con RESET,
+
+Mi chiamo [NOME E COGNOME] e risiedo in [VIA/QUARTIERE] a Palermo.
+
+Scrivo per chiedere cortesemente di valutare la piantumazione di alberi nella mia zona, in particolare in [VIA/PIAZZA SPECIFICA se applicabile], per migliorare la qualità della vita del quartiere e allineare Palermo agli standard internazionali di città verde e vivibile.
+
+Numerose ricerche scientifiche dimostrano che la presenza di verde urbano e, in particolare, la vista degli alberi dalla propria finestra riduce lo stress e l'ansia, migliora l'umore e favorisce il recupero psicofisico.
+
+Resto a disposizione per eventuali sopralluoghi o ulteriori informazioni.
+
+Cordiali saluti,
+[NOME E COGNOME]`;
+      
+      const mailtoLink = `mailto:verdevivibilita@comune.palermo.it?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // Messaggio e stile basato sul conteggio
       if (count >= 3) {
         feedbackDiv.style.background = '#d1fae5';
         feedbackDiv.style.border = '2px solid #10b981';
@@ -3545,6 +3563,15 @@
         feedbackDiv.innerHTML = `
           <strong style="font-size: 16px;">✅ Ottimo! Hai almeno 3 alberi visibili.</strong><br>
           <span style="margin-top: 0.5rem; display: block;">La vista del verde dalla finestra migliora il tuo benessere quotidiano.</span>
+          <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #10b981;">
+            <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Aiuta chi non ha questa fortuna: chiedi più alberi per Palermo!</p>
+            <a href="${mailtoLink}" 
+               style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; transition: background 0.2s;"
+               onmouseover="this.style.background='#047857'"
+               onmouseout="this.style.background='#059669'">
+              📧 Scrivi al Comune di Palermo
+            </a>
+          </div>
         `;
       } else {
         feedbackDiv.style.background = '#fee2e2';
@@ -3552,7 +3579,16 @@
         feedbackDiv.style.color = '#991b1b';
         feedbackDiv.innerHTML = `
           <strong style="font-size: 16px;">❌ Purtroppo hai meno di 3 alberi visibili.</strong><br>
-          <span style="margin-top: 0.5rem; display: block;">Considera di chiedere al tuo Comune di piantare più alberi nella tua strada.</span>
+          <span style="margin-top: 0.5rem; display: block;">La ricerca scientifica mostra l'importanza di vedere almeno 3 alberi dalla finestra.</span>
+          <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #ef4444;">
+            <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Chiedi al Comune di piantare più alberi nella tua zona!</p>
+            <a href="${mailtoLink}" 
+               style="display: inline-block; padding: 0.75rem 1.5rem; background: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; transition: background 0.2s;"
+               onmouseover="this.style.background='#b91c1c'"
+               onmouseout="this.style.background='#dc2626'">
+              📧 Scrivi al Comune di Palermo
+            </a>
+          </div>
         `;
       }
     }
