@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodologia - Palermo 3-30-300</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #374151;
+            background: #f9fafb;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .content {
+            background: white;
+            padding: 3rem;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #065f46;
+            font-size: 28px;
+            margin: 2rem 0 1rem 0;
+            padding-top: 1rem;
+            border-top: 2px solid #e5e7eb;
+        }
+        h2:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        h3 {
+            color: #047857;
+            font-size: 20px;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+        li {
+            margin: 0.5rem 0;
+        }
+        .highlight {
+            background: #d1fae5;
+            padding: 1.5rem;
+            border-left: 4px solid #059669;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        .data-box {
+            background: #f3f4f6;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        code {
+            background: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0;
+            padding: 0.75rem 1.5rem;
+            background: #059669;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .back-link:hover {
+            background: #047857;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 Metodologia di ricerca</h1>
+        <p>Come sono stati raccolti e analizzati i dati del progetto Palermo 3-30-300</p>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>Obiettivo della ricerca</h2>
+            <p>
+                Il progetto <strong>Palermo 3-30-300</strong> valuta l'accessibilità agli spazi verdi urbani di Palermo secondo il framework proposto dall'urbanista Cecil Konijnendijk e adottato dall'Organizzazione Mondiale della Sanità (WHO) e dall'Agenzia Europea dell'Ambiente (EEA).
+            </p>
+            <div class="highlight">
+                <strong>La regola 3-30-300 stabilisce che:</strong>
+                <ul>
+                    <li><strong>3</strong> alberi visibili dalla finestra di casa</li>
+                    <li><strong>30%</strong> di copertura arborea nel quartiere</li>
+                    <li><strong>300 metri</strong> di distanza massima da uno spazio verde pubblico</li>
+                </ul>
+            </div>
+
+            <h2>Fonti dati</h2>
+            
+            <h3>1. Spazi verdi pubblici (regola del 300)</h3>
+            <p>Sono stati utilizzati due dataset geospaziali complementari:</p>
+            
+            <div class="data-box">
+                <strong>OpenStreetMap (OSM)</strong>
+                <ul>
+                    <li>Dati collaborativi aggiornati dalla community</li>
+                    <li>Tag: leisure=park, leisure=garden, natural=wood, landuse=recreation_ground</li>
+                    <li>Estratto tramite Overpass API</li>
+                    <li>Proiezione: EPSG:32633 (UTM Zone 33N)</li>
+                </ul>
+            </div>
+
+            <div class="data-box">
+                <strong>Copernicus Urban Atlas</strong>
+                <ul>
+                    <li>Dati satellitari ufficiali dell'Agenzia Spaziale Europea</li>
+                    <li>Classificazione: Urban Green, Sports and Leisure Facilities, Forests</li>
+                    <li>Risoluzione minima: 0,25 ettari</li>
+                    <li>Anno di riferimento: 2018</li>
+                </ul>
+            </div>
+
+            <h3>2. Popolazione (sezioni di censimento ISTAT 2021)</h3>
+            <p>
+                Per il calcolo della popolazione servita, sono state utilizzate le <strong>sezioni di censimento ISTAT 2021</strong> anziché i dati raster GHSL per garantire:
+            </p>
+            <ul>
+                <li><strong>Maggiore precisione</strong>: delimitazioni amministrative ufficiali</li>
+                <li><strong>Dati ufficiali italiani</strong>: fonte primaria per il territorio nazionale</li>
+                <li><strong>Ricchezza demografica</strong>: possibilità di analisi socio-economiche</li>
+            </ul>
+
+            <h3>3. Copertura arborea (regola del 30)</h3>
+            <p>
+                Utilizzati i dati <strong>Copernicus Tree Cover Density 2018</strong> a 10 metri di risoluzione, aggregati a livello di quartiere tramite interpolazione ponderata per area.
+            </p>
+
+            <h2>Categorizzazione degli spazi verdi</h2>
+            <p>Gli spazi verdi sono stati classificati in <strong>tre categorie</strong> per garantire accessibilità e fruibilità pubblica:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Tipologia</th>
+                        <th>Esempi OSM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A</strong></td>
+                        <td>Parchi e giardini pubblici</td>
+                        <td>leisure=park, leisure=garden</td>
+                    </tr>
+                    <tr>
+                        <td><strong>B</strong></td>
+                        <td>Aree ricreative</td>
+                        <td>landuse=recreation_ground</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C</strong></td>
+                        <td>Spazi naturali urbani</td>
+                        <td>natural=wood, landuse=forest</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <strong>⚠️ Esclusione della Categoria D (impianti sportivi)</strong><br>
+                Gli impianti sportivi sono stati deliberatamente esclusi dall'analisi a causa dell'insufficiente granularità dei tag OpenStreetMap per distinguere strutture ad accesso pubblico da quelle private o a pagamento. L'inclusione avrebbe introdotto un bias sistematico incompatibile con i criteri WHO/EEA di accessibilità universale.
+            </div>
+
+            <h2>Metodologia di calcolo</h2>
+
+            <h3>Buffer di accessibilità (300 metri)</h3>
+            <p>
+                Per ogni spazio verde è stato generato un buffer di <strong>300 metri</strong> (distanza euclidea). Le sezioni di censimento ISTAT sono state intersecate con questi buffer per calcolare la popolazione servita.
+            </p>
+
+            <h3>Gestione delle sovrapposizioni spaziali</h3>
+            <ul>
+                <li>Una sezione di censimento può ricadere in più buffer</li>
+                <li>La popolazione viene conteggiata <strong>una sola volta</strong> (non viene duplicata)</li>
+                <li>Il calcolo distingue tra <em>fortunati</em> (entro 300m) e <em>svantaggiati</em> (oltre 300m)</li>
+            </ul>
+
+            <h3>Statistiche per quartiere</h3>
+            <p>
+                Le statistiche a livello di quartiere sono calcolate tramite <strong>interpolazione ponderata per area</strong>:
+            </p>
+            <ol>
+                <li>Intersezione geometrica tra sezioni di censimento e confini dei quartieri</li>
+                <li>Calcolo della superficie di ogni frammento</li>
+                <li>Distribuzione proporzionale della popolazione sulla base dell'area</li>
+                <li>Aggregazione dei risultati per quartiere</li>
+            </ol>
+
+            <div class="data-box">
+                <strong>Sistema di riferimento (CRS):</strong>
+                <ul>
+                    <li>Sezioni di censimento ISTAT: <code>EPSG:32632</code> (UTM Zone 32N)</li>
+                    <li>Confini quartieri: <code>EPSG:4326</code> (WGS84) → riproiettati in EPSG:32632</li>
+                    <li>Calcoli geometrici: tutti eseguiti in EPSG:32632 per accuratezza metrica</li>
+                </ul>
+            </div>
+
+            <h2>Risultati principali</h2>
+
+            <h3>Copertura popolazione (regola del 300)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Copertura</th>
+                        <th>Fortunati</th>
+                        <th>Svantaggiati</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OpenStreetMap</td>
+                        <td>38,76%</td>
+                        <td>246.293</td>
+                        <td>389.146</td>
+                    </tr>
+                    <tr>
+                        <td>Copernicus</td>
+                        <td>48,50%</td>
+                        <td>308.213</td>
+                        <td>327.226</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Dataset finale</h3>
+            <p>
+                Il dataset finale comprende <strong>233 spazi verdi</strong> distribuiti nelle tre categorie (A, B, C), con geometrie validate e metadati completi.
+            </p>
+
+            <h2>Limitazioni e sviluppi futuri</h2>
+
+            <h3>Limitazioni note</h3>
+            <ul>
+                <li><strong>OSM</strong>: Completezza variabile, dipendenza da contributi volontari</li>
+                <li><strong>Copernicus</strong>: Soglia minima di 0,25 ettari esclude micro-spazi urbani</li>
+                <li><strong>Regola del 3</strong>: Richiede indagine partecipativa (nessun dato geospaziale disponibile)</li>
+                <li><strong>Accessibilità reale</strong>: Non considera barriere fisiche (fiumi, ferrovie, strade)</li>
+            </ul>
+
+            <h3>Sviluppi futuri</h3>
+            <ul>
+                <li>Analisi network-based per calcolo distanze pedonali reali</li>
+                <li>Integrazione con dati catastali per validazione proprietà pubbliche</li>
+                <li>Monitoraggio temporale dell'evoluzione degli spazi verdi</li>
+                <li>Analisi di equità ambientale incrociando dati socio-economici</li>
+            </ul>
+
+            <h2>Riproducibilità</h2>
+            <p>
+                Tutti i dati, gli script Python e le mappe interattive sono disponibili nel repository GitHub del progetto con licenza open source. La metodologia è completamente documentata e riproducibile.
+            </p>
+
+            <div class="highlight">
+                <strong>📂 Repository:</strong> <a href="https://github.com/sigfreedo/palermo-3-30-300" style="color: #065f46;">github.com/sigfreedo/palermo-3-30-300</a><br>
+                <strong>📊 Dati:</strong> GeoJSON, CSV, statistiche aggregate<br>
+                <strong>🐍 Codice:</strong> Python, Shapely, Pyproj, GeoPandas
+            </div>
+
+            <a href="index.html" class="back-link">← Torna alla dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
