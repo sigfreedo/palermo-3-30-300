@@ -71,32 +71,8 @@
             height: 600px;
             border-radius: 8px;
             margin: 2rem 0;
-        }
-        
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            max-width: 800px;
-            margin: 3rem auto 0 auto;
-            text-align: center;
-        }
-        
-        .stat-item {
-            color: #374151;
-        }
-        
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: #059669;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #6b7280;
-            margin-top: 0.5rem;
+            border: 3px solid #059669;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         /* Back link */
@@ -129,7 +105,9 @@
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Mappa degli spazi verdi di Palermo</h2>
             
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
-                <p style="margin-bottom: 0;">L'analisi riguarda esclusivamente il verde pubblico accessibile. Sono stati esclusi dall'analisi gli spazi privati, gli impianti sportivi e gli spazi di dimensioni ridotte (inferiori a 2000mq).</p>
+                <p style="margin-bottom: 1rem;">Gli spazi verdi pubblici sono stati mappati utilizzando due dataset complementari: <strong>OpenStreetMap</strong> (dati collaborativi aggiornati dalla community) e <strong>Copernicus Urban Atlas</strong> (dati satellitari ufficiali dell'Agenzia Spaziale Europea).</p>
+                
+                <p style="margin-bottom: 0;">L'analisi riguarda esclusivamente il verde pubblico accessibile. Sono stati esclusi dall'analisi gli spazi privati e gli impianti sportivi.</p>
             </div>
             
             <!-- Toggle Dataset -->
@@ -142,26 +120,6 @@
             
             <!-- Mappa -->
             <div id="map-spazi"></div>
-            
-            <!-- Statistiche -->
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-coverage">38,76%</div>
-                    <div class="stat-label">Copertura popolazione</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-fortunati">246.293</div>
-                    <div class="stat-label">Fortunati</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-svantaggiati">389.146</div>
-                    <div class="stat-label">Svantaggiati</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-spazi">118</div>
-                    <div class="stat-label">Spazi verdi</div>
-                </div>
-            </div>
             
         </div>
     </section>
@@ -183,7 +141,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Inizializza mappa
-        const map = L.map('map-spazi').setView([38.115, 13.361], 12);
+        const map = L.map('map-spazi', {
+            scrollWheelZoom: false  // Disabilita zoom con trackpad
+        }).setView([38.115, 13.361], 12);
         
         // Tile layer NEUTRO - CartoDB Positron (minimal e chiaro)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -193,22 +153,6 @@
         }).addTo(map);
 
         let currentLayer = null;
-
-        // Statistiche per dataset
-        const stats = {
-            osm: {
-                coverage: '38,76%',
-                fortunati: '246.293',
-                svantaggiati: '389.146',
-                spazi: '118'
-            },
-            copernicus: {
-                coverage: '48,50%',
-                fortunati: '308.213',
-                svantaggiati: '327.226',
-                spazi: '233'
-            }
-        };
 
         // Switch dataset
         function switchDataset(dataset) {
@@ -220,9 +164,6 @@
             
             // Load GeoJSON
             loadGeoJSON(dataset);
-            
-            // Update stats
-            updateStats(dataset);
         }
 
         // Load GeoJSON
@@ -262,24 +203,23 @@
                         onEachFeature: (feature, layer) => {
                             // Popup con nome, categoria, superficie
                             if (feature.properties) {
+                                const props = feature.properties;
+                                
+                                // Titolo: nome se esiste, altrimenti categoria/tipo
+                                const titolo = props.name || props.size_label || 'Spazio verde';
+                                
                                 let popup = '<div style="font-family: sans-serif; min-width: 200px;">';
-                                popup += '<strong style="color: #059669; font-size: 15px; display: block; margin-bottom: 8px;">Spazio verde</strong>';
+                                popup += `<strong style="color: #059669; font-size: 15px; display: block; margin-bottom: 8px;">${titolo}</strong>`;
                                 
-                                // Nome
-                                const nome = feature.properties.name || feature.properties.nome || 'Senza nome';
-                                popup += `<div style="margin-bottom: 4px;"><strong>Nome:</strong> ${nome}</div>`;
+                                // Categoria (size_label)
+                                if (props.size_label) {
+                                    popup += `<div style="margin-bottom: 4px;"><strong>Categoria:</strong> ${props.size_label}</div>`;
+                                }
                                 
-                                // Categoria
-                                const categoria = feature.properties.category || feature.properties.categoria || 'Non specificata';
-                                popup += `<div style="margin-bottom: 4px;"><strong>Categoria:</strong> ${categoria}</div>`;
-                                
-                                // Superficie
-                                if (feature.properties.area_ha) {
-                                    popup += `<div><strong>Superficie:</strong> ${feature.properties.area_ha.toFixed(2)} ha</div>`;
-                                } else if (feature.properties.area_mq) {
-                                    popup += `<div><strong>Superficie:</strong> ${feature.properties.area_mq.toFixed(0)} m²</div>`;
-                                } else {
-                                    popup += `<div><strong>Superficie:</strong> Non disponibile</div>`;
+                                // Superficie (da area_sqm converti in ettari)
+                                if (props.area_sqm) {
+                                    const ha = (props.area_sqm / 10000).toFixed(2);
+                                    popup += `<div><strong>Superficie:</strong> ${ha} ha</div>`;
                                 }
                                 
                                 popup += '</div>';
@@ -314,15 +254,6 @@
                     console.error('❌ Error:', err);
                     alert(`Impossibile caricare i dati.\n\nErrore: ${err.message}\n\nVerifica che i file GeoJSON siano nella cartella corretta:\n- data/coverage_osm_final.geojson\n- data/coverage_copernicus_final.geojson`);
                 });
-        }
-
-        // Update statistics
-        function updateStats(dataset) {
-            const data = stats[dataset];
-            document.getElementById('stat-coverage').textContent = data.coverage;
-            document.getElementById('stat-fortunati').textContent = data.fortunati;
-            document.getElementById('stat-svantaggiati').textContent = data.svantaggiati;
-            document.getElementById('stat-spazi').textContent = data.spazi;
         }
 
         // Load OSM by default
