@@ -140,37 +140,34 @@
             <div id="map-canopy" style="height: 600px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
             
             <!-- Legenda -->
-            <div style="max-width: 700px; margin: 2rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border-left: 4px solid #059669;">
+            <div style="max-width: 900px; margin: 2rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border-left: 4px solid #059669;">
                 <h3 style="font-size: 18px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">Legenda copertura arborea (% per pixel 10m)</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #E24B4A; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #dcfce7; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">&lt;10% - Scarsa</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #D85A30; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #bbf7d0; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">10-20% - Ridotta</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #EF9F27; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #86efac; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">20-30% - Quasi sufficiente</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #5DCAA5; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #4ade80; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">30-40% - Sufficiente</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #1D9E75; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #22c55e; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">40-50% - Buona</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 24px; height: 24px; background: #185FA5; border: 1px solid #999; border-radius: 4px;"></div>
+                        <div style="width: 24px; height: 24px; background: #16a34a; border: 1px solid #999; border-radius: 4px;"></div>
                         <span style="font-size: 14px; color: #374151;">&ge;50% - Ottima</span>
                     </div>
                 </div>
-                <p style="margin-top: 1rem; font-size: 13px; color: #6b7280; font-style: italic;">
-                    💡 Nota: Il file raster copre solo l'area del comune di Palermo (~0.5 MB). Il caricamento richiede pochi secondi.
-                </p>
             </div>
             
         </div>
@@ -328,12 +325,12 @@
 
         // Funzione per determinare colore in base a percentuale
         function getCanopyColor(pct) {
-            if (pct < 10) return '#E24B4A';   // 🔴 Rosso - Scarsa
-            if (pct < 20) return '#D85A30';   // 🟠 Corallo - Ridotta
-            if (pct < 30) return '#EF9F27';   // 🟡 Ambra - Quasi sufficiente
-            if (pct < 40) return '#5DCAA5';   // 🔵 Teal chiaro - Sufficiente
-            if (pct < 50) return '#1D9E75';   // 🟢 Teal - Buona
-            return '#185FA5';                 // 🔵 Blu - Ottima
+            if (pct < 10) return '#dcfce7';   // Verde pallido
+            if (pct < 20) return '#bbf7d0';   // Verde chiaro
+            if (pct < 30) return '#86efac';   // Verde medio-chiaro
+            if (pct < 40) return '#4ade80';   // Verde medio
+            if (pct < 50) return '#22c55e';   // Verde scuro
+            return '#16a34a';                 // Verde molto scuro
         }
 
         // Converti hex a RGB
