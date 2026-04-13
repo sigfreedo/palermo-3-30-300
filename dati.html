@@ -125,8 +125,57 @@
     </section>
 
     <!-- PLACEHOLDER Sezione 2 -->
-    <section style="background: #f9fafb; padding: 4rem 2rem; text-align: center;">
+    <section style="background: #1a1a1a; padding: 4rem 2rem; text-align: center;">
         <p style="color: #9ca3af; font-size: 18px;">Sezione 2: Mappa copertura arborea (in arrivo)</p>
+    </section>
+
+    <!-- SEZIONE 2: Copertura arborea -->
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Mappa della copertura arborea a Palermo</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
+                <p style="margin-bottom: 1rem;">I dati di copertura arborea provengono dal <strong>Copernicus Tree Cover Density 2023</strong>, elaborato dall'Agenzia Spaziale Europea attraverso analisi di immagini satellitari ad alta risoluzione.</p>
+                
+                <p style="margin-bottom: 0;">La percentuale di copertura è calcolata a livello di quartiere come rapporto tra l'area coperta dalle chiome degli alberi e l'area totale del quartiere, utilizzando dati raster con risoluzione di 10 metri.</p>
+            </div>
+            
+            <!-- Mappa -->
+            <div id="map-canopy" style="height: 600px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+            
+            <!-- Legenda -->
+            <div style="max-width: 700px; margin: 2rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border-left: 4px solid #059669;">
+                <h3 style="font-size: 18px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">Legenda copertura arborea</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #E24B4A; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">&lt;10% - Scarsa</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #D85A30; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">10-20% - Ridotta</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #EF9F27; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">20-30% - Quasi sufficiente</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #5DCAA5; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">30-40% - Sufficiente</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #1D9E75; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">40-50% - Buona</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 24px; height: 24px; background: #185FA5; border: 1px solid #999; border-radius: 4px;"></div>
+                        <span style="font-size: 14px; color: #374151;">&ge;50% - Ottima</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </section>
 
     <!-- PLACEHOLDER Sezione 3 -->
@@ -216,10 +265,10 @@
                                     popup += `<div style="margin-bottom: 4px;"><strong>Categoria:</strong> ${props.size_label}</div>`;
                                 }
                                 
-                                // Superficie (da area_sqm converti in ettari)
+                                // Superficie (in metri quadrati)
                                 if (props.area_sqm) {
-                                    const ha = (props.area_sqm / 10000).toFixed(2);
-                                    popup += `<div><strong>Superficie:</strong> ${ha} ha</div>`;
+                                    const mq = Math.round(props.area_sqm).toLocaleString('it-IT');
+                                    popup += `<div><strong>Superficie:</strong> ${mq} m²</div>`;
                                 }
                                 
                                 popup += '</div>';
@@ -260,6 +309,88 @@
         window.addEventListener('load', () => {
             loadGeoJSON('osm');
         });
+    </script>
+
+    <!-- SCRIPT MAPPA COPERTURA ARBOREA -->
+    <script>
+        // Inizializza mappa canopy
+        const mapCanopy = L.map('map-canopy', {
+            scrollWheelZoom: false
+        }).setView([38.115, 13.361], 11);
+        
+        // Tile layer CartoDB Positron
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            maxZoom: 19,
+            subdomains: 'abcd'
+        }).addTo(mapCanopy);
+
+        // Funzione per determinare colore in base a percentuale
+        function getCanopyColor(pct) {
+            if (pct < 10) return '#E24B4A';   // 🔴 Rosso - Scarsa
+            if (pct < 20) return '#D85A30';   // 🟠 Corallo - Ridotta
+            if (pct < 30) return '#EF9F27';   // 🟡 Ambra - Quasi sufficiente
+            if (pct < 40) return '#5DCAA5';   // 🔵 Teal chiaro - Sufficiente
+            if (pct < 50) return '#1D9E75';   // 🟢 Teal - Buona
+            return '#185FA5';                 // 🔵 Blu - Ottima
+        }
+
+        // Stile dei quartieri
+        function styleQuartiere(feature) {
+            const canopyPct = feature.properties.tree_canopy_pct || 0;
+            return {
+                fillColor: getCanopyColor(canopyPct),
+                weight: 2,
+                opacity: 1,
+                color: '#059669',
+                fillOpacity: 0.7
+            };
+        }
+
+        // Carica GeoJSON quartieri
+        fetch('https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_dati_completi.geojson')
+            .then(response => response.json())
+            .then(data => {
+                const quartieriLayer = L.geoJSON(data, {
+                    style: styleQuartiere,
+                    onEachFeature: function(feature, layer) {
+                        const props = feature.properties;
+                        const nome = props.quartiere || 'Quartiere';
+                        const canopyPct = props.tree_canopy_pct || 0;
+                        const classificazione = props.classificazione_canopy || 'Non disponibile';
+                        
+                        // Popup
+                        let popup = '<div style="font-family: sans-serif; min-width: 220px;">';
+                        popup += `<strong style="color: #059669; font-size: 16px; display: block; margin-bottom: 8px;">${nome}</strong>`;
+                        popup += `<div style="margin-bottom: 4px;"><strong>Copertura arborea:</strong> ${canopyPct.toFixed(2)}%</div>`;
+                        popup += `<div><strong>Classificazione:</strong> ${classificazione}</div>`;
+                        popup += '</div>';
+                        
+                        layer.bindPopup(popup);
+                        
+                        // Highlight on hover
+                        layer.on('mouseover', function() {
+                            this.setStyle({
+                                weight: 4,
+                                fillOpacity: 0.9
+                            });
+                        });
+                        
+                        layer.on('mouseout', function() {
+                            quartieriLayer.resetStyle(this);
+                        });
+                    }
+                }).addTo(mapCanopy);
+                
+                // Fit bounds
+                mapCanopy.fitBounds(quartieriLayer.getBounds());
+                
+                console.log('✅ Mappa copertura arborea caricata:', data.features.length, 'quartieri');
+            })
+            .catch(err => {
+                console.error('❌ Errore caricamento dati copertura:', err);
+                alert('Impossibile caricare i dati della copertura arborea.');
+            });
     </script>
 </body>
 </html>
