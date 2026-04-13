@@ -125,7 +125,7 @@
     </section>
 
     <!-- SEZIONE 2: Copertura arborea -->
-    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 3rem 0 6rem 0;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Mappa della copertura arborea a Palermo</h2>
@@ -169,7 +169,7 @@
                     </div>
                 </div>
                 <p style="margin-top: 1rem; font-size: 13px; color: #6b7280; font-style: italic;">
-                    💡 Nota: Il file raster è di grandi dimensioni (~17MB). Il caricamento potrebbe richiedere alcuni secondi.
+                    💡 Nota: Il file raster copre solo l'area del comune di Palermo (~0.5 MB). Il caricamento richiede pochi secondi.
                 </p>
             </div>
             
@@ -349,8 +349,15 @@
         // Carica GeoTIFF
         console.log('📥 Caricamento raster Tree Cover Density...');
         
-        fetch('https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/CLMS_HRLVLCC_TCD_S2023_R10m_E46N16_03035_V01_R00.tif')
-            .then(response => response.arrayBuffer())
+        const rasterUrl = 'https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/palermo_tree_canopy_2023.tif';
+        
+        fetch(rasterUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`File non trovato (${response.status}). Assicurati che il file palermo_tree_canopy_2023.tif sia caricato su GitHub.`);
+                }
+                return response.arrayBuffer();
+            })
             .then(arrayBuffer => {
                 return parseGeoraster(arrayBuffer);
             })
@@ -390,8 +397,19 @@
                 console.log('✅ Layer raster visualizzato');
             })
             .catch(error => {
-                console.error('❌ Errore caricamento raster:', error);
-                alert('Impossibile caricare i dati raster. Il file potrebbe essere troppo grande o non accessibile.');
+                console.error('❌ Errore caricamento raster:', error.message);
+                
+                // Mostra messaggio sulla mappa
+                const messageDiv = document.createElement('div');
+                messageDiv.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000; max-width: 400px; text-align: center; border: 2px solid #ef4444;';
+                messageDiv.innerHTML = `
+                    <h3 style="color: #dc2626; margin: 0 0 1rem 0; font-size: 18px;">⚠️ File raster non disponibile</h3>
+                    <p style="color: #374151; margin: 0; font-size: 14px; line-height: 1.6;">
+                        Il file <code>palermo_tree_canopy_2023.tif</code> 
+                        deve essere caricato nel repository GitHub prima di poter visualizzare la mappa.
+                    </p>
+                `;
+                document.getElementById('map-canopy').appendChild(messageDiv);
             });
     </script>
 </body>
