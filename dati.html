@@ -124,11 +124,6 @@
         </div>
     </section>
 
-    <!-- PLACEHOLDER Sezione 2 -->
-    <section style="background: #1a1a1a; padding: 4rem 2rem; text-align: center;">
-        <p style="color: #9ca3af; font-size: 18px;">Sezione 2: Mappa copertura arborea (in arrivo)</p>
-    </section>
-
     <!-- SEZIONE 2: Copertura arborea -->
     <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6rem 0;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
@@ -138,15 +133,15 @@
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
                 <p style="margin-bottom: 1rem;">I dati di copertura arborea provengono dal <strong>Copernicus Tree Cover Density 2023</strong>, elaborato dall'Agenzia Spaziale Europea attraverso analisi di immagini satellitari ad alta risoluzione.</p>
                 
-                <p style="margin-bottom: 0;">La percentuale di copertura è calcolata a livello di quartiere come rapporto tra l'area coperta dalle chiome degli alberi e l'area totale del quartiere, utilizzando dati raster con risoluzione di 10 metri.</p>
+                <p style="margin-bottom: 0;">La mappa mostra il dataset raster originale con risoluzione di 10 metri. Ogni pixel rappresenta la percentuale di copertura arborea in quel punto, calcolata dalla densità delle chiome degli alberi visibili da satellite.</p>
             </div>
             
-            <!-- Mappa -->
+            <!-- Mappa Raster -->
             <div id="map-canopy" style="height: 600px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
             
             <!-- Legenda -->
             <div style="max-width: 700px; margin: 2rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border-left: 4px solid #059669;">
-                <h3 style="font-size: 18px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">Legenda copertura arborea</h3>
+                <h3 style="font-size: 18px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">Legenda copertura arborea (% per pixel 10m)</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <div style="width: 24px; height: 24px; background: #E24B4A; border: 1px solid #999; border-radius: 4px;"></div>
@@ -173,6 +168,9 @@
                         <span style="font-size: 14px; color: #374151;">&ge;50% - Ottima</span>
                     </div>
                 </div>
+                <p style="margin-top: 1rem; font-size: 13px; color: #6b7280; font-style: italic;">
+                    💡 Nota: Il file raster è di grandi dimensioni (~17MB). Il caricamento potrebbe richiedere alcuni secondi.
+                </p>
             </div>
             
         </div>
@@ -312,6 +310,9 @@
     </script>
 
     <!-- SCRIPT MAPPA COPERTURA ARBOREA -->
+    <script src="https://unpkg.com/georaster@1.5.6/dist/georaster.browser.bundle.min.js"></script>
+    <script src="https://unpkg.com/georaster-layer-for-leaflet@3.10.0/dist/georaster-layer-for-leaflet.min.js"></script>
+    
     <script>
         // Inizializza mappa canopy
         const mapCanopy = L.map('map-canopy', {
@@ -335,61 +336,62 @@
             return '#185FA5';                 // 🔵 Blu - Ottima
         }
 
-        // Stile dei quartieri
-        function styleQuartiere(feature) {
-            const canopyPct = feature.properties.tree_canopy_pct || 0;
-            return {
-                fillColor: getCanopyColor(canopyPct),
-                weight: 2,
-                opacity: 1,
-                color: '#059669',
-                fillOpacity: 0.7
-            };
+        // Converti hex a RGB
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
         }
 
-        // Carica GeoJSON quartieri
-        fetch('https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_dati_completi.geojson')
-            .then(response => response.json())
-            .then(data => {
-                const quartieriLayer = L.geoJSON(data, {
-                    style: styleQuartiere,
-                    onEachFeature: function(feature, layer) {
-                        const props = feature.properties;
-                        const nome = props.quartiere || 'Quartiere';
-                        const canopyPct = props.tree_canopy_pct || 0;
-                        const classificazione = props.classificazione_canopy || 'Non disponibile';
-                        
-                        // Popup
-                        let popup = '<div style="font-family: sans-serif; min-width: 220px;">';
-                        popup += `<strong style="color: #059669; font-size: 16px; display: block; margin-bottom: 8px;">${nome}</strong>`;
-                        popup += `<div style="margin-bottom: 4px;"><strong>Copertura arborea:</strong> ${canopyPct.toFixed(2)}%</div>`;
-                        popup += `<div><strong>Classificazione:</strong> ${classificazione}</div>`;
-                        popup += '</div>';
-                        
-                        layer.bindPopup(popup);
-                        
-                        // Highlight on hover
-                        layer.on('mouseover', function() {
-                            this.setStyle({
-                                weight: 4,
-                                fillOpacity: 0.9
-                            });
-                        });
-                        
-                        layer.on('mouseout', function() {
-                            quartieriLayer.resetStyle(this);
-                        });
-                    }
-                }).addTo(mapCanopy);
-                
-                // Fit bounds
-                mapCanopy.fitBounds(quartieriLayer.getBounds());
-                
-                console.log('✅ Mappa copertura arborea caricata:', data.features.length, 'quartieri');
+        // Carica GeoTIFF
+        console.log('📥 Caricamento raster Tree Cover Density...');
+        
+        fetch('https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/CLMS_HRLVLCC_TCD_S2023_R10m_E46N16_03035_V01_R00.tif')
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                return parseGeoraster(arrayBuffer);
             })
-            .catch(err => {
-                console.error('❌ Errore caricamento dati copertura:', err);
-                alert('Impossibile caricare i dati della copertura arborea.');
+            .then(georaster => {
+                console.log('✅ Raster caricato:', georaster.width, 'x', georaster.height, 'pixels');
+                console.log('   Range valori:', georaster.mins, '-', georaster.maxs);
+                
+                const layer = new GeoRasterLayer({
+                    georaster: georaster,
+                    opacity: 0.8,
+                    pixelValuesToColorFn: function(values) {
+                        const value = values[0];
+                        
+                        // Valori nulli o fuori range = trasparente
+                        if (value === null || value === undefined || value < 0 || value > 100) {
+                            return null;
+                        }
+                        
+                        // Applica scala colori
+                        const color = getCanopyColor(value);
+                        const rgb = hexToRgb(color);
+                        
+                        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.7)`;
+                    },
+                    resolution: 256
+                });
+                
+                layer.addTo(mapCanopy);
+                
+                // Zoom sul raster
+                const bounds = [
+                    [georaster.ymin, georaster.xmin],
+                    [georaster.ymax, georaster.xmax]
+                ];
+                mapCanopy.fitBounds(bounds);
+                
+                console.log('✅ Layer raster visualizzato');
+            })
+            .catch(error => {
+                console.error('❌ Errore caricamento raster:', error);
+                alert('Impossibile caricare i dati raster. Il file potrebbe essere troppo grande o non accessibile.');
             });
     </script>
 </body>
