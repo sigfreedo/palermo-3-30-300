@@ -1,6 +1,3 @@
-
-
-
 {
   "osm": {
     "Tribunali-Castellammare": {
@@ -155,161 +152,155 @@
     }
   },
   "copernicus": {
-    "Tribunali-Castellammare": {
-      "popolazione": 13201,
-      "coperta": 8233,
-      "copertura": 62.4,
-      "spazi": 9
-    },
-    "Palazzo reale-Monte di pietà": {
-      "popolazione": 13649,
-      "coperta": 7960,
-      "copertura": 58.3,
-      "spazi": 7
-    },
-    "Oreto-Stazione": {
-      "popolazione": 37587,
-      "coperta": 20531,
-      "copertura": 54.6,
-      "spazi": 9
-    },
-    "Montegrappa-Santa Rosalia": {
-      "popolazione": 21697,
-      "coperta": 16710,
-      "copertura": 77.0,
-      "spazi": 11
-    },
-    "Cuba-Calatafimi": {
-      "popolazione": 19933,
-      "coperta": 19905,
-      "copertura": 99.9,
-      "spazi": 10
-    },
-    "Zisa": {
-      "popolazione": 31969,
-      "coperta": 28290,
-      "copertura": 88.5,
-      "spazi": 4
-    },
-    "Politeama": {
-      "popolazione": 31114,
-      "coperta": 27828,
-      "copertura": 89.4,
-      "spazi": 9
-    },
-    "Noce": {
-      "popolazione": 26410,
-      "coperta": 25373,
-      "copertura": 96.1,
-      "spazi": 3
-    },
-    "Malaspina-Palagonia": {
-      "popolazione": 18360,
-      "coperta": 11687,
-      "copertura": 63.7,
-      "spazi": 1
-    },
-    "Uditore-Passo di Rigano": {
-      "popolazione": 30392,
-      "coperta": 27527,
-      "copertura": 90.6,
-      "spazi": 7
-    },
-    "Cruillas-San Giovanni Apostolo": {
-      "popolazione": 30608,
-      "coperta": 11758,
-      "copertura": 38.4,
-      "spazi": 0
-    },
-    "Libertà": {
-      "popolazione": 40455,
-      "coperta": 38094,
-      "copertura": 94.2,
-      "spazi": 15
-    },
-    "Settecannoli": {
-      "popolazione": 46794,
-      "coperta": 10118,
-      "copertura": 21.6,
-      "spazi": 4
-    },
-    "Brancaccio-Ciaculli": {
-      "popolazione": 16887,
-      "coperta": 814,
-      "copertura": 4.8,
-      "spazi": 1
-    },
-    "Villagrazia-Falsomiele": {
-      "popolazione": 39791,
-      "coperta": 27085,
-      "copertura": 68.1,
-      "spazi": 8
-    },
-    "Mezzomonreale-Villa Tasca": {
-      "popolazione": 35007,
-      "coperta": 22862,
-      "copertura": 65.3,
-      "spazi": 8
-    },
     "Altarello": {
-      "popolazione": 14858,
-      "coperta": 12347,
-      "copertura": 83.1,
+      "popolazione": 14946,
+      "coperta": 1018,
+      "copertura": 6.81,
       "spazi": 0
+    },
+    "Arenella-Vergine Maria": {
+      "popolazione": 8115,
+      "coperta": 1758,
+      "copertura": 21.67,
+      "spazi": 1
     },
     "Boccadifalco": {
-      "popolazione": 7731,
-      "coperta": 3047,
-      "copertura": 39.4,
+      "popolazione": 8149,
+      "coperta": 1954,
+      "copertura": 23.99,
       "spazi": 2
     },
     "Borgo Nuovo": {
-      "popolazione": 18490,
-      "coperta": 14065,
-      "copertura": 76.1,
+      "popolazione": 18204,
+      "coperta": 8773,
+      "copertura": 48.19,
       "spazi": 5
     },
-    "Resuttana-San Lorenzo": {
-      "popolazione": 39902,
-      "coperta": 21089,
-      "copertura": 52.9,
-      "spazi": 11
+    "Brancaccio-Ciaculli": {
+      "popolazione": 17187,
+      "coperta": 602,
+      "copertura": 3.5,
+      "spazi": 0
     },
-    "Tommaso Natale-Sferracavallo": {
-      "popolazione": 21862,
-      "coperta": 10742,
-      "copertura": 49.1,
-      "spazi": 6
+    "Cruillas-San Giovanni Apostolo": {
+      "popolazione": 30382,
+      "coperta": 409,
+      "copertura": 1.35,
+      "spazi": 0
     },
-    "Partanna-Mondello": {
-      "popolazione": 19414,
-      "coperta": 9288,
-      "copertura": 47.8,
-      "spazi": 2
+    "Cuba-Calatafimi": {
+      "popolazione": 20188,
+      "coperta": 14749,
+      "copertura": 73.06,
+      "spazi": 7
     },
-    "Pallavicino": {
-      "popolazione": 24459,
-      "coperta": 18423,
-      "copertura": 75.3,
-      "spazi": 12
+    "Libertà": {
+      "popolazione": 40297,
+      "coperta": 33535,
+      "copertura": 83.22,
+      "spazi": 13
+    },
+    "Malaspina-Palagonia": {
+      "popolazione": 18509,
+      "coperta": 6157,
+      "copertura": 33.27,
+      "spazi": 1
+    },
+    "Mezzomonreale-Villa Tasca": {
+      "popolazione": 34299,
+      "coperta": 14980,
+      "copertura": 43.67,
+      "spazi": 8
+    },
+    "Montegrappa-Santa Rosalia": {
+      "popolazione": 21909,
+      "coperta": 13763,
+      "copertura": 62.82,
+      "spazi": 10
     },
     "Montepellegrino": {
-      "popolazione": 26538,
-      "coperta": 12999,
-      "copertura": 49.0,
+      "popolazione": 26459,
+      "coperta": 4493,
+      "copertura": 16.98,
       "spazi": 2
     },
-    "Arenella-Vergine Maria": {
-      "popolazione": 8331,
-      "coperta": 5463,
-      "copertura": 65.6,
-      "spazi": 1
+    "Noce": {
+      "popolazione": 26595,
+      "coperta": 15902,
+      "copertura": 59.79,
+      "spazi": 3
+    },
+    "Oreto-Stazione": {
+      "popolazione": 37341,
+      "coperta": 12795,
+      "copertura": 34.27,
+      "spazi": 6
+    },
+    "Palazzo reale-Monte di pietà": {
+      "popolazione": 13809,
+      "coperta": 6500,
+      "copertura": 47.07,
+      "spazi": 7
+    },
+    "Pallavicino": {
+      "popolazione": 24026,
+      "coperta": 14052,
+      "copertura": 58.49,
+      "spazi": 12
+    },
+    "Partanna-Mondello": {
+      "popolazione": 19631,
+      "coperta": 4836,
+      "copertura": 24.64,
+      "spazi": 2
+    },
+    "Politeama": {
+      "popolazione": 31214,
+      "coperta": 19914,
+      "copertura": 63.8,
+      "spazi": 8
+    },
+    "Resuttana-San Lorenzo": {
+      "popolazione": 39545,
+      "coperta": 10505,
+      "copertura": 26.57,
+      "spazi": 9
+    },
+    "Settecannoli": {
+      "popolazione": 46405,
+      "coperta": 7830,
+      "copertura": 16.87,
+      "spazi": 4
+    },
+    "Tommaso Natale-Sferracavallo": {
+      "popolazione": 21708,
+      "coperta": 4760,
+      "copertura": 21.93,
+      "spazi": 6
+    },
+    "Tribunali-Castellammare": {
+      "popolazione": 13467,
+      "coperta": 6000,
+      "copertura": 44.56,
+      "spazi": 7
+    },
+    "Uditore-Passo di Rigano": {
+      "popolazione": 30573,
+      "coperta": 14234,
+      "copertura": 46.56,
+      "spazi": 6
+    },
+    "Villagrazia-Falsomiele": {
+      "popolazione": 39662,
+      "coperta": 13594,
+      "copertura": 34.28,
+      "spazi": 7
+    },
+    "Zisa": {
+      "popolazione": 32182,
+      "coperta": 21316,
+      "copertura": 66.24,
+      "spazi": 3
     }
-  },
-  "metadata": {
-    "total_spaces_osm": 118,
-    "total_spaces_copernicus": 181,
-    "quartieri_count": 25
   }
 }
-
