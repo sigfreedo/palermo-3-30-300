@@ -1,1010 +1,11 @@
 {
   "type": "FeatureCollection",
-  "name": "copernicus_verde_palermo",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-    }
-  },
   "features": [
     {
       "type": "Feature",
       "properties": {
-        "area_sqm": 18064.31349072917,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.471521077850785,
-              37.86145914602059
-            ],
-            [
-              13.471545544872672,
-              37.86160294497925
-            ],
-            [
-              13.472502712937457,
-              37.86078146846422
-            ],
-            [
-              13.472871626255793,
-              37.86050840174063
-            ],
-            [
-              13.473114323492748,
-              37.86035558153755
-            ],
-            [
-              13.472437493444227,
-              37.859835785662725
-            ],
-            [
-              13.470630368579307,
-              37.86091096965114
-            ],
-            [
-              13.471063236066916,
-              37.861197968361566
-            ],
-            [
-              13.471089950569317,
-              37.86126856830155
-            ],
-            [
-              13.471352660152263,
-              37.861335517319425
-            ],
-            [
-              13.471521077850785,
-              37.86145914602059
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 9310.59643543003,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.465653439098682,
-              37.866727391827006
-            ],
-            [
-              13.465762929597767,
-              37.86667140339935
-            ],
-            [
-              13.46579161192827,
-              37.86615044437536
-            ],
-            [
-              13.46644058401349,
-              37.86616045656045
-            ],
-            [
-              13.466203366169799,
-              37.86597174447941
-            ],
-            [
-              13.466224945716986,
-              37.865807553903124
-            ],
-            [
-              13.466389690504727,
-              37.86565135973794
-            ],
-            [
-              13.46641780138265,
-              37.86545341737854
-            ],
-            [
-              13.465738469800486,
-              37.86551317691774
-            ],
-            [
-              13.464889027770102,
-              37.86650290213312
-            ],
-            [
-              13.465214959756759,
-              37.86674335441167
-            ],
-            [
-              13.46543699846745,
-              37.86658388237593
-            ],
-            [
-              13.465653439098682,
-              37.866727391827006
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 12184.70110023224,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.485885231580605,
-              37.89676267731774
-            ],
-            [
-              13.484877590204343,
-              37.89642084838605
-            ],
-            [
-              13.484327962159721,
-              37.89738346439915
-            ],
-            [
-              13.485412032544989,
-              37.89779752696329
-            ],
-            [
-              13.485885231580605,
-              37.89676267731774
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 5934.877741713532,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.464343658327738,
-              37.9202831549798
-            ],
-            [
-              13.462919311876124,
-              37.920267667241355
-            ],
-            [
-              13.462941400569187,
-              37.92070418408508
-            ],
-            [
-              13.464220331161398,
-              37.92074178039939
-            ],
-            [
-              13.464343658327738,
-              37.9202831549798
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 8610.829195678096,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.462218983089848,
-              37.913868716516966
-            ],
-            [
-              13.462241271178003,
-              37.913885497613556
-            ],
-            [
-              13.462412283994077,
-              37.91383936976194
-            ],
-            [
-              13.462589198359384,
-              37.91386432845462
-            ],
-            [
-              13.46275256092621,
-              37.9139537746687
-            ],
-            [
-              13.462986685814254,
-              37.91413774766843
-            ],
-            [
-              13.46310987888458,
-              37.91410460034268
-            ],
-            [
-              13.46347103096832,
-              37.91420920923002
-            ],
-            [
-              13.46392336562591,
-              37.914132913352816
-            ],
-            [
-              13.463387321603467,
-              37.91374963442918
-            ],
-            [
-              13.463022298090076,
-              37.91353724618445
-            ],
-            [
-              13.462638968804447,
-              37.913413559272655
-            ],
-            [
-              13.46247870416143,
-              37.91332256440761
-            ],
-            [
-              13.46239077133746,
-              37.9133631240435
-            ],
-            [
-              13.46224828156391,
-              37.91338004181084
-            ],
-            [
-              13.462093798503433,
-              37.913464924184076
-            ],
-            [
-              13.461714903877317,
-              37.91356276238834
-            ],
-            [
-              13.461666781749035,
-              37.913596940319636
-            ],
-            [
-              13.461704226888523,
-              37.91364952020574
-            ],
-            [
-              13.461808384226718,
-              37.91373925530376
-            ],
-            [
-              13.462003274693023,
-              37.91385476748698
-            ],
-            [
-              13.462077881011277,
-              37.91387905924909
-            ],
-            [
-              13.462118124024256,
-              37.91385899714079
-            ],
-            [
-              13.462218983089848,
-              37.913868716516966
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 34914.90383324981,
-        "size_label": "Parco di quartiere",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.418599747333563,
-              37.95390372137737
-            ],
-            [
-              13.418767223525423,
-              37.95367706396649
-            ],
-            [
-              13.418012864805727,
-              37.953466626723525
-            ],
-            [
-              13.417720786616123,
-              37.9536057655117
-            ],
-            [
-              13.41649986204405,
-              37.95324597231398
-            ],
-            [
-              13.415512165563575,
-              37.953804942856515
-            ],
-            [
-              13.415402558842244,
-              37.95391740674982
-            ],
-            [
-              13.415535214783182,
-              37.95399351578811
-            ],
-            [
-              13.415658902880153,
-              37.95412349004807
-            ],
-            [
-              13.415872885674627,
-              37.9542555854096
-            ],
-            [
-              13.415984069081372,
-              37.95439133807
-            ],
-            [
-              13.41605277937803,
-              37.95480757704955
-            ],
-            [
-              13.416227215886408,
-              37.954972569688486
-            ],
-            [
-              13.41644029771202,
-              37.955137544158184
-            ],
-            [
-              13.4166621641654,
-              37.9552784416156
-            ],
-            [
-              13.417099639265157,
-              37.95544866300684
-            ],
-            [
-              13.417290381378955,
-              37.955492829044225
-            ],
-            [
-              13.41791951332569,
-              37.95553403316498
-            ],
-            [
-              13.418053988283432,
-              37.955560694131165
-            ],
-            [
-              13.418172213457817,
-              37.95563704467407
-            ],
-            [
-              13.418025633729236,
-              37.95539821334402
-            ],
-            [
-              13.416933886713945,
-              37.95491140089687
-            ],
-            [
-              13.41718068523499,
-              37.954356758337305
-            ],
-            [
-              13.417685232257877,
-              37.954420773166675
-            ],
-            [
-              13.417906594127137,
-              37.9542091493585
-            ],
-            [
-              13.418052693098941,
-              37.95425511118964
-            ],
-            [
-              13.418402279202967,
-              37.953843840102486
-            ],
-            [
-              13.418599747333563,
-              37.95390372137737
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 5107.47318380055,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.41701687751349,
-              37.94936148719654
-            ],
-            [
-              13.416777465098058,
-              37.94957286598924
-            ],
-            [
-              13.417622116031279,
-              37.95002788631852
-            ],
-            [
-              13.418230540791313,
-              37.949455077564494
-            ],
-            [
-              13.41701687751349,
-              37.94936148719654
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 13249.565553838145,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.536443017956625,
-              37.91761098795311
-            ],
-            [
-              13.535750313523485,
-              37.91715168073546
-            ],
-            [
-              13.535583541451837,
-              37.917607456270616
-            ],
-            [
-              13.535390255595715,
-              37.91776805085903
-            ],
-            [
-              13.535017489477813,
-              37.917875439068055
-            ],
-            [
-              13.534876379847775,
-              37.91795972689606
-            ],
-            [
-              13.534753266545728,
-              37.918200890806936
-            ],
-            [
-              13.53474196860336,
-              37.918465496853294
-            ],
-            [
-              13.535565817616371,
-              37.91879591128509
-            ],
-            [
-              13.536443017956625,
-              37.91761098795311
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 10962.258490529915,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.57618473287172,
-              37.92290136842964
-            ],
-            [
-              13.57712206481985,
-              37.922865818895346
-            ],
-            [
-              13.577165071968547,
-              37.92193447036821
-            ],
-            [
-              13.577118251609761,
-              37.92184192710062
-            ],
-            [
-              13.576553109510904,
-              37.92162082798996
-            ],
-            [
-              13.576392679999772,
-              37.92159996426883
-            ],
-            [
-              13.57628886001166,
-              37.92169822103564
-            ],
-            [
-              13.5761951849225,
-              37.921829777528885
-            ],
-            [
-              13.57618473287172,
-              37.92290136842964
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 5899.567756861642,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.618530364186256,
-              38.00830517806746
-            ],
-            [
-              13.618392321235923,
-              38.008293007807424
-            ],
-            [
-              13.61828986841411,
-              38.00818975589198
-            ],
-            [
-              13.616687519773963,
-              38.00921867891238
-            ],
-            [
-              13.616830482129815,
-              38.009397679874574
-            ],
-            [
-              13.617473844437194,
-              38.00894247417392
-            ],
-            [
-              13.61821484985287,
-              38.008751395420525
-            ],
-            [
-              13.618753500203718,
-              38.00838619485017
-            ],
-            [
-              13.618530364186256,
-              38.00830517806746
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 18505.703910151457,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.553475484299899,
-              38.03934448730108
-            ],
-            [
-              13.553350212839861,
-              38.03891578877391
-            ],
-            [
-              13.552766927033352,
-              38.038586694852015
-            ],
-            [
-              13.551275228919147,
-              38.03959151745167
-            ],
-            [
-              13.5521603537127,
-              38.04028083591759
-            ],
-            [
-              13.553475484299899,
-              38.03934448730108
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 11689.294301525808,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.530966495193297,
-              38.058642480643584
-            ],
-            [
-              13.531859390736415,
-              38.0578504664674
-            ],
-            [
-              13.531670140712698,
-              38.05775050926699
-            ],
-            [
-              13.530903809629327,
-              38.05724315247073
-            ],
-            [
-              13.530439237295766,
-              38.05764618663612
-            ],
-            [
-              13.530379713280146,
-              38.0579074815064
-            ],
-            [
-              13.530366748879759,
-              38.05789696304507
-            ],
-            [
-              13.530331577418538,
-              38.05824553355293
-            ],
-            [
-              13.530966495193297,
-              38.058642480643584
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 23110.487665950826,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.536112051774444,
-              38.07724735209259
-            ],
-            [
-              13.53705880647148,
-              38.076818867190184
-            ],
-            [
-              13.536992576389421,
-              38.076699787877665
-            ],
-            [
-              13.536897376866936,
-              38.07647028815016
-            ],
-            [
-              13.536833248177254,
-              38.07624021156182
-            ],
-            [
-              13.536750824191337,
-              38.07613003239802
-            ],
-            [
-              13.536635094883831,
-              38.07604770876334
-            ],
-            [
-              13.536492974816241,
-              38.075974929225666
-            ],
-            [
-              13.536477292181903,
-              38.07595262008136
-            ],
-            [
-              13.53634522580413,
-              38.07595751396928
-            ],
-            [
-              13.53517965961457,
-              38.07573642548461
-            ],
-            [
-              13.53462986020184,
-              38.07611716176796
-            ],
-            [
-              13.535759183661902,
-              38.07737266361429
-            ],
-            [
-              13.535790916452248,
-              38.07746197385343
-            ],
-            [
-              13.536112051774444,
-              38.07724735209259
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 11087.434000353687,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.511157567535031,
-              38.07998854237952
-            ],
-            [
-              13.511149591782948,
-              38.08001264919651
-            ],
-            [
-              13.510892617878168,
-              38.080241505375724
-            ],
-            [
-              13.511077708753394,
-              38.08034779128023
-            ],
-            [
-              13.51116921717535,
-              38.08037883096225
-            ],
-            [
-              13.511408354638068,
-              38.08029025997738
-            ],
-            [
-              13.511544079410058,
-              38.08016136964693
-            ],
-            [
-              13.511793896170078,
-              38.08016551993503
-            ],
-            [
-              13.511982046008049,
-              38.07996373183821
-            ],
-            [
-              13.512262256131098,
-              38.07952019426046
-            ],
-            [
-              13.512290065106033,
-              38.07937175210531
-            ],
-            [
-              13.512096056925337,
-              38.079151971411214
-            ],
-            [
-              13.511056838854207,
-              38.0791285876786
-            ],
-            [
-              13.51112807462756,
-              38.0799674720334
-            ],
-            [
-              13.511157567535031,
-              38.07998854237952
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 16137.45738078797,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.515522552105017,
-              38.08893133929188
-            ],
-            [
-              13.515175851961843,
-              38.088173853233755
-            ],
-            [
-              13.514352404868687,
-              38.088120225607554
-            ],
-            [
-              13.514272401859749,
-              38.088176311899375
-            ],
-            [
-              13.513591130479764,
-              38.088386253293706
-            ],
-            [
-              13.513834181865258,
-              38.08910771450506
-            ],
-            [
-              13.51442573521077,
-              38.089164382927656
-            ],
-            [
-              13.515678315478086,
-              38.089191703071805
-            ],
-            [
-              13.515522552105017,
-              38.08893133929188
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 73660.13926144227,
-        "size_label": "Parco di quartiere",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.499151761861178,
-              38.09390699096414
-            ],
-            [
-              13.499327870785445,
-              38.09331437714449
-            ],
-            [
-              13.499257206136082,
-              38.09325311155906
-            ],
-            [
-              13.498918458182896,
-              38.09308101947682
-            ],
-            [
-              13.4989068356709,
-              38.093051262153764
-            ],
-            [
-              13.498954956666347,
-              38.09303522377104
-            ],
-            [
-              13.499297467370631,
-              38.09320898105487
-            ],
-            [
-              13.499346862581374,
-              38.09325046676813
-            ],
-            [
-              13.499581221103364,
-              38.09246182446932
-            ],
-            [
-              13.499137238084286,
-              38.09199041535886
-            ],
-            [
-              13.497012218669642,
-              38.091479704141015
-            ],
-            [
-              13.49603723704861,
-              38.094155643953705
-            ],
-            [
-              13.498439847932428,
-              38.09475710411416
-            ],
-            [
-              13.498793039955284,
-              38.09386968959112
-            ],
-            [
-              13.499151761861178,
-              38.09390699096414
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "area_sqm": 165996.806221949,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1215,7 +216,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6363.494656646406,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1270,7 +271,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5160.685711117781,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1321,7 +322,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5484.393629911443,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1364,7 +365,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 55274.37670166204,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1451,7 +452,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 88621.13624209102,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1522,7 +523,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 136768.67590428147,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1673,7 +674,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 17958.781098520987,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1760,7 +761,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 11156.643119291924,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -1961,7 +962,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 20309.77087355448,
-        "size_label": "Giardino",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2035,7 +1036,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 8440.698288794432,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2110,7 +1111,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 15113.715918674183,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2232,7 +1233,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 181288.97217084607,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2455,7 +1456,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 51261.10954779447,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2534,7 +1535,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 14451.175510764788,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2569,7 +1570,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 16812.3104132079,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2616,7 +1617,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 153245.41558840362,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -2858,7 +1859,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 241481.8546160612,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3184,7 +2185,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 137737.8235345386,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3370,7 +2371,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 98367.92374932447,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3477,7 +2478,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5896.917870713302,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3520,7 +2521,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 11550.669747202817,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3583,7 +2584,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7324.8307389552965,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3630,7 +2631,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 15793.538645767734,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3736,7 +2737,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 15446.378806593077,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3809,7 +2810,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 14698.056259754403,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3888,7 +2889,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5240.794625073206,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -3935,7 +2936,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6018.921124074974,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4022,7 +3023,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 19468.353234435523,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4163,7 +3164,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 18913.85921581808,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4222,7 +3223,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7133.249091058037,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4285,7 +3286,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 23501.701085906356,
-        "size_label": "Giardino",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4416,7 +3417,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 40501.73698257092,
-        "size_label": "Parco di quartiere",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4562,7 +3563,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 82176.47448674767,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4840,7 +3841,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5882.759958654004,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -4918,7 +3919,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 18352.53339865944,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5013,7 +4014,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 15775.037977089223,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5064,7 +4065,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6184.717469558289,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5103,7 +4104,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 50318.026009558904,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5233,7 +4234,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 12948.309710613186,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5327,7 +4328,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 19883.57553984124,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5476,7 +4477,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 55768.101986215974,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5586,7 +4587,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 58583.81255157944,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5749,7 +4750,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 16281.7909826931,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5871,7 +4872,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 13685.50760943577,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5930,7 +4931,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5899.380261519932,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -5973,7 +4974,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5689.750161962053,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6145,7 +5146,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7026.065187067563,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6180,7 +5181,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7030.188559972664,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6251,7 +5252,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 10850.706201589443,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6322,7 +5323,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 14687.015440153828,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6429,7 +5430,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 55306.06647868769,
-        "size_label": "Parco di quartiere",
+        "size_label": "Grande parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6524,7 +5525,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5881.6945082877555,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6571,7 +5572,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 18063.998206301374,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6681,7 +5682,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 30078.774533580596,
-        "size_label": "Parco di quartiere",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6925,7 +5926,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 13765.1311706488,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -6964,7 +5965,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 14229.391552207962,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7086,7 +6087,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5162.070950790249,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7133,7 +6134,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 132483.17142022878,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7360,7 +6361,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 35116.251631431776,
-        "size_label": "Parco di quartiere",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7540,7 +6541,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6591.739939623869,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7595,7 +6596,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5390.733370921356,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7633,63 +6634,8 @@
     {
       "type": "Feature",
       "properties": {
-        "area_sqm": 8467.70528966275,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.323716113939895,
-              38.06503889870133
-            ],
-            [
-              13.323681159803703,
-              38.065313283790715
-            ],
-            [
-              13.323601019263412,
-              38.06549697066288
-            ],
-            [
-              13.323395286467372,
-              38.065739372543085
-            ],
-            [
-              13.323138141602142,
-              38.06598683831931
-            ],
-            [
-              13.323485600873296,
-              38.06622151781528
-            ],
-            [
-              13.323989039769772,
-              38.0658569422894
-            ],
-            [
-              13.324546146114386,
-              38.06523302274775
-            ],
-            [
-              13.324050794618797,
-              38.064733756071405
-            ],
-            [
-              13.323716113939895,
-              38.06503889870133
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "area_sqm": 7255.059057900927,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7776,7 +6722,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 48100.81653268055,
-        "size_label": "Parco di quartiere",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7935,7 +6881,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5632.667906841054,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -7990,7 +6936,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 13631.803226658843,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8081,7 +7027,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 13526.579126626842,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8299,7 +7245,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 14369.149979626653,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8362,7 +7308,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 10780.41907241518,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8421,7 +7367,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 158472.79490141213,
-        "size_label": "Grande parco",
+        "size_label": "Parco molto grande",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8651,7 +7597,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6795.574864045217,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8714,7 +7660,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 17844.399697253695,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8785,7 +7731,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 17748.246588432346,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8840,7 +7786,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5418.599711028948,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8891,7 +7837,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6151.780381882436,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -8933,1061 +7879,8 @@
     {
       "type": "Feature",
       "properties": {
-        "area_sqm": 2551.7791697471475,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.436500301050431,
-              38.08169606111092
-            ],
-            [
-              13.436316976440068,
-              38.08165220624432
-            ],
-            [
-              13.43590852102378,
-              38.08151474149405
-            ],
-            [
-              13.435722161177909,
-              38.08141987197294
-            ],
-            [
-              13.435656523669625,
-              38.08135844112018
-            ],
-            [
-              13.43562168578435,
-              38.081290439144766
-            ],
-            [
-              13.435598054582695,
-              38.08105756347237
-            ],
-            [
-              13.435445060795127,
-              38.08122534628449
-            ],
-            [
-              13.435382522564419,
-              38.08133534616843
-            ],
-            [
-              13.435482861191328,
-              38.08140698591067
-            ],
-            [
-              13.435538793535597,
-              38.08152595520846
-            ],
-            [
-              13.435709610774927,
-              38.08160235154114
-            ],
-            [
-              13.435957622212028,
-              38.08169784270151
-            ],
-            [
-              13.436842062021196,
-              38.081911049281466
-            ],
-            [
-              13.436873846775795,
-              38.081718852536646
-            ],
-            [
-              13.436500301050431,
-              38.08169606111092
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 6524.083007913199,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.439035356840321,
-              38.081037620558774
-            ],
-            [
-              13.439132571433463,
-              38.08092795117402
-            ],
-            [
-              13.439382588003602,
-              38.08070053540678
-            ],
-            [
-              13.439648107208663,
-              38.080549922832176
-            ],
-            [
-              13.439913855381906,
-              38.08046505625616
-            ],
-            [
-              13.440548606355897,
-              38.08030690176599
-            ],
-            [
-              13.440782829529729,
-              38.080274403776514
-            ],
-            [
-              13.440690571038921,
-              38.08000554242373
-            ],
-            [
-              13.44026286245548,
-              38.080121680164865
-            ],
-            [
-              13.440087302376515,
-              38.0801930868513
-            ],
-            [
-              13.438191732475115,
-              38.081235172878266
-            ],
-            [
-              13.438460652417735,
-              38.081622305438
-            ],
-            [
-              13.43873463345025,
-              38.08142064846134
-            ],
-            [
-              13.438960690583668,
-              38.081172406537675
-            ],
-            [
-              13.439035356840321,
-              38.081037620558774
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4458.524528475564,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.43903387075201,
-              38.08004719575372
-            ],
-            [
-              13.439020559428458,
-              38.08006813311342
-            ],
-            [
-              13.43921587649056,
-              38.080581695675676
-            ],
-            [
-              13.439708351678473,
-              38.080311566839285
-            ],
-            [
-              13.43940796736135,
-              38.07954083033372
-            ],
-            [
-              13.438917910890769,
-              38.0797897720842
-            ],
-            [
-              13.43903387075201,
-              38.08004719575372
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 11497.610865399902,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.4755280197671,
-              38.0928529569278
-            ],
-            [
-              13.476124612612871,
-              38.091656570867556
-            ],
-            [
-              13.475813076694854,
-              38.09146870347232
-            ],
-            [
-              13.47553429208506,
-              38.09125564733315
-            ],
-            [
-              13.47543399608564,
-              38.091198760370155
-            ],
-            [
-              13.474764436424477,
-              38.09269577328829
-            ],
-            [
-              13.4755280197671,
-              38.0928529569278
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 3585.7128568477606,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.464379550737766,
-              38.075107708342124
-            ],
-            [
-              13.46422061593874,
-              38.075195425183004
-            ],
-            [
-              13.464172846807624,
-              38.075250255079254
-            ],
-            [
-              13.464098503322031,
-              38.0753969625354
-            ],
-            [
-              13.46404426235208,
-              38.07541563937076
-            ],
-            [
-              13.46483621159359,
-              38.07566934127139
-            ],
-            [
-              13.465153263808253,
-              38.07500917628783
-            ],
-            [
-              13.465118056098275,
-              38.074974879376185
-            ],
-            [
-              13.46489560222863,
-              38.075092943479646
-            ],
-            [
-              13.46451591516059,
-              38.07521912765032
-            ],
-            [
-              13.464379550737766,
-              38.075107708342124
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 8462.497764962678,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.461145073549973,
-              38.056100220119596
-            ],
-            [
-              13.46113488338188,
-              38.05605695784654
-            ],
-            [
-              13.461323880037387,
-              38.055826922522826
-            ],
-            [
-              13.461423420239289,
-              38.05566946909492
-            ],
-            [
-              13.4614792763827,
-              38.055564494627944
-            ],
-            [
-              13.461504497250425,
-              38.05546886180471
-            ],
-            [
-              13.459959033192352,
-              38.05540393326147
-            ],
-            [
-              13.4599267841396,
-              38.05598671069109
-            ],
-            [
-              13.460734331956468,
-              38.05604013526577
-            ],
-            [
-              13.460761859326647,
-              38.0560586091838
-            ],
-            [
-              13.46075180668392,
-              38.05608721397207
-            ],
-            [
-              13.461166923603864,
-              38.05610852489412
-            ],
-            [
-              13.461145073549973,
-              38.056100220119596
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 33682.00696956712,
-        "size_label": "Parco di quartiere",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.442621471339748,
-              38.07314770206626
-            ],
-            [
-              13.441796323672511,
-              38.074594656574085
-            ],
-            [
-              13.442142956205327,
-              38.07472639504727
-            ],
-            [
-              13.442868241339145,
-              38.074959951714604
-            ],
-            [
-              13.443100203580721,
-              38.0749511964766
-            ],
-            [
-              13.44322563060223,
-              38.07491447944712
-            ],
-            [
-              13.443367141753795,
-              38.07484316506171
-            ],
-            [
-              13.443435324528402,
-              38.07474761075402
-            ],
-            [
-              13.443491849365572,
-              38.074634606910045
-            ],
-            [
-              13.443516872146672,
-              38.07444253798384
-            ],
-            [
-              13.44355646720858,
-              38.07432965006444
-            ],
-            [
-              13.443626186966451,
-              38.07427086628629
-            ],
-            [
-              13.443804060279655,
-              38.074200133124044
-            ],
-            [
-              13.443509540747906,
-              38.07378708116617
-            ],
-            [
-              13.443717313538672,
-              38.07338874169092
-            ],
-            [
-              13.443632402540135,
-              38.07337006567875
-            ],
-            [
-              13.443918311843273,
-              38.07279674012118
-            ],
-            [
-              13.442408867717894,
-              38.07228663736122
-            ],
-            [
-              13.442085579501528,
-              38.07300700448011
-            ],
-            [
-              13.442621471339748,
-              38.07314770206626
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 25774.184559371482,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.440069166460315,
-              38.039082331233494
-            ],
-            [
-              13.440053292497238,
-              38.0390435725448
-            ],
-            [
-              13.441625998532418,
-              38.037104875599596
-            ],
-            [
-              13.441700754001243,
-              38.0369765599786
-            ],
-            [
-              13.441818205756082,
-              38.03683576433263
-            ],
-            [
-              13.440910607708954,
-              38.03645731895914
-            ],
-            [
-              13.440240383947813,
-              38.03735757537017
-            ],
-            [
-              13.440110495622019,
-              38.03732893101846
-            ],
-            [
-              13.439991361369978,
-              38.03746089363717
-            ],
-            [
-              13.439650637095594,
-              38.03797290284703
-            ],
-            [
-              13.43986378115829,
-              38.0380988567993
-            ],
-            [
-              13.439274845833149,
-              38.038758883928075
-            ],
-            [
-              13.439434105787425,
-              38.03883551343564
-            ],
-            [
-              13.439444508637768,
-              38.038866826637644
-            ],
-            [
-              13.440022772116466,
-              38.03913104365211
-            ],
-            [
-              13.440069166460315,
-              38.039082331233494
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 12798.827578932794,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.452825285999808,
-              38.034878203115
-            ],
-            [
-              13.452470063293365,
-              38.03513406326367
-            ],
-            [
-              13.453085618379033,
-              38.035310707102816
-            ],
-            [
-              13.453047444420228,
-              38.035442250110556
-            ],
-            [
-              13.453505531925863,
-              38.03552869252985
-            ],
-            [
-              13.453801380106587,
-              38.03554372598371
-            ],
-            [
-              13.454731870352385,
-              38.035863186147736
-            ],
-            [
-              13.45492244477945,
-              38.03585938630271
-            ],
-            [
-              13.455184959376728,
-              38.03594455283048
-            ],
-            [
-              13.455493582338963,
-              38.035891381341955
-            ],
-            [
-              13.455624375620062,
-              38.035692807754714
-            ],
-            [
-              13.455300371461881,
-              38.03561701658323
-            ],
-            [
-              13.454948316603375,
-              38.03515457650974
-            ],
-            [
-              13.454203284993412,
-              38.03531646070866
-            ],
-            [
-              13.45399229803647,
-              38.03502755284039
-            ],
-            [
-              13.453545426625437,
-              38.03522179493187
-            ],
-            [
-              13.453346974408122,
-              38.035123594094934
-            ],
-            [
-              13.453083701232313,
-              38.03495293640675
-            ],
-            [
-              13.452825285999808,
-              38.034878203115
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 6738.799530598875,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.397036302609502,
-              38.047216695563584
-            ],
-            [
-              13.397707322808042,
-              38.04708458781815
-            ],
-            [
-              13.397698003083045,
-              38.04658551196154
-            ],
-            [
-              13.397474329683511,
-              38.0465891816493
-            ],
-            [
-              13.397385114404027,
-              38.046083323733995
-            ],
-            [
-              13.397146147132794,
-              38.0460649545937
-            ],
-            [
-              13.397030338973794,
-              38.046092574660456
-            ],
-            [
-              13.396896256182652,
-              38.04620779922026
-            ],
-            [
-              13.396840645749096,
-              38.0462920864234
-            ],
-            [
-              13.397036302609502,
-              38.047216695563584
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4296.878963210503,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.393858276391393,
-              38.045240558983856
-            ],
-            [
-              13.394394160577717,
-              38.045699276964044
-            ],
-            [
-              13.39493556665649,
-              38.045384700987604
-            ],
-            [
-              13.394351143123059,
-              38.044877113714364
-            ],
-            [
-              13.393858276391393,
-              38.045240558983856
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 13865.728212331647,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.305527588907813,
-              38.04725265216388
-            ],
-            [
-              13.305863367024681,
-              38.0476307591809
-            ],
-            [
-              13.305980051455867,
-              38.0476557165133
-            ],
-            [
-              13.306051020071404,
-              38.04764744996287
-            ],
-            [
-              13.306768044218993,
-              38.04741292989873
-            ],
-            [
-              13.306851918428974,
-              38.047341444776904
-            ],
-            [
-              13.307055433958348,
-              38.047260700679985
-            ],
-            [
-              13.307163068313528,
-              38.04718412602088
-            ],
-            [
-              13.307494117112093,
-              38.0470794741139
-            ],
-            [
-              13.307527561183813,
-              38.04705283432241
-            ],
-            [
-              13.30748994245491,
-              38.047043313652985
-            ],
-            [
-              13.306701985493584,
-              38.047070228207374
-            ],
-            [
-              13.306590912099932,
-              38.04703087936792
-            ],
-            [
-              13.30650810200241,
-              38.04694723980906
-            ],
-            [
-              13.306527411806268,
-              38.04691219484294
-            ],
-            [
-              13.306562916708666,
-              38.04691735734695
-            ],
-            [
-              13.30664035099755,
-              38.04699322845534
-            ],
-            [
-              13.306711216052392,
-              38.04701656232986
-            ],
-            [
-              13.307491665616915,
-              38.04698919064734
-            ],
-            [
-              13.307547999623825,
-              38.046995170610955
-            ],
-            [
-              13.307590360453393,
-              38.04702521223365
-            ],
-            [
-              13.307593623666776,
-              38.047070361416274
-            ],
-            [
-              13.307529900423416,
-              38.0471256968207
-            ],
-            [
-              13.307277496602351,
-              38.04719730824847
-            ],
-            [
-              13.307201306372638,
-              38.04722918235744
-            ],
-            [
-              13.307093604146539,
-              38.04730580571386
-            ],
-            [
-              13.30697691196696,
-              38.04735368006898
-            ],
-            [
-              13.307357155960089,
-              38.04724581624419
-            ],
-            [
-              13.307642465043601,
-              38.04714644577697
-            ],
-            [
-              13.30776253731109,
-              38.047124364078414
-            ],
-            [
-              13.307405667702097,
-              38.0465837918516
-            ],
-            [
-              13.3071685510786,
-              38.04645522237359
-            ],
-            [
-              13.305255522187382,
-              38.04713361700433
-            ],
-            [
-              13.305527588907813,
-              38.04725265216388
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 8427.323386617412,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.244387243856398,
-              38.02676008591587
-            ],
-            [
-              13.243979817756557,
-              38.026794381565594
-            ],
-            [
-              13.241883310593884,
-              38.027100648511265
-            ],
-            [
-              13.241778985426526,
-              38.02731089430266
-            ],
-            [
-              13.242037271876946,
-              38.0275178056607
-            ],
-            [
-              13.242807642454453,
-              38.02736278042775
-            ],
-            [
-              13.242981932703968,
-              38.027304218118644
-            ],
-            [
-              13.243596025182228,
-              38.027190451495045
-            ],
-            [
-              13.243905019824087,
-              38.027099051574396
-            ],
-            [
-              13.244076117560688,
-              38.02700946329605
-            ],
-            [
-              13.244325444699996,
-              38.026832700006125
-            ],
-            [
-              13.244387243856398,
-              38.02676008591587
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 18226.75749102075,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.18599631790075,
-              38.09428645473748
-            ],
-            [
-              13.186604183158199,
-              38.09438377807832
-            ],
-            [
-              13.187158187454802,
-              38.09451947234778
-            ],
-            [
-              13.187351441256908,
-              38.09404805700088
-            ],
-            [
-              13.187412701606107,
-              38.09380378155793
-            ],
-            [
-              13.187365285896588,
-              38.093663758359114
-            ],
-            [
-              13.187151897317355,
-              38.09324174035156
-            ],
-            [
-              13.186088857641765,
-              38.09301638799917
-            ],
-            [
-              13.185597516694193,
-              38.09417618396874
-            ],
-            [
-              13.185503465793236,
-              38.094233973831514
-            ],
-            [
-              13.185723174055997,
-              38.09427916841318
-            ],
-            [
-              13.18599631790075,
-              38.09428645473748
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4732.465277783018,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.300914201317047,
-              38.0879448768033
-            ],
-            [
-              13.301327758001438,
-              38.08831823881916
-            ],
-            [
-              13.301700749757627,
-              38.088143527969365
-            ],
-            [
-              13.302060447641436,
-              38.08824410118477
-            ],
-            [
-              13.302131708113217,
-              38.088218170762616
-            ],
-            [
-              13.301985406723272,
-              38.08784720068604
-            ],
-            [
-              13.301418655160553,
-              38.087948698995916
-            ],
-            [
-              13.300916170645499,
-              38.087500322012524
-            ],
-            [
-              13.300603532965457,
-              38.08778987634436
-            ],
-            [
-              13.300914201317047,
-              38.0879448768033
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "area_sqm": 5397.761329046621,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10081,63 +7974,8 @@
     {
       "type": "Feature",
       "properties": {
-        "area_sqm": 8257.004978588337,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.280203752526644,
-              38.10147300306235
-            ],
-            [
-              13.280472635967184,
-              38.10120420883658
-            ],
-            [
-              13.279280383954445,
-              38.10086681511913
-            ],
-            [
-              13.278932647073374,
-              38.10154126622784
-            ],
-            [
-              13.278800804985703,
-              38.10201620752324
-            ],
-            [
-              13.279494576577639,
-              38.10202637127865
-            ],
-            [
-              13.279789239752397,
-              38.10168495411111
-            ],
-            [
-              13.279309414392284,
-              38.101558707444525
-            ],
-            [
-              13.279483701983066,
-              38.101203605414675
-            ],
-            [
-              13.280203752526644,
-              38.10147300306235
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "area_sqm": 6136.272445404183,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10204,7 +8042,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 8766.415893085617,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10267,7 +8105,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 5813.199180539713,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10361,7 +8199,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6697.451696521327,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10404,7 +8242,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 38178.84213262546,
-        "size_label": "Parco di quartiere",
+        "size_label": "Parco",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10491,7 +8329,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 9596.518837122729,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10573,122 +8411,8 @@
     {
       "type": "Feature",
       "properties": {
-        "area_sqm": 4300.461217118613,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.23664596533069,
-              38.12767551679299
-            ],
-            [
-              13.23626048424385,
-              38.127835325919484
-            ],
-            [
-              13.236121842342563,
-              38.12795304312789
-            ],
-            [
-              13.236389441342602,
-              38.128172618153236
-            ],
-            [
-              13.236171051221207,
-              38.12846738090679
-            ],
-            [
-              13.236411871992672,
-              38.12849484097014
-            ],
-            [
-              13.23645539262823,
-              38.1285857596598
-            ],
-            [
-              13.237143899774418,
-              38.12820652837103
-            ],
-            [
-              13.237013409904186,
-              38.128068298790275
-            ],
-            [
-              13.236740172842715,
-              38.12808769321815
-            ],
-            [
-              13.23664596533069,
-              38.12767551679299
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 8303.271617183374,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.237729812955708,
-              38.12934592537732
-            ],
-            [
-              13.238520124974126,
-              38.129424529358005
-            ],
-            [
-              13.23850198320973,
-              38.12892354441015
-            ],
-            [
-              13.238277394910039,
-              38.12884864561537
-            ],
-            [
-              13.2383526414003,
-              38.1282298448813
-            ],
-            [
-              13.23773479193944,
-              38.128209720762655
-            ],
-            [
-              13.237678487483796,
-              38.12845915880185
-            ],
-            [
-              13.237522357378051,
-              38.128994851142245
-            ],
-            [
-              13.237782124640079,
-              38.12906095153929
-            ],
-            [
-              13.237729812955708,
-              38.12934592537732
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "area_sqm": 5707.558156437996,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10751,7 +8475,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 11678.47995953737,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10806,7 +8530,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 9783.997525842587,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10857,7 +8581,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 18972.389241202316,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -10975,7 +8699,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 9561.316673843881,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11030,7 +8754,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 18233.016647030356,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11101,7 +8825,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7891.93703751112,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11136,7 +8860,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7002.471848491496,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11183,7 +8907,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 9454.592591147919,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11282,7 +9006,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 7698.090815667259,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11337,7 +9061,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 6732.893916504658,
-        "size_label": "Piccolo spazio verde",
+        "size_label": "Giardino",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11392,7 +9116,7 @@
       "type": "Feature",
       "properties": {
         "area_sqm": 10352.600694114044,
-        "size_label": "Giardino",
+        "size_label": "Parco di quartiere",
         "name": "Spazio verde pubblico"
       },
       "geometry": {
@@ -11493,953 +9217,6 @@
             [
               13.280476447903546,
               38.20196849703419
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4049.1126126352087,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.2384829099819,
-              38.180574433830635
-            ],
-            [
-              13.238466235826593,
-              38.18139685104837
-            ],
-            [
-              13.239496110504916,
-              38.18147455647786
-            ],
-            [
-              13.23889437371215,
-              38.18095225091722
-            ],
-            [
-              13.2384829099819,
-              38.180574433830635
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 16767.22917602386,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.231933460632181,
-              38.17198412811363
-            ],
-            [
-              13.231221652590555,
-              38.17245719003442
-            ],
-            [
-              13.231719286729513,
-              38.17333768148989
-            ],
-            [
-              13.232862920406504,
-              38.17289224446876
-            ],
-            [
-              13.232839347437205,
-              38.172617692046295
-            ],
-            [
-              13.23330686873597,
-              38.172327288810074
-            ],
-            [
-              13.232200392134624,
-              38.171823964189215
-            ],
-            [
-              13.231933460632181,
-              38.17198412811363
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4105.269742594088,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.172293639211443,
-              38.159030308934355
-            ],
-            [
-              13.172283465593123,
-              38.158896029609686
-            ],
-            [
-              13.172243388845141,
-              38.15873555445454
-            ],
-            [
-              13.172098075326458,
-              38.15875056566415
-            ],
-            [
-              13.170868413444934,
-              38.15901753252786
-            ],
-            [
-              13.17093326759561,
-              38.15926915609331
-            ],
-            [
-              13.171102928325821,
-              38.15926961911031
-            ],
-            [
-              13.172293639211443,
-              38.159030308934355
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 2780.072277630756,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.172361198069545,
-              38.15901672907892
-            ],
-            [
-              13.172819447002198,
-              38.158924614007184
-            ],
-            [
-              13.173312377290118,
-              38.158825524861065
-            ],
-            [
-              13.17319040743206,
-              38.158541057038775
-            ],
-            [
-              13.172306797294187,
-              38.1587100295774
-            ],
-            [
-              13.172351520990437,
-              38.15888959401573
-            ],
-            [
-              13.172361198069545,
-              38.15901672907892
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 7927.418666306062,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.197744074188273,
-              38.15617702814281
-            ],
-            [
-              13.197561456196045,
-              38.15609086931343
-            ],
-            [
-              13.197720888806028,
-              38.15574759009991
-            ],
-            [
-              13.19779947844798,
-              38.15581749394885
-            ],
-            [
-              13.197849016987751,
-              38.15536693865443
-            ],
-            [
-              13.1979319367018,
-              38.15486712967667
-            ],
-            [
-              13.19789381562481,
-              38.15485612298445
-            ],
-            [
-              13.197814559616008,
-              38.15470188542101
-            ],
-            [
-              13.197117780156281,
-              38.15571448721909
-            ],
-            [
-              13.197490101895546,
-              38.15592287165807
-            ],
-            [
-              13.197426503844351,
-              38.156053032845186
-            ],
-            [
-              13.196814121917557,
-              38.15700928012755
-            ],
-            [
-              13.197069229464274,
-              38.15707280575171
-            ],
-            [
-              13.197539615449342,
-              38.15636473064965
-            ],
-            [
-              13.197738252933982,
-              38.156213868716186
-            ],
-            [
-              13.197744074188273,
-              38.15617702814281
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 3851.536017162916,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.18621985266356,
-              38.14454385628297
-            ],
-            [
-              13.186008098070811,
-              38.14502750238284
-            ],
-            [
-              13.187069600212887,
-              38.145067899058404
-            ],
-            [
-              13.187008556825782,
-              38.144956091115674
-            ],
-            [
-              13.187015365946678,
-              38.14468105175999
-            ],
-            [
-              13.186556012701674,
-              38.1446808910607
-            ],
-            [
-              13.186536003698047,
-              38.1445315365393
-            ],
-            [
-              13.18621985266356,
-              38.14454385628297
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 23118.467415423525,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.173300919775668,
-              38.132136947108926
-            ],
-            [
-              13.172887417472978,
-              38.13215898387533
-            ],
-            [
-              13.172836469082466,
-              38.132352834103834
-            ],
-            [
-              13.173295107177005,
-              38.13237008391625
-            ],
-            [
-              13.173287915810183,
-              38.13265852100164
-            ],
-            [
-              13.173206362238897,
-              38.13272044930379
-            ],
-            [
-              13.173628928451635,
-              38.132776890408465
-            ],
-            [
-              13.173555184864258,
-              38.13384768958933
-            ],
-            [
-              13.174404271394927,
-              38.13389188628851
-            ],
-            [
-              13.174486001832035,
-              38.13303480022641
-            ],
-            [
-              13.174923836126395,
-              38.13302968378568
-            ],
-            [
-              13.174980082831327,
-              38.132589458384786
-            ],
-            [
-              13.175146044256321,
-              38.13259203732025
-            ],
-            [
-              13.175167287949872,
-              38.132296366411026
-            ],
-            [
-              13.17376332610665,
-              38.13224389761711
-            ],
-            [
-              13.17373205095393,
-              38.1322182030445
-            ],
-            [
-              13.173767572106668,
-              38.13218995749038
-            ],
-            [
-              13.175004984444513,
-              38.1322348302219
-            ],
-            [
-              13.175012713917686,
-              38.13209267777163
-            ],
-            [
-              13.17404679701843,
-              38.132074856912034
-            ],
-            [
-              13.174043533763717,
-              38.13201458279852
-            ],
-            [
-              13.173304851727684,
-              38.131979252403525
-            ],
-            [
-              13.173300919775668,
-              38.132136947108926
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 5352.174473902736,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.185716875462463,
-              38.13511299497905
-            ],
-            [
-              13.185705845511626,
-              38.1346519503429
-            ],
-            [
-              13.185331546311893,
-              38.13465374697805
-            ],
-            [
-              13.185328889543433,
-              38.13476100074736
-            ],
-            [
-              13.18455910788686,
-              38.13476102450611
-            ],
-            [
-              13.184503802655334,
-              38.13516550494678
-            ],
-            [
-              13.185437785557125,
-              38.13523954900392
-            ],
-            [
-              13.185576529213547,
-              38.1351224765969
-            ],
-            [
-              13.185716875462463,
-              38.13511299497905
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 4059.692232189757,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.183776715645466,
-              38.12925337704743
-            ],
-            [
-              13.183810822709082,
-              38.12919003585409
-            ],
-            [
-              13.183879020266916,
-              38.128942671311286
-            ],
-            [
-              13.18357163468024,
-              38.128882466264955
-            ],
-            [
-              13.183515425145625,
-              38.128714693884355
-            ],
-            [
-              13.18315334366282,
-              38.12870909336605
-            ],
-            [
-              13.183016101705562,
-              38.12937458121977
-            ],
-            [
-              13.183483202307649,
-              38.12940565093109
-            ],
-            [
-              13.183530827123358,
-              38.129311014553565
-            ],
-            [
-              13.183776715645466,
-              38.12925337704743
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 18547.496948608576,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.084329553978668,
-              38.14372672189132
-            ],
-            [
-              13.08523972746793,
-              38.14271556643281
-            ],
-            [
-              13.085095448617574,
-              38.14260305468851
-            ],
-            [
-              13.084034156227712,
-              38.141902846375096
-            ],
-            [
-              13.083186227139125,
-              38.14297841568585
-            ],
-            [
-              13.083616616442715,
-              38.14322695112346
-            ],
-            [
-              13.084329553978668,
-              38.14372672189132
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 10910.890742156671,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.094366129006811,
-              38.153156968685295
-            ],
-            [
-              13.095175016222923,
-              38.15331162343663
-            ],
-            [
-              13.094543770708846,
-              38.15283809306342
-            ],
-            [
-              13.094553306168569,
-              38.15281213477003
-            ],
-            [
-              13.094588674362127,
-              38.15280622598888
-            ],
-            [
-              13.094696354224313,
-              38.15288084547608
-            ],
-            [
-              13.094928750990665,
-              38.15248700336601
-            ],
-            [
-              13.094247910870084,
-              38.15196333192335
-            ],
-            [
-              13.094125013371857,
-              38.152044787197326
-            ],
-            [
-              13.094075429441363,
-              38.1520177452261
-            ],
-            [
-              13.09347644507651,
-              38.152627942815535
-            ],
-            [
-              13.094051792226214,
-              38.15311639251937
-            ],
-            [
-              13.094366129006811,
-              38.153156968685295
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 6537.448074092584,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.107161158322333,
-              38.15970099750035
-            ],
-            [
-              13.10656294748281,
-              38.15931824257074
-            ],
-            [
-              13.105822884604857,
-              38.15999307103322
-            ],
-            [
-              13.106133967869113,
-              38.16022459727612
-            ],
-            [
-              13.106579049893732,
-              38.15994566045462
-            ],
-            [
-              13.106859333106698,
-              38.160200530851185
-            ],
-            [
-              13.107166422986557,
-              38.16000281747895
-            ],
-            [
-              13.107142710469425,
-              38.159752084543534
-            ],
-            [
-              13.107161158322333,
-              38.15970099750035
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 7332.454297909552,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.078623473085036,
-              38.092903511897234
-            ],
-            [
-              13.077698557820156,
-              38.09309079620764
-            ],
-            [
-              13.07769849351908,
-              38.09315203320021
-            ],
-            [
-              13.078275377343695,
-              38.09368147739859
-            ],
-            [
-              13.079127696778913,
-              38.09405120487579
-            ],
-            [
-              13.078680767059895,
-              38.092992094534736
-            ],
-            [
-              13.078623473085036,
-              38.092903511897234
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 24638.075077709414,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.18701708260748,
-              37.9592778783488
-            ],
-            [
-              13.186928854441978,
-              37.958333950261185
-            ],
-            [
-              13.186130496761866,
-              37.95827058951332
-            ],
-            [
-              13.1856519586723,
-              37.95821522608408
-            ],
-            [
-              13.185304602916009,
-              37.958262262577364
-            ],
-            [
-              13.1854392647199,
-              37.96007422559092
-            ],
-            [
-              13.186556613513691,
-              37.96000743731273
-            ],
-            [
-              13.186541307070367,
-              37.9593276461014
-            ],
-            [
-              13.18701708260748,
-              37.9592778783488
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 36121.17987766979,
-        "size_label": "Parco di quartiere",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.200029046308956,
-              37.973210965102524
-            ],
-            [
-              13.199679241150037,
-              37.97544269928435
-            ],
-            [
-              13.199954833458753,
-              37.97556436013682
-            ],
-            [
-              13.200300687829834,
-              37.97565234587462
-            ],
-            [
-              13.200676011522019,
-              37.97571586245377
-            ],
-            [
-              13.201149953118556,
-              37.97562124717495
-            ],
-            [
-              13.201321156917155,
-              37.9755650159802
-            ],
-            [
-              13.201568229862762,
-              37.97346853898115
-            ],
-            [
-              13.200029046308956,
-              37.973210965102524
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 8872.87858024097,
-        "size_label": "Piccolo spazio verde",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.276514888776264,
-              37.994502956714804
-            ],
-            [
-              13.276365292725618,
-              37.994715360367195
-            ],
-            [
-              13.276664481859495,
-              37.99506310075323
-            ],
-            [
-              13.276313025421574,
-              37.995254085495404
-            ],
-            [
-              13.276667825425584,
-              37.99569263226989
-            ],
-            [
-              13.276592840763223,
-              37.99571688890978
-            ],
-            [
-              13.276648080534606,
-              37.99576387542653
-            ],
-            [
-              13.276994464325323,
-              37.995640193562956
-            ],
-            [
-              13.276892725209375,
-              37.99535257483055
-            ],
-            [
-              13.277876313258142,
-              37.9950379370858
-            ],
-            [
-              13.277789631730345,
-              37.994879296392284
-            ],
-            [
-              13.276514888776264,
-              37.994502956714804
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "area_sqm": 10679.31283376061,
-        "size_label": "Giardino",
-        "name": "Spazio verde pubblico"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              13.28269532799636,
-              37.99394910672767
-            ],
-            [
-              13.282889199859317,
-              37.99413353068171
-            ],
-            [
-              13.283345016865647,
-              37.993873247280135
-            ],
-            [
-              13.283662642461623,
-              37.99420693326541
-            ],
-            [
-              13.283960213299677,
-              37.99459250482628
-            ],
-            [
-              13.284164900964107,
-              37.99442929253651
-            ],
-            [
-              13.284308709144238,
-              37.99421180061876
-            ],
-            [
-              13.284295159742742,
-              37.994216164566964
-            ],
-            [
-              13.284119439203607,
-              37.99399900241401
-            ],
-            [
-              13.283669643573711,
-              37.99390659886414
-            ],
-            [
-              13.283682643644763,
-              37.99334883734503
-            ],
-            [
-              13.282188154233323,
-              37.993327012509475
-            ],
-            [
-              13.28269532799636,
-              37.99394910672767
             ]
           ]
         ]
