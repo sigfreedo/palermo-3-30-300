@@ -85,11 +85,43 @@
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
         }
         
         .back-link:hover {
             background: #047857;
+            transform: translateY(-4px);
+        }
+        
+        .dataset-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .dataset-btn-view {
+            background: #059669;
+        }
+        
+        .dataset-btn-view:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+        
+        .dataset-btn-download {
+            background: #10b981;
+        }
+        
+        .dataset-btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -147,10 +179,10 @@
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Dataset utilizzati</h2>
             
             <!-- Testo introduttivo -->
-            <div style="max-width: 900px; margin: 0 auto 3rem; font-size: 16px; line-height: 1.8; color: #374151; text-align: center;">
+            <div style="max-width: 900px; margin: 0 auto 3rem; font-size: 16px; line-height: 1.8; color: #374151;">
                 <p style="margin: 0;">
                     Tutti i dataset sono disponibili nel <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">repository GitHub del progetto</a> e sono rilasciati con <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/LICENSE" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">licenza open source</a>. 
-                    Le elaborazioni seguono gli standard <a href="https://www.who.int/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">WHO</a> (World Health Organization) ed <a href="https://www.eea.europa.eu/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">EEA</a> (European Environment Agency) per la valutazione dell'accesso al verde urbano. 
+                    Le elaborazioni seguono gli standard <a href="https://www.who.int/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">World Health Organization</a> ed <a href="https://www.eea.europa.eu/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">European Environment Agency</a> per la valutazione dell'accesso al verde urbano. 
                     La documentazione completa della metodologia è disponibile nella <a href="https://sigfreedo.github.io/palermo-3-30-300/metodologia.html" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">pagina dedicata</a>.
                 </p>
             </div>
@@ -178,8 +210,8 @@
                         <strong>Formato:</strong> GeoJSON
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/osm_verde_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Visualizza</a>
-                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/osm_verde_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Scarica</a>
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/osm_verde_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/osm_verde_palermo.geojson" download class="dataset-btn dataset-btn-download">Scarica</a>
                     </div>
                 </div>
                 
@@ -203,8 +235,8 @@
                         <strong>Formato:</strong> GeoJSON
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/copernicus_verde_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Visualizza</a>
-                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/copernicus_verde_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Scarica</a>
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/copernicus_verde_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/copernicus_verde_palermo.geojson" download class="dataset-btn dataset-btn-download">Scarica</a>
                     </div>
                 </div>
                 
@@ -228,8 +260,8 @@
                         <strong>Formato:</strong> GeoJSON
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_dati_completi.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Visualizza</a>
-                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_dati_completi.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Scarica</a>
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_dati_completi.geojson" target="_blank" class="dataset-btn dataset-btn-view">Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_dati_completi.geojson" download class="dataset-btn dataset-btn-download">Scarica</a>
                     </div>
                 </div>
                 
@@ -252,8 +284,8 @@
                         <strong>Formato:</strong> JSON
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_data.json" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Visualizza</a>
-                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_data.json" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Scarica</a>
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_data.json" target="_blank" class="dataset-btn dataset-btn-view">Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_data.json" download class="dataset-btn dataset-btn-download">Scarica</a>
                     </div>
                 </div>
                 
@@ -276,8 +308,8 @@
                         <strong>Formato:</strong> GeoJSON
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/sezioni_censimento_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Visualizza</a>
-                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/sezioni_censimento_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">Scarica</a>
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/sezioni_censimento_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/sezioni_censimento_palermo.geojson" download class="dataset-btn dataset-btn-download">Scarica</a>
                     </div>
                 </div>
                 
