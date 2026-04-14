@@ -192,14 +192,17 @@
                         <strong>Caratteristiche:</strong>
                         <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
                             <li>Nome dello spazio (quando disponibile)</li>
-                            <li>Categoria (Parco molto grande, Parco grande, Parco medio, Giardino, Area verde, Piazza verde)</li>
                             <li>Superficie in m²</li>
                             <li>Geometria poligonale per rappresentazione su mappa</li>
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
                         <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">osm_verde_palermo.geojson</code><br>
-                        <strong>Spazi:</strong> 118 | <strong>Formato:</strong> GeoJSON
+                        <strong>Formato:</strong> GeoJSON
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/osm_verde_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">👁️ Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/osm_verde_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">⬇️ Scarica</a>
                     </div>
                 </div>
                 
@@ -207,49 +210,31 @@
                 <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🛰️ Spazi verdi da satellite (Copernicus)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
-                        Dataset di spazi verdi derivato dall'analisi di immagini satellitari <strong>Copernicus Urban Atlas 2018</strong>. Identifica aree verdi attraverso classificazione del suolo, filtrato per includere solo spazi nel comune di Palermo.
+                        Dataset di spazi verdi derivato dall'analisi di immagini satellitari <strong>Copernicus Urban Atlas Land Cover/Land Use 2021</strong>. Identifica aree verdi attraverso classificazione del suolo, filtrato per includere solo spazi nel comune di Palermo.
                     </p>
                     <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
                         <strong>Caratteristiche:</strong>
                         <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
-                            <li>Classificazione dimensionale (Grande >10.000m², Medio 5-10K m², Piccolo 2-5K m²)</li>
-                            <li>Superficie in m² ed ettari</li>
-                            <li>Geometria poligonale da analisi raster</li>
-                            <li>Categoria Urban Atlas di origine</li>
+                            <li>Nome dello spazio (quando disponibile)</li>
+                            <li>Superficie in m²</li>
+                            <li>Geometria poligonale per rappresentazione su mappa</li>
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
                         <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">copernicus_verde_palermo.geojson</code><br>
-                        <strong>Spazi:</strong> 129 | <strong>Formato:</strong> GeoJSON
+                        <strong>Formato:</strong> GeoJSON
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/copernicus_verde_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">👁️ Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/copernicus_verde_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">⬇️ Scarica</a>
                     </div>
                 </div>
                 
-                <!-- Dataset 3: Tree Canopy -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🌳 Copertura arborea (Copernicus TCD 2023)</h3>
-                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
-                        Raster della densità di copertura arborea dal dataset <strong>Copernicus Tree Cover Density 2023</strong>. Ogni pixel rappresenta la percentuale di suolo coperto da chiome di alberi, ritagliato sull'area del comune di Palermo.
-                    </p>
-                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
-                        <strong>Caratteristiche:</strong>
-                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
-                            <li>Risoluzione spaziale: 10 metri per pixel</li>
-                            <li>Valori: 0-100% di copertura arborea</li>
-                            <li>Sistema di riferimento: WGS84 (EPSG:4326)</li>
-                            <li>Elaborazione: ritaglio e riproiezione da EPSG:3035</li>
-                        </ul>
-                    </div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">palermo_tree_canopy_2023.tif</code><br>
-                        <strong>Dimensioni:</strong> 2159 x 1786 pixels | <strong>Formato:</strong> GeoTIFF
-                    </div>
-                </div>
-                
-                <!-- Dataset 4: Quartieri con dati aggregati -->
+                <!-- Dataset 3: Quartieri con dati aggregati -->
                 <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📊 Quartieri con dati aggregati</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
-                        Geometrie dei 25 quartieri amministrativi di Palermo arricchite con statistiche aggregate su copertura arborea, accesso al verde e popolazione. Utilizzato per visualizzazioni dashboard e mappe tematiche.
+                        Geometrie dei quartieri amministrativi di Palermo arricchite con statistiche aggregate su copertura arborea, accesso al verde e popolazione. Utilizzato per visualizzazioni dashboard e mappe tematiche.
                     </p>
                     <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
                         <strong>Caratteristiche:</strong>
@@ -257,20 +242,24 @@
                             <li>Nome quartiere</li>
                             <li>Percentuale copertura arborea e classificazione</li>
                             <li>Popolazione residente (ISTAT 2021)</li>
-                            <li>Distanza media da spazi verdi e % popolazione coperta</li>
+                            <li>Percentuale popolazione coperta e distanza media da spazi verdi (dataset Copernicus)</li>
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
                         <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_dati_completi.geojson</code><br>
-                        <strong>Quartieri:</strong> 25 | <strong>Formato:</strong> GeoJSON
+                        <strong>Formato:</strong> GeoJSON
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_dati_completi.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">👁️ Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_dati_completi.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">⬇️ Scarica</a>
                     </div>
                 </div>
                 
-                <!-- Dataset 5: Sezioni di censimento -->
+                <!-- Dataset 4: Sezioni di censimento -->
                 <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🏘️ Sezioni di censimento (ISTAT 2021)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
-                        Geometrie delle 3.600 sezioni di censimento ISTAT del comune di Palermo con dati demografici al 2021. Utilizzato per calcoli di copertura popolazione e analisi spaziali ad alta risoluzione.
+                        Geometrie delle sezioni di censimento ISTAT del comune di Palermo con dati demografici al 2021. Utilizzato per calcoli di copertura popolazione e analisi spaziali ad alta risoluzione.
                     </p>
                     <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
                         <strong>Caratteristiche:</strong>
@@ -278,16 +267,19 @@
                             <li>Codice sezione ISTAT</li>
                             <li>Popolazione residente per sezione</li>
                             <li>Geometria poligonale di dettaglio</li>
-                            <li>Utilizzato per boundary comunale e buffer analysis</li>
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
                         <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">sezioni_censimento_palermo.geojson</code><br>
-                        <strong>Sezioni:</strong> 3.600 | <strong>Formato:</strong> GeoJSON
+                        <strong>Formato:</strong> GeoJSON
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/sezioni_censimento_palermo.geojson" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">👁️ Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/sezioni_censimento_palermo.geojson" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">⬇️ Scarica</a>
                     </div>
                 </div>
                 
-                <!-- Dataset 6: Dati quartieri JSON -->
+                <!-- Dataset 5: Dati quartieri JSON -->
                 <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📈 Statistiche quartieri (JSON)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
@@ -296,15 +288,19 @@
                     <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
                         <strong>Caratteristiche:</strong>
                         <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
-                            <li>Struttura: {osm: {...}, copernicus: {...}}</li>
-                            <li>Per quartiere: popolazione, popolazione coperta, % copertura, n° spazi</li>
-                            <li>Ottimizzato per caricamento rapido nel browser</li>
-                            <li>Aggiornato con ogni ricalcolo statistiche</li>
+                            <li>Struttura: oggetto con chiavi "osm" e "copernicus"</li>
+                            <li>Per ciascun quartiere: popolazione totale, popolazione coperta (entro 300m), percentuale copertura, numero spazi verdi</li>
+                            <li>Popolazione identica in entrambi i dataset (fonte ISTAT 2021)</li>
+                            <li>Formato compatto ottimizzato per caricamento web</li>
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
                         <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_data.json</code><br>
-                        <strong>Quartieri:</strong> 25 x 2 dataset | <strong>Formato:</strong> JSON
+                        <strong>Formato:</strong> JSON
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/quartieri_data.json" target="_blank" style="flex: 1; text-align: center; padding: 0.75rem; background: #059669; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">👁️ Visualizza</a>
+                        <a href="https://raw.githubusercontent.com/sigfreedo/palermo-3-30-300/main/quartieri_data.json" download style="flex: 1; text-align: center; padding: 0.75rem; background: #10b981; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">⬇️ Scarica</a>
                     </div>
                 </div>
                 

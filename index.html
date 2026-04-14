@@ -3048,55 +3048,53 @@
     // Dashboard dataset toggle - make globally accessible
     window.currentDataset = 'osm';
     
-    window.datasetStats = {
-      osm: {
-        spazi: '118',
-        percentuale: '38,76',
-        abitanti: '635.439',
-        fortunati: '246.293',
-        svantaggiati: '389.146'
-      },
-      copernicus: {
-        spazi: '129',
-        percentuale: '40,06',
-        abitanti: '635.439',
-        fortunati: '254.533',
-        svantaggiati: '380.906'
-      }
-    };
+    // Dati statistiche generali - caricati da quartieri_data.json
+    window.datasetStats = {};
     
     // Carica dati quartieri da file JSON esterno
     window.quartieriData = null;
     window.quartieriBoundaries = null;
     
-    // Carica dati in modo asincrono
+    // Carica tutti i dati da quartieri_data.json unificato
     fetch('quartieri_data.json')
       .then(response => response.json())
       .then(data => {
+        // Estrai e formatta dati generali città
+        window.datasetStats = {
+          osm: {
+            spazi: data.generale.osm.spazi.toString(),
+            percentuale: data.generale.osm.percentuale.toFixed(2).replace('.', ','),
+            abitanti: data.generale.osm.abitanti.toLocaleString('it-IT'),
+            fortunati: data.generale.osm.fortunati.toLocaleString('it-IT'),
+            svantaggiati: data.generale.osm.svantaggiati.toLocaleString('it-IT')
+          },
+          copernicus: {
+            spazi: data.generale.copernicus.spazi.toString(),
+            percentuale: data.generale.copernicus.percentuale.toFixed(2).replace('.', ','),
+            abitanti: data.generale.copernicus.abitanti.toLocaleString('it-IT'),
+            fortunati: data.generale.copernicus.fortunati.toLocaleString('it-IT'),
+            svantaggiati: data.generale.copernicus.svantaggiati.toLocaleString('it-IT')
+          }
+        };
+        
+        // Estrai dati quartieri per OSM e Copernicus
         window.quartieriData = {
           osm: data.osm,
           copernicus: data.copernicus
         };
-        console.log('✓ Dati quartieri caricati:', Object.keys(data.osm).length, 'quartieri');
-      })
-      .catch(error => {
-        console.error('Errore caricamento dati quartieri:', error);
-        // Fallback: usa dati vuoti
-        window.quartieriData = { osm: {}, copernicus: {} };
-      });
-    
-    // Carica dati tree canopy
-    fetch('quartieri_tree_canopy.json')
-      .then(response => response.json())
-      .then(data => {
+        
+        // Estrai dati tree canopy
         window.treeCanopyData = data.tree_canopy;
-        console.log('✓ Dati tree canopy caricati:', Object.keys(data.tree_canopy).length, 'quartieri');
+        
+        console.log('✓ Tutti i dati caricati:', Object.keys(data.osm).length, 'quartieri');
         
         // Popola dashboard canopy
         populateCanopyDashboard();
       })
       .catch(error => {
-        console.error('Errore caricamento tree canopy:', error);
+        console.error('Errore caricamento dati:', error);
+        // Fallback: usa dati vuoti
+        window.quartieriData = { osm: {}, copernicus: {} };
         window.treeCanopyData = {};
       });
     
