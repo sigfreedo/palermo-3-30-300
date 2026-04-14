@@ -1955,12 +1955,6 @@
         // URL Cloudflare Worker per API
         const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
 
-        // Stats per dataset
-        const stats = {
-            osm: { coverage: '38.70', spaces: 118, area: '4.31' },
-            copernicus: { coverage: '48.43', spaces: 181, area: '4.03' }
-        };
-
         // Dati categorizzazione verde urbano
         const categoryData = {
             osm: [
@@ -2031,10 +2025,12 @@
         console.log('💡 Apri questa console (F12) per vedere log dettagliati');
 
         function updateStats(dataset) {
-            const s = stats[dataset];
-            document.getElementById('statCoverage').textContent = s.coverage + '%';
-            document.getElementById('statSpaces').textContent = s.spaces;
-            document.getElementById('statArea').textContent = s.area;
+            const s = window.datasetStats[dataset];
+            if (s) {
+                document.getElementById('statCoverage').textContent = s.coverage + '%';
+                document.getElementById('statSpaces').textContent = s.spaces;
+                document.getElementById('statArea').textContent = s.area;
+            }
         }
 
         async function loadDataset(dataset) {
@@ -3066,14 +3062,20 @@
             percentuale: data.generale.osm.percentuale.toFixed(2).replace('.', ','),
             abitanti: data.generale.osm.abitanti.toLocaleString('it-IT'),
             fortunati: data.generale.osm.fortunati.toLocaleString('it-IT'),
-            svantaggiati: data.generale.osm.svantaggiati.toLocaleString('it-IT')
+            svantaggiati: data.generale.osm.svantaggiati.toLocaleString('it-IT'),
+            coverage: data.generale.osm.percentuale.toFixed(2),
+            spaces: data.generale.osm.spazi,
+            area: data.generale.osm.area_km2.toFixed(2)
           },
           copernicus: {
             spazi: data.generale.copernicus.spazi.toString(),
             percentuale: data.generale.copernicus.percentuale.toFixed(2).replace('.', ','),
             abitanti: data.generale.copernicus.abitanti.toLocaleString('it-IT'),
             fortunati: data.generale.copernicus.fortunati.toLocaleString('it-IT'),
-            svantaggiati: data.generale.copernicus.svantaggiati.toLocaleString('it-IT')
+            svantaggiati: data.generale.copernicus.svantaggiati.toLocaleString('it-IT'),
+            coverage: data.generale.copernicus.percentuale.toFixed(2),
+            spaces: data.generale.copernicus.spazi,
+            area: data.generale.copernicus.area_km2.toFixed(2)
           }
         };
         

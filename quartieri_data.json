@@ -5,14 +5,16 @@
       "percentuale": 38.76,
       "abitanti": 635439,
       "fortunati": 246293,
-      "svantaggiati": 389146
+      "svantaggiati": 389146,
+      "area_km2": 4.29
     },
     "copernicus": {
       "spazi": 129,
       "percentuale": 40.06,
       "abitanti": 635439,
       "fortunati": 254533,
-      "svantaggiati": 380906
+      "svantaggiati": 380906,
+      "area_km2": 3.36
     }
   },
   "osm": {
