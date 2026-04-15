@@ -4595,6 +4595,15 @@ Cordiali saluti,
       
       // Update category chart
       renderCategoryChart(dataset, currentMetric);
+      
+      // Update quartieri map if it exists
+      console.log('🔄 switchDashboardDataset: controllo mappa quartieri...');
+      if (window.quartieriMap && typeof window.updateQuartieriMap === 'function') {
+        console.log('  → Chiamo updateQuartieriMap()');
+        window.updateQuartieriMap();
+      } else {
+        console.log('  → Mappa non disponibile:', window.quartieriMap ? 'esiste' : 'null');
+      }
     }
   </script>
 </body>
