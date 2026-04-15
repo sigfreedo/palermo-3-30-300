@@ -4881,14 +4881,14 @@ Cordiali saluti,
       const ctx = canvas.getContext('2d');
       
       // Set canvas to preview size
-      canvas.width = 400;
-      canvas.height = 400;
+      canvas.width = 300;
+      canvas.height = 300;
       
       // Determine which type of image to generate
       if (data.type === 'verde-vicino') {
-        drawVerdeVicinoPreview(ctx, data, 400);
+        drawVerdeVicinoPreview(ctx, data, 300);
       } else if (data.type === 'verde-lontano') {
-        drawVerdeLontanoPreview(ctx, data, 400);
+        drawVerdeLontanoPreview(ctx, data, 300);
       }
     }
     
@@ -5156,7 +5156,7 @@ Cordiali saluti,
       </div>
       <div class="share-modal-body">
         <div class="share-preview">
-          <canvas id="shareCanvas" width="400" height="400"></canvas>
+          <canvas id="shareCanvas" width="300" height="300"></canvas>
         </div>
         <div class="share-buttons">
           <button class="share-btn share-btn-facebook" onclick="shareToFacebook()">
