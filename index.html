@@ -2077,9 +2077,20 @@
             loadDataset(dataset);
             document.getElementById('result').style.display = 'none';
             
-            // Update quartieri map if it's initialized
-            if (typeof window.updateQuartieriMap === 'function') {
-                window.updateQuartieriMap();
+            // Check if dashboard is visible before updating map
+            const dashboard = document.getElementById('dashboard');
+            if (dashboard && dashboard.style.display !== 'none') {
+                // If map is not initialized yet, initialize it
+                if (!window.quartieriMap) {
+                    if (typeof window.initQuartieriMap === 'function') {
+                        window.initQuartieriMap();
+                    }
+                } else {
+                    // Map already exists, just update it
+                    if (typeof window.updateQuartieriMap === 'function') {
+                        window.updateQuartieriMap();
+                    }
+                }
             }
         }
 
@@ -4007,13 +4018,13 @@ Cordiali saluti,
     };
     
     // Mappa quartieri
-    let quartieriMap = null;
+    window.quartieriMap = null;
     let quartieriLayer = null;
-    let canopyQuartieriMap = null;
+    window.canopyQuartieriMap = null;
     let canopyQuartieriLayer = null;
     
     window.initQuartieriMap = function() {
-      if (quartieriMap) return; // Already initialized
+      if (window.quartieriMap) return; // Already initialized
       
       // Add custom CSS for tooltip
       const style = document.createElement('style');
@@ -4045,7 +4056,7 @@ Cordiali saluti,
       document.head.appendChild(style);
       
       // Initialize map with scroll zoom disabled
-      quartieriMap = L.map('quartieri-map', {
+      window.quartieriMap = L.map('quartieri-map', {
         center: [38.115, 13.361],
         zoom: 12,
         zoomControl: true,
@@ -4057,14 +4068,14 @@ Cordiali saluti,
       
       // Force size recalculation after a brief delay
       setTimeout(() => {
-        quartieriMap.invalidateSize();
+        window.quartieriMap.invalidateSize();
       }, 100);
       
       // Add base layer
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 19
-      }).addTo(quartieriMap);
+      }).addTo(window.quartieriMap);
       
       // Load geometries from GeoJSON
       fetch('quartieri_dati_completi.geojson')
@@ -4172,7 +4183,7 @@ Cordiali saluti,
                 }, 200);
               });
             }
-          }).addTo(quartieriMap);
+          }).addTo(window.quartieriMap);
           
           // Add legend
           const legend = L.control({ position: 'topright' });
@@ -4219,20 +4230,20 @@ Cordiali saluti,
             return div;
           };
           
-          legend.addTo(quartieriMap);
+          legend.addTo(window.quartieriMap);
         })
         .catch(error => console.error('Errore caricamento quartieri GeoJSON:', error));
     };
     
     // Update quartieri map when dataset changes
     window.updateQuartieriMap = function() {
-      if (!quartieriMap || !window.quartieriData) return;
+      if (!window.quartieriMap || !window.quartieriData) return;
       
       const dataset = window.currentDataset || 'osm';
       
       // Remove existing layer
       if (quartieriLayer) {
-        quartieriMap.removeLayer(quartieriLayer);
+        window.quartieriMap.removeLayer(quartieriLayer);
       }
       
       // Reload data with new dataset
@@ -4332,17 +4343,17 @@ Cordiali saluti,
                 }, 200);
               });
             }
-          }).addTo(quartieriMap);
+          }).addTo(window.quartieriMap);
         })
         .catch(error => console.error('Errore aggiornamento mappa quartieri:', error));
     };
     
     // Initialize canopy quartieri map
     window.initCanopyQuartieriMap = function() {
-      if (canopyQuartieriMap) return; // Already initialized
+      if (window.canopyQuartieriMap) return; // Already initialized
       
       // Initialize map
-      canopyQuartieriMap = L.map('canopy-quartieri-map', {
+      window.canopyQuartieriMap = L.map('canopy-quartieri-map', {
         center: [38.115, 13.361],
         zoom: 12,
         zoomControl: true,
@@ -4353,14 +4364,14 @@ Cordiali saluti,
       });
       
       setTimeout(() => {
-        canopyQuartieriMap.invalidateSize();
+        window.canopyQuartieriMap.invalidateSize();
       }, 100);
       
       // Add base layer
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 19
-      }).addTo(canopyQuartieriMap);
+      }).addTo(window.canopyQuartieriMap);
       
       // Load geometries
       fetch('quartieri_dati_completi.geojson')
@@ -4464,7 +4475,7 @@ Cordiali saluti,
                 }, 300);
               });
             }
-          }).addTo(canopyQuartieriMap);
+          }).addTo(window.canopyQuartieriMap);
           
           // Add legend
           const legend = L.control({ position: 'topright' });
@@ -4511,7 +4522,7 @@ Cordiali saluti,
             return div;
           };
           
-          legend.addTo(canopyQuartieriMap);
+          legend.addTo(window.canopyQuartieriMap);
         })
         .catch(error => {
           console.error('Errore caricamento GeoJSON per mappa canopy:', error);
