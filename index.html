@@ -2070,8 +2070,11 @@
         }
 
         function switchDataset(dataset) {
+            console.log('🔄 switchDataset chiamata con:', dataset);
             currentDataset = dataset;
             window.currentDataset = dataset; // Sync with global variable
+            console.log('  → window.currentDataset aggiornato a:', window.currentDataset);
+            
             document.getElementById('btnOsm').classList.toggle('active', dataset === 'osm');
             document.getElementById('btnCopernicus').classList.toggle('active', dataset === 'copernicus');
             loadDataset(dataset);
@@ -2079,18 +2082,27 @@
             
             // Check if dashboard is visible before updating map
             const dashboard = document.getElementById('dashboard');
+            console.log('  → Dashboard display:', dashboard ? dashboard.style.display : 'null');
+            
             if (dashboard && dashboard.style.display !== 'none') {
+                console.log('  → Dashboard visibile, controllo mappa...');
+                console.log('  → window.quartieriMap:', window.quartieriMap ? 'ESISTE' : 'NULL');
+                
                 // If map is not initialized yet, initialize it
                 if (!window.quartieriMap) {
+                    console.log('  → Mappa non inizializzata, chiamo initQuartieriMap()');
                     if (typeof window.initQuartieriMap === 'function') {
                         window.initQuartieriMap();
                     }
                 } else {
                     // Map already exists, just update it
+                    console.log('  → Mappa esiste, chiamo updateQuartieriMap()');
                     if (typeof window.updateQuartieriMap === 'function') {
                         window.updateQuartieriMap();
                     }
                 }
+            } else {
+                console.log('  → Dashboard nascosta, skip update mappa');
             }
         }
 
@@ -4237,14 +4249,27 @@ Cordiali saluti,
     
     // Update quartieri map when dataset changes
     window.updateQuartieriMap = function() {
-      if (!window.quartieriMap || !window.quartieriData) return;
+      console.log('🗺️ updateQuartieriMap chiamata');
+      console.log('  → window.quartieriMap:', window.quartieriMap ? 'ESISTE' : 'NULL');
+      console.log('  → window.quartieriData:', window.quartieriData ? 'ESISTE' : 'NULL');
+      
+      if (!window.quartieriMap || !window.quartieriData) {
+        console.log('  ❌ RETURN: Mappa o dati non disponibili');
+        return;
+      }
       
       const dataset = window.currentDataset || 'osm';
+      console.log('  → Dataset corrente:', dataset);
       
       // Remove existing layer
       if (quartieriLayer) {
+        console.log('  → Rimuovo layer esistente...');
         window.quartieriMap.removeLayer(quartieriLayer);
+      } else {
+        console.log('  ⚠️ Nessun layer da rimuovere');
       }
+      
+      console.log('  → Carico nuovi dati quartieri...');
       
       // Reload data with new dataset
       fetch('quartieri_dati_completi.geojson')
@@ -4344,8 +4369,12 @@ Cordiali saluti,
               });
             }
           }).addTo(window.quartieriMap);
+          
+          console.log('  ✅ Layer aggiornato e aggiunto alla mappa!');
         })
-        .catch(error => console.error('Errore aggiornamento mappa quartieri:', error));
+        .catch(error => {
+          console.error('  ❌ Errore aggiornamento mappa quartieri:', error);
+        });
     };
     
     // Initialize canopy quartieri map
