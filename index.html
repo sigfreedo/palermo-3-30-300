@@ -530,6 +530,7 @@
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       transition: all 0.3s ease;
+      display: none;
     }
     
     .share-button:hover {
@@ -2566,6 +2567,22 @@
             spaceDistance.textContent = `${distanceMeters} metri`;
             spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'}`;
             spaceArea.textContent = `${areaFormatted} m²`;
+            
+            // Populate share data
+            const isNearby = distance <= 300;
+            const populationPercentage = isNearby ? 38.0 : 62.0; // Placeholder - sostituire con dati reali
+            window.shareData = {
+                type: isNearby ? 'verde-vicino' : 'verde-lontano',
+                distance: distanceMeters,
+                population: populationPercentage
+            };
+            
+            // Activate share button
+            const shareBtn = document.getElementById('shareButton');
+            shareBtn.onclick = function() {
+                openShareModal(window.shareData);
+            };
+            shareBtn.style.display = 'block';
             
             // Show section
             section300.classList.add('visible');
