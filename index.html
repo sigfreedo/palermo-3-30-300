@@ -4,6 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Palermo 3-30-300</title>
+  
+  <!-- SEO -->
+  <meta name="description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa secondo la regola 3-30-300.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sigfreedo.github.io/palermo-3-30-300/index.html">
+  <meta property="og:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
+  <meta property="og:description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa secondo la regola 3-30-300.">
+  <meta property="og:image" content="https://sigfreedo.github.io/palermo-3-30-300/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://sigfreedo.github.io/palermo-3-30-300/index.html">
+  <meta property="twitter:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
+  <meta property="twitter:description" content="Analisi civica sull'accesso al verde urbano a Palermo">
+  <meta property="twitter:image" content="https://sigfreedo.github.io/palermo-3-30-300/og-image.png">
+  <meta property="twitter:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
+  <meta property="twitter:description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa.">
+  <meta property="twitter:image" content="https://palermo-3-30-300.it/og-image.png">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -931,6 +952,192 @@
       font-size: 16px;
       color: #e5e7eb;
       margin-left: 0.5rem;
+    }
+    
+    /* =========================
+       SHARE MODAL STYLES
+       ========================= */
+    
+    .share-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9998;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .share-modal-overlay.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .share-modal {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: scaleIn 0.3s ease;
+      z-index: 9999;
+    }
+    
+    .share-modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .share-modal-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+    
+    .share-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .share-modal-close:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+    
+    .share-modal-body {
+      padding: 1.5rem;
+    }
+    
+    .share-preview {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .share-preview canvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .share-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .share-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .share-btn-facebook {
+      background: #1877f2;
+      color: white;
+    }
+    
+    .share-btn-facebook:hover {
+      background: #166fe5;
+    }
+    
+    .share-btn-linkedin {
+      background: #0a66c2;
+      color: white;
+    }
+    
+    .share-btn-linkedin:hover {
+      background: #004182;
+    }
+    
+    .share-btn-download {
+      background: #10b981;
+      color: white;
+    }
+    
+    .share-btn-download:hover {
+      background: #059669;
+    }
+    
+    .share-note {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    /* Share button in page */
+    .share-trigger-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.875rem 1.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+    }
+    
+    .share-trigger-btn:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
   </style>
     
@@ -4620,6 +4827,380 @@ Cordiali saluti,
         console.log('  → Mappa non disponibile:', window.quartieriMap ? 'esiste' : 'null');
       }
     }
+    
+    // =========================
+    // SHARE MODAL FUNCTIONS
+    // =========================
+    
+    // Global share data
+    window.shareData = null;
+    
+    function openShareModal(data) {
+      window.shareData = data;
+      const modal = document.getElementById('shareModal');
+      modal.classList.add('active');
+      
+      // Generate preview image
+      generateSharePreview(data);
+    }
+    
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      modal.classList.remove('active');
+    }
+    
+    // Close modal when clicking overlay
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('shareModal');
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeShareModal();
+        }
+      });
+    });
+    
+    function generateSharePreview(data) {
+      const canvas = document.getElementById('shareCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas to preview size
+      canvas.width = 400;
+      canvas.height = 400;
+      
+      // Determine which type of image to generate
+      if (data.type === 'verde-vicino') {
+        drawVerdeVicinoPreview(ctx, data, 400);
+      } else if (data.type === 'verde-lontano') {
+        drawVerdeLontanoPreview(ctx, data, 400);
+      }
+    }
+    
+    function drawVerdeVicinoPreview(ctx, data, size) {
+      // Verde gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, size);
+      gradient.addColorStop(0, '#064e3b');
+      gradient.addColorStop(1, '#059669');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Decorative circles
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.beginPath();
+      ctx.arc(size * 0.79, size * 0.14, size * 0.185, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Tree (scaled down)
+      drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185);
+      
+      // Text (scaled)
+      const scale = size / 1080;
+      
+      ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText('Minchia! Ho uno spazio verde', size / 2, size * 0.426);
+      
+      // Second line with distance
+      const p2_parte1 = 'a ';
+      const p2_parte2 = `${data.distance} metri`;
+      const p2_parte3 = ' da casa!';
+      
+      ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
+      const p2_width1 = ctx.measureText(p2_parte1).width;
+      const p2_width2 = ctx.measureText(p2_parte2).width;
+      const p2_width3 = ctx.measureText(p2_parte3).width;
+      const p2_totalWidth = p2_width1 + p2_width2 + p2_width3;
+      const p2_startX = size / 2 - p2_totalWidth / 2;
+      
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'left';
+      ctx.fillText(p2_parte1, p2_startX, size * 0.514);
+      
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.514);
+      
+      ctx.fillStyle = 'white';
+      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.514);
+      
+      // Second phrase (smaller font)
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.textAlign = 'center';
+      
+      const percentuale = data.population.toFixed(1).replace('.', ',');
+      ctx.fillStyle = 'white';
+      
+      const yPos1 = size * 0.644;
+      const yPos2 = size * 0.704;
+      
+      // Line 1
+      const s1_parte1 = 'Sono nel ';
+      const s1_parte2 = `${percentuale}%`;
+      const s1_parte3 = ' della popolazione di Palermo';
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      const s1_width1 = ctx.measureText(s1_parte1).width;
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      const s1_width2 = ctx.measureText(s1_parte2).width;
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      const s1_width3 = ctx.measureText(s1_parte3).width;
+      const s1_totalWidth = s1_width1 + s1_width2 + s1_width3;
+      const s1_startX = size / 2 - s1_totalWidth / 2;
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'left';
+      ctx.fillText(s1_parte1, s1_startX, yPos1);
+      
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText(s1_parte2, s1_startX + s1_width1, yPos1);
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.fillText(s1_parte3, s1_startX + s1_width1 + s1_width2, yPos1);
+      
+      // Line 2
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText('con accesso al verde pubblico garantito.', size / 2, yPos2);
+      
+      // Footer
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.87);
+    }
+    
+    function drawVerdeLontanoPreview(ctx, data, size) {
+      // Gray gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, size);
+      gradient.addColorStop(0, '#1f2937');
+      gradient.addColorStop(1, '#4b5563');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Tree (gray, scaled down)
+      drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185, true);
+      
+      // Text (scaled)
+      const scale = size / 1080;
+      
+      ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText('Lo spazio verde più vicino è', size / 2, size * 0.426);
+      
+      // Second line with distance
+      const p2_parte1 = 'a ';
+      const p2_parte2 = `${data.distance} metri`;
+      const p2_parte3 = ' da casa.';
+      
+      ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
+      const p2_width1 = ctx.measureText(p2_parte1).width;
+      const p2_width2 = ctx.measureText(p2_parte2).width;
+      const p2_width3 = ctx.measureText(p2_parte3).width;
+      const p2_totalWidth = p2_width1 + p2_width2 + p2_width3;
+      const p2_startX = size / 2 - p2_totalWidth / 2;
+      
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'left';
+      ctx.fillText(p2_parte1, p2_startX, size * 0.514);
+      
+      ctx.fillStyle = '#f97316';
+      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.514);
+      
+      ctx.fillStyle = 'white';
+      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.514);
+      
+      // Second phrase
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      const percentuale = data.population.toFixed(1).replace('.', ',');
+      
+      const yPos1 = size * 0.644;
+      const yPos2 = size * 0.704;
+      
+      // Line 1
+      const s1_parte1 = 'Sono tra il ';
+      const s1_parte2 = `${percentuale}%`;
+      const s1_parte3 = ' della popolazione di Palermo';
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      const s1_width1 = ctx.measureText(s1_parte1).width;
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      const s1_width2 = ctx.measureText(s1_parte2).width;
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      const s1_width3 = ctx.measureText(s1_parte3).width;
+      const s1_totalWidth = s1_width1 + s1_width2 + s1_width3;
+      const s1_startX = size / 2 - s1_totalWidth / 2;
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'left';
+      ctx.fillText(s1_parte1, s1_startX, yPos1);
+      
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = '#f97316';
+      ctx.fillText(s1_parte2, s1_startX + s1_width1, yPos1);
+      
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.fillText(s1_parte3, s1_startX + s1_width1 + s1_width2, yPos1);
+      
+      // Line 2
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText('che non ha accesso garantito al verde pubblico.', size / 2, yPos2);
+      
+      // Footer
+      ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
+      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.861);
+    }
+    
+    function drawTreeScaled(x, y, size, isGray = false) {
+      const ctx = document.getElementById('shareCanvas').getContext('2d');
+      
+      // Tronco
+      ctx.fillStyle = isGray ? '#6b7280' : '#6B4423';
+      ctx.fillRect(x - size * 0.1, y + size * 0.5, size * 0.2, size * 0.5);
+      
+      // Chioma principale
+      ctx.fillStyle = isGray ? '#9ca3af' : '#10b981';
+      ctx.beginPath();
+      ctx.arc(x, y + size * 0.4, size * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Highlight
+      ctx.fillStyle = isGray ? '#d1d5db' : '#34d399';
+      ctx.globalAlpha = isGray ? 0.4 : 0.6;
+      ctx.beginPath();
+      ctx.arc(x - size * 0.15, y + size * 0.3, size * 0.15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+    }
+    
+    function shareToFacebook() {
+      const url = encodeURIComponent('https://sigfreedo.github.io/palermo-3-30-300/index.html');
+      let text = '';
+      
+      const pop = window.shareData.population.toFixed(1).replace('.', ',');
+      
+      if (window.shareData.type === 'verde-vicino') {
+        text = encodeURIComponent(`Ho scoperto di avere uno spazio verde a soli ${window.shareData.distance}m da casa! Faccio parte del ${pop}% della popolazione di Palermo con accesso garantito al verde pubblico. E tu? Scoprilo su Palermo 3-30-300 🌳`);
+      } else {
+        text = encodeURIComponent(`Lo spazio verde più vicino è a ${window.shareData.distance}m da casa. Sono tra il ${pop}% della popolazione di Palermo senza accesso garantito al verde pubblico. Palermo deve fare di più. Analizza il tuo quartiere su Palermo 3-30-300`);
+      }
+      
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,
+        'facebook-share',
+        'width=600,height=400'
+      );
+    }
+    
+    function shareToLinkedIn() {
+      const url = encodeURIComponent('https://sigfreedo.github.io/palermo-3-30-300/index.html');
+      
+      // Testo professionale per LinkedIn
+      let text = '';
+      const pop = window.shareData.population.toFixed(1).replace('.', ',');
+      const dist = window.shareData.distance;
+      
+      if (window.shareData.type === 'verde-vicino') {
+        text = encodeURIComponent(`Analisi interessante sull'accessibilità del verde urbano a Palermo.
+
+Risultato: spazio verde pubblico a ${dist} metri dalla mia abitazione.
+Questo mi colloca nel ${pop}% della popolazione palermitana con accesso garantito secondo i parametri WHO/EEA (≤300m).
+
+Il progetto Palermo 3-30-300 applica la regola 3-30-300 (3 alberi visibili, 30% copertura arborea, 300m da spazi verdi) per valutare l'accesso al verde urbano nei quartieri di Palermo.
+
+Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
+
+#UrbanPlanning #GreenCities #Palermo #SustainableCities`);
+      } else {
+        text = encodeURIComponent(`Analisi sull'accessibilità del verde urbano a Palermo rivela criticità.
+
+Risultato: lo spazio verde pubblico più vicino si trova a ${dist} metri dalla mia abitazione, superando la soglia di 300m raccomandata da WHO/EEA.
+
+Questo dato riflette la situazione del ${pop}% della popolazione palermitana che non ha accesso garantito al verde pubblico secondo gli standard internazionali.
+
+Il progetto Palermo 3-30-300 evidenzia l'urgenza di politiche urbane orientate alla creazione di spazi verdi accessibili e distribuiti equamente.
+
+Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
+
+#UrbanPlanning #GreenInfrastructure #Palermo #PublicPolicy`);
+      }
+      
+      window.open(
+        `https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`,
+        'linkedin-share',
+        'width=600,height=400'
+      );
+    }
+    
+    function downloadShareImage() {
+      // Create full-size canvas (1080x1080)
+      const fullCanvas = document.createElement('canvas');
+      fullCanvas.width = 1080;
+      fullCanvas.height = 1080;
+      const ctx = fullCanvas.getContext('2d');
+      
+      // Draw full-size image
+      if (window.shareData.type === 'verde-vicino') {
+        drawVerdeVicinoFull(ctx, window.shareData);
+      } else {
+        drawVerdeLontanoFull(ctx, window.shareData);
+      }
+      
+      // Download
+      const link = document.createElement('a');
+      link.download = 'palermo-330300-condivisione.png';
+      link.href = fullCanvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    function drawVerdeVicinoFull(ctx, data) {
+      drawVerdeVicinoPreview(ctx, data, 1080);
+    }
+    
+    function drawVerdeLontanoFull(ctx, data) {
+      drawVerdeLontanoPreview(ctx, data, 1080);
+    }
   </script>
+  
+  <!-- Share Modal -->
+  <div id="shareModal" class="share-modal-overlay">
+    <div class="share-modal">
+      <div class="share-modal-header">
+        <h3>📊 Condividi i tuoi risultati</h3>
+        <button class="share-modal-close" onclick="closeShareModal()">×</button>
+      </div>
+      <div class="share-modal-body">
+        <div class="share-preview">
+          <canvas id="shareCanvas" width="400" height="400"></canvas>
+        </div>
+        <div class="share-buttons">
+          <button class="share-btn share-btn-facebook" onclick="shareToFacebook()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Condividi su Facebook
+          </button>
+          <button class="share-btn share-btn-linkedin" onclick="shareToLinkedIn()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            Condividi su LinkedIn
+          </button>
+          <button class="share-btn share-btn-download" onclick="downloadShareImage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Scarica immagine personalizzata
+          </button>
+        </div>
+        <p class="share-note">L'immagine è 1080×1080px, ottimale per tutti i social</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
