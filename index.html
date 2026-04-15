@@ -2071,10 +2071,16 @@
 
         function switchDataset(dataset) {
             currentDataset = dataset;
+            window.currentDataset = dataset; // Sync with global variable
             document.getElementById('btnOsm').classList.toggle('active', dataset === 'osm');
             document.getElementById('btnCopernicus').classList.toggle('active', dataset === 'copernicus');
             loadDataset(dataset);
             document.getElementById('result').style.display = 'none';
+            
+            // Update quartieri map if it's initialized
+            if (typeof window.updateQuartieriMap === 'function') {
+                window.updateQuartieriMap();
+            }
         }
 
         // Autocomplete
@@ -4216,6 +4222,119 @@ Cordiali saluti,
           legend.addTo(quartieriMap);
         })
         .catch(error => console.error('Errore caricamento quartieri GeoJSON:', error));
+    };
+    
+    // Update quartieri map when dataset changes
+    window.updateQuartieriMap = function() {
+      if (!quartieriMap || !window.quartieriData) return;
+      
+      const dataset = window.currentDataset || 'osm';
+      
+      // Remove existing layer
+      if (quartieriLayer) {
+        quartieriMap.removeLayer(quartieriLayer);
+      }
+      
+      // Reload data with new dataset
+      fetch('quartieri_dati_completi.geojson')
+        .then(response => response.json())
+        .then(geoData => {
+          const dataByQuartiere = window.quartieriData[dataset];
+          
+          // Calculate rankings
+          const quartieri = Object.keys(dataByQuartiere).map(nome => ({
+            nome: nome,
+            coverage: dataByQuartiere[nome].copertura || 0
+          })).sort((a, b) => b.coverage - a.coverage);
+          
+          const rankings = {};
+          quartieri.forEach((q, index) => {
+            rankings[q.nome] = index + 1;
+          });
+          
+          quartieriLayer = L.geoJSON(geoData, {
+            style: function(feature) {
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = dataByQuartiere[nomeQuartiere];
+              const coverage = dati ? dati.copertura : 0;
+              const color = window.getColorFromPercentage(coverage);
+              
+              return {
+                fillColor: color,
+                weight: 2,
+                opacity: 1,
+                color: 'rgba(255, 255, 255, 0.3)',
+                fillOpacity: 0.7
+              };
+            },
+            onEachFeature: function(feature, layer) {
+              const nomeQuartiere = feature.properties.quartiere;
+              const dati = dataByQuartiere[nomeQuartiere];
+              
+              if (!dati) {
+                console.warn('Dati non trovati per:', nomeQuartiere);
+                return;
+              }
+              
+              const coverage = dati.copertura || 0;
+              const spazi = dati.spazi || 0;
+              const popolazione = dati.popolazione || 0;
+              const ranking = rankings[nomeQuartiere] || '?';
+              const totalQuartieri = quartieri.length;
+              
+              // Tooltip HTML
+              const tooltipHTML = `
+                <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
+                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
+                  <div><strong>Copertura:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
+                  <div><strong>Spazi verdi:</strong> ${spazi}</div>
+                  <div><strong>Popolazione:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
+                  <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
+                </div>
+              `;
+              
+              layer.bindTooltip(tooltipHTML, {
+                className: 'quartiere-tooltip',
+                permanent: false,
+                direction: 'top',
+                offset: [0, -10]
+              });
+              
+              // Hover interactivity
+              layer.on('mouseover', function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 3,
+                  color: '#ffffff',
+                  fillOpacity: 0.9
+                });
+                layer.bringToFront();
+              });
+              
+              layer.on('mouseout', function(e) {
+                quartieriLayer.resetStyle(e.target);
+              });
+              
+              // Click - smooth pulse effect
+              layer.on('click', function(e) {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 4,
+                  color: '#10b981',
+                  fillOpacity: 1
+                });
+                setTimeout(() => {
+                  layer.setStyle({
+                    weight: 3,
+                    color: '#ffffff',
+                    fillOpacity: 0.9
+                  });
+                }, 200);
+              });
+            }
+          }).addTo(quartieriMap);
+        })
+        .catch(error => console.error('Errore aggiornamento mappa quartieri:', error));
     };
     
     // Initialize canopy quartieri map
