@@ -5095,18 +5095,11 @@ Cordiali saluti,
     
     function shareToFacebook() {
       const url = encodeURIComponent('https://sigfreedo.github.io/palermo-3-30-300/index.html');
-      let text = '';
       
-      const pop = window.shareData.population.toFixed(1).replace('.', ',');
-      
-      if (window.shareData.type === 'verde-vicino') {
-        text = encodeURIComponent(`Ho scoperto di avere uno spazio verde a soli ${window.shareData.distance}m da casa! Faccio parte del ${pop}% della popolazione di Palermo con accesso garantito al verde pubblico. E tu? Scoprilo su Palermo 3-30-300 🌳`);
-      } else {
-        text = encodeURIComponent(`Lo spazio verde più vicino è a ${window.shareData.distance}m da casa. Sono tra il ${pop}% della popolazione di Palermo senza accesso garantito al verde pubblico. Palermo deve fare di più. Analizza il tuo quartiere su Palermo 3-30-300`);
-      }
-      
+      // Facebook NON supporta testi pre-compilati (quote deprecato)
+      // L'utente dovrà scrivere il testo manualmente
       window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,
+        `https://www.facebook.com/sharer/sharer.php?u=${url}`,
         'facebook-share',
         'width=600,height=400'
       );
@@ -5115,38 +5108,10 @@ Cordiali saluti,
     function shareToLinkedIn() {
       const url = encodeURIComponent('https://sigfreedo.github.io/palermo-3-30-300/index.html');
       
-      // Testo professionale per LinkedIn
-      let text = '';
-      const pop = window.shareData.population.toFixed(1).replace('.', ',');
-      const dist = window.shareData.distance;
-      
-      if (window.shareData.type === 'verde-vicino') {
-        text = encodeURIComponent(`Analisi interessante sull'accessibilità del verde urbano a Palermo.
-
-Risultato: spazio verde pubblico a ${dist} metri dalla mia abitazione.
-Questo mi colloca nel ${pop}% della popolazione palermitana con accesso garantito secondo i parametri WHO/EEA (≤300m).
-
-Il progetto Palermo 3-30-300 applica la regola 3-30-300 (3 alberi visibili, 30% copertura arborea, 300m da spazi verdi) per valutare l'accesso al verde urbano nei quartieri di Palermo.
-
-Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
-
-#UrbanPlanning #GreenCities #Palermo #SustainableCities`);
-      } else {
-        text = encodeURIComponent(`Analisi sull'accessibilità del verde urbano a Palermo rivela criticità.
-
-Risultato: lo spazio verde pubblico più vicino si trova a ${dist} metri dalla mia abitazione, superando la soglia di 300m raccomandata da WHO/EEA.
-
-Questo dato riflette la situazione del ${pop}% della popolazione palermitana che non ha accesso garantito al verde pubblico secondo gli standard internazionali.
-
-Il progetto Palermo 3-30-300 evidenzia l'urgenza di politiche urbane orientate alla creazione di spazi verdi accessibili e distribuiti equamente.
-
-Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
-
-#UrbanPlanning #GreenInfrastructure #Palermo #PublicPolicy`);
-      }
-      
+      // LinkedIn NON supporta testi pre-compilati via URL
+      // L'utente dovrà scrivere il testo manualmente
       window.open(
-        `https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`,
+        `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
         'linkedin-share',
         'width=600,height=400'
       );
@@ -5186,7 +5151,7 @@ Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
   <div id="shareModal" class="share-modal-overlay">
     <div class="share-modal">
       <div class="share-modal-header">
-        <h3>📊 Condividi i tuoi risultati</h3>
+        <h3>Condividi i tuoi risultati</h3>
         <button class="share-modal-close" onclick="closeShareModal()">×</button>
       </div>
       <div class="share-modal-body">
@@ -5215,7 +5180,6 @@ Dati: OpenStreetMap, Copernicus Urban Atlas, ISTAT 2021.
             Scarica immagine personalizzata
           </button>
         </div>
-        <p class="share-note">L'immagine è 1080×1080px, ottimale per tutti i social</p>
       </div>
     </div>
   </div>
