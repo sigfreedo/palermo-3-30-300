@@ -398,7 +398,7 @@
     /* SECTION 300 - SPLIT LAYOUT */
     .section-300 {
       display: none;
-      margin-top: 2rem;
+      margin-top: 4rem;
     }
     
     .section-300.visible {
@@ -720,7 +720,7 @@
     /* NEW INPUT SECTION */
     .input-wrapper-section {
       max-width: 800px;
-      margin: 0.5rem auto 2rem;
+      margin: 0 auto 2rem;
       padding: 0 2rem;
     }
     
@@ -3044,9 +3044,7 @@
                         window.updateCanopyBox(nomeQuartiere);
                         window.updateCanopyDashboardQuartiere(nomeQuartiere);
                         
-                        setTimeout(() => {
-                            dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }, 300);
+                        // Auto-scroll removed for better UX
                     }, 800);
                 } catch (error) {
                     console.error('❌ ERRORE CRITICO:', error);
@@ -3732,10 +3730,7 @@
         setupTreeInput();
       }, 100);
       
-      // Scroll to section30 (regola del 30)
-      setTimeout(() => {
-        section30.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 1500);
+      // Auto-scroll removed for better UX
     };
     
     // ========================================
