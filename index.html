@@ -4911,11 +4911,11 @@ Cordiali saluti,
       // Decorative circles
       ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.beginPath();
-      ctx.arc(size * 0.79, size * 0.14, size * 0.185, 0, Math.PI * 2);
+      ctx.arc(size * 0.79, size * 0.09, size * 0.185, 0, Math.PI * 2);
       ctx.fill();
       
-      // Tree (scaled down)
-      drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185);
+      // Tree (raised to top)
+      drawTreeScaled(ctx, size / 2, size * 0.09, size * 0.185);
       
       // Text (scaled)
       const scale = size / 1080;
@@ -4923,7 +4923,7 @@ Cordiali saluti,
       ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('Minchia! Ho uno spazio verde', size / 2, size * 0.426);
+      ctx.fillText('Minchia! Ho uno spazio verde', size / 2, size * 0.34);
       
       // Second line with distance
       const p2_parte1 = 'a ';
@@ -4939,63 +4939,56 @@ Cordiali saluti,
       
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(p2_parte1, p2_startX, size * 0.514);
+      ctx.fillText(p2_parte1, p2_startX, size * 0.428);
       
       ctx.fillStyle = '#fbbf24';
-      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.514);
+      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.428);
       
       ctx.fillStyle = 'white';
-      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.514);
+      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.428);
       
-      // Second phrase (smaller font)
+      // Percentage text - 3 LINES
+      const percentuale = data.population.toFixed(0);
       ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       
-      const percentuale = data.population.toFixed(0);
-      ctx.fillStyle = 'white';
-      
-      const yPos1 = size * 0.644;
-      const yPos2 = size * 0.704;
-      
-      // Line 1
-      const s1_parte1 = 'Sono nel ';
+      // Line 1: "Faccio parte del X%"
+      const s1_parte1 = 'Faccio parte del ';
       const s1_parte2 = `${percentuale}%`;
-      const s1_parte3 = ' della popolazione di Palermo';
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       const s1_width1 = ctx.measureText(s1_parte1).width;
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
       const s1_width2 = ctx.measureText(s1_parte2).width;
-      ctx.font = `${Math.round(48 * scale)}px Arial`;
-      const s1_width3 = ctx.measureText(s1_parte3).width;
-      const s1_totalWidth = s1_width1 + s1_width2 + s1_width3;
+      const s1_totalWidth = s1_width1 + s1_width2;
       const s1_startX = size / 2 - s1_totalWidth / 2;
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(s1_parte1, s1_startX, yPos1);
+      ctx.fillText(s1_parte1, s1_startX, size * 0.59);
       
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = '#fbbf24';
-      ctx.fillText(s1_parte2, s1_startX + s1_width1, yPos1);
+      ctx.fillText(s1_parte2, s1_startX + s1_width1, size * 0.59);
       
+      // Line 2: "della popolazione di Palermo"
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
-      ctx.fillText(s1_parte3, s1_startX + s1_width1 + s1_width2, yPos1);
-      
-      // Line 2
-      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('con accesso al verde pubblico garantito.', size / 2, yPos2);
+      ctx.fillText('della popolazione di Palermo', size / 2, size * 0.65);
       
-      // Green line separator (between content and footer)
-      ctx.fillStyle = '#10b981';
-      ctx.fillRect(size * 0.35, size * 0.78, size * 0.3, size * 0.008);
+      // Line 3: "con accesso al verde pubblico garantito."
+      ctx.fillText('con accesso al verde pubblico garantito.', size / 2, size * 0.71);
+      
+      // White line separator (equidistant)
+      ctx.fillStyle = 'white';
+      ctx.fillRect(size * 0.35, size * 0.80, size * 0.3, size * 0.008);
       
       // Footer
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
-      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.87);
+      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.89);
     }
     
     function drawVerdeLontanoPreview(ctx, data, size) {
@@ -5006,8 +4999,8 @@ Cordiali saluti,
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, size, size);
       
-      // Tree (gray, scaled down)
-      drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185, true);
+      // Tree (gray, raised to top)
+      drawTreeScaled(ctx, size / 2, size * 0.09, size * 0.185, true);
       
       // Text (scaled)
       const scale = size / 1080;
@@ -5015,7 +5008,7 @@ Cordiali saluti,
       ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('Lo spazio verde più vicino è', size / 2, size * 0.426);
+      ctx.fillText('Lo spazio verde più vicino è', size / 2, size * 0.34);
       
       // Second line with distance
       const p2_parte1 = 'a ';
@@ -5031,60 +5024,56 @@ Cordiali saluti,
       
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(p2_parte1, p2_startX, size * 0.514);
+      ctx.fillText(p2_parte1, p2_startX, size * 0.428);
       
       ctx.fillStyle = '#f97316';
-      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.514);
+      ctx.fillText(p2_parte2, p2_startX + p2_width1, size * 0.428);
       
       ctx.fillStyle = 'white';
-      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.514);
+      ctx.fillText(p2_parte3, p2_startX + p2_width1 + p2_width2, size * 0.428);
       
-      // Second phrase
-      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      // Percentage text - 3 LINES
       const percentuale = data.population.toFixed(0);
+      ctx.font = `${Math.round(48 * scale)}px Arial`;
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
       
-      const yPos1 = size * 0.644;
-      const yPos2 = size * 0.704;
-      
-      // Line 1
+      // Line 1: "Faccio parte del X%"
       const s1_parte1 = 'Faccio parte del ';
       const s1_parte2 = `${percentuale}%`;
-      const s1_parte3 = ' della popolazione di Palermo';
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       const s1_width1 = ctx.measureText(s1_parte1).width;
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
       const s1_width2 = ctx.measureText(s1_parte2).width;
-      ctx.font = `${Math.round(48 * scale)}px Arial`;
-      const s1_width3 = ctx.measureText(s1_parte3).width;
-      const s1_totalWidth = s1_width1 + s1_width2 + s1_width3;
+      const s1_totalWidth = s1_width1 + s1_width2;
       const s1_startX = size / 2 - s1_totalWidth / 2;
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(s1_parte1, s1_startX, yPos1);
+      ctx.fillText(s1_parte1, s1_startX, size * 0.59);
       
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = '#f97316';
-      ctx.fillText(s1_parte2, s1_startX + s1_width1, yPos1);
+      ctx.fillText(s1_parte2, s1_startX + s1_width1, size * 0.59);
       
+      // Line 2: "della popolazione di Palermo"
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
-      ctx.fillText(s1_parte3, s1_startX + s1_width1 + s1_width2, yPos1);
-      
-      // Line 2
-      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('che non ha accesso garantito al verde pubblico.', size / 2, yPos2);
+      ctx.fillText('della popolazione di Palermo', size / 2, size * 0.65);
       
-      // Orange line separator (between content and footer)
-      ctx.fillStyle = '#f97316';
-      ctx.fillRect(size * 0.35, size * 0.78, size * 0.3, size * 0.008);
+      // Line 3: "che non ha accesso garantito al verde pubblico."
+      ctx.fillText('che non ha accesso garantito al verde pubblico.', size / 2, size * 0.71);
+      
+      // White line separator (equidistant)
+      ctx.fillStyle = 'white';
+      ctx.fillRect(size * 0.35, size * 0.80, size * 0.3, size * 0.008);
       
       // Footer
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
-      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.861);
+      ctx.fillText('Palermo 3-30-300', size / 2, size * 0.89);
     }
     
     function drawTreeScaled(ctx, x, y, size, isGray = false) {
