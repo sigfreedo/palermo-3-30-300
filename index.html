@@ -4917,10 +4917,6 @@ Cordiali saluti,
       // Tree (scaled down)
       drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185);
       
-      // Green line decoration (below tree)
-      ctx.fillStyle = '#10b981';
-      ctx.fillRect(size * 0.35, size * 0.34, size * 0.3, size * 0.008);
-      
       // Text (scaled)
       const scale = size / 1080;
       
@@ -4993,6 +4989,10 @@ Cordiali saluti,
       ctx.textAlign = 'center';
       ctx.fillText('con accesso al verde pubblico garantito.', size / 2, yPos2);
       
+      // Green line separator (between content and footer)
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(size * 0.35, size * 0.78, size * 0.3, size * 0.008);
+      
       // Footer
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
       ctx.fillText('Palermo 3-30-300', size / 2, size * 0.87);
@@ -5008,10 +5008,6 @@ Cordiali saluti,
       
       // Tree (gray, scaled down)
       drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185, true);
-      
-      // Orange line decoration (below tree)
-      ctx.fillStyle = '#f97316';
-      ctx.fillRect(size * 0.35, size * 0.34, size * 0.3, size * 0.008);
       
       // Text (scaled)
       const scale = size / 1080;
@@ -5051,7 +5047,7 @@ Cordiali saluti,
       const yPos2 = size * 0.704;
       
       // Line 1
-      const s1_parte1 = 'Sono tra il ';
+      const s1_parte1 = 'Faccio parte del ';
       const s1_parte2 = `${percentuale}%`;
       const s1_parte3 = ' della popolazione di Palermo';
       
@@ -5081,6 +5077,10 @@ Cordiali saluti,
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       ctx.fillText('che non ha accesso garantito al verde pubblico.', size / 2, yPos2);
+      
+      // Orange line separator (between content and footer)
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(size * 0.35, size * 0.78, size * 0.3, size * 0.008);
       
       // Footer
       ctx.font = `bold ${Math.round(48 * scale)}px Arial`;
