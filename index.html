@@ -8,12 +8,16 @@
   <!-- SEO -->
   <meta name="description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa secondo la regola 3-30-300.">
   
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sigfreedo.github.io/palermo-3-30-300/index.html">
   <meta property="og:title" content="Palermo 3-30-300 - Analisi su persone e spazi verdi">
   <meta property="og:description" content="Ricerca indipendente sull'accessibilità del verde urbano a Palermo.">
   <meta property="og:image" content="https://sigfreedo.github.io/palermo-3-30-300/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:site_name" content="Palermo 3-30-300">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -1071,11 +1075,13 @@
     }
     
     .share-btn-facebook:hover {
-      background: #166fe5;
+      background: #166fe5 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     
     .share-btn-facebook:active {
-      background: #0d5dcc;
+      background: #0d5dcc !important;
       transform: scale(0.98);
     }
     
@@ -4911,6 +4917,10 @@ Cordiali saluti,
       // Tree (scaled down)
       drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185);
       
+      // Green line decoration (below tree)
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(size * 0.35, size * 0.34, size * 0.3, size * 0.008);
+      
       // Text (scaled)
       const scale = size / 1080;
       
@@ -4945,7 +4955,7 @@ Cordiali saluti,
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.textAlign = 'center';
       
-      const percentuale = data.population.toFixed(1).replace('.', ',');
+      const percentuale = data.population.toFixed(0);
       ctx.fillStyle = 'white';
       
       const yPos1 = size * 0.644;
@@ -4999,6 +5009,10 @@ Cordiali saluti,
       // Tree (gray, scaled down)
       drawTreeScaled(ctx, size / 2, size * 0.14, size * 0.185, true);
       
+      // Orange line decoration (below tree)
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(size * 0.35, size * 0.34, size * 0.3, size * 0.008);
+      
       // Text (scaled)
       const scale = size / 1080;
       
@@ -5031,7 +5045,7 @@ Cordiali saluti,
       
       // Second phrase
       ctx.font = `${Math.round(48 * scale)}px Arial`;
-      const percentuale = data.population.toFixed(1).replace('.', ',');
+      const percentuale = data.population.toFixed(0);
       
       const yPos1 = size * 0.644;
       const yPos2 = size * 0.704;
@@ -5073,9 +5087,7 @@ Cordiali saluti,
       ctx.fillText('Palermo 3-30-300', size / 2, size * 0.861);
     }
     
-    function drawTreeScaled(x, y, size, isGray = false) {
-      const ctx = document.getElementById('shareCanvas').getContext('2d');
-      
+    function drawTreeScaled(ctx, x, y, size, isGray = false) {
       // Tronco
       ctx.fillStyle = isGray ? '#6b7280' : '#6B4423';
       ctx.fillRect(x - size * 0.1, y + size * 0.5, size * 0.2, size * 0.5);
