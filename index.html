@@ -11,19 +11,16 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sigfreedo.github.io/palermo-3-30-300/index.html">
-  <meta property="og:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
-  <meta property="og:description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa secondo la regola 3-30-300.">
+  <meta property="og:title" content="Palermo 3-30-300 - Analisi su persone e spazi verdi">
+  <meta property="og:description" content="Ricerca indipendente sull'accessibilità del verde urbano a Palermo.">
   <meta property="og:image" content="https://sigfreedo.github.io/palermo-3-30-300/og-image.png">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://sigfreedo.github.io/palermo-3-30-300/index.html">
-  <meta property="twitter:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
-  <meta property="twitter:description" content="Analisi civica sull'accesso al verde urbano a Palermo">
+  <meta property="twitter:title" content="Palermo 3-30-300 - Analisi su persone e spazi verdi">
+  <meta property="twitter:description" content="Ricerca indipendente sull'accessibilità del verde urbano a Palermo.">
   <meta property="twitter:image" content="https://sigfreedo.github.io/palermo-3-30-300/og-image.png">
-  <meta property="twitter:title" content="Palermo 3-30-300 - Accesso al Verde Urbano">
-  <meta property="twitter:description" content="Analisi civica sull'accesso al verde urbano a Palermo. Scopri se hai uno spazio verde entro 300 metri da casa.">
-  <meta property="twitter:image" content="https://palermo-3-30-300.it/og-image.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1075,6 +1072,11 @@
     
     .share-btn-facebook:hover {
       background: #166fe5;
+    }
+    
+    .share-btn-facebook:active {
+      background: #0d5dcc;
+      transform: scale(0.98);
     }
     
     .share-btn-linkedin {
@@ -2570,7 +2572,7 @@
             
             // Populate share data
             const isNearby = distance <= 300;
-            const populationPercentage = isNearby ? 38.0 : 62.0; // Placeholder - sostituire con dati reali
+            const populationPercentage = isNearby ? 39.0 : 61.0; // Placeholder - sostituire con dati reali
             window.shareData = {
                 type: isNearby ? 'verde-vicino' : 'verde-lontano',
                 distance: distanceMeters,
