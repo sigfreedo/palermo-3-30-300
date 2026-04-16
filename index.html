@@ -2069,7 +2069,7 @@
     </section>
 
     <!-- SEZIONE CALL TO ACTION -->
-    <section style="background: #059669; padding: 4rem 2rem; margin-top: 0;">
+    <section style="background: #059669; padding: 4rem 2rem 4rem 2rem; margin: 0;">
         <div class="container">
             <h2 style="text-align: center; color: white; font-size: 32px; font-weight: 700; margin: 0 0 3rem 0;">
                 Approfondisci
@@ -2078,84 +2078,117 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
                 
                 <!-- CTA 1: Metodologia -->
-                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                     <!-- Icona metodologia SVG -->
                     <svg width="64" height="64" viewBox="0 0 64 64" style="margin-bottom: 1rem;">
-                        <rect x="12" y="8" width="40" height="48" rx="2" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <line x1="20" y1="18" x2="44" y2="18" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="20" y1="26" x2="44" y2="26" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="20" y1="34" x2="38" y2="34" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="22" cy="44" r="2" fill="#059669"/>
-                        <circle cx="32" cy="44" r="2" fill="#059669"/>
-                        <circle cx="42" cy="44" r="2" fill="#059669"/>
-                        <polyline points="20,50 28,46 36,52 44,48" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Documento -->
+                        <rect x="16" y="8" width="32" height="48" rx="2" fill="none" stroke="#059669" stroke-width="2"/>
+                        <line x1="24" y1="18" x2="40" y2="18" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="24" y1="26" x2="40" y2="26" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="24" y1="34" x2="36" y2="34" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Lente -->
+                        <circle cx="42" cy="42" r="8" fill="none" stroke="#059669" stroke-width="2"/>
+                        <line x1="48" y1="48" x2="54" y2="54" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Approfondisci la metodologia</h3>
                     <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
                         Scopri come sono stati raccolti e analizzati i dati sulla copertura verde di Palermo.
                     </p>
-                    <a href="metodologia.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
-                        Leggi la ricerca
+                    <a href="metodologia.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#047857'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#059669'; this.style.transform='translateY(0)'">
+                        Vai alla ricerca
                     </a>
                 </div>
                 
                 <!-- CTA 2: Mappe e Dataset -->
-                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                     <!-- Icona mappa SVG -->
                     <svg width="64" height="64" viewBox="0 0 64 64" style="margin-bottom: 1rem;">
-                        <path d="M 10 14 L 24 10 L 40 18 L 54 12 L 54 50 L 40 56 L 24 48 L 10 54 Z" fill="none" stroke="#059669" stroke-width="2.5" stroke-linejoin="round"/>
-                        <line x1="24" y1="10" x2="24" y2="48" stroke="#059669" stroke-width="2" stroke-dasharray="none"/>
-                        <line x1="40" y1="18" x2="40" y2="56" stroke="#059669" stroke-width="2" stroke-dasharray="none"/>
-                        <circle cx="18" cy="28" r="3" fill="#10b981"/>
-                        <circle cx="32" cy="35" r="3" fill="#10b981"/>
-                        <circle cx="46" cy="30" r="3" fill="#10b981"/>
+                        <!-- Mappa pieghevole -->
+                        <path d="M 12 16 L 22 12 L 42 20 L 52 16 L 52 48 L 42 52 L 22 44 L 12 48 Z" fill="none" stroke="#059669" stroke-width="2" stroke-linejoin="round"/>
+                        <line x1="22" y1="12" x2="22" y2="44" stroke="#059669" stroke-width="2"/>
+                        <line x1="42" y1="20" x2="42" y2="52" stroke="#059669" stroke-width="2"/>
+                        <!-- Pins -->
+                        <circle cx="17" cy="28" r="2.5" fill="#10b981"/>
+                        <circle cx="32" cy="34" r="2.5" fill="#10b981"/>
+                        <circle cx="47" cy="30" r="2.5" fill="#10b981"/>
                     </svg>
                     <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Visualizza le mappe e i dati</h3>
                     <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
-                        Esplora le mappe interattive e scarica i dataset aperti in formato GeoJSON e CSV.
+                        Esplora le mappe interattive e scarica i dataset aperti in formato GeoJSON e JSON.
                     </p>
-                    <a href="dati.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
-                        Vai ai dati
+                    <a href="dati.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#047857'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#059669'; this.style.transform='translateY(0)'">
+                        Vai a mappe e dataset
                     </a>
                 </div>
                 
                 <!-- CTA 3: Condividi -->
-                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div style="background: white; border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                     <!-- Icona condividi SVG -->
                     <svg width="64" height="64" viewBox="0 0 64 64" style="margin-bottom: 1rem;">
-                        <circle cx="32" cy="32" r="8" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <circle cx="16" cy="20" r="6" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <circle cx="48" cy="20" r="6" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <circle cx="16" cy="44" r="6" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <circle cx="48" cy="44" r="6" fill="none" stroke="#059669" stroke-width="2.5"/>
-                        <line x1="26" y1="28" x2="20" y2="24" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
-                        <line x1="38" y1="28" x2="44" y2="24" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
-                        <line x1="26" y1="36" x2="20" y2="40" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
-                        <line x1="38" y1="36" x2="44" y2="40" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Nodo centrale -->
+                        <circle cx="32" cy="32" r="6" fill="#10b981"/>
+                        <!-- Nodi esterni -->
+                        <circle cx="16" cy="18" r="5" fill="none" stroke="#059669" stroke-width="2"/>
+                        <circle cx="48" cy="18" r="5" fill="none" stroke="#059669" stroke-width="2"/>
+                        <circle cx="16" cy="46" r="5" fill="none" stroke="#059669" stroke-width="2"/>
+                        <circle cx="48" cy="46" r="5" fill="none" stroke="#059669" stroke-width="2"/>
+                        <!-- Connessioni -->
+                        <line x1="27" y1="28" x2="20" y2="22" stroke="#059669" stroke-width="2"/>
+                        <line x1="37" y1="28" x2="44" y2="22" stroke="#059669" stroke-width="2"/>
+                        <line x1="27" y1="36" x2="20" y2="42" stroke="#059669" stroke-width="2"/>
+                        <line x1="37" y1="36" x2="44" y2="42" stroke="#059669" stroke-width="2"/>
                     </svg>
-                    <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Condividi il progetto</h3>
+                    <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Racconta il progetto</h3>
                     <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
                         Diffondi i dati sul verde urbano di Palermo sui tuoi canali social.
                     </p>
-                    <div style="display: flex; gap: 0.75rem; justify-content: center;">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://sigfreedo.github.io/palermo-verde/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #1877f2; color: white; border-radius: 8px; text-decoration: none; font-weight: 700; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Condividi su Facebook">
-                            f
-                        </a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sigfreedo.github.io/palermo-verde/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #0a66c2; color: white; border-radius: 8px; text-decoration: none; font-weight: 700; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Condividi su LinkedIn">
-                            in
-                        </a>
-                        <button onclick="copyShareLink()" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #059669; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 20px; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Copia link">
-                            ⎘
-                        </button>
-                    </div>
-                    <p style="font-size: 12px; color: #9ca3af; margin-top: 0.75rem;">Per Instagram: screenshot e tag @comune_palermo.</p>
+                    <button onclick="openShareModal()" style="display: inline-block; padding: 0.75rem 1.5rem; background: #059669; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 15px;" onmouseover="this.style.background='#047857'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#059669'; this.style.transform='translateY(0)'">
+                        Condividi
+                    </button>
                 </div>
                 
             </div>
         </div>
     </section>
 
-    <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center;">
+    <!-- MODAL CONDIVISIONE -->
+    <div id="shareModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 2.5rem; max-width: 400px; width: 90%; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);">
+            <button onclick="closeShareModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 28px; color: #9ca3af; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: color 0.2s;" onmouseover="this.style.color='#4b5563'" onmouseout="this.style.color='#9ca3af'">
+                ×
+            </button>
+            
+            <h3 style="color: #065f46; font-size: 24px; font-weight: 700; margin: 0 0 1rem 0;">Condividi il progetto</h3>
+            <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 2rem 0;">
+                Aiutaci a diffondere i dati sul verde urbano di Palermo
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://sigfreedo.github.io/palermo-3-30-300/" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: #1877f2; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(24,119,242,0.3)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span>Condividi su Facebook</span>
+                </a>
+                
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sigfreedo.github.io/palermo-3-30-300/" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: #0a66c2; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(10,102,194,0.3)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span>Condividi su LinkedIn</span>
+                </a>
+                
+                <a href="https://api.whatsapp.com/send?text=Scopri%20come%20Palermo%20rispetta%20la%20regola%20del%203-30-300%20per%20il%20verde%20urbano%20https://sigfreedo.github.io/palermo-3-30-300/" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: #25d366; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(37,211,102,0.3)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                    <span>Condividi su WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center; margin: 0;">
         <p style="line-height: 1.8; margin: 0;">
             <strong>Palermo 3-30-300</strong> è un progetto aperto, indipendente e con finalità divulgativa.<br>
             Il codice sorgente, così come i dataset e la metodologia sono accessibili da 
@@ -4018,6 +4051,34 @@ Cordiali saluti,
         alert('Link copiato! Condividilo dove vuoi.');
       });
     }
+    
+    function openShareModal() {
+      const modal = document.getElementById('shareModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    
+    // Close modal when clicking outside
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('shareModal');
+      if (e.target === modal) {
+        closeShareModal();
+      }
+    });
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeShareModal();
+      }
+    });
+    
     
     // Initialize tree input on page load
     document.addEventListener('DOMContentLoaded', () => {
