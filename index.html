@@ -3564,7 +3564,7 @@
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').textContent = 
-        `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i quartieri della città.`;
+        `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
@@ -4261,7 +4261,7 @@ Cordiali saluti,
       const totale = classificaArray.length;
       
       // Genera testo descrittivo con grassetti
-      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. <span style="white-space: nowrap;">Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.</span>`;
+      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
       
       document.getElementById('quartiere-descrizione').innerHTML = descrizione;
     };
