@@ -894,6 +894,12 @@
       /* Dashboard boxes stack vertically on mobile */
       .dashboard-grid {
         grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+      
+      /* Reduce box padding on mobile to prevent overflow */
+      .dashboard-box {
+        padding: 1.5rem !important;
       }
       
       /* Fix for quartiere-stats wrapper - ensure it doesn't interfere with box padding */
@@ -980,6 +986,7 @@
       border: 2px solid #10b981;
       border-radius: 12px;
       padding: 2.5rem;
+      box-sizing: border-box;
     }
     
     .dashboard-box h3 {
