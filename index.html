@@ -896,11 +896,8 @@
         grid-template-columns: 1fr !important;
       }
       
-      /* Center dashboard box contents on mobile */
+      /* Increase padding on dashboard boxes for mobile */
       .dashboard-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         padding: 2rem 1.5rem !important;
       }
       
@@ -4459,7 +4456,7 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobile = window.innerWidth <= 768;
       const mapZoom = isMobile ? 10 : 12;
-      const mapCenter = isMobile ? [38.100, 13.361] : [38.135, 13.361];
+      const mapCenter = isMobile ? [38.090, 13.361] : [38.135, 13.361];
       
       window.quartieriMap = L.map('quartieri-map', {
         center: mapCenter,
@@ -4778,7 +4775,7 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobileCanopy = window.innerWidth <= 768;
       const mapZoomCanopy = isMobileCanopy ? 10 : 12;
-      const mapCenterCanopy = isMobileCanopy ? [38.100, 13.361] : [38.135, 13.361];
+      const mapCenterCanopy = isMobileCanopy ? [38.090, 13.361] : [38.135, 13.361];
       
       window.canopyQuartieriMap = L.map('canopy-quartieri-map', {
         center: mapCenterCanopy,
