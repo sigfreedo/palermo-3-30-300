@@ -909,6 +909,16 @@
         padding: 0 !important;
       }
       
+      /* Force all children of dashboard boxes to respect padding */
+      .dashboard-box > *,
+      .dashboard-box h3,
+      #quartiere-stats > *,
+      #canopy-quartiere-stats > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100%;
+      }
+      
       /* Ensure grid is centered */
       .dashboard-grid {
         margin-left: 0 !important;
@@ -3582,7 +3592,7 @@
       document.getElementById('canopy-quartiere-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
-      document.getElementById('canopy-quartiere-description').textContent = 
+      document.getElementById('canopy-quartiere-description').innerHTML = 
         `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
       
       // Show dashboard
