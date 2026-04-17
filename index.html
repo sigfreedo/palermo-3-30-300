@@ -896,53 +896,6 @@
         grid-template-columns: 1fr !important;
       }
       
-      /* Increase padding on dashboard boxes for mobile */
-      .dashboard-box {
-        padding: 1.5rem !important;
-        box-sizing: border-box !important;
-      }
-      
-      /* Override any inline styles on dashboard box children */
-      .dashboard-box > h3,
-      .dashboard-box > div {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
-      /* Ensure progress circles container has proper margins */
-      .dashboard-box > div[style*="display: flex"] {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
-      /* Ensure all direct children of dashboard-box respect the parent padding */
-      .dashboard-box > * {
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-      
-      /* Ensure progress circles are centered and have space */
-      .dashboard-box svg {
-        max-width: 240px;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        display: block;
-      }
-      
-      /* Ensure stats grids don't overflow and have proper spacing */
-      .dashboard-box div[style*="grid-template-columns"] {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
-      /* Border lines should not extend beyond padding */
-      .dashboard-box div[style*="border-top"] {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
       /* Map box full width on mobile */
       #dashboardPalermo .dashboard-box:last-child,
       #dashboardCanopy .dashboard-box:last-child {
