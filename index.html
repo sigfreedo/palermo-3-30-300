@@ -898,7 +898,49 @@
       
       /* Increase padding on dashboard boxes for mobile */
       .dashboard-box {
-        padding: 2rem 1.5rem !important;
+        padding: 1.5rem !important;
+        box-sizing: border-box !important;
+      }
+      
+      /* Override any inline styles on dashboard box children */
+      .dashboard-box > h3,
+      .dashboard-box > div {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Ensure progress circles container has proper margins */
+      .dashboard-box > div[style*="display: flex"] {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Ensure all direct children of dashboard-box respect the parent padding */
+      .dashboard-box > * {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      
+      /* Ensure progress circles are centered and have space */
+      .dashboard-box svg {
+        max-width: 240px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block;
+      }
+      
+      /* Ensure stats grids don't overflow and have proper spacing */
+      .dashboard-box div[style*="grid-template-columns"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Border lines should not extend beyond padding */
+      .dashboard-box div[style*="border-top"] {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
       }
       
       /* Map box full width on mobile */
@@ -1686,7 +1728,7 @@
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Spazi verdi e accessibilità a Palermo</h2>
             
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
-                <p style="margin-bottom: 1rem;">L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥0.5 ettari) entro <strong style="color: #10b981;">300 metri</strong> dalla propria abitazione. Città virtuose come Ljubljana raggiungono una copertura del 100% della popolazione.</p>
+                <p style="margin-bottom: 1rem;">L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥0.5 ettari) entro <strong style="color: #10b981;">300 metri</strong> dalla propria abitazione. Città virtuose come <a href="https://www.ljubljana.info/to-do/sustainable-ljubljana/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Ljubljana</strong></a> raggiungono una copertura del 100% della popolazione.</p>
                 
                 <p style="margin-bottom: 0;">Per questa analisi sono stati utilizzati due dataset distinti: <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">OpenStreetMap</a> e <a href="https://land.copernicus.eu/local/urban-atlas" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Urban Atlas</a>. I risultati sono simili e puoi confrontarli usando il toggle qui sotto. Il calcolo degli abitanti con accesso al verde si basa sul metodo dell'<strong style="color: #10b981;">interpolazione ponderata per area</strong> applicato alle sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a>, che permette di stimare con precisione quanti cittadini abitano entro 300 metri da uno spazio verde pubblico.</p>
             </div>
@@ -4266,7 +4308,7 @@ Cordiali saluti,
       const totale = classificaArray.length;
       
       // Genera testo descrittivo con grassetti
-      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.`;
+      const descrizione = `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. <span style="white-space: nowrap;">Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i quartieri della città.</span>`;
       
       document.getElementById('quartiere-descrizione').innerHTML = descrizione;
     };
@@ -4456,7 +4498,9 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobile = window.innerWidth <= 768;
       const mapZoom = isMobile ? 10 : 12;
-      const mapCenter = isMobile ? [38.090, 13.361] : [38.135, 13.361];
+      const mapCenter = isMobile ? [38.080, 13.361] : [38.135, 13.361];
+      
+      console.log('Quartieri Map - Mobile:', isMobile, 'Zoom:', mapZoom, 'Center:', mapCenter);
       
       window.quartieriMap = L.map('quartieri-map', {
         center: mapCenter,
@@ -4775,7 +4819,9 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobileCanopy = window.innerWidth <= 768;
       const mapZoomCanopy = isMobileCanopy ? 10 : 12;
-      const mapCenterCanopy = isMobileCanopy ? [38.090, 13.361] : [38.135, 13.361];
+      const mapCenterCanopy = isMobileCanopy ? [38.080, 13.361] : [38.135, 13.361];
+      
+      console.log('Canopy Map - Mobile:', isMobileCanopy, 'Zoom:', mapZoomCanopy, 'Center:', mapCenterCanopy);
       
       window.canopyQuartieriMap = L.map('canopy-quartieri-map', {
         center: mapCenterCanopy,
