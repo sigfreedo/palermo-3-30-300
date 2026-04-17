@@ -570,10 +570,18 @@
       margin-bottom: 0.75rem;
     }
     
+    .rule-section p:last-child {
+      margin-bottom: 0;
+    }
+    
     .rule-section ul {
       list-style: none;
       padding: 0;
       margin: 0.75rem 0;
+    }
+    
+    .rule-section ul:last-child {
+      margin-bottom: 0;
     }
     
     .rule-section ul li {
@@ -1542,7 +1550,7 @@
         <div class="rule-column">
           <div class="rule-section">
             <h3>🌳 La regola del 3+30+300 per città più verdi</h3>
-            <p>Questo principio, sviluppato da Cecil Konijnendijk, spiega l'importanza di portare la natura nei quartieri, nelle strade e proprio davanti alle porte di casa, per trarne i numerosi benefici. Esso fornisce criteri guida chiari per la dotazione minima di alberi nelle nostre comunità urbane, stabilendo i seguenti tre requisiti minimi:</p>
+            <p>Questo principio, sviluppato da <strong>Cecil Konijnendijk</strong>, spiega l'importanza di portare la natura nei quartieri, nelle strade e proprio davanti alle porte di casa, per trarne i numerosi benefici. Esso fornisce criteri guida chiari per la dotazione minima di alberi nelle nostre comunità urbane, stabilendo i seguenti tre requisiti minimi:</p>
             <ul>
               <li><strong>3 alberi maturi</strong> visibili da ogni abitazione</li>
               <li><strong>30% di copertura arborea</strong> in ogni quartiere</li>
@@ -1552,12 +1560,12 @@
           
           <div class="rule-section">
             <h3>🎯 Lo standard di accessibilità</h3>
-            <p>Tutte e tutti dovremmo avere a disposizione uno spazio verde di alta qualità e accessibile al pubblico, a non più di 300 metri di distanza a piedi o in bicicletta, in modo da garantirne l'accessibilità per attività ricreative e promuovere stili di vita più sani.</p>
+            <p>Tutte e tutti dovremmo avere a disposizione <strong>uno spazio verde di alta qualità e accessibile al pubblico</strong>, a non più di 300 metri di distanza a piedi o in bicicletta, per attività ricreative e promuovere stili di vita più sani.</p>
           </div>
           
           <div class="rule-section">
             <h3>💚 Perché è importante</h3>
-            <p>La vicinanza agli spazi verdi migliora la salute fisica incoraggiando il movimento quotidiano e favorisce il benessere mentale riducendo stress e ansia. Gli spazi verdi sono inoltre luoghi di incontro e socialità per la comunità e contribuiscono a mitigare le isole di calore urbano.</p>
+            <p>La vicinanza agli spazi verdi migliora la <strong>salute fisica</strong> incoraggiando il movimento quotidiano e favorisce il <strong>benessere mentale</strong> riducendo stress e ansia. Gli spazi verdi sono inoltre luoghi di <strong>incontro e socialità</strong> per la comunità e contribuiscono a mitigare le isole di calore urbano.</p>
           </div>
           
           <div class="rule-section">
@@ -1572,7 +1580,7 @@
               Fonti: 
               <a href="https://nbsi.eu/330300-principle/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Nature-Based Solutions Institute</a>, 
               <a href="https://www.330300rule.com/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">The Threes Rule</a>, 
-              <a href="https://tradkontoret.se/en/yggdrasil/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Yggdrasil - Gothenburg</a>
+              <a href="https://tradkontoret.se/en/yggdrasil/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">Yggdrasil</a>
             </p>
             
             <div style="margin-top: 1.5rem;">
@@ -2650,6 +2658,11 @@
             
             // Show section
             section300.classList.add('visible');
+            
+            // Scroll to section 300
+            setTimeout(() => {
+                section300.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
             
             // Initialize interactive map - PASSA TUTTI GLI SPAZI
             initializeMap300(lat, lon, nearestSpace, distance, spacesWithin300Array);
