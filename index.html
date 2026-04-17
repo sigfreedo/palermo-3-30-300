@@ -896,6 +896,25 @@
         grid-template-columns: 1fr !important;
       }
       
+      /* Reduce padding on mobile and ensure quartiere-stats wrapper doesn't interfere */
+      .dashboard-box {
+        padding: 1.5rem !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      #quartiere-stats,
+      #canopy-quartiere-stats {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      /* Ensure grid is centered */
+      .dashboard-grid {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
       /* Map box full width on mobile */
       #dashboardPalermo .dashboard-box:last-child,
       #dashboardCanopy .dashboard-box:last-child {
