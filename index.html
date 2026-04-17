@@ -885,8 +885,13 @@
         grid-template-columns: 1fr;
       }
       
+      /* Dashboard boxes stack vertically on mobile */
+      .dashboard-grid {
+        grid-template-columns: 1fr !important;
+      }
+      
       /* Dashboard maps and charts on mobile */
-      #category-chart {
+      #category-chart-box {
         display: none !important;
       }
       
@@ -1751,7 +1756,7 @@
             </div>
             
             <!-- Categorizzazione del verde urbano -->
-            <div class="dashboard-box" style="margin-top: 2rem;">
+            <div class="dashboard-box" id="category-chart-box" style="margin-top: 2rem;">
                 <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano</h3>
                 
                 <!-- Metric Toggle -->
@@ -1941,7 +1946,7 @@
                 
                 <!-- Box 2: Il Mio Quartiere -->
                 <div class="dashboard-box">
-                    <h3 id="canopy-quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il mio quartiere</h3>
+                    <h3 id="canopy-quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il tuo quartiere</h3>
                     
                     <!-- Progress Circle -->
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
@@ -4433,9 +4438,10 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobile = window.innerWidth <= 768;
       const mapZoom = isMobile ? 10 : 12;
+      const mapCenter = isMobile ? [38.115, 13.361] : [38.135, 13.361];
       
       window.quartieriMap = L.map('quartieri-map', {
-        center: [38.125, 13.361],
+        center: mapCenter,
         zoom: mapZoom,
         zoomControl: true,
         scrollWheelZoom: false,
@@ -4751,9 +4757,10 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobileCanopy = window.innerWidth <= 768;
       const mapZoomCanopy = isMobileCanopy ? 10 : 12;
+      const mapCenterCanopy = isMobileCanopy ? [38.115, 13.361] : [38.135, 13.361];
       
       window.canopyQuartieriMap = L.map('canopy-quartieri-map', {
-        center: [38.125, 13.361],
+        center: mapCenterCanopy,
         zoom: mapZoomCanopy,
         zoomControl: true,
         scrollWheelZoom: false,
