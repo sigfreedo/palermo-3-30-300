@@ -901,12 +901,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 1.5rem !important;
-      }
-      
-      .dashboard-box > * {
-        width: 100%;
-        max-width: 400px;
+        padding: 2rem 1.5rem !important;
       }
       
       /* Map box full width on mobile */
@@ -3571,7 +3566,7 @@
       document.getElementById('canopy-quartiere-progress-bar').setAttribute('stroke', barColor);
       
       // Update UI
-      document.getElementById('canopy-quartiere-title').textContent = `Il mio quartiere: ${nomeQuartiere}`;
+      document.getElementById('canopy-quartiere-title').textContent = `Il tuo quartiere: ${nomeQuartiere}`;
       document.getElementById('canopy-quartiere-percentage').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
       document.getElementById('canopy-quartiere-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
