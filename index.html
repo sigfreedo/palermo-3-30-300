@@ -885,6 +885,16 @@
         grid-template-columns: 1fr;
       }
       
+      /* Dashboard maps and charts on mobile */
+      #category-chart {
+        display: none !important;
+      }
+      
+      #quartieri-map,
+      #canopy-quartieri-map {
+        height: 500px !important;
+      }
+      
       .result-column, .rule-column {
         padding: 1.5rem;
       }
@@ -1985,7 +1995,7 @@
                 
                 <!-- Descrizione -->
                 <p class="description" style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0 0 2rem 0;">
-                    Conta quanti alberi riesci a vedere dalla <strong>tua finestra di casa</strong> e scopri se rispetti questo principio. In questo caso, non avendo dati attendibili, è necessario basarsi su un'indagine tra i partecipanti.
+                    Conta quanti alberi riesci a vedere <strong>dalla tua finestra di casa</strong> e scopri se rispetti questo principio. In questo caso, non avendo dati attendibili, è necessario basarsi su un'indagine tra i partecipanti.
                 </p>
                 
                 <!-- Box Finestra -->
@@ -4420,9 +4430,13 @@ Cordiali saluti,
       document.head.appendChild(style);
       
       // Initialize map with scroll zoom disabled
+      // Detect if mobile for zoom adjustment
+      const isMobile = window.innerWidth <= 768;
+      const mapZoom = isMobile ? 10 : 12;
+      
       window.quartieriMap = L.map('quartieri-map', {
-        center: [38.115, 13.361],
-        zoom: 12,
+        center: [38.125, 13.361],
+        zoom: mapZoom,
         zoomControl: true,
         scrollWheelZoom: false,
         doubleClickZoom: true,
@@ -4734,9 +4748,13 @@ Cordiali saluti,
       if (window.canopyQuartieriMap) return; // Already initialized
       
       // Initialize map
+      // Detect if mobile for zoom adjustment
+      const isMobileCanopy = window.innerWidth <= 768;
+      const mapZoomCanopy = isMobileCanopy ? 10 : 12;
+      
       window.canopyQuartieriMap = L.map('canopy-quartieri-map', {
-        center: [38.115, 13.361],
-        zoom: 12,
+        center: [38.125, 13.361],
+        zoom: mapZoomCanopy,
         zoomControl: true,
         scrollWheelZoom: false,
         doubleClickZoom: true,
