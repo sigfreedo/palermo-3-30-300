@@ -897,25 +897,6 @@
         grid-template-columns: 1fr !important;
       }
       
-      /* Reduce padding on mobile and ensure quartiere-stats wrapper doesn't interfere */
-      .dashboard-box {
-        padding: 1.5rem !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
-      #quartiere-stats,
-      #canopy-quartiere-stats {
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      
-      /* Ensure grid is centered */
-      .dashboard-grid {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      
       /* Map box full width on mobile */
       #dashboardPalermo .dashboard-box:last-child,
       #dashboardCanopy .dashboard-box:last-child {
@@ -1757,7 +1738,7 @@
                         Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.
                     </div>
                     
-                    <div id="quartiere-stats" style="display: none;">
+                    <div id="quartiere-stats" style="display: none; margin: 0; padding: 0;">
                         <!-- Progress Circle -->
                         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
                             <svg width="240" height="240" viewBox="0 0 240 240" id="quartiere-progress-circle">
