@@ -885,10 +885,11 @@
         grid-template-columns: 1fr;
       }
       
-      /* Dashboard wrapper full width on mobile - remove padding to match other sections */
-      #dashboardPalermo > div,
-      #dashboardCanopy > div {
-        padding: 0 !important;
+      /* Dashboard boxes wrapper - reduce padding on mobile (only wrapper containing grid) */
+      #dashboardPalermo div:has(> .dashboard-grid),
+      #dashboardCanopy div:has(> .dashboard-grid) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
       
       /* Dashboard boxes stack vertically on mobile */
