@@ -918,12 +918,11 @@
         margin-bottom: 0 !important;
       }
       
-      /* Map box full width on mobile - target specifically map boxes, not all last children */
-      #category-chart-box,
-      #quartieri-map-box,
-      #canopy-quartieri-map-box {
+      /* Map box full width on mobile - no padding */
+      .dashboard-box:has(#quartieri-map),
+      .dashboard-box:has(#canopy-quartieri-map),
+      #category-chart-box {
         padding: 0 !important;
-        max-width: none;
       }
       
       /* Dashboard maps and charts on mobile */
