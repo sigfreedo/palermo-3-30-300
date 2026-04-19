@@ -1755,12 +1755,8 @@
                 <div class="dashboard-box">
                     <h3 id="quartiere-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Il tuo quartiere</h3>
                     
-                    <div id="quartiere-placeholder" style="color: #9ca3af; font-size: 14px; text-align: center;">
-                        Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.
-                    </div>
-                    
                     <!-- Progress Circle -->
-                    <div id="quartiere-circle-container" style="display: none; justify-content: center; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
                         <svg width="240" height="240" viewBox="0 0 240 240" id="quartiere-progress-circle">
                             <circle cx="120" cy="120" r="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"/>
                             <circle cx="120" cy="120" r="100" fill="none" id="quartiere-progress-bar" stroke="#1D9E75" stroke-width="20" stroke-dasharray="628" stroke-dashoffset="151" stroke-linecap="round" transform="rotate(-90 120 120)"/>
@@ -1771,7 +1767,7 @@
                     </div>
                     
                     <!-- Stats Grid -->
-                    <div id="quartiere-stats-grid" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem;">
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="quartiere-spazi">-</div>
                             <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Spazi verdi</div>
@@ -1782,9 +1778,9 @@
                         </div>
                     </div>
                     
-                    <div id="quartiere-description-container" style="display: none; padding-top: 1.5rem; border-top: 1px solid #4b5563;">
-                        <p id="quartiere-descrizione" style="color: #e5e7eb; font-size: 15px; line-height: 1.7; margin: 0;"></p>
-                    </div>
+                    <p id="quartiere-descrizione" style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 15px; line-height: 1.6; color: #e5e7eb; margin: 0;">
+                        Inserisci un indirizzo nella sezione precedente per vedere le statistiche del tuo quartiere.
+                    </p>
                 </div>
             </div>
             
@@ -4243,26 +4239,7 @@ Cordiali saluti,
       // Aggiorna titolo con nome quartiere
       document.getElementById('quartiere-title').textContent = `Il tuo quartiere: ${nomeQuartiere}`;
       
-      // Nascondi placeholder, mostra stats
-      document.getElementById('quartiere-placeholder').style.display = 'none';
-      
-      const circleContainer = document.getElementById('quartiere-circle-container');
-      const statsGrid = document.getElementById('quartiere-stats-grid');
-      const descContainer = document.getElementById('quartiere-description-container');
-      
-      circleContainer.style.display = 'flex';
-      circleContainer.style.margin = '0';
-      circleContainer.style.marginBottom = '1.5rem';
-      
-      statsGrid.style.display = 'grid';
-      statsGrid.style.margin = '0';
-      statsGrid.style.marginBottom = '1.5rem';
-      
-      descContainer.style.display = 'block';
-      descContainer.style.margin = '0';
-      descContainer.style.paddingTop = '1.5rem';
-      
-      // Popola statistiche
+      // Popola statistiche (tutti gli elementi sempre visibili)
       const copertura = dati.copertura;
       const color = window.getColorFromPercentage(copertura);
       const offset = window.calculateProgressOffset(copertura);
