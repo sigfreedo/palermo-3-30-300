@@ -900,6 +900,22 @@
       /* Reduce box padding on mobile */
       .dashboard-box {
         padding: 1.5rem !important;
+        box-sizing: border-box !important;
+      }
+      
+      /* Force direct children of dashboard-box to stay within padding */
+      .dashboard-box > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100%;
+      }
+      
+      .dashboard-box > *:first-child {
+        margin-top: 0 !important;
+      }
+      
+      .dashboard-box > *:last-child {
+        margin-bottom: 0 !important;
       }
       
       /* Map box full width on mobile */
@@ -4229,9 +4245,22 @@ Cordiali saluti,
       
       // Nascondi placeholder, mostra stats
       document.getElementById('quartiere-placeholder').style.display = 'none';
-      document.getElementById('quartiere-circle-container').style.display = 'flex';
-      document.getElementById('quartiere-stats-grid').style.display = 'grid';
-      document.getElementById('quartiere-description-container').style.display = 'block';
+      
+      const circleContainer = document.getElementById('quartiere-circle-container');
+      const statsGrid = document.getElementById('quartiere-stats-grid');
+      const descContainer = document.getElementById('quartiere-description-container');
+      
+      circleContainer.style.display = 'flex';
+      circleContainer.style.margin = '0';
+      circleContainer.style.marginBottom = '1.5rem';
+      
+      statsGrid.style.display = 'grid';
+      statsGrid.style.margin = '0';
+      statsGrid.style.marginBottom = '1.5rem';
+      
+      descContainer.style.display = 'block';
+      descContainer.style.margin = '0';
+      descContainer.style.paddingTop = '1.5rem';
       
       // Popola statistiche
       const copertura = dati.copertura;
