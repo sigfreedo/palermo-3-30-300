@@ -918,9 +918,10 @@
         margin-bottom: 0 !important;
       }
       
-      /* Map box full width on mobile */
-      #dashboardPalermo .dashboard-box:last-child,
-      #dashboardCanopy .dashboard-box:last-child {
+      /* Map box full width on mobile - target specifically map boxes, not all last children */
+      #category-chart-box,
+      #quartieri-map-box,
+      #canopy-quartieri-map-box {
         padding: 0 !important;
         max-width: none;
       }
