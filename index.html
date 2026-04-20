@@ -1618,7 +1618,7 @@
               <li><strong>300 metri</strong> di distanza massima dallo spazio verde pubblico più vicino per chiunque</li>
             </ul>
             
-            <p style="font-style: italic; font-size: 14px; margin-top: 1.5rem; line-height: 1.7; color: #6b7280;">
+            <p style="font-style: italic; font-weight: 600; font-size: 14px; margin-top: 1.5rem; line-height: 1.7; color: #6b7280;">
               Per questo studio abbiamo invertito l'ordine, partendo dal criterio dei 300 metri: il dato che meglio misura l'equità nell'accesso al verde pubblico per ogni cittadino e cittadina.
             </p>
           </div>
@@ -1707,7 +1707,7 @@
             <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #10b981; margin: 0 0 2rem 0;">Spazi verdi e accessibilità a Palermo</h2>
             
             <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #e5e7eb;">
-                <p style="margin-bottom: 1rem;">L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥0.5 ettari) entro <strong style="color: #10b981;">300 metri</strong> dalla propria abitazione. Città virtuose come <a href="https://www.ljubljana.info/to-do/sustainable-ljubljana/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Ljubljana</strong></a> raggiungono una copertura del 100% della popolazione.</p>
+                <p style="margin-bottom: 1rem;">L'Organizzazione Mondiale della Sanità raccomanda che ogni cittadino abbia accesso a uno spazio verde pubblico (≥5.000 m²) entro <strong style="color: #10b981;">300 metri</strong> dalla propria abitazione. Città virtuose come <a href="https://www.ljubljana.info/to-do/sustainable-ljubljana/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Ljubljana</strong></a> raggiungono una copertura del 100% della popolazione.</p>
                 
                 <p style="margin-bottom: 0;">Per questa analisi sono stati utilizzati due dataset distinti: <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">OpenStreetMap</a> e <a href="https://land.copernicus.eu/local/urban-atlas" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">Copernicus Urban Atlas</a>. I risultati sono simili e puoi confrontarli usando il toggle qui sotto. Il calcolo degli abitanti con accesso al verde si basa sul metodo dell'<strong style="color: #10b981;">interpolazione ponderata per area</strong> applicato alle sezioni di censimento <a href="https://www.istat.it/it/archivio/222527" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">ISTAT 2021</a>, che permette di stimare con precisione quanti cittadini abitano entro 300 metri da uno spazio verde pubblico.</p>
             </div>
@@ -2312,18 +2312,18 @@
         // Dati categorizzazione verde urbano
         const categoryData = {
             osm: [
-                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300.000 mq' },
-                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 mq' },
-                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 mq' },
-                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 mq' },
-                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 mq' }
+                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300.000 m²' },
+                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 m²' },
+                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 m²' },
+                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 m²' },
+                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 m²' }
             ],
             copernicus: [
-                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 10.41, avgArea: 349530, range: '> 300.000 mq' },
-                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 38.95, avgArea: 163434, range: '100.000 - 300.000 mq' },
-                { category: 'Parco di quartiere', count: 14, totalArea: 787653, percentage: 23.46, avgArea: 56260, range: '30.000 - 100.000 mq' },
-                { category: 'Giardino', count: 34, totalArea: 530835, percentage: 15.81, avgArea: 15612, range: '10.000 - 30.000 mq' },
-                { category: 'Piccolo spazio verde', count: 72, totalArea: 381332, percentage: 11.36, avgArea: 5296, range: '< 10.000 mq' }
+                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 10.41, avgArea: 349530, range: '> 300.000 m²' },
+                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 38.95, avgArea: 163434, range: '100.000 - 300.000 m²' },
+                { category: 'Parco di quartiere', count: 14, totalArea: 787653, percentage: 23.46, avgArea: 56260, range: '30.000 - 100.000 m²' },
+                { category: 'Giardino', count: 34, totalArea: 530835, percentage: 15.81, avgArea: 15612, range: '10.000 - 30.000 m²' },
+                { category: 'Piccolo spazio verde', count: 72, totalArea: 381332, percentage: 11.36, avgArea: 5296, range: '< 10.000 m²' }
             ]
         };
 
@@ -4344,7 +4344,7 @@ Cordiali saluti,
         formatLabel = (v) => v.toFixed(0);
       } else if (metric === 'area') {
         // Convert to km²
-        maxValue = 2000000; // 2.0 km² in mq
+        maxValue = 2000000; // 2.0 km² in m²
         scaleSteps = [0, 0.4, 0.8, 1.2, 1.6, 2.0];
         formatLabel = (v) => v.toFixed(1).replace('.', ',');
       } else {
