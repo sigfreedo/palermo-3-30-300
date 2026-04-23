@@ -75,6 +75,14 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
+        /* Mobile map heights */
+        @media (max-width: 768px) {
+            #map-spazi,
+            #map-canopy {
+                height: 600px !important;
+            }
+        }
+        
         /* Back link */
         .back-link {
             display: inline-block;
@@ -473,9 +481,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Inizializza mappa
+        // Initialize map with mobile-responsive settings
+        const isMobile = window.innerWidth <= 768;
+        const mapZoom = isMobile ? 11 : 12;
+        const mapCenter = isMobile ? [38.23, 13.361] : [38.135, 13.361];
+        
         const map = L.map('map-spazi', {
             scrollWheelZoom: false  // Disabilita zoom con trackpad
-        }).setView([38.135, 13.361], 12);
+        }).setView(mapCenter, mapZoom);
         
         // Tile layer NEUTRO - CartoDB Positron (minimal e chiaro)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -626,10 +639,14 @@
     <script src="https://unpkg.com/georaster-layer-for-leaflet@3.10.0/dist/georaster-layer-for-leaflet.min.js"></script>
     
     <script>
-        // Inizializza mappa canopy
+        // Inizializza mappa canopy with mobile-responsive settings
+        const isMobileCanopy = window.innerWidth <= 768;
+        const mapZoomCanopy = isMobileCanopy ? 11 : 12;
+        const mapCenterCanopy = isMobileCanopy ? [38.23, 13.361] : [38.135, 13.361];
+        
         const mapCanopy = L.map('map-canopy', {
             scrollWheelZoom: false
-        }).setView([38.135, 13.361], 12);
+        }).setView(mapCenterCanopy, mapZoomCanopy);
         
         // Add data sources control (bottom left)
         const dataSourcesControlCanopy = L.control({ position: 'bottomleft' });
