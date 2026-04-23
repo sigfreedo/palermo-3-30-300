@@ -472,15 +472,24 @@
             subdomains: 'abcd'
         }).addTo(map);
         
-        // Add data sources control (bottom left)
+        // Add data sources control (bottom left) - dynamic based on dataset
         const dataSourcesControl = L.control({ position: 'bottomleft' });
+        let dataSourcesDiv;
         dataSourcesControl.onAdd = function() {
-            const div = L.DomUtil.create('div', 'data-sources-control');
-            div.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
-            div.innerHTML = '<strong>Fonti:</strong> OpenStreetMap, Copernicus';
-            return div;
+            dataSourcesDiv = L.DomUtil.create('div', 'data-sources-control');
+            dataSourcesDiv.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+            dataSourcesDiv.innerHTML = '<strong>Fonti:</strong> OpenStreetMap';
+            return dataSourcesDiv;
         };
         dataSourcesControl.addTo(map);
+        
+        // Function to update data sources text
+        function updateDataSources(dataset) {
+            if (dataSourcesDiv) {
+                const sources = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
+                dataSourcesDiv.innerHTML = '<strong>Fonti:</strong> ' + sources;
+            }
+        }
 
         let currentLayer = null;
 
@@ -491,6 +500,9 @@
                 btn.classList.remove('active');
             });
             document.querySelector(`[data-dataset="${dataset}"]`).classList.add('active');
+            
+            // Update data sources label
+            updateDataSources(dataset);
             
             // Load GeoJSON
             loadGeoJSON(dataset);

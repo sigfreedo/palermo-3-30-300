@@ -391,7 +391,6 @@
     
     #map {
       width: 100%;
-      height: 700px;
       border-radius: 8px;
       margin-top: 1.5rem;
       border: 2px solid #e5e7eb;
@@ -1791,7 +1790,7 @@
             
             <!-- Categorizzazione del verde urbano -->
             <div class="dashboard-box" id="category-chart-box" style="margin-top: 2rem;">
-                <h3 style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano</h3>
+                <h3 id="category-chart-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano - <span id="category-dataset-label">OpenStreetMap</span></h3>
                 
                 <!-- Metric Toggle -->
                 <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
@@ -1810,9 +1809,15 @@
             <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
                 <!-- Titolo overlay -->
                 <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
-                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere</h3>
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere - <span id="map-dataset-label">OpenStreetMap</span></h3>
                 </div>
                 <div id="quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
+                
+                <!-- Toggle duplicato sotto la mappa -->
+                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;">
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')" style="padding: 0.5rem 1.25rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 2px solid #10b981; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')" style="padding: 0.5rem 1.25rem; background: transparent; color: #9ca3af; border: 2px solid #4b5563; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Copernicus</button>
+                </div>
             </div>
             </div>
         </div>
@@ -4493,15 +4498,35 @@ Cordiali saluti,
         maxZoom: 19
       }).addTo(window.quartieriMap);
       
-      // Add data sources control (bottom left)
+      // Add data sources control (bottom left) - dynamic based on dataset
       const dataSourcesControl = L.control({ position: 'bottomleft' });
+      let dataSourcesDiv;
       dataSourcesControl.onAdd = function() {
-        const div = L.DomUtil.create('div', 'data-sources-control');
-        div.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
-        div.innerHTML = '<strong>Fonti:</strong> OpenStreetMap, Comune di Palermo';
-        return div;
+        dataSourcesDiv = L.DomUtil.create('div', 'data-sources-control');
+        dataSourcesDiv.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+        updateDataSources();
+        return dataSourcesDiv;
       };
       dataSourcesControl.addTo(window.quartieriMap);
+      
+      // Function to update data sources text
+      window.updateQuartieriDataSources = function() {
+        if (dataSourcesDiv) {
+          const dataset = window.currentDataset || 'osm';
+          const sources = dataset === 'osm' 
+            ? 'OpenStreetMap, Comune di Palermo'
+            : 'Copernicus, OpenStreetMap, Comune di Palermo';
+          dataSourcesDiv.innerHTML = '<strong>Fonti:</strong> ' + sources;
+        }
+      };
+      
+      function updateDataSources() {
+        const dataset = window.currentDataset || 'osm';
+        const sources = dataset === 'osm' 
+          ? 'OpenStreetMap, Comune di Palermo'
+          : 'Copernicus, OpenStreetMap, Comune di Palermo';
+        dataSourcesDiv.innerHTML = '<strong>Fonti:</strong> ' + sources;
+      }
       
       // Load geometries from GeoJSON
       fetch('quartieri_dati_completi.geojson')
@@ -5002,6 +5027,13 @@ Cordiali saluti,
         }
       });
       
+      // Update dataset labels in titles
+      const datasetLabel = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
+      const categoryLabel = document.getElementById('category-dataset-label');
+      const mapLabel = document.getElementById('map-dataset-label');
+      if (categoryLabel) categoryLabel.textContent = datasetLabel;
+      if (mapLabel) mapLabel.textContent = datasetLabel;
+      
       // Update stats
       const stats = window.datasetStats[dataset];
       const percentage = parseFloat(stats.percentuale);
@@ -5028,6 +5060,10 @@ Cordiali saluti,
       if (window.quartieriMap && typeof window.updateQuartieriMap === 'function') {
         console.log('  → Chiamo updateQuartieriMap()');
         window.updateQuartieriMap();
+        // Update data sources label
+        if (typeof window.updateQuartieriDataSources === 'function') {
+          window.updateQuartieriDataSources();
+        }
       } else {
         console.log('  → Mappa non disponibile:', window.quartieriMap ? 'esiste' : 'null');
       }
