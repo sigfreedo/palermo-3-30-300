@@ -4497,9 +4497,8 @@ Cordiali saluti,
       const dataSourcesControl = L.control({ position: 'bottomleft' });
       dataSourcesControl.onAdd = function() {
         const div = L.DomUtil.create('div', 'data-sources-control');
-        div.style.cssText = 'background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); font-size: 11px; line-height: 1.4;';
-        div.innerHTML = '<strong style="display: block; margin-bottom: 4px;">Fonti dati:</strong>' +
-                        'OpenStreetMap, Comune di Palermo';
+        div.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+        div.innerHTML = '<strong>Fonti:</strong> OpenStreetMap, Comune di Palermo';
         return div;
       };
       dataSourcesControl.addTo(window.quartieriMap);
@@ -4828,9 +4827,8 @@ Cordiali saluti,
       const dataSourcesControlCanopy = L.control({ position: 'bottomleft' });
       dataSourcesControlCanopy.onAdd = function() {
         const div = L.DomUtil.create('div', 'data-sources-control');
-        div.style.cssText = 'background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); font-size: 11px; line-height: 1.4;';
-        div.innerHTML = '<strong style="display: block; margin-bottom: 4px;">Fonti dati:</strong>' +
-                        'Copernicus TCD 2023, OpenStreetMap';
+        div.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+        div.innerHTML = '<strong>Fonti:</strong> Copernicus TCD 2023, OpenStreetMap';
         return div;
       };
       dataSourcesControlCanopy.addTo(window.canopyQuartieriMap);
@@ -5017,13 +5015,9 @@ Cordiali saluti,
       document.getElementById('city-progress-bar').setAttribute('stroke', color);
       document.getElementById('city-progress-bar').setAttribute('stroke-dashoffset', offset);
       
-      // Update quartiere box if visible
-      const quartiereStats = document.getElementById('quartiere-stats');
-      if (quartiereStats && quartiereStats.style.display !== 'none') {
-        const nomeQuartiere = window.currentQuartiere;
-        if (nomeQuartiere) {
-          window.updateQuartiereBox(nomeQuartiere);
-        }
+      // Update quartiere box if a quartiere is selected
+      if (window.currentQuartiere) {
+        window.updateQuartiereBox(window.currentQuartiere);
       }
       
       // Update category chart
