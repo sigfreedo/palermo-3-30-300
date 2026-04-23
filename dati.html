@@ -68,7 +68,7 @@
         
         /* Map */
         #map-spazi {
-            height: 600px;
+            height: 700px;
             border-radius: 8px;
             margin: 2rem 0;
             border: 3px solid #059669;
@@ -194,7 +194,7 @@
             </div>
             
             <!-- Mappa Raster -->
-            <div id="map-canopy" style="height: 600px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+            <div id="map-canopy" style="height: 700px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
             
         </div>
     </section>
@@ -463,7 +463,7 @@
         // Inizializza mappa
         const map = L.map('map-spazi', {
             scrollWheelZoom: false  // Disabilita zoom con trackpad
-        }).setView([38.115, 13.361], 12);
+        }).setView([38.135, 13.361], 12);
         
         // Tile layer NEUTRO - CartoDB Positron (minimal e chiaro)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -471,6 +471,17 @@
             maxZoom: 19,
             subdomains: 'abcd'
         }).addTo(map);
+        
+        // Add data sources control (bottom left)
+        const dataSourcesControl = L.control({ position: 'bottomleft' });
+        dataSourcesControl.onAdd = function() {
+            const div = L.DomUtil.create('div', 'data-sources-control');
+            div.style.cssText = 'background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); font-size: 11px; line-height: 1.4;';
+            div.innerHTML = '<strong style="display: block; margin-bottom: 4px;">Fonti dati:</strong>' +
+                            'OpenStreetMap, Copernicus';
+            return div;
+        };
+        dataSourcesControl.addTo(map);
 
         let currentLayer = null;
 
@@ -590,7 +601,18 @@
         // Inizializza mappa canopy
         const mapCanopy = L.map('map-canopy', {
             scrollWheelZoom: false
-        }).setView([38.115, 13.361], 12);
+        }).setView([38.135, 13.361], 12);
+        
+        // Add data sources control (bottom left)
+        const dataSourcesControlCanopy = L.control({ position: 'bottomleft' });
+        dataSourcesControlCanopy.onAdd = function() {
+            const div = L.DomUtil.create('div', 'data-sources-control');
+            div.style.cssText = 'background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); font-size: 11px; line-height: 1.4;';
+            div.innerHTML = '<strong style="display: block; margin-bottom: 4px;">Fonti dati:</strong>' +
+                            'Copernicus TCD 2023';
+            return div;
+        };
+        dataSourcesControlCanopy.addTo(mapCanopy);
         
         // Aggiungi legenda come control a destra
         const legend = L.control({ position: 'topright' });
