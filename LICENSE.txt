@@ -36,7 +36,8 @@ concedere in sublicenza e/o vendere copie del Software, e di consentire
 alle persone a cui il Software è fornito di fare altrettanto, alle 
 seguenti condizioni:
 
-L'avviso di copyright di cui sopra e questo avviso di permesso devono essere inclusi in tutte le copie o parti sostanziali del Software.
+L'avviso di copyright di cui sopra e questo avviso di permesso devono essere
+inclusi in tutte le copie o parti sostanziali del Software.
 
 IL SOFTWARE È FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO, ESPLICITE O
 IMPLICITE, INCLUSE MA NON LIMITATE A GARANZIE DI COMMERCIABILITÀ, IDONEITÀ PER
@@ -64,7 +65,7 @@ La licenza MIT si applica al seguente contenuto di questo repository:
 
 ✅ STRUTTURA E DESIGN:
    - Architettura del progetto
-   - Design pattern implementati
+   - Design patterns implementati
    - Struttura organizzativa dei file
 
 ❌ NON COPRE (licenze separate):
@@ -79,7 +80,6 @@ LICENZE DATASET DERIVATI
 I dataset derivati prodotti da questo progetto sono rilasciati sotto le seguenti licenze:
 
 1. DATASET CC BY 4.0:
-   - quartieri_tree_canopy.json
    - sezioni_censimento_palermo.geojson
    - quartieri_data.json
    
@@ -129,7 +129,7 @@ I dataset di partenza utilizzati in questo progetto sono soggetti alle rispettiv
   Licenza: Open Database License (ODbL) 1.0
   https://www.openstreetmap.org/copyright
   
-  Utilizzato per: estrazione spazi verdi urbani, geometrie quartieri
+  Utilizzato per: Estrazione spazi verdi urbani, geometrie quartieri
 
 - Copernicus Land Monitoring Service
   © European Union, Copernicus Land Monitoring Service 2023
@@ -151,7 +151,7 @@ I dataset di partenza utilizzati in questo progetto sono soggetti alle rispettiv
   Licenza: Creative Commons Attribution 4.0 International (CC BY 4.0)
   https://opendata.comune.palermo.it/
   
-  Utilizzato per: dati popolazione residente per quartiere
+  Utilizzato per: Dati popolazione residente per quartiere
 
 ---
 
@@ -168,6 +168,6 @@ CONTATTI
 
 Per domande sulle licenze o richieste di utilizzo:
 - Repository: https://github.com/sigfreedo/palermo-verde
-- Email: domenico.schillaci@gmail.com
+- Email: [se vuoi aggiungere un contatto]
 
-Ultimo aggiornamento: aprile 2025
+Ultimo aggiornamento: Aprile 2025
