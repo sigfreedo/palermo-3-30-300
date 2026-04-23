@@ -80,6 +80,7 @@ LICENZE DATASET DERIVATI
 I dataset derivati prodotti da questo progetto sono rilasciati sotto le seguenti licenze:
 
 1. DATASET CC BY 4.0:
+   - copernicus_verde_palermo.geojson
    - sezioni_censimento_palermo.geojson
    - quartieri_data.json
    
@@ -99,7 +100,6 @@ I dataset derivati prodotti da questo progetto sono rilasciati sotto le seguenti
 
 2. DATASET ODbL 1.0:
    - osm_verde_palermo.geojson
-   - copernicus_verde_palermo.geojson
    - quartieri_dati_completi.geojson
    
    Licenza: Open Database License 1.0 (ODbL)
@@ -110,8 +110,6 @@ I dataset derivati prodotti da questo progetto sono rilasciati sotto le seguenti
    © OpenStreetMap contributors
    Dati derivati da:
    - OpenStreetMap (https://www.openstreetmap.org/copyright)
-   - Copernicus Land Monitoring Service, European Environment Agency (EEA)
-   - Comune di Palermo - Open Data
    
    NOTA IMPORTANTE: L'ODbL richiede che qualsiasi lavoro derivato da questi 
    dataset mantenga la stessa licenza (clausola share-alike). Questi dataset 
