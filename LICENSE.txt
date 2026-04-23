@@ -1,0 +1,173 @@
+MIT License
+
+Copyright (c) 2025 Domenico (sigfreedo)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+TRADUZIONE ITALIANA (solo riferimento - fa fede la versione inglese)
+
+Licenza MIT
+
+Copyright (c) 2025 Domenico (sigfreedo)
+
+Il permesso è concesso, gratuitamente, a chiunque ottenga una copia
+di questo software e dei file di documentazione associati (il "Software"), 
+di trattare il Software senza restrizioni, inclusi senza limitazione i diritti
+di utilizzare, copiare, modificare, unire, pubblicare, distribuire, 
+concedere in sublicenza e/o vendere copie del Software, e di consentire
+alle persone a cui il Software è fornito di fare altrettanto, alle 
+seguenti condizioni:
+
+L'avviso di copyright di cui sopra e questo avviso di permesso devono essere inclusi in tutte le copie o parti sostanziali del Software.
+
+IL SOFTWARE È FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO, ESPLICITE O
+IMPLICITE, INCLUSE MA NON LIMITATE A GARANZIE DI COMMERCIABILITÀ, IDONEITÀ PER
+UN PARTICOLARE SCOPO E NON VIOLAZIONE. IN NESSUN CASO GLI AUTORI O I TITOLARI
+DEL COPYRIGHT SARANNO RESPONSABILI PER QUALSIASI RECLAMO, DANNO O ALTRA
+RESPONSABILITÀ, SIA IN AZIONE CONTRATTUALE, ILLECITO O ALTRO, DERIVANTE DA,
+FUORI O IN CONNESSIONE CON IL SOFTWARE O L'USO O ALTRE OPERAZIONI NEL SOFTWARE.
+
+---
+
+AMBITO DELLA LICENZA MIT
+
+La licenza MIT si applica al seguente contenuto di questo repository:
+
+✅ CODICE SORGENTE:
+   - File HTML, CSS, JavaScript
+   - Script di elaborazione e analisi dati (Python, bash, ecc.)
+   - Configurazioni di build e deployment
+   - Cloudflare Workers code
+
+✅ DOCUMENTAZIONE TECNICA:
+   - File README.md e documentazione del progetto
+   - Commenti nel codice sorgente
+   - Guide metodologiche (METODOLOGIA.md)
+
+✅ STRUTTURA E DESIGN:
+   - Architettura del progetto
+   - Design pattern implementati
+   - Struttura organizzativa dei file
+
+❌ NON COPRE (licenze separate):
+   - Dataset derivati (vedi sotto: CC BY 4.0 e ODbL 1.0)
+   - Dataset di partenza (vedi: Licenze Dataset Originali)
+   - Contenuti testuali del sito web (potrebbero essere soggetti a licenza separata)
+
+---
+
+LICENZE DATASET DERIVATI
+
+I dataset derivati prodotti da questo progetto sono rilasciati sotto le seguenti licenze:
+
+1. DATASET CC BY 4.0:
+   - quartieri_tree_canopy.json
+   - sezioni_censimento_palermo.geojson
+   - quartieri_data.json
+   
+   Licenza: Creative Commons Attribution 4.0 International (CC BY 4.0)
+   https://creativecommons.org/licenses/by/4.0/
+   
+   Attribuzione richiesta:
+   © 2025 Domenico Schillaci
+   Dati derivati da:
+   - Copernicus Land Monitoring Service 2023, European Environment Agency (EEA)
+   - ISTAT - Istituto Nazionale di Statistica
+   - Comune di Palermo - Open Data
+   
+   Questi dataset possono essere liberamente utilizzati, copiati, distribuiti 
+   e modificati per qualsiasi scopo, anche commerciale, a condizione che sia 
+   fornita adeguata attribuzione.
+
+2. DATASET ODbL 1.0:
+   - osm_verde_palermo.geojson
+   - copernicus_verde_palermo.geojson
+   - quartieri_dati_completi.geojson
+   
+   Licenza: Open Database License 1.0 (ODbL)
+   https://opendatacommons.org/licenses/odbl/1-0/
+   
+   Attribuzione richiesta:
+   © 2025 Domenico Schillaci
+   © OpenStreetMap contributors
+   Dati derivati da:
+   - OpenStreetMap (https://www.openstreetmap.org/copyright)
+   - Copernicus Land Monitoring Service, European Environment Agency (EEA)
+   - Comune di Palermo - Open Data
+   
+   NOTA IMPORTANTE: L'ODbL richiede che qualsiasi lavoro derivato da questi 
+   dataset mantenga la stessa licenza (clausola share-alike). Questi dataset 
+   includono geometrie territoriali derivate da OpenStreetMap e pertanto devono 
+   essere distribuiti sotto licenza ODbL.
+
+---
+
+LICENZE DATASET DI PARTENZA
+
+I dataset di partenza utilizzati in questo progetto sono soggetti alle rispettive licenze:
+
+- OpenStreetMap
+  © OpenStreetMap contributors
+  Licenza: Open Database License (ODbL) 1.0
+  https://www.openstreetmap.org/copyright
+  
+  Utilizzato per: estrazione spazi verdi urbani, geometrie quartieri
+
+- Copernicus Land Monitoring Service
+  © European Union, Copernicus Land Monitoring Service 2023
+  European Environment Agency (EEA)
+  Licenza: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  https://land.copernicus.eu/en/data-policy
+  
+  Utilizzato per: Urban Atlas (spazi verdi), Tree Cover Density 2023 (copertura arborea)
+
+- ISTAT Basi Territoriali e Variabili Censuarie
+  © ISTAT - Istituto Nazionale di Statistica
+  Licenza: Creative Commons Attribuzione 3.0 Italia (CC BY 3.0 IT)
+  https://www.istat.it/it/note-legali
+  
+  Utilizzato per: Sezioni di censimento 2021, dati popolazione
+
+- Open Data Comune di Palermo
+  © Comune di Palermo
+  Licenza: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  https://opendata.comune.palermo.it/
+  
+  Utilizzato per: dati popolazione residente per quartiere
+
+---
+
+RIFERIMENTI E DOCUMENTAZIONE
+
+Per maggiori informazioni sulle licenze e attribuzioni:
+- Analisi completa delle licenze: docs/LICENSE_ANALYSIS.md
+- Metodologia del progetto: METODOLOGIA.md
+- Pagina Dati: https://sigfreedo.github.io/palermo-verde/dati.html
+
+---
+
+CONTATTI
+
+Per domande sulle licenze o richieste di utilizzo:
+- Repository: https://github.com/sigfreedo/palermo-verde
+- Email: domenico.schillaci@gmail.com
+
+Ultimo aggiornamento: aprile 2025
