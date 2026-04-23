@@ -1812,13 +1812,16 @@
                     <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere - <span id="map-dataset-label">OpenStreetMap</span></h3>
                 </div>
                 <div id="quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
-                
-                <!-- Toggle duplicato sotto la mappa -->
-                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;">
-                    <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')" style="padding: 0.5rem 1.25rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 2px solid #10b981; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">OpenStreetMap</button>
-                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')" style="padding: 0.5rem 1.25rem; background: transparent; color: #9ca3af; border: 2px solid #4b5563; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Copernicus</button>
+            </div>
+            
+            <!-- Toggle duplicato sotto la mappa -->
+            <div class="dataset-toggle" style="display: flex; justify-content: center; margin: 2rem 0 0 0;">
+                <div class="toggle-button">
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')">Copernicus</button>
                 </div>
             </div>
+            
             </div>
         </div>
     </section>

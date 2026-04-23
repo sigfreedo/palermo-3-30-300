@@ -178,7 +178,13 @@
             </div>
             
             <!-- Mappa -->
-            <div id="map-spazi"></div>
+            <div style="position: relative;">
+                <!-- Titolo overlay -->
+                <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Spazi verdi - <span id="spazi-dataset-label">OpenStreetMap</span></h3>
+                </div>
+                <div id="map-spazi"></div>
+            </div>
             
         </div>
     </section>
@@ -194,7 +200,13 @@
             </div>
             
             <!-- Mappa Raster -->
-            <div id="map-canopy" style="height: 700px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+            <div style="position: relative;">
+                <!-- Titolo overlay -->
+                <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura arborea</h3>
+                </div>
+                <div id="map-canopy" style="height: 700px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+            </div>
             
         </div>
     </section>
@@ -488,6 +500,11 @@
             if (dataSourcesDiv) {
                 const sources = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
                 dataSourcesDiv.innerHTML = '<strong>Fonti:</strong> ' + sources;
+            }
+            // Update title label
+            const titleLabel = document.getElementById('spazi-dataset-label');
+            if (titleLabel) {
+                titleLabel.textContent = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
             }
         }
 
