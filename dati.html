@@ -123,6 +123,21 @@
             background: #059669;
             transform: translateY(-2px);
         }
+        
+        /* Mobile responsiveness for dataset boxes */
+        @media (max-width: 768px) {
+            .dataset-box {
+                padding: 1.25rem !important;
+            }
+            
+            .dataset-box h3 {
+                font-size: 18px !important;
+            }
+            
+            .dataset-box p {
+                font-size: 13px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -188,10 +203,10 @@
             </div>
             
             <!-- Dataset Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
                 
                 <!-- Dataset 1: OSM Spazi Verdi -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📍 Spazi verdi pubblici (OpenStreetMap)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
                         Dataset degli spazi verdi pubblici nell'area di Palermo estratto da <strong>OpenStreetMap</strong> tramite Overpass API. Include solo spazi accessibili al pubblico, escludendo aree private o a pagamento.
@@ -217,7 +232,7 @@
                 </div>
                 
                 <!-- Dataset 2: Copernicus Spazi Verdi -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🛰️ Spazi verdi da satellite (Copernicus)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
                         Dataset degli spazi verdi derivato dall'analisi di immagini satellitari <strong>Copernicus Urban Atlas Land Cover/Land Use 2021</strong>. Identifica aree verdi in base alla classificazione del suolo, ed è filtrato per includere solo spazi nel comune di Palermo.
@@ -243,7 +258,7 @@
                 </div>
                 
                 <!-- Dataset 3: Quartieri con dati aggregati -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📊 Quartieri con dati aggregati</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
                         Geometrie dei quartieri amministrativi di Palermo arricchite con statistiche aggregate su copertura arborea, accesso al verde e popolazione.
@@ -269,7 +284,7 @@
                 </div>
                 
                 <!-- Dataset 4: Dati quartieri JSON -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📈 Statistiche aggregate</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
                         File JSON unificato contenente tutti i dati statistici del progetto: dati generali della città e dati aggregati per quartiere.
@@ -294,7 +309,7 @@
                 </div>
                 
                 <!-- Dataset 5: Sezioni di censimento -->
-                <div style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🏘️ Sezioni di censimento ISTAT</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
                         Geometrie delle sezioni di censimento ISTAT del comune di Palermo con dati demografici al 2021.
@@ -425,7 +440,7 @@
         </section>
         
         <!-- Pulsante torna alla dashboard -->
-        <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0;">
+        <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0;">
             <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 0 2rem;">
                 <a href="index.html" class="back-link">← Torna alla pagina principale</a>
             </div>
