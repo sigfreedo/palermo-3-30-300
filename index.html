@@ -935,6 +935,11 @@
         height: 600px !important;
       }
       
+      /* Hide map title overlays on mobile */
+      .map-title-overlay {
+        display: none !important;
+      }
+      
       .result-column, .rule-column {
         padding: 1.5rem;
       }
@@ -1808,14 +1813,14 @@
             <!-- Mappa Quartieri -->
             <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
                 <!-- Titolo overlay -->
-                <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                <div class="map-title-overlay" style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
                     <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura per quartiere - <span id="map-dataset-label">OpenStreetMap</span></h3>
                 </div>
                 <div id="quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
             </div>
             
             <!-- Toggle duplicato sotto la mappa -->
-            <div class="dataset-toggle" style="display: flex; justify-content: center; margin: 2rem 0 0 0;">
+            <div class="dataset-toggle" style="display: flex; justify-content: center; margin: 3rem 0 2rem 0;">
                 <div class="toggle-button">
                     <button class="toggle-option active" data-dataset="osm" onclick="switchDashboardDataset('osm')">OpenStreetMap</button>
                     <button class="toggle-option" data-dataset="copernicus" onclick="switchDashboardDataset('copernicus')">Copernicus</button>
@@ -2021,7 +2026,7 @@
             <!-- Mappa Quartieri Copertura Arborea -->
             <div class="dashboard-box" style="margin-top: 2rem; padding: 0; position: relative;">
                 <!-- Titolo overlay -->
-                <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                <div class="map-title-overlay" style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
                     <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Copertura arborea per quartiere</h3>
                 </div>
                 <div id="canopy-quartieri-map" style="height: 700px; width: 100%; border-radius: 10px; overflow: hidden;"></div>
@@ -4476,7 +4481,7 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobile = window.innerWidth <= 768;
       const mapZoom = isMobile ? 11 : 12;
-      const mapCenter = isMobile ? [38.23, 13.361] : [38.135, 13.361];
+      const mapCenter = isMobile ? [38.05, 13.361] : [38.135, 13.361];
       
       console.log('Quartieri Map - Mobile:', isMobile, 'Zoom:', mapZoom, 'Center:', mapCenter);
       
@@ -4827,7 +4832,7 @@ Cordiali saluti,
       // Detect if mobile for zoom adjustment
       const isMobileCanopy = window.innerWidth <= 768;
       const mapZoomCanopy = isMobileCanopy ? 11 : 12;
-      const mapCenterCanopy = isMobileCanopy ? [38.23, 13.361] : [38.135, 13.361];
+      const mapCenterCanopy = isMobileCanopy ? [38.05, 13.361] : [38.135, 13.361];
       
       console.log('Canopy Map - Mobile:', isMobileCanopy, 'Zoom:', mapZoomCanopy, 'Center:', mapCenterCanopy);
       
