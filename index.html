@@ -1555,7 +1555,7 @@
   <div class="container">
     <!-- INPUT SECTION -->
     <div class="input-wrapper-section">
-      <h2 class="input-title">Inizia l'analisi inserendo il tuo indirizzo</h2>
+      <h2 class="input-title">Inserisci il tuo indirizzo e scopri se hai accesso al verde urbano</h2>
       
       <div class="input-row">
         <div style="position: relative;">
@@ -2732,9 +2732,32 @@
             // Show section
             section300.classList.add('visible');
             
-            // Scroll to section 300
+            // Smooth scroll to section 300 (same as "Scoprilo" button)
             setTimeout(() => {
-                section300.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const targetPosition = section300.getBoundingClientRect().top + window.pageYOffset;
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1500;
+                let start = null;
+                
+                function animation(currentTime) {
+                    if (start === null) start = currentTime;
+                    const timeElapsed = currentTime - start;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    
+                    // Cubic easing
+                    const ease = progress < 0.5 
+                        ? 4 * progress * progress * progress 
+                        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                    
+                    window.scrollTo(0, startPosition + (distance * ease));
+                    
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+                
+                requestAnimationFrame(animation);
             }, 300);
             
             // Initialize interactive map - PASSA TUTTI GLI SPAZI
@@ -3154,7 +3177,33 @@
                         window.updateCanopyBox(nomeQuartiere);
                         window.updateCanopyDashboardQuartiere(nomeQuartiere);
                         
-                        // Auto-scroll removed for better UX
+                        // Smooth scroll to dashboard (same as "Scoprilo" button)
+                        setTimeout(() => {
+                            const targetPosition = dashboard.getBoundingClientRect().top + window.pageYOffset;
+                            const startPosition = window.pageYOffset;
+                            const distance = targetPosition - startPosition;
+                            const duration = 1500;
+                            let start = null;
+                            
+                            function animation(currentTime) {
+                                if (start === null) start = currentTime;
+                                const timeElapsed = currentTime - start;
+                                const progress = Math.min(timeElapsed / duration, 1);
+                                
+                                // Cubic easing
+                                const ease = progress < 0.5 
+                                    ? 4 * progress * progress * progress 
+                                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                                
+                                window.scrollTo(0, startPosition + (distance * ease));
+                                
+                                if (timeElapsed < duration) {
+                                    requestAnimationFrame(animation);
+                                }
+                            }
+                            
+                            requestAnimationFrame(animation);
+                        }, 100);
                     }, 800);
                 } catch (error) {
                     console.error('❌ ERRORE CRITICO:', error);
@@ -3602,6 +3651,35 @@
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
+      
+      // Smooth scroll to dashboard canopy
+      setTimeout(() => {
+        const dashboard = document.getElementById('dashboardCanopy');
+        const targetPosition = dashboard.getBoundingClientRect().top + window.pageYOffset;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 1500;
+        let start = null;
+        
+        function animation(currentTime) {
+          if (start === null) start = currentTime;
+          const timeElapsed = currentTime - start;
+          const progress = Math.min(timeElapsed / duration, 1);
+          
+          // Cubic easing
+          const ease = progress < 0.5 
+            ? 4 * progress * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          
+          window.scrollTo(0, startPosition + (distance * ease));
+          
+          if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+          }
+        }
+        
+        requestAnimationFrame(animation);
+      }, 100);
       
       // Initialize map
       setTimeout(() => {
