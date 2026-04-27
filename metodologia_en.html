@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metodologia - Palermo 3-30-300</title>
-    <meta name="description" content="Metodologia completa dello studio sull'accessibilità degli spazi verdi a Palermo. Dataset, algoritmi e procedure replicabili.">
+    <title>Methodology - Palermo 3-30-300</title>
+    <meta name="description" content="Complete methodology of the study on green spaces accessibility in Palermo. Datasets, algorithms and replicable procedures.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <style>
@@ -24,7 +24,6 @@
         
         /* Header */
         header {
-            position: relative;
             background: #059669;
             color: white;
             padding: 3rem 2rem;
@@ -287,81 +286,80 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-</head>
 <body>
     <header>
         <!-- Language Selector Dropdown -->
         <div style="position: absolute; top: 1.5rem; right: 2rem;">
             <div class="language-selector">
                 <button class="language-button" onclick="toggleLanguageMenu()">
-                    🇮🇹 IT
+                    🇬🇧 EN
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left: 0.5rem;">
                         <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </button>
                 <div class="language-dropdown" id="languageDropdown">
-                    <a href="metodologia_en.html" class="language-option">🇬🇧 EN</a>
+                    <a href="metodologia.html" class="language-option">🇮🇹 IT</a>
                 </div>
             </div>
         </div>
-        <h1>Metodologia</h1>
+        <h1>Methodology</h1>
     </header>
     
     <div class="container">
         <!-- Intro -->
         <section>
-            <h2>Obiettivo dello studio</h2>
-            <p>Valutare l'accessibilità del verde urbano a Palermo applicando il framework <strong>3-30-300</strong> (<a href="https://doi.org/10.1007/s11676-022-01523-z" target="_blank">Konijnendijk, 2023</a>) attraverso <strong>dataset aperti</strong> e <strong>metodologie replicabili</strong> in altri contesti urbani.</p>
+            <h2>Study objective</h2>
+            <p>To assess urban green spaces accessibility in Palermo by applying the <strong>3-30-300</strong> (<a href="https://doi.org/10.1007/s11676-022-01523-z" target="_blank">Konijnendijk, 2023</a>) through <strong>open datasets</strong> and <strong>replicable methodologies</strong> in other urban contexts.</p>
             
             <div class="note">
-                <strong>Nota metodologica:</strong> L'ordine di analisi inverte il framework originale, partendo dalla regola dei 300 metri (accessibilità del verde urbano) come indicatore prioritario di equità urbana.
+                <strong>Methodological note:</strong> The analysis order inverts the original framework, starting from the 300-meter rule (urban green accessibility) as a priority indicator of urban equity.
             </div>
         </section>
         
-        <!-- 1. Mappatura spazi verdi -->
+        <!-- 1. Mappatura green spaces -->
         <section>
-            <h2>1. Mappatura degli spazi verdi pubblici</h2>
+            <h2>1. Mapping of public green spaces</h2>
             
-            <p>Per mappare gli spazi verdi urbani accessibili sono stati utilizzati due dataset complementari: <strong>OpenStreetMap</strong> (dati collaborativi aggiornati dalla community) e <strong>Copernicus Urban Atlas</strong> (dati satellitari ufficiali dell'Agenzia Spaziale Europea). Entrambi i dataset sono stati filtrati per includere solo il verde pubblico accessibile, escludendo spazi privati e impianti sportivi.</p>
+            <p>To map accessible urban green spaces, two complementary datasets were used: <strong>OpenStreetMap</strong> (collaborative data updated by the community) and <strong>Copernicus Urban Atlas</strong> (official satellite data from the European Space Agency). Both datasets were filtered to include only accessible public green spaces, excluding private spaces and sports facilities.</p>
             
             <h3>1.1 Dataset OpenStreetMap</h3>
             
-            <p><strong>Fonte:</strong> <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a></p>
+            <p><strong>Source:</strong> <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a></p>
             
-            <h4>Tag selezionati:</h4>
+            <h4>Selected tags:</h4>
             
-            <p><strong>Categoria A - Parchi e giardini:</strong></p>
+            <p><strong>Category A - Parks and gardens:</strong></p>
             <ul>
-                <li><code>leisure=park</code> - Parchi pubblici</li>
-                <li><code>leisure=garden</code> - Giardini pubblici</li>
+                <li><code>leisure=park</code> - Public parks</li>
+                <li><code>leisure=garden</code> - Public gardens</li>
             </ul>
             
-            <p><strong>Categoria B - Aree ricreative:</strong></p>
+            <p><strong>Category B - Recreation areas:</strong></p>
             <ul>
-                <li><code>leisure=playground</code> - Aree gioco bambini</li>
-                <li><code>leisure=dog_park</code> - Aree cani</li>
-                <li><code>leisure=fitness_station</code> - Aree fitness outdoor</li>
-                <li><code>landuse=recreation_ground</code> - Aree ricreative generiche</li>
-                <li><code>landuse=village_green</code> - Piazze verdi</li>
+                <li><code>leisure=playground</code> - Children's playgrounds</li>
+                <li><code>leisure=dog_park</code> - Dog parks</li>
+                <li><code>leisure=fitness_station</code> - Outdoor fitness areas</li>
+                <li><code>landuse=recreation_ground</code> - Generic recreation areas</li>
+                <li><code>landuse=village_green</code> - Village greens</li>
             </ul>
             
-            <h4>Categorie escluse:</h4>
+            <h4>Excluded categories:</h4>
             <ul>
-                <li><strong>Accesso:</strong> <code>access=private</code>, <code>access=residents</code>, <code>access=no</code></li>
-                <li><strong>Tipologia:</strong> <code>garden:type=roof_garden</code>, <code>operator=condominium</code></li>
-                <li>Altre categorie: impianti sportivi, foreste, riserve naturali, verde agricolo, cimiteri, campi da golf</li>
+                <li><strong>Access:</strong> <code>access=private</code>, <code>access=residents</code>, <code>access=no</code></li>
+                <li><strong>Type:</strong> <code>garden:type=roof_garden</code>, <code>operator=condominium</code></li>
+                <li>Other categories: sports facilities, forests, nature reserves, agricultural green, cemeteries, golf courses</li>
             </ul>
             
             <h4>Processing:</h4>
             
-            <p><strong>1. Estrazione dati con Overpass Turbo</strong></p>
+            <p><strong>1. Data extraction with Overpass Turbo</strong></p>
             
-            <p><a href="https://overpass-turbo.eu/" target="_blank">Overpass Turbo</a> è uno strumento web per interrogare il database OpenStreetMap. La seguente query estrae tutti gli spazi verdi pubblici di Palermo secondo i criteri definiti:</p>
+            <p><a href="https://overpass-turbo.eu/" target="_blank">Overpass Turbo</a> is a web tool to query the OpenStreetMap database. The following query extracts all public green spaces in Palermo according to defined criteria:</p>
             
             <pre><code>[out:json][timeout:60];
 {{geocodeArea:Palermo}}->.searchArea;
 
-// CATEGORY A - Parks & Gardens
+// CATEGORY A - Parks // CATEGORY A - Parks & Gardens Gardens
 (  
   way["leisure"="park"]["access"!="private"]["access"!="residents"](area.searchArea);
   relation["leisure"="park"]["access"!="private"]["access"!="residents"](area.searchArea);  
@@ -386,93 +384,93 @@ out geom;
 >;
 out skel qt;</code></pre>
             
-            <p>Risultato estrazione: <strong>479 spazi</strong>, superficie <strong>4,51 km²</strong></p>
+            <p>Extraction result: <strong>479 spaces</strong>, area <strong>4,51 km²</strong></p>
             
-            <p><strong>2. Filtraggio dimensionale</strong></p>
+            <p><strong>2. Size filtering</strong></p>
             
-            <p>Sono stati esclusi gli spazi con area inferiore a 2.000 m² per rimuovere aiuole, verde ornamentale e piccole aree non fruibili.</p>
+            <p>Spaces with an area of less than 2,000 m² were excluded to remove flower beds, ornamental greenery and small unusable areas.</p>
             
-            <h4>Risultati:</h4>
+            <h4>Results:</h4>
             <ul>
-                <li>Numero di spazi: <strong>118</strong></li>
-                <li>Superficie totale: <strong>4,30 km²</strong></li>
+                <li>Number of spaces: <strong>118</strong></li>
+                <li>Total area: <strong>4,30 km²</strong></li>
             </ul>
             
             <h3>1.2 Dataset Copernicus Urban Atlas 2021</h3>
             
-            <p><strong>Fonte:</strong> <a href="https://land.copernicus.eu/en/products/urban-atlas" target="_blank">Copernicus Urban Atlas</a> - FUA IT005L3 (Palermo)</p>
+            <p><strong>Source:</strong> <a href="https://land.copernicus.eu/en/products/urban-atlas" target="_blank">Copernicus Urban Atlas</a> - FUA IT005L3 (Palermo)</p>
             
-            <h4>Categoria selezionata:</h4>
+            <h4>Selected category:</h4>
             <ul>
                 <li><code>14110</code> - Green urban areas (Public access)</li>
             </ul>
             
-            <h4>Categorie escluse:</h4>
+            <h4>Excluded categories:</h4>
             <ul>
                 <li><code>14130</code> - Green urban areas (Unknown access conditions)</li>
-                <li>Altre categorie: verde privato, impianti sportivi, foreste, vegetazione erbacea</li>
+                <li>Other categories: private green, sports facilities, forests, herbaceous vegetation</li>
             </ul>
             
             <h4>Processing:</h4>
             <ol>
                 <li>Download: FlatGeobuf da <a href="https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-2021#download" target="_blank">Copernicus Land Monitoring Service</a></li>
-                <li>Conversione: FlatGeobuf → GeoJSON (via <a href="https://neatogeo.com" target="_blank">NeatoGeo</a>)</li>
-                <li>Filtraggio dimensionale: area ≥ 2.000 m² (184 → 181 spazi)</li>
-                <li>Filtraggio geografico: solo territorio comunale (181 → 129 spazi)</li>
+                <li>Conversion: FlatGeobuf → GeoJSON (via <a href="https://neatogeo.com" target="_blank">NeatoGeo</a>)</li>
+                <li>Size filtering: area ≥ 2.000 m² (184 → 181 spaces)</li>
+                <li>Geographic filtering: municipal territory only (181 → 129 spaces)</li>
             </ol>
             
-            <h4>Risultati:</h4>
+            <h4>Results:</h4>
             <ul>
-                <li>Numero di spazi: <strong>129</strong></li>
-                <li>Superficie totale: <strong>3,36 km²</strong></li>
+                <li>Number of spaces: <strong>129</strong></li>
+                <li>Total area: <strong>3,36 km²</strong></li>
             </ul>
             
-            <h3>1.3 Categorizzazione dimensionale</h3>
+            <h3>1.3 Size categorization</h3>
             
-            <p>Entrambi i dataset sono stati categorizzati secondo <strong>cinque classi di superficie</strong> per valutare la tipologia degli spazi disponibili:</p>
+            <p>Both datasets were categorized according to <strong>five area classes</strong> to assess the type of available spaces:</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Categoria</th>
-                        <th>Soglia</th>
+                        <th>Category</th>
+                        <th>Threshold</th>
                         <th>OSM</th>
                         <th>Copernicus</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Parco molto grande</td>
+                        <td>Very large park</td>
                         <td>&gt; 300.000 m²</td>
                         <td>1 (1,91 km²)</td>
                         <td>1 (0,35 km²)</td>
                     </tr>
                     <tr>
-                        <td>Grande parco</td>
+                        <td>Large park</td>
                         <td>100.000-300.000 m²</td>
                         <td>3 (0,47 km²)</td>
                         <td>8 (1,31 km²)</td>
                     </tr>
                     <tr>
-                        <td>Parco di quartiere</td>
+                        <td>Neighborhood park</td>
                         <td>30.000-100.000 m²</td>
                         <td>19 (1,19 km²)</td>
                         <td>14 (0,79 km²)</td>
                     </tr>
                     <tr>
-                        <td>Giardino</td>
+                        <td>Garden</td>
                         <td>10.000-30.000 m²</td>
                         <td>27 (0,42 km²)</td>
                         <td>34 (0,53 km²)</td>
                     </tr>
                     <tr>
-                        <td>Piccolo spazio verde</td>
+                        <td>Small green space</td>
                         <td>&lt; 10.000 m²</td>
                         <td>68 (0,30 km²)</td>
                         <td>72 (0,38 km²)</td>
                     </tr>
                     <tr style="font-weight: 600;">
-                        <td><strong>Totale</strong></td>
+                        <td><strong>Total</strong></td>
                         <td></td>
                         <td><strong>118 (4,30 km²)</strong></td>
                         <td><strong>129 (3,36 km²)</strong></td>
@@ -481,140 +479,140 @@ out skel qt;</code></pre>
             </table>
         </section>
         
-        <!-- 2. Distribuzione popolazione -->
+        <!-- 2. Distribuzione population -->
         <section>
-            <h2>2. Distribuzione della popolazione</h2>
+            <h2>2. Population distribution</h2>
             
-            <p>Per calcolare quanti cittadini vivono entro 300 metri da uno spazio verde è necessario conoscere dove risiede la popolazione. Sono stati utilizzati i dati ISTAT sulle sezioni di censimento (l'unità territoriale comunale più piccola) incrociati con i dati demografici del Comune di Palermo.</p>
+            <p>To calculate how many citizens live within 300 meters of a green space, it's necessary to know where the population resides. ISTAT data on census sections (the smallest municipal territorial unit) was used, cross-referenced with demographic data from the Municipality of Palermo.</p>
             
-            <h4>Fonti:</h4>
+            <h4>Sources:</h4>
             <ul>
-                <li><strong>Geometrie sezioni:</strong> <a href="https://www.istat.it/it/archivio/222527" target="_blank">ISTAT - Sezioni di censimento 2021</a></li>
-                <li><strong>Dati demografici:</strong> <a href="https://opendata.comune.palermo.it/opendata-dataset.php?dataset=1381" target="_blank">Comune di Palermo - Popolazione residente 31/12/2022</a></li>
-                <li><strong>Geometrie quartieri:</strong> <a href="https://umap.openstreetmap.fr/it/map/palermo-in-8-circoscrizioni-e-25-quartieri_16500" target="_blank">uMap OpenStreetMap</a></li>
+                <li><strong>Section geometriesss:</strong> <a href="https://www.istat.it/it/archivio/222527" target="_blank">ISTAT - Sezioni di censimento 2021</a></li>
+                <li><strong>Demographic data:</strong> <a href="https://opendata.comune.palermo.it/opendata-dataset.php?dataset=1381" target="_blank">Comune di Palermo - Resident population 31/12/2022</a></li>
+                <li><strong>Neighborhood geometriesss:</strong> <a href="https://umap.openstreetmap.fr/it/map/palermo-in-8-circoscrizioni-e-25-quartieri_16500" target="_blank">uMap OpenStreetMap</a></li>
             </ul>
             
             <h4>Processing:</h4>
             
-            <p>I dati ISTAT coprono l'intera Sicilia. Per estrarre solo le sezioni di Palermo è stato utilizzato il servizio gratuito <a href="https://mapshaper.org" target="_blank">MapShaper</a> con il seguente filtro:</p>
+            <p>ISTAT data covers all of Sicily. To extract only Palermo sections, the free service <a href="https://mapshaper.org" target="_blank">MapShaper</a> was used with the following filter:</p>
             
-            <pre><code># Filtraggio sezioni ISTAT per Palermo
+            <pre><code># Filtering ISTAT sections for Palermo
 filter 'PRO_COM == "082053"'</code></pre>
             
-            <h4>Risultati:</h4>
+            <h4>Results:</h4>
             <ul>
-                <li>File GeoJSON con la popolazione residente di Palermo suddivisa per sezione di censimento</li>
+                <li>GeoJSON file with Palermo's resident population divided by census section</li>
             </ul>
         </section>
         
         <!-- 3. Accessibilità -->
         <section>
-            <h2>3. Accessibilità degli spazi verdi (regola dei 300 m)</h2>
+            <h2>3. Green spaces accessibility (300-meter rule)</h2>
             
-            <p>La regola dei 300 metri stabilisce che ogni persona dovrebbe avere accesso a <strong>uno spazio verde di qualità entro 300 metri da casa</strong>. Per verificare questa condizione sono stati combinati i dati sugli spazi verdi (capitolo 1) con la distribuzione della popolazione (capitolo 2).</p>
+            <p>The 300-meter rule establishes that every person should have access to <strong>a quality green space within 300 meters from home</strong>. To verify this condition, green spaces data (chapter 1) were combined with population distribution (chapter 2).</p>
             
-            <h3>3.1 Copertura cittadina</h3>
+            <h3>3.1 City-wide coverage</h3>
             
-            <p>L'algoritmo, basato sul metodo dell'<strong>interpolazione ponderata per area</strong> (Area-Weighted Interpolation), calcola quanta popolazione risiede entro 300 metri dagli spazi verdi creando dei buffer circolari attorno a ciascuno spazio e calcolando l'intersezione con le sezioni di censimento. Per ogni sezione viene stimata la frazione di popolazione coperta in base alla frazione di area intersecata, assumendo distribuzione uniforme della popolazione all'interno della sezione.</p>
+            <p>The algorithm, based on the <strong>area-weighted interpolation</strong> method (Area-Weighted Interpolation), calculates how much population resides within 300 meters of green spaces by creating circular buffers around each space and calculating the intersection with census sections. For each section, the fraction of covered population is estimated based on the fraction of intersected area, assuming uniform population distribution within the section.</p>
             
-            <h4>Algoritmo:</h4>
+            <h4>Algorithm:</h4>
             
             <pre><code>import geopandas as gpd
 from shapely.ops import unary_union
 
-# 1. Buffer 300m attorno agli spazi verdi
-buffers = spazi_verdi.buffer(300)
-area_copertura = unary_union(buffers)
+# 1. 300m buffer around green spaces
+buffers = green_spaces.buffer(300)
+coverage_area = unary_union(buffers)
 
-# 2. Calcolo per sezione
-popolazione_coperta = 0
-for idx, sezione in sezioni.iterrows():
-    intersezione = sezione.geometry.intersection(area_copertura)
-    frazione_coperta = intersezione.area / sezione.geometry.area
-    pop_coperta = sezione['popolazione'] * frazione_coperta
-    popolazione_coperta += pop_coperta
+# 2. Calculation per section
+covered_population = 0
+for idx, section in sections.iterrows():
+    intersection = section.geometry.intersection(coverage_area)
+    covered_fraction = intersection.area / section.geometry.area
+    covered_pop = section['population'] * covered_fraction
+    covered_population += covered_pop
 
-# 3. Percentuale
-percentuale = (popolazione_coperta / popolazione_totale) * 100</code></pre>
+# 3. Percentage
+percentage = (covered_population / total_population) * 100</code></pre>
             
             <div class="warning">
-                <strong>Assunzioni:</strong>
+                <strong>Assumptions:</strong>
                 <ul style="margin-top: 0.5rem;">
-                    <li>Popolazione uniformemente distribuita nelle sezioni</li>
-                    <li>Distanza euclidea (linea d'aria, senza considerare barriere fisiche o rete stradale)</li>
+                    <li>Population uniformly distributed in sections</li>
+                    <li>Euclidean distance (as the crow flies, without considering physical barriers or road network)</li>
                 </ul>
             </div>
             
-            <h4>Risultati:</h4>
+            <h4>Results:</h4>
             
             <table>
                 <thead>
                     <tr>
                         <th>Dataset</th>
-                        <th>Copertura</th>
-                        <th>Popolazione coperta</th>
-                        <th>Non coperta</th>
+                        <th>Coverage</th>
+                        <th>Covered population</th>
+                        <th>Not covered</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>OpenStreetMap</td>
                         <td>38,76%</td>
-                        <td>246.293 abitanti</td>
-                        <td>389.146 abitanti</td>
+                        <td>246.293 residents</td>
+                        <td>389.146 residents</td>
                     </tr>
                     <tr>
                         <td>Copernicus</td>
                         <td>40,06%</td>
-                        <td>254.533 abitanti</td>
-                        <td>380.906 abitanti</td>
+                        <td>254.533 residents</td>
+                        <td>380.906 residents</td>
                     </tr>
                 </tbody>
             </table>
             
-            <h3>3.2 Copertura per quartiere</h3>
+            <h3>3.2 Coverage by neighborhood</h3>
             
-            <p>Per calcolare l'accessibilità media del verde urbano su scala di quartiere è sufficiente applicare lo stesso algoritmo limitandolo alle sezioni di censimento che ricadono all'interno dei confini di ciascuno dei 25 quartieri di Palermo.</p>
+            <p>To calculate average urban green accessibility at neighborhood scale, it's sufficient to apply the same algorithm limited to census sections that fall within the boundaries of each of Palermo's 25 neighborhoods.</p>
             
-            <h3>3.3 Valutazione puntuale</h3>
+            <h3>3.3 Point-by-point assessment</h3>
             
-            <p>L'utente inserisce il <strong>proprio indirizzo</strong> o condivide la <strong>propria posizione</strong>. Il sistema calcola la distanza minima dai bordi esterni degli spazi verdi e conta quanti spazi sono entro 300 metri. Se c'è <strong>almeno uno spazio</strong>, viene mostrato il nome, l'area e la distanza (feedback positivo). Se ci sono <strong>più spazi</strong>, viene mostrato il più grande con le stesse informazioni viste in precedenza. Se <strong>non ci sono spazi</strong> entro 300 metri, viene comunque indicata la distanza da quello più vicino (feedback negativo).</p>
+            <p>The user enters their <strong>address</strong> or shares their <strong>location</strong>. The system calculates the minimum distance from the outer edges of green spaces and counts how many spaces are within 300 meters. If there is <strong>at least one space</strong>, the name, area and distance are shown (positive feedback). If there are <strong>multiple spaces</strong>, the largest one is shown with the same information seen previously. If there are <strong>no spaces</strong> within 300 meters, the distance to the nearest one is still indicated (negative feedback).</p>
             
-            <h4>Input utente:</h4>
+            <h4>User input:</h4>
             <ul>
-                <li>Geolocalizzazione (lat/lon)</li>
-                <li>Indirizzo testuale → Google Maps Geocoding API</li>
+                <li>Geolocation (lat/lon)</li>
+                <li>Text address → Google Maps Geocoding API</li>
             </ul>
             
-            <h4>Calcolo distanza:</h4>
+            <h4>Distance calculation:</h4>
             
             <pre><code>from shapely.geometry import Point
 
-punto_utente = Point(lon, lat)
-distanza_minima = min([
-    punto_utente.distance(spazio.boundary) 
-    for spazio in spazi_verdi
+user_point = Point(lon, lat)
+minimum_distance = min([
+    user_point.distance(space.boundary) 
+    for space in green_spaces
 ])</code></pre>
             
             <h4>Output:</h4>
             <ul>
-                <li>Se 1 spazio entro 300 metri → feedback positivo + nome, area e distanza spazio</li>
-                <li>Se n spazi entro 300 metri → feedback positivo + numero + dettagli spazio più grande</li>
-                <li>Se 0 spazi entro 300 metri → feedback negativo + dettagli spazio più vicino</li>
+                <li>If 1 space within 300 meters → positive feedback + space name, area and distance</li>
+                <li>If n spaces within 300 meters → positive feedback + number + largest space details</li>
+                <li>If 0 spaces within 300 meters → negative feedback + nearest space details</li>
             </ul>
         </section>
         
-        <!-- 4. Copertura arborea -->
+        <!-- 4. Tree canopy coverage -->
         <section>
-            <h2>4. Copertura arborea (regola del 30%)</h2>
+            <h2>4. Tree canopy coverage (30% rule)</h2>
             
-            <p>La regola del 30% stabilisce che almeno il <strong>30% della superficie urbana</strong> dovrebbe essere coperta da <strong>chiome degli alberi</strong> (tree canopy) per garantire benefici ambientali e di salute pubblica ottimali. Il calcolo si basa su immagini satellitari ad alta risoluzione.</p>
+            <p>The 30% rule establishes that at least <strong>30% of the urban area</strong> should be covered by <strong>tree canopies</strong> (tree canopy) to ensure optimal environmental and public health benefits. The calculation is based on high-resolution satellite imagery.</p>
             
-            <p><strong>Fonte:</strong> <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover/tree-cover-density-2023-raster-10-m-100-m-europe-yearly" target="_blank">Copernicus Tree Cover Density 2023</a><br>
-            <strong>Risoluzione:</strong> 10m raster<br>
+            <p><strong>Source:</strong> <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover/tree-cover-density-2023-raster-10-m-100-m-europe-yearly" target="_blank">Copernicus Tree Cover Density 2023</a><br>
+            <strong>Resolution:</strong> 10m raster<br>
             <strong>Range:</strong> 0-100% per pixel</p>
             
-            <h4>Calcolo città/quartiere:</h4>
+            <h4>City/neighborhood calculation:</h4>
             
             <pre><code>import rasterio
 import numpy as np
@@ -622,47 +620,47 @@ import numpy as np
 with rasterio.open('tcd_2023.tif') as src:
     data = src.read(1)
     mask = rasterio.features.geometry_mask(
-        [area_interesse], 
+        [area_of_interest], 
         transform=src.transform, 
         invert=True, 
         out_shape=data.shape
     )
-    copertura_media = np.mean(data[mask])</code></pre>
+    average_coverage = np.mean(data[mask])</code></pre>
             
-            <h4>Metriche derivate:</h4>
+            <h4>Derived metrics:</h4>
             
-            <p>Per ogni quartiere viene calcolato il deficit arboreo (distanza dall'obiettivo 30%) e il numero stimato di alberi da piantare per raggiungerlo, assumendo una chioma media per albero maturo di 35 m²:</p>
+            <p>For each neighborhood, the tree deficit (distance from the 30% target) and the estimated number of trees to plant to reach it are calculated, assuming an average canopy per mature tree of 35 m²:</p>
             
-            <pre><code>deficit_pct = 30 - copertura_media
-area_da_coprire = area_quartiere * (deficit_pct / 100)
-alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
+            <pre><code>deficit_pct = 30 - average_coverage
+area_to_cover = area_neighborhood * (deficit_pct / 100)
+trees_needed = area_to_cover / 35  # 35 m² canopy</code></pre>
             
-            <h4>Risultati:</h4>
+            <h4>Results:</h4>
             <ul>
-                <li>Palermo ha una copertura arborea media del <strong>12,1%</strong>, ben al di sotto dello standard del 30%</li>
-                <li>Nessuno dei 25 quartieri raggiunge una copertura arborea sufficiente</li>
+                <li>Palermo has an average tree canopy coverage of <strong>12.1%</strong>, well below the 30% standard</li>
+                <li>None of the 25 neighborhoods reaches sufficient tree canopy coverage</li>
             </ul>
         </section>
         
         <!-- 5. Alberi visibili -->
         <section>
-            <h2>5. Alberi visibili dalla finestra (regola del 3)</h2>
+            <h2>5. Trees visible from window (3-tree rule)</h2>
             
-            <p>La regola del 3 stabilisce che chiunque dovrebbe poter vedere <strong>almeno 3 alberi dalla propria casa</strong>. Non esistendo dataset affidabili su questo aspetto, agli utenti è stato chiesto di contare gli alberi dalla propria finestra tramite una semplice interfaccia web.</p>
+            <p>The 3-tree rule establishes that anyone should be able to see <strong>at least 3 trees from their home</strong>. Since no reliable datasets exist on this aspect, users were asked to count trees from their window through a simple web interface.</p>
             
-            <h4>Stack tecnico:</h4>
+            <h4>Technical stack:</h4>
             <ul>
                 <li>Backend: Cloudflare Worker (serverless)</li>
                 <li>Storage: Cloudflare KV (key-value store)</li>
                 <li>API REST:
                     <ul>
-                        <li><code>POST /api/tree-count</code> → Salva conteggio (0-99)</li>
-                        <li><code>GET /api/tree-stats</code> → Recupera statistiche aggregate</li>
+                        <li><code>POST /api/tree-count</code> → Save count (0-99)</li>
+                        <li><code>GET /api/tree-stats</code> → Retrieve aggregated statistics</li>
                     </ul>
                 </li>
             </ul>
             
-            <h4>Metriche calcolate:</h4>
+            <h4>Calculated metrics:</h4>
             
             <pre><code>{
   total_responses: n,
@@ -673,127 +671,127 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
         
         <!-- 6. Interazione utente -->
         <section>
-            <h2>6. Interazione utente e call to action</h2>
+            <h2>6. User interaction and call to action</h2>
             
-            <h3>6.1 Sezione 300 metri (Accessibilità del verde urbano)</h3>
+            <h3>6.1 300-meter section (Urban green accessibility)</h3>
             
-            <p><strong>CTA primaria:</strong> "Inserisci il tuo indirizzo e scopri se hai accesso al verde urbano"</p>
+            <p><strong>Primary CTA:</strong> "Enter your address and discover if you have access to urban green spaces"</p>
             
-            <p><strong>Funzionalità:</strong></p>
+            <p><strong>Features:</strong></p>
             <ul>
-                <li>Input: indirizzo o posizione attuale</li>
-                <li>Processing: geocoding → calcolo distanza → visualizzazione mappa del verde entro 300 metri</li>
-                <li>Output: feedback su accessibilità verde urbano + dettaglio spazio più vicino</li>
+                <li>Input: address or current location</li>
+                <li>Processing: geocoding → distance calculation → visualization of green map within 300 meters</li>
+                <li>Output: feedback on urban green accessibility + nearest space details</li>
             </ul>
             
-            <p><strong>CTA secondaria:</strong> "Condividi i tuoi risultati"</p>
+            <p><strong>Secondary CTA:</strong> "Share your results"</p>
             
-            <h3>6.2 Sezione 30% (Copertura arborea)</h3>
+            <h3>6.2 30% section (Tree canopy coverage)</h3>
             
-            <p><strong>Visualizzazione:</strong> Analisi sulla copertura del tuo quartiere</p>
+            <p><strong>Visualization:</strong> Analysis of your neighborhood coverage</p>
             
-            <p><strong>Funzionalità:</strong></p>
+            <p><strong>Features:</strong></p>
             <ul>
-                <li>Copertura arborea attuale (in %)</li>
-                <li>Visualizzazione alberi presenti e mancanti tramite grafico interattivo</li>
-                <li>Stima del deficit da colmare e del numero di alberi da piantare</li>
+                <li>Current tree canopy coverage (in %)</li>
+                <li>Visualization of existing and missing trees through interactive chart</li>
+                <li>Estimate of deficit to fill and number of trees to plant</li>
             </ul>
             
-            <p><strong>CTA:</strong> "Contribuisci a piantare più alberi nella tua città" → <a href="https://www.metropolitree.com/" target="_blank">Metropolitree</a></p>
+            <p><strong>CTA:</strong> "Help plant more trees in your city" → <a href="https://www.metropolitree.com/" target="_blank">Metropolitree</a></p>
             
-            <h3>6.3 Sezione 3 (Alberi in visibilità)</h3>
+            <h3>6.3 Section 3 (Trees in visibility)</h3>
             
-            <p><strong>CTA primaria:</strong> Inserimento del numero di alberi visibili dalla propria finestra</p>
+            <p><strong>Primary CTA:</strong> Input of number of trees visible from one's window</p>
             
-            <p><strong>Funzionalità:</strong></p>
+            <p><strong>Features:</strong></p>
             <ul>
-                <li>Input: campo numerico (0-99)</li>
-                <li>Visualizzazione alberi visibili tramite widget dinamico</li>
-                <li>Output: statistiche aggregate basate su risposte raccolte (numero risposte, media alberi, % utenti con +3 alberi)</li>
+                <li>Input: numeric field (0-99)</li>
+                <li>Visualization of visible trees through dynamic widget</li>
+                <li>Output: aggregated statistics based on collected responses (number of responses, average trees, % users with +3 trees)</li>
             </ul>
             
-            <p><strong>CTA secondaria:</strong> "Chiedi al Comune di Palermo di piantare più alberi" → invio email</p>
+            <p><strong>Secondary CTA:</strong> "Ask the Municipality of Palermo to plant more trees" → send email</p>
         </section>
         
         <!-- 7. Stack -->
         <section>
-            <h2>7. Stack tecnologico</h2>
+            <h2>7. Technology stack</h2>
             
             <h4>Data processing:</h4>
             <ul>
-                <li>Python 3.9+ (linguaggio di programmazione)</li>
-                <li>GeoPandas 0.14 (analisi dati geospaziali), Shapely 2.0 (geometrie)</li>
-                <li>Rasterio 1.3 (raster geospaziali), Pyproj (proiezioni - EPSG:32633 UTM 33N)</li>
+                <li>Python 3.9+ (programming language)</li>
+                <li>GeoPandas 0.14 (geospatial data analysis), Shapely 2.0 (geometriess)</li>
+                <li>Rasterio 1.3 (geospatial rasters), Pyproj (projections - EPSG:32633 UTM 33N)</li>
             </ul>
             
             <h4>Frontend:</h4>
             <ul>
-                <li>Leaflet.js 1.9 (mappe interattive)</li>
-                <li>Chart.js (istogrammi e grafici)</li>
-                <li>Google Maps Geocoding API (conversione indirizzi in coordinate)</li>
-                <li>Cloudflare Workers (backend serverless)</li>
+                <li>Leaflet.js 1.9 (interactive maps)</li>
+                <li>Chart.js (histograms and charts)</li>
+                <li>Google Maps Geocoding API (address to coordinate conversion)</li>
+                <li>Cloudflare Workers (serverless backend)</li>
             </ul>
             
-            <h4>Formato dati:</h4>
+            <h4>Data format:</h4>
             <ul>
-                <li>GeoJSON (dati vettoriali geografici)</li>
-                <li>GeoTIFF (raster geospaziali)</li>
-                <li>JSON (dati strutturati e API)</li>
+                <li>GeoJSON (geographic vector data)</li>
+                <li>GeoTIFF (geospatial rasters)</li>
+                <li>JSON (structured data and APIs)</li>
             </ul>
         </section>
         
-        <!-- 8. Limitazioni -->
+        <!-- 8. Limitations -->
         <section>
-            <h2>8. Limitazioni</h2>
+            <h2>8. Limitations</h2>
             
             <h4>Dataset:</h4>
             <ul>
-                <li><strong>OpenStreetMap:</strong> La qualità dei dati dipende dal mapping volontario e può variare tra zone della città. Alcune aree potrebbero essere sottomappate o contenere informazioni obsolete.</li>
-                <li><strong>Copernicus Urban Atlas:</strong> La classificazione automatica da satellite può includere spazi verdi non realmente accessibili al pubblico o escludere piccoli spazi rilevanti non rilevabili alla risoluzione 10m.</li>
-                <li><strong>Tree Cover Density:</strong> La risoluzione 10m può sottostimare alberi isolati o filari. I dati riflettono la copertura in un momento specifico (estate 2023) e non tengono conto delle variazioni stagionali.</li>
+                <li><strong>OpenStreetMap:</strong> Data quality depends on voluntary mapping and may vary between city areas. Some areas may be undermapped or contain outdated information.</li>
+                <li><strong>Copernicus Urban Atlas:</strong> Automatic satellite classification may include green spaces not actually accessible to the public or exclude small relevant spaces not detectable at 10m resolution.</li>
+                <li><strong>Tree Cover Density:</strong> The 10m resolution may underestimate isolated trees or tree rows. Data reflects coverage at a specific time (summer 2023) and does not account for seasonal variations.</li>
             </ul>
             
-            <h4>Calcoli:</h4>
+            <h4>Calculations:</h4>
             <ul>
-                <li><strong>Distanza euclidea:</strong> Il calcolo ignora la rete stradale reale e le barriere fisiche (autostrade, fiumi, ferrovie). La distanza effettivamente percorribile potrebbe essere maggiore.</li>
-                <li><strong>Distribuzione popolazione:</strong> L'assunzione di popolazione uniformemente distribuita nelle sezioni di censimento può sovrastimare o sottostimare localmente la copertura in aree con densità abitativa molto disomogenea.</li>
-                <li><strong>Alberi visibili:</strong> Il campione raccolto tramite crowdsourcing non è probabilistico e può soffrire di bias di autoselezione. Le risposte dipendono da fattori soggettivi (altezza edificio, presenza balcone, vegetazione stagionale).</li>
+                <li><strong>Euclidean distance:</strong> The calculation ignores the actual road network and physical barriers (highways, rivers, railways). The actually walkable distance could be greater.</li>
+                <li><strong>Population distribution:</strong> The assumption of uniformly distributed population in census sections may locally overestimate or underestimate coverage in areas with very uneven housing density.</li>
+                <li><strong>Visible trees:</strong> The sample collected through crowdsourcing is not probabilistic and may suffer from self-selection bias. Responses depend on subjective factors (building height, balcony presence, seasonal vegetation).</li>
             </ul>
         </section>
         
-        <!-- 9. Replicabilità -->
+        <!-- 9. Replicability -->
         <section>
-            <h2>9. Replicabilità</h2>
+            <h2>9. Replicability</h2>
             
-            <p>Per applicare la metodologia ad un'altra città è necessario seguire questi passaggi:</p>
+            <p>To apply the methodology to another city, follow these steps:</p>
             
             <ol>
-                <li><strong>Spazi verdi OpenStreetMap:</strong> Sostituire <code>{{geocodeArea:Palermo}}</code> nella query Overpass Turbo con il nome della città di interesse</li>
+                <li><strong>OpenStreetMap green spaces:</strong> Replace <code>{{geocodeArea:Palermo}}</code> in the Overpass Turbo query with the name of the city of interest</li>
                 
-                <li><strong>Spazi verdi Copernicus:</strong> Scaricare il dataset Urban Atlas 2021 relativo alla FUA (Functional Urban Area) della città dal <a href="https://land.copernicus.eu/en/products/urban-atlas" target="_blank">portale Copernicus</a></li>
+                <li><strong>Copernicus green spaces:</strong> Download the Urban Atlas 2021 dataset for the city's FUA (Functional Urban Area) from the <a href="https://land.copernicus.eu/en/products/urban-atlas" target="_blank">Copernicus portal</a></li>
                 
-                <li><strong>Copertura arborea:</strong> Scaricare il raster Tree Cover Density 2023 per l'area di interesse dal <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover" target="_blank">portale Copernicus</a></li>
+                <li><strong>Tree canopy coverage:</strong> Download the Tree Cover Density 2023 raster for the area of interest from the <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover" target="_blank">portale Copernicus</a></li>
                 
-                <li><strong>Dati popolazione:</strong> Individuare il sistema di unità territoriali censuarie del paese (es. ISTAT per l'Italia) e scaricare:
+                <li><strong>Population data:</strong> Identify the country's census territorial unit system (e.g. ISTAT for Italy) and download:
                     <ul>
-                        <li>Geometrie delle sezioni/unità minime territoriali</li>
-                        <li>Dati demografici per sezione</li>
+                        <li>Section/minimum territorial unit geometriesss</li>
+                        <li>Demographic data per section</li>
                     </ul>
                 </li>
                 
-                <li><strong>Confini quartieri:</strong> Definire i confini delle unità amministrative locali (quartieri, municipalità, distretti) tramite fonti ufficiali o community mapping (uMap, OpenStreetMap)</li>
+                <li><strong>Neighborhood boundaries:</strong> Define the boundaries of local administrative units (neighborhoods, municipalities, districts) through official sources or community mapping (uMap, OpenStreetMap)</li>
                 
-                <li><strong>Esecuzione script Python:</strong> Adattare i codici forniti utilizzando le librerie indicate nella sezione Stack Tecnologico</li>
+                <li><strong>Python script execution:</strong> Adapt the provided codes using the libraries indicated in the Technology Stack section</li>
             </ol>
             
             <div class="note">
-                <strong>Codice sorgente:</strong> Tutto il codice di processing e l'applicazione web sono disponibili su <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank">GitHub</a> con licenza MIT open source.
+                <strong>Source code:</strong> All processing code and web application are available on <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank">GitHub</a> with open source MIT license.
             </div>
         </section>
         
-        <!-- Riferimenti -->
+        <!-- References -->
         <section>
-            <h2>Riferimenti</h2>
+            <h2>References</h2>
             
             <ul>
                 <li>Konijnendijk, C. C. (2023). Evidence-based guidelines for greener, healthier, more resilient neighbourhoods: Introducing the 3-30-300 rule. <em>Journal of Forestry Research</em>, 34(5), 1131-1146. <a href="https://doi.org/10.1007/s11676-022-01523-z" target="_blank">https://doi.org/10.1007/s11676-022-01523-z</a></li>
@@ -804,7 +802,7 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
                 
                 <li>Copernicus Land Monitoring Service (2024). Tree Cover Density 2023 - High Resolution Layer. European Environment Agency. <a href="https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover" target="_blank">https://land.copernicus.eu</a></li>
                 
-                <li>ISTAT (2021). Basi territoriali e variabili censuarie. <a href="https://www.istat.it/it/archivio/222527" target="_blank">https://www.istat.it</a></li>
+                <li>ISTAT (2021). Territorial bases and census variables. <a href="https://www.istat.it/it/archivio/222527" target="_blank">https://www.istat.it</a></li>
                 
                 <li>Comune di Palermo (2024). Open Data. <a href="https://opendata.comune.palermo.it" target="_blank">https://opendata.comune.palermo.it</a></li>
             </ul>
@@ -814,7 +812,7 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
     <!-- Pulsante torna alla dashboard -->
     <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0 0 0;">
         <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 0 2rem;">
-            <a href="index.html" class="back-link" style="margin-bottom: 0;">← Torna alla pagina principale</a>
+            <a href="index.html" class="back-link" style="margin-bottom: 0;">← Back to home</a>
         </div>
     </section>
     

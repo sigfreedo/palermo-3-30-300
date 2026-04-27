@@ -1233,6 +1233,71 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
+    
+    /* Language Dropdown */
+    .language-selector {
+      position: relative;
+    }
+    
+    .language-button {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      backdrop-filter: blur(10px);
+    }
+    
+    .language-button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .language-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      display: none;
+      overflow: hidden;
+    }
+    
+    .language-dropdown.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .language-option {
+      display: block;
+      padding: 0.75rem 1.2rem;
+      color: #374151;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .language-option:hover {
+      background: #f3f4f6;
+      color: #10b981;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
     
     <!-- Leaflet CSS -->
@@ -1243,6 +1308,21 @@
 </head>
 <body>
   <section class="hero">
+    <!-- Language Selector Dropdown -->
+    <div style="position: absolute; top: 2rem; right: 2rem; z-index: 100;">
+        <div class="language-selector">
+            <button class="language-button" onclick="toggleLanguageMenu()">
+                🇮🇹 IT
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left: 0.5rem;">
+                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <a href="index_en.html" class="language-option">🇬🇧 EN</a>
+            </div>
+        </div>
+    </div>
+    
     <!-- Layer 1: SOLO Mountain background -->
     <svg class="skyline-layer layer-back" viewBox="0 0 1400 550" width="1400" height="550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
       <path d="M 0 480 Q 200 420, 400 460 T 800 450 T 1200 470 L 1400 480 L 1400 550 L 0 550 Z" fill="#065f46" opacity="0.2"/>
@@ -2318,6 +2398,22 @@
         </p>
     </footer>
     <script>
+        // Language dropdown toggle
+        function toggleLanguageMenu() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.language-button') && !e.target.closest('.language-button')) {
+                const dropdown = document.getElementById('languageDropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+        
         let greenSpaces = null;
         let quartieri = null; // Dati quartieri con tree canopy e statistiche
         let currentDataset = 'osm';

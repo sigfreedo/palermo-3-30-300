@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps and Datasets - Palermo 3-30-300</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            margin: 0;
+        }
+        
+        /* Header */
+        header {
+            background: #059669;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0;
+        }
+        
+        /* Typography */
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #065f46;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        
+        /* Toggle button styles - TEMA CHIARO */
+        .dataset-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0 2rem 0;
+        }
+        
+        .toggle-button {
+            display: inline-flex;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 4px;
+            gap: 4px;
+        }
+        
+        .toggle-option {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .toggle-option:hover:not(.active) {
+            color: #374151;
+            background: #e5e7eb;
+        }
+        
+        .toggle-option.active {
+            background: #059669;
+            color: white;
+        }
+        
+        /* Map */
+        #map-spazi {
+            height: 700px;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 3px solid #059669;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Mobile map heights */
+        @media (max-width: 768px) {
+            #map-spazi,
+            #map-canopy {
+                height: 600px !important;
+            }
+            
+            /* Hide map title overlays on mobile */
+            .map-title-overlay {
+                display: none !important;
+            }
+        }
+        
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            margin: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: #10b981;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #047857;
+            transform: translateY(-4px);
+        }
+        
+        .dataset-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .dataset-btn-view {
+            background: #059669;
+        }
+        
+        .dataset-btn-view:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+        
+        .dataset-btn-download {
+            background: #10b981;
+        }
+        
+        .dataset-btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        /* Dataset grid */
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Mobile responsiveness for dataset boxes */
+        @media (max-width: 768px) {
+            .dataset-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .dataset-box {
+                padding: 1.25rem !important;
+            }
+            
+            .dataset-box h3 {
+                font-size: 18px !important;
+            }
+            
+            .dataset-box p {
+                font-size: 13px !important;
+            }
+        }
+        
+        /* Language Dropdown */
+        .language-selector {
+            position: relative;
+        }
+        
+        .language-button {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .language-button:hover {
+            background: #f9fafb;
+            border-color: #10b981;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .language-dropdown.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .language-option {
+            display: block;
+            padding: 0.75rem 1.2rem;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .language-option:hover {
+            background: #f3f4f6;
+            color: #10b981;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<body>
+    <header>
+        <!-- Language Selector Dropdown -->
+        <div style="position: absolute; top: 1.5rem; right: 2rem;">
+            <div class="language-selector">
+                <button class="language-button" onclick="toggleLanguageMenu()">
+                    🇬🇧 EN
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left: 0.5rem;">
+                        <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="dati.html" class="language-option">🇮🇹 IT</a>
+                </div>
+            </div>
+        </div>
+        <h1>Maps and Datasets</h1>
+    </header>
+
+    <!-- SEZIONE 1: Green spaces -->
+    <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 3rem 0 4rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Map of green spaces in Palermo</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
+                <p style="margin-bottom: 1rem;">Public green spaces have been mapped using two complementary datasets: <strong>OpenStreetMap</strong> (collaborative data updated by the community) e <strong>Copernicus Urban Atlas</strong> (official satellite data from the European Space Agency).</p>
+                
+                <p style="margin-bottom: 0;">The analysis concerns exclusively accessible public green spaces. Private spaces and sports facilities have been excluded.</p>
+            </div>
+            
+            <!-- Toggle Dataset -->
+            <div class="dataset-toggle">
+                <div class="toggle-button">
+                    <button class="toggle-option active" data-dataset="osm" onclick="switchDataset('osm')">OpenStreetMap</button>
+                    <button class="toggle-option" data-dataset="copernicus" onclick="switchDataset('copernicus')">Copernicus</button>
+                </div>
+            </div>
+            
+            <!-- Mappa -->
+            <div style="position: relative;">
+                <!-- Titolo overlay -->
+                <div class="map-title-overlay" style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Green spaces - <span id="spazi-dataset-label">OpenStreetMap</span></h3>
+                </div>
+                <div id="map-spazi"></div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- SEZIONE 2: Tree canopy coverage -->
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 3rem 0 4rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Map of tree canopy coverage in Palermo</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #374151;">
+                <p style="margin-bottom: 0;">Tree canopy coverage data comes from <strong>Copernicus Tree Cover Density 2023</strong>, produced by the European Space Agency through high-resolution satellite imagery analysis. The map shows the original raster dataset with 10-meter resolution. Each pixel represents the percentage of tree canopy coverage at that point, calculated from the density of tree crowns visible from satellite.</p>
+            </div>
+            
+            <!-- Mappa Raster -->
+            <div style="position: relative;">
+                <!-- Titolo overlay -->
+                <div class="map-title-overlay" style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.85); padding: 0.75rem 2rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0; color: #ffffff;">Tree canopy coverage</h3>
+                </div>
+                <div id="map-canopy" style="height: 700px; border-radius: 8px; margin: 2rem 0; border: 3px solid #059669; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- SEZIONE 3: Datasets used -->
+    <section style="background: #f9fafb; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 3rem 0 4rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Datasets used</h2>
+            
+            <!-- Testo introduttivo -->
+            <div style="max-width: 900px; margin: 0 auto 3rem; font-size: 16px; line-height: 1.8; color: #374151;">
+                <p style="margin: 0;">
+                    All datasets are available in the <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">project's GitHub repository</a> and are released under open source licenses (<a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/LICENSE.txt" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">CC BY 4.0 e ODbL 1.0</a>). 
+                    The processing follows the standards <a href="https://www.who.int/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">World Health Organization</a> ed <a href="https://www.eea.europa.eu/" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">European Environment Agency</a> for the assessment of urban green space access. 
+                    Complete methodology documentation is available on the <a href="https://sigfreedo.github.io/palermo-3-30-300/metodologia.html" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">dedicated page</a>.
+                </p>
+            </div>
+            
+            <!-- Dataset Grid -->
+            <div class="dataset-grid">
+                
+                <!-- Dataset 1: OSM Spazi Verdi -->
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📍 Public green spaces (OpenStreetMap)</h3>
+                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
+                        Dataset of public green spaces in the Palermo area extracted from <strong>OpenStreetMap</strong> via Overpass API. Includes only publicly accessible spaces, excluding private or paid-entry areas.
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
+                        <strong>Features:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                            <li>Space name (when available)</li>
+                            <li>Size classification</li>
+                            <li>Area in m²</li>
+                            <li>Polygonal geometry for map representation</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">osm_verde_palermo.geojson</code><br>
+                        <strong>Format:</strong> GeoJSON<br>
+                        <strong>License:</strong> <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" style="color: #f59e0b; text-decoration: underline;">ODbL 1.0</a>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/dataset/osm_verde_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">View</a>
+                        <a href="https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/osm_verde_palermo.geojson" download class="dataset-btn dataset-btn-download">Download</a>
+                    </div>
+                </div>
+                
+                <!-- Dataset 2: Copernicus Spazi Verdi -->
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🛰️ Green spaces from satellite (Copernicus)</h3>
+                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
+                        Dataset of green spaces derived from satellite imagery analysis <strong>Copernicus Urban Atlas Land Cover/Land Use 2021</strong>. Identifies green areas based on land classification, and is filtered to include only spaces in the municipality of Palermo.
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
+                        <strong>Features:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                            <li>Space name (when available)</li>
+                            <li>Size classification</li>
+                            <li>Area in m²</li>
+                            <li>Polygonal geometry for map representation</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">copernicus_verde_palermo.geojson</code><br>
+                        <strong>Format:</strong> GeoJSON<br>
+                        <strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">CC BY 4.0</a>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/dataset/copernicus_verde_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">View</a>
+                        <a href="https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/copernicus_verde_palermo.geojson" download class="dataset-btn dataset-btn-download">Download</a>
+                    </div>
+                </div>
+                
+                <!-- Dataset 3: Neighborhoods with aggregated data -->
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📊 Neighborhoods with aggregated data</h3>
+                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
+                        Geometries of Palermo's administrative neighborhoods enriched with aggregated statistics on tree canopy coverage, green space access and population.
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
+                        <strong>Features:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                            <li>Neighborhood name</li>
+                            <li>Tree canopy coverage percentage and classification</li>
+                            <li>Resident population (ISTAT 2021)</li>
+                            <li>Percentage of covered population and average distance to green spaces (Copernicus dataset)</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_dati_completi.geojson</code><br>
+                        <strong>Format:</strong> GeoJSON<br>
+                        <strong>License:</strong> <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" style="color: #f59e0b; text-decoration: underline;">ODbL 1.0</a>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/dataset/quartieri_dati_completi.geojson" target="_blank" class="dataset-btn dataset-btn-view">View</a>
+                        <a href="https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/quartieri_dati_completi.geojson" download class="dataset-btn dataset-btn-download">Download</a>
+                    </div>
+                </div>
+                
+                <!-- Dataset 4: Dati quartieri JSON -->
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📈 Aggregated statistics</h3>
+                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
+                        Unified JSON file containing all project statistical data: general city data and aggregated data by neighborhood.
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
+                        <strong>File structure:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                            <li><strong>City level (OSM/Copernicus)</strong>: total spaces, % coverage, fortunate/disadvantaged population</li>
+                            <li><strong>Neighborhood level (OSM/Copernicus)</strong>: population, covered population, % coverage, number of spaces</li>
+                            <li><strong>Neighborhood level (Tree Canopy Copernicus)</strong>: % tree canopy coverage, classification, area km², deficit %, trees needed</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_data.json</code><br>
+                        <strong>Format:</strong> JSON<br>
+                        <strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">CC BY 4.0</a>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/dataset/quartieri_data.json" target="_blank" class="dataset-btn dataset-btn-view">View</a>
+                        <a href="https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/quartieri_data.json" download class="dataset-btn dataset-btn-download">Download</a>
+                    </div>
+                </div>
+                
+                <!-- Dataset 5: Sezioni di censimento -->
+                <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🏘️ ISTAT census sections</h3>
+                    <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
+                        Geometries of ISTAT census sections for the municipality of Palermo with demographic data as of 2021.
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #065f46;">
+                        <strong>Features:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                            <li>ISTAT section code</li>
+                            <li>Resident population per section</li>
+                            <li>Detailed polygonal geometry</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">sezioni_censimento_palermo.geojson</code><br>
+                        <strong>Format:</strong> GeoJSON<br>
+                        <strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">CC BY 4.0</a>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                        <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/sezioni_censimento_palermo.geojson" target="_blank" class="dataset-btn dataset-btn-view">View</a>
+                        <a href="https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/sezioni_censimento_palermo.geojson" download class="dataset-btn dataset-btn-download">Download</a>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- SEZIONE LICENZE DATASET -->
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 3rem 0 4rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            
+            <h2 style="font-size: 32px; font-weight: 900; text-align: center; color: #059669; margin: 0 0 2rem 0;">Dataset Licenses</h2>
+            
+            <!-- 3 BOX AFFIANCATI -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                    
+                    <!-- BOX 1: CC BY 4.0 -->
+                    <div style="background: white; border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: #10b981; margin: 0 0 1rem 0;">
+                            CC BY 4.0 Datasets
+                        </h3>
+                        
+                        <p style="color: #4b5563; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6;">
+                            Released under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Creative Commons Attribution 4.0</strong></a>:
+                        </p>
+                        
+                        <ul style="color: #6b7280; line-height: 1.7; margin-bottom: 1rem; font-size: 0.85rem; padding-left: 1.2rem;">
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">copernicus_verde_palermo.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">sezioni_censimento_palermo.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">quartieri_data.json</code></li>
+                        </ul>
+                        
+                        <div style="background: #f0fdf4; padding: 0.75rem; border-left: 3px solid #10b981; border-radius: 4px;">
+                            <p style="color: #065f46; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                                <strong>Attribution:</strong> © 2025 Domenico Schillaci
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- BOX 2: ODbL 1.0 -->
+                    <div style="background: white; border: 2px solid #f59e0b; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: #f59e0b; margin: 0 0 1rem 0;">
+                            ODbL 1.0 Datasets
+                        </h3>
+                        
+                        <p style="color: #4b5563; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6;">
+                            Released under <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" style="color: #f59e0b; text-decoration: underline;"><strong>Open Database License</strong></a>:
+                        </p>
+                        
+                        <ul style="color: #6b7280; line-height: 1.7; margin-bottom: 1rem; font-size: 0.85rem; padding-left: 1.2rem;">
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">osm_verde_palermo.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">quartieri_dati_completi.geojson</code></li>
+                        </ul>
+                        
+                        <div style="background: #fffbeb; padding: 0.75rem; border-left: 3px solid #f59e0b; border-radius: 4px;">
+                            <p style="color: #92400e; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                                <strong>Attribution:</strong> © 2025 Domenico Schillaci<br>
+                                © OpenStreetMap contributors
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- BOX 3: FONTI ORIGINALI -->
+                    <div style="background: white; border: 2px solid #6b7280; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: #4b5563; margin: 0 0 1rem 0;">
+                            Original Sources
+                        </h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                                <p style="color: #059669; font-weight: 600; margin: 0 0 0.25rem 0; font-size: 0.85rem;">OpenStreetMap</p>
+                                <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">
+                                    <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color: #6b7280; text-decoration: underline;">ODbL 1.0</a>
+                                </p>
+                            </div>
+                            
+                            <div style="padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                                <p style="color: #059669; font-weight: 600; margin: 0 0 0.25rem 0; font-size: 0.85rem;">Copernicus</p>
+                                <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">
+                                    <a href="https://land.copernicus.eu/en/data-policy" target="_blank" rel="noopener" style="color: #6b7280; text-decoration: underline;">CC BY 4.0</a>
+                                </p>
+                            </div>
+                            
+                            <div style="padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                                <p style="color: #059669; font-weight: 600; margin: 0 0 0.25rem 0; font-size: 0.85rem;">ISTAT</p>
+                                <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">
+                                    <a href="https://www.istat.it/it/note-legali" target="_blank" rel="noopener" style="color: #6b7280; text-decoration: underline;">CC BY 3.0 IT</a>
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <p style="color: #059669; font-weight: 600; margin: 0 0 0.25rem 0; font-size: 0.85rem;">Comune di Palermo</p>
+                                <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">
+                                    <a href="https://opendata.comune.palermo.it/" target="_blank" rel="noopener" style="color: #6b7280; text-decoration: underline;">CC BY 4.0</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <p style="text-align: center; margin-top: 2rem; color: #6b7280; font-size: 0.9rem;">
+                    For more details, see the <a href="https://github.com/sigfreedo/palermo-3-30-300/blob/main/LICENSE.txt" target="_blank" rel="noopener" style="color: #059669; text-decoration: underline;">LICENSE file</a> in the repository.
+                </p>
+                
+            </div>
+        </section>
+        
+        <!-- Pulsante torna alla dashboard -->
+        <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0;">
+            <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 0 2rem;">
+                <a href="index.html" class="back-link">← Back to home</a>
+            </div>
+        </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Language dropdown toggle
+        function toggleLanguageMenu() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.language-button') && !e.target.closest('.language-button')) {
+                const dropdown = document.getElementById('languageDropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+        
+        // Inizializza mappa
+        // Initialize map with mobile-responsive settings
+        const isMobile = window.innerWidth <= 768;
+        const mapZoom = isMobile ? 11 : 12;
+        const mapCenter = isMobile ? [38.19, 13.35] : [38.135, 13.361];
+        
+        const map = L.map('map-spazi', {
+            scrollWheelZoom: false  // Disabilita zoom con trackpad
+        }).setView(mapCenter, mapZoom);
+        
+        // Tile layer NEUTRO - CartoDB Positron (minimal e chiaro)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            maxZoom: 19,
+            subdomains: 'abcd'
+        }).addTo(map);
+        
+        // Add data sources control (bottom left) - dynamic based on dataset
+        const dataSourcesControl = L.control({ position: 'bottomleft' });
+        let dataSourcesDiv;
+        dataSourcesControl.onAdd = function() {
+            dataSourcesDiv = L.DomUtil.create('div', 'data-sources-control');
+            dataSourcesDiv.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+            dataSourcesDiv.innerHTML = '<strong>Sources:</strong> OpenStreetMap';
+            return dataSourcesDiv;
+        };
+        dataSourcesControl.addTo(map);
+        
+        // Function to update data sources text
+        function updateDataSources(dataset) {
+            if (dataSourcesDiv) {
+                const sources = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
+                dataSourcesDiv.innerHTML = '<strong>Sources:</strong> ' + sources;
+            }
+            // Update title label
+            const titleLabel = document.getElementById('spazi-dataset-label');
+            if (titleLabel) {
+                titleLabel.textContent = dataset === 'osm' ? 'OpenStreetMap' : 'Copernicus';
+            }
+        }
+
+        let currentLayer = null;
+
+        // Switch dataset
+        function switchDataset(dataset) {
+            // Update buttons
+            document.querySelectorAll('.toggle-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-dataset="${dataset}"]`).classList.add('active');
+            
+            // Update data sources label
+            updateDataSources(dataset);
+            
+            // Load GeoJSON
+            loadGeoJSON(dataset);
+        }
+
+        // Load GeoJSON
+        function loadGeoJSON(dataset) {
+            // Remove existing layer
+            if (currentLayer) {
+                map.removeLayer(currentLayer);
+            }
+
+            // Path ai file GeoJSON sul repository GitHub
+            const paths = {
+                osm: 'https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/osm_verde_palermo.geojson',
+                copernicus: 'https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/copernicus_verde_palermo.geojson'
+            };
+
+            const url = paths[dataset];
+            console.log('📂 Loading:', url);
+
+            fetch(url)
+                .then(response => {
+                    console.log('📡 Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('✅ Loaded', data.features.length, 'features');
+                    
+                    currentLayer = L.geoJSON(data, {
+                        style: {
+                            color: '#059669',
+                            weight: 2,
+                            fillColor: '#10b981',
+                            fillOpacity: 0.4
+                        },
+                        onEachFeature: (feature, layer) => {
+                            // Popup con nome, categoria, superficie
+                            if (feature.properties) {
+                                const props = feature.properties;
+                                
+                                // Titolo: nome se esiste, altrimenti categoria/tipo
+                                const titolo = props.name || props.size_label || 'Spazio verde';
+                                
+                                let popup = '<div style="font-family: sans-serif; min-width: 200px;">';
+                                popup += `<strong style="color: #059669; font-size: 15px; display: block; margin-bottom: 8px;">${titolo}</strong>`;
+                                
+                                // Categoria (size_label)
+                                if (props.size_label) {
+                                    popup += `<div style="margin-bottom: 4px;"><strong>Categoria:</strong> ${props.size_label}</div>`;
+                                }
+                                
+                                // Superficie (in metri quadrati)
+                                if (props.area_sqm) {
+                                    const mq = Math.round(props.area_sqm).toLocaleString('it-IT');
+                                    popup += `<div><strong>Superficie:</strong> ${mq} m²</div>`;
+                                }
+                                
+                                popup += '</div>';
+                                layer.bindPopup(popup);
+                            }
+                            
+                            // HIGHLIGHT ON HOVER
+                            layer.on('mouseover', function() {
+                                this.setStyle({
+                                    fillColor: '#059669',
+                                    fillOpacity: 0.7,
+                                    weight: 3
+                                });
+                            });
+                            
+                            layer.on('mouseout', function() {
+                                this.setStyle({
+                                    fillColor: '#10b981',
+                                    fillOpacity: 0.4,
+                                    weight: 2
+                                });
+                            });
+                        }
+                    }).addTo(map);
+
+                    // Fit bounds
+                    if (currentLayer.getBounds().isValid()) {
+                        map.fitBounds(currentLayer.getBounds(), { padding: [50, 50] });
+                    }
+                })
+                .catch(err => {
+                    console.error('❌ Error:', err);
+                    alert(`Impossibile caricare i dati.\n\nErrore: ${err.message}\n\nVerifica che i file GeoJSON siano nella cartella corretta:\n- data/coverage_osm_final.geojson\n- data/coverage_copernicus_final.geojson`);
+                });
+        }
+
+        // Load OSM by default
+        window.addEventListener('load', () => {
+            loadGeoJSON('osm');
+        });
+    </script>
+
+    <!-- SCRIPT MAPPA COPERTURA ARBOREA -->
+    <script src="https://unpkg.com/georaster@1.5.6/dist/georaster.browser.bundle.min.js"></script>
+    <script src="https://unpkg.com/georaster-layer-for-leaflet@3.10.0/dist/georaster-layer-for-leaflet.min.js"></script>
+    
+    <script>
+        // Inizializza mappa canopy with mobile-responsive settings
+        const isMobileCanopy = window.innerWidth <= 768;
+        const mapZoomCanopy = isMobileCanopy ? 11 : 12;
+        const mapCenterCanopy = isMobileCanopy ? [38.19, 13.35] : [38.135, 13.361];
+        
+        const mapCanopy = L.map('map-canopy', {
+            scrollWheelZoom: false
+        }).setView(mapCenterCanopy, mapZoomCanopy);
+        
+        // Add data sources control (bottom left)
+        const dataSourcesControlCanopy = L.control({ position: 'bottomleft' });
+        dataSourcesControlCanopy.onAdd = function() {
+            const div = L.DomUtil.create('div', 'data-sources-control');
+            div.style.cssText = 'background: white; padding: 12px; border-radius: 8px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 11px; line-height: 1.4; white-space: nowrap;';
+            div.innerHTML = '<strong>Sources:</strong> Copernicus TCD 2023';
+            return div;
+        };
+        dataSourcesControlCanopy.addTo(mapCanopy);
+        
+        // Aggiungi legenda come control a destra
+        const legend = L.control({ position: 'topright' });
+        
+        legend.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'legend-control');
+            div.style.background = 'white';
+            div.style.padding = '12px';
+            div.style.borderRadius = '8px';
+            div.style.border = '3px solid #059669';
+            div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            div.style.maxWidth = '250px';
+            
+            div.innerHTML = `
+                <h4 style="font-size: 14px; font-weight: 700; color: #065f46; margin: 0 0 8px 0;">Tree canopy coverage<br>(% per pixel 10m)</h4>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #dcfce7; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">&lt;10% - Poor</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #bbf7d0; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">10-20% - Reduced</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #86efac; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">20-30% - Almost suff.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #4ade80; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">30-40% - Sufficient</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #22c55e; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">40-50% - Good</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div style="width: 20px; height: 20px; background: #16a34a; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
+                        <span style="font-size: 13px; color: #374151;">&ge;50% - Excellent</span>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        };
+        
+        legend.addTo(mapCanopy);
+        
+        // Tile layer CartoDB Positron
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            maxZoom: 19,
+            subdomains: 'abcd'
+        }).addTo(mapCanopy);
+
+        // Funzione per determinare colore in base a percentuale
+        function getCanopyColor(pct) {
+            if (pct < 10) return '#dcfce7';   // Verde pallido
+            if (pct < 20) return '#bbf7d0';   // Verde chiaro
+            if (pct < 30) return '#86efac';   // Verde medio-chiaro
+            if (pct < 40) return '#4ade80';   // Verde medio
+            if (pct < 50) return '#22c55e';   // Verde scuro
+            return '#16a34a';                 // Verde molto scuro
+        }
+
+        // Converti hex a RGB
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Carica GeoTIFF
+        console.log('📥 Caricamento raster Tree Cover Density...');
+        
+        const rasterUrl = 'https://cdn.jsdelivr.net/gh/sigfreedo/palermo-3-30-300@main/dataset/palermo_tree_canopy_2023.tif';
+        
+        fetch(rasterUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`File non trovato (${response.status}). Assicurati che il file dataset/palermo_tree_canopy_2023.tif sia caricato su GitHub.`);
+                }
+                return response.arrayBuffer();
+            })
+            .then(arrayBuffer => {
+                return parseGeoraster(arrayBuffer);
+            })
+            .then(georaster => {
+                console.log('✅ Raster caricato:', georaster.width, 'x', georaster.height, 'pixels');
+                console.log('   Range valori:', georaster.mins, '-', georaster.maxs);
+                
+                const layer = new GeoRasterLayer({
+                    georaster: georaster,
+                    opacity: 0.8,
+                    pixelValuesToColorFn: function(values) {
+                        const value = values[0];
+                        
+                        // Valori nulli o fuori range = trasparente
+                        if (value === null || value === undefined || value < 0 || value > 100) {
+                            return null;
+                        }
+                        
+                        // Applica scala colori
+                        const color = getCanopyColor(value);
+                        const rgb = hexToRgb(color);
+                        
+                        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.7)`;
+                    },
+                    resolution: 256
+                });
+                
+                layer.addTo(mapCanopy);
+                
+                console.log('✅ Layer raster visualizzato');
+            })
+            .catch(error => {
+                console.error('❌ Errore caricamento raster:', error.message);
+                
+                // Mostra messaggio sulla mappa
+                const messageDiv = document.createElement('div');
+                messageDiv.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000; max-width: 400px; text-align: center; border: 2px solid #ef4444;';
+                messageDiv.innerHTML = `
+                    <h3 style="color: #dc2626; margin: 0 0 1rem 0; font-size: 18px;">⚠️ File raster non disponibile</h3>
+                    <p style="color: #374151; margin: 0; font-size: 14px; line-height: 1.6;">
+                        Il file <code>palermo_tree_canopy_2023.tif</code> 
+                        deve essere caricato nel repository GitHub prima di poter visualizzare la mappa.
+                    </p>
+                `;
+                document.getElementById('map-canopy').appendChild(messageDiv);
+            });
+    </script>
+    
+    
+    <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center;">
+        <p style="line-height: 1.8; margin: 0; font-size: 14px; font-family: 'Inter', sans-serif;">
+            <strong>Palermo 3-30-300</strong> is an open, independent project with educational purposes.<br>
+            The source code, as well as datasets and methodology are accessible from 
+            <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">GitHub</a>.<br>
+            <span style="margin-top: 0.5rem; display: inline-block;">
+                For information: 
+                <a href="mailto:domenico.schillaci@gmail.com" style="color: #10b981; text-decoration: none; margin: 0 0.5rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-bottom: 2px;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/domenicoschillaci/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: none; margin: 0 0.5rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-bottom: 2px;">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+            </span>
+        </p>
+    </footer>
+</body>
+</html>
