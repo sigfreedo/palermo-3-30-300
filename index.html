@@ -2348,7 +2348,7 @@
         // Carica quartieri al load
         async function loadQuartieri() {
             try {
-                const response = await fetch('quartieri_dati_completi.geojson');
+                const response = await fetch('dataset/quartieri_dati_completi.geojson');
                 if (!response.ok) throw new Error('Quartieri non trovati');
                 quartieri = await response.json();
                 console.log('✅ Quartieri caricati:', quartieri.features.length);
@@ -3493,7 +3493,7 @@
     window.quartieriBoundaries = null;
     
     // Carica tutti i dati da quartieri_data.json unificato
-    fetch('quartieri_data.json')
+    fetch('dataset/quartieri_data.json')
       .then(response => response.json())
       .then(data => {
         // Estrai e formatta dati generali città
@@ -4562,7 +4562,7 @@ Cordiali saluti,
       }
       
       // Load geometries from GeoJSON
-      fetch('quartieri_dati_completi.geojson')
+      fetch('dataset/quartieri_dati_completi.geojson')
         .then(response => response.json())
         .then(geoData => {
           const dataset = window.currentDataset || 'osm';
@@ -4744,7 +4744,7 @@ Cordiali saluti,
       console.log('  → Carico nuovi dati quartieri...');
       
       // Reload data with new dataset
-      fetch('quartieri_dati_completi.geojson')
+      fetch('dataset/quartieri_dati_completi.geojson')
         .then(response => response.json())
         .then(geoData => {
           const dataByQuartiere = window.quartieriData[dataset];
@@ -4892,7 +4892,7 @@ Cordiali saluti,
       dataSourcesControlCanopy.addTo(window.canopyQuartieriMap);
       
       // Load geometries
-      fetch('quartieri_dati_completi.geojson')
+      fetch('dataset/quartieri_dati_completi.geojson')
         .then(response => response.json())
         .then(geoData => {
           if (!window.treeCanopyData) {
