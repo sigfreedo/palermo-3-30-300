@@ -1,263 +1,143 @@
-# 🌳 Palermo 3-30-300
+# Palermo 3-30-300
 
-**Analisi civica sull'accesso agli spazi verdi pubblici a Palermo**
+**Valutazione dell'accessibilità degli spazi verdi urbani a Palermo secondo il framework scientifico 3-30-300**
 
-Strumento interattivo per verificare se hai accesso a uno spazio verde pubblico entro 300 metri dalla tua abitazione, secondo lo standard dell'Organizzazione Mondiale della Sanità (WHO/EEA).
-
-Il nome del progetto richiama la regola **3-30-300** per città verdi e vivibili:
-- **3** alberi visibili da ogni abitazione
-- **30%** di copertura arborea per quartiere  
-- **300 metri** di distanza massima da spazi verdi pubblici
-
-🔗 **[Prova l'applicazione online →](https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html)**
+[![Applicazione](https://img.shields.io/badge/applicazione-online-brightgreen)](https://sigfreedo.github.io/palermo-3-30-300/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![Data: Open](https://img.shields.io/badge/data-open-orange)](https://sigfreedo.github.io/palermo-3-30-300/dati.html)
 
 ---
 
-## 📊 Contesto
+## 📊 Il Framework 3-30-300
 
-L'accesso al verde urbano è un indicatore fondamentale di equità urbana. L'OMS raccomanda che almeno il **50% della popolazione** abbia accesso a spazi verdi entro **300 metri** dalla propria abitazione.
+Il **3-30-300** è un framework evidence-based sviluppato da Cecil Konijnendijk (2023) che stabilisce tre parametri misurabili per città più verdi e sane:
 
-### Risultati per Palermo (approccio conservativo - solo verde pubblico certificato):
-
-| Dataset | Copertura | Popolazione coperta | Spazi verdi | Area totale |
-|---------|-----------|---------------------|-------------|-------------|
-| **OpenStreetMap** | **38.70%** | 245.888 abitanti | 118 spazi | 4.31 km² |
-| **Copernicus (14110)** | **48.43%** | 307.767 abitanti | 181 aree | 4.03 km² |
-
-**📌 Conclusione:** Con entrambi i dataset, **oltre la metà della popolazione palermitana è svantaggiata** nell'accesso al verde pubblico.
+- **3 alberi** visibili dalla propria finestra
+- **30% di copertura arborea** nell'area urbana  
+- **300 metri** di distanza massima da uno spazio verde di qualità
 
 ---
 
-## 🎯 Funzionalità
+## 🎯 Risultati per Palermo
 
-- ✅ **Autocompletamento indirizzi** - Cerca il tuo indirizzo con suggerimenti in tempo reale
-- ✅ **Geolocalizzazione** - Usa la tua posizione GPS corrente
-- ✅ **Analisi immediata** - Scopri se sei "fortunato" o "svantaggiato"
-- ✅ **Due dataset** - Confronta OpenStreetMap e Copernicus Urban Atlas
-- ✅ **Informazioni qualitative** - Dimensione e tipo dello spazio verde più vicino
+### Regola dei 300 metri (Accessibilità)
 
----
+L'analisi è stata condotta su **due dataset distinti** per confrontare le mappature degli spazi verdi:
 
-## 🚀 Utilizzo online
+- **OpenStreetMap:** 38,76% della popolazione coperta (246.293 abitanti)
+- **Copernicus:** 40,06% della popolazione coperta (254.533 abitanti)
+- **118 spazi verdi** da OSM | **129 spazi** da Copernicus
 
-Apri semplicemente: **https://sigfreedo.github.io/palermo-3-30-300/verde_palermo_simple.html**
+### Regola del 30% (Copertura arborea)
 
-*(Nessuna installazione richiesta!)*
+Analisi basata su **Copernicus Tree Cover Density 2023**:
 
----
+- Copertura media: **12,1%** (ben sotto il 30%)
+- **Nessuno dei 25 quartieri** raggiunge la soglia ottimale
+- Forte disparità territoriale tra le aree della città
 
-## 💻 Sviluppo locale
+### Regola dei 3 alberi (Visibilità)
+- Dati raccolti tramite crowdsourcing cittadino
+- Dashboard con statistiche aggregate in tempo reale
 
-Se vuoi modificare o testare localmente:
-
-### Prerequisiti
-- Python 3 (per server locale)
-
-### Setup
-
-1. **Clona il repository:**
-   ```bash
-   git clone https://github.com/sigfreedo/palermo-3-30-300.git
-   cd palermo-3-30-300
-   ```
-
-2. **Avvia il server locale:**
-   
-   **Windows:**
-   ```bash
-   AVVIA_SERVER.bat
-   ```
-   
-   **Mac/Linux:**
-   ```bash
-   ./avvia_server.sh
-   ```
-   
-   **Oppure manualmente:**
-   ```bash
-   python -m http.server 8000
-   ```
-
-3. **Apri nel browser:**
-   ```
-   http://localhost:8000/verde_palermo_simple.html
-   ```
+→ **[Vedi tutti i dati e le mappe](https://sigfreedo.github.io/palermo-3-30-300/dati.html)**
 
 ---
 
-## 📁 Struttura progetto
+## 🔬 Metodologia
+
+Il progetto utilizza:
+- **Dataset aperti:** OpenStreetMap, Copernicus Urban Atlas 2021, ISTAT 2021
+- **Algoritmi replicabili:** Area-Weighted Interpolation per il calcolo di copertura
+- **Tecnologie open source:** Leaflet.js, Chart.js, Python/GeoPandas
+
+Ogni scelta metodologica è documentata con riferimenti scientifici e codice sorgente disponibile.
+
+→ **[Leggi la metodologia completa](https://sigfreedo.github.io/palermo-3-30-300/metodologia.html)**
+
+---
+
+## 📁 Struttura del Progetto
 
 ```
 palermo-3-30-300/
-├── verde_palermo_simple.html       # Applicazione web
-├── index.html                      # Redirect automatico
-│
-├── osm_verde_palermo.geojson       # Dataset OpenStreetMap (118 spazi)
-├── copernicus_verde_palermo.geojson # Dataset Copernicus (181 aree)
-├── sezioni_censimento_palermo.geojson # Sezioni censuarie ISTAT 2021 (3.600 sezioni)
-│
-├── README.md                        # Questo file
-├── LICENSE                          # Licenza MIT
-├── .gitignore                       # Esclusioni Git
-│
-├── AVVIA_SERVER.bat                # Script Windows
-└── avvia_server.sh                 # Script Mac/Linux
+├── index.html              # Homepage con dashboard
+├── dati.html               # Mappe e dataset completi
+├── metodologia.html        # Documentazione metodologica
+├── og-image.jpg            # Immagine social sharing
+├── dataset/                # Dati geografici e statistici
+│   ├── osm_verde_palermo.geojson
+│   ├── copernicus_verde_palermo.geojson
+│   ├── quartieri_dati_completi.geojson
+│   ├── palermo_tree_canopy_2023.tif
+│   └── sezioni_censimento_palermo.geojson
+├── archive/                # Prototipi e versioni precedenti
+│   └── verde_palermo_simple.html
+├── README.md               # Questo file
+└── LICENSE.txt             # Licenza MIT
 ```
 
 ---
 
-## 📊 Dataset
+## 🎓 Riferimenti Scientifici
 
-### Spazi verdi
+- Konijnendijk, C. C. (2023). *Evidence-based guidelines for greener, healthier, more resilient neighbourhoods: Introducing the 3-30-300 rule*. Journal of Forestry Research, 34(5), 1131-1146. [DOI](https://doi.org/10.1007/s11676-022-01523-z)
 
-**osm_verde_palermo.geojson**
-- Fonte: OpenStreetMap
-- Categorie: A (parchi/giardini) + B (aree ricreative)
-- Spazi: 118
-- Area totale: 4.31 km²
-- Filtro: ≥2.000 m²
-- Campi: `geometry`, `area_sqm`, `size_label`, `name`
-
-**copernicus_verde_palermo.geojson**
-- Fonte: Copernicus Urban Atlas 2018
-- Categoria: 14110 (Public access - verde pubblico certificato)
-- Aree: 181
-- Area totale: 4.03 km²
-- Filtro: ≥2.000 m²
-- Campi: `geometry`, `area_sqm`, `size_label`, `name`
-
-### Popolazione
-
-**sezioni_censimento_palermo.geojson**
-- Fonte: ISTAT Censimento 2021
-- Sezioni: 3.600
-- Popolazione totale: 635.439 abitanti
-- Formato: GeoJSON (WGS84 - EPSG:4326)
-- Campi: `SEZ2021` (ID sezione), `POP21` (popolazione), `geometry`
-- Utilizzo: Calcolo copertura popolazione, analisi per quartiere, statistiche zonali
-- Note: File preparato per future estensioni (mappe di copertura, statistiche per zona, ecc.)
+Ulteriori riferimenti disponibili nella [pagina metodologia](https://sigfreedo.github.io/palermo-3-30-300/metodologia.html).
 
 ---
 
-## 📖 Metodologia
+## 🗺️ Dataset e Fonti
 
-### Dataset utilizzati
+Tutti i dataset utilizzati sono aperti e accessibili:
 
-**1. OpenStreetMap (OSM)**
-- Categorie A (parchi e giardini) e B (aree ricreative)
-- Filtro: ≥2.000 m²
-- 118 spazi verdi mappati
+| Dataset | Fonte | Licenza |
+|---------|-------|---------|
+| Spazi verdi | OpenStreetMap | ODbL 1.0 |
+| Land cover | Copernicus Urban Atlas 2021 | CC BY 4.0 |
+| Copertura arborea | Copernicus Tree Cover Density 2023 | CC BY 4.0 |
+| Popolazione | ISTAT Censimento 2021 | Open Data |
 
-**2. Copernicus Urban Atlas**
-- Solo categoria 14110 (Public access - verde pubblico certificato)
-- Filtro: ≥2.000 m²
-- 181 aree verdi mappate
-
-**3. ISTAT Censimento 2021**
-- 3.600 sezioni censuarie
-- Popolazione totale: ~635.439 abitanti
-
-### Calcolo copertura
-
-Metodo: **Area-weighted interpolation**
-
-1. Buffer circolare di 300m attorno a ogni spazio verde
-2. Per ogni sezione censuaria:
-   - Calcola intersezione con area coperta
-   - Frazione di area = area_intersezione / area_sezione
-   - Popolazione coperta = popolazione_sezione × frazione
-3. Somma popolazione coperta totale
-
-### Standard di riferimento
-
-- **WHO/EEA:** 50% popolazione entro 300m da verde pubblico
-- **Minimum Mapping Unit:** 2.000 m² (allineato con Copernicus)
+→ **[Scarica i dataset](https://sigfreedo.github.io/palermo-3-30-300/dati.html)**
 
 ---
 
 ## 🛠️ Tecnologie
 
-- **Frontend:** HTML5, CSS3, JavaScript vanilla
-- **Geocoding:** Nominatim API (OpenStreetMap)
-- **Analisi spaziale:** Turf.js
+- **Frontend:** HTML5, CSS3, JavaScript
 - **Mappe:** Leaflet.js
-- **Coordinate:** WGS84 (EPSG:4326)
-
----
-
-## 📊 Dati e fonti
-
-- **OpenStreetMap:** © OpenStreetMap contributors, [ODbL](https://www.openstreetmap.org/copyright)
-- **Copernicus Urban Atlas 2018:** European Environment Agency (EEA)
-- **ISTAT Basi Territoriali 2021:** Istituto Nazionale di Statistica
-- **Standard WHO:** [Urban green spaces](https://www.who.int/europe/activities/supporting-countries-to-implement-the-parma-declaration-on-environment-and-health/activities-to-improve-the-urban-environment-for-health-and-sustainability)
-
----
-
-## 🤝 Contribuire
-
-Questo è un progetto civico aperto. Contributi benvenuti!
-
-### Come contribuire:
-1. Fork del repository
-2. Crea un branch per la tua feature
-3. Commit delle modifiche
-4. Push al branch
-5. Apri una Pull Request
-
-### Idee per miglioramenti:
-- [ ] Aggiungere percorsi pedonali reali (routing API)
-- [ ] Visualizzazione su mappa interattiva
-- [ ] **Analisi per quartiere** (usando `sezioni_censimento_palermo.geojson`)
-- [ ] **Mappa copertura zonale** (colorare sezioni per % copertura)
-- [ ] **Statistiche per zona** (quanti abitanti coperti per quartiere)
-- [ ] Estensione ad altre città italiane
-- [ ] API per integrazioni
-- [ ] **Calcolo indicatore 3 e 30** (alberi visibili, copertura arborea)
+- **Grafici:** Chart.js
+- **Analisi dati:** Python, GeoPandas, Rasterio
+- **Hosting:** GitHub Pages
 
 ---
 
 ## 📄 Licenza
 
-Dati sotto le rispettive licenze (ODbL per OSM, EEA per Copernicus).
+Questo progetto è rilasciato sotto licenza **MIT** - vedi il file [LICENSE.txt](LICENSE.txt) per i dettagli.
 
-Codice applicazione: specificare licenza (es: MIT)
-
----
-
-## 👤 Autore
-
-**Domenico** - [@sigfreedo](https://github.com/sigfreedo)
-
-Analisi civica urbana e accesso equo agli spazi verdi
+I dataset utilizzati mantengono le loro licenze originali (ODbL 1.0 per OSM, CC BY 4.0 per Copernicus).
 
 ---
 
-## 🙏 Ringraziamenti
+## 🤝 Contributi
 
-- Comunità OpenStreetMap
-- European Environment Agency (Copernicus Urban Atlas)
-- ISTAT
-- Tutti i contributori
+Questo è un progetto open source e indipendente. Feedback, segnalazioni e contributi sono benvenuti!
 
----
-
-## 📧 Contatti
-
-Per domande, suggerimenti o collaborazioni:
-- GitHub Issues: [apri un issue](https://github.com/sigfreedo/palermo-3-30-300/issues)
-- GitHub: [@sigfreedo](https://github.com/sigfreedo)
+- 📧 Email: domenico.schillaci@gmail.com
+- 💼 LinkedIn: [Domenico Schillaci](https://www.linkedin.com/in/domenicoschillaci/)
+- 🔗 GitHub: [sigfreedo](https://github.com/sigfreedo)
 
 ---
 
-**⚠️ Nota:** Questo strumento ha finalità informative e di sensibilizzazione civica. I dati sono aggiornati al 2021-2023 e potrebbero non riflettere cambiamenti recenti.
+## 🌳 Perché questo progetto?
+
+Le città più verdi sono città più sane, resilienti e vivibili. Questo strumento nasce per **Palermo** con l'obiettivo di mettere a disposizione di cittadini, amministratori e ricercatori **dati aperti** e **metodologie replicabili** per misurare e migliorare l'accessibilità del verde urbano.
+
+Il framework 3-30-300 offre parametri chiari e basati sull'evidenza scientifica per guidare politiche di pianificazione urbana orientate al benessere pubblico.
+
+**Il progetto è completamente scalabile:** la metodologia documentata e il codice open source permettono di replicare l'analisi per qualsiasi città italiana o europea, utilizzando gli stessi dataset aperti (OpenStreetMap, Copernicus, ISTAT/Eurostat).
 
 ---
 
-## 🗺️ Altri progetti correlati
-
-*Aggiungi link a progetti simili o correlati*
-
----
-
-**#Palermo330300 #VerdeUrbano #CivicTech #Palermo #OpenData #GIS #UrbanPlanning #WHO #3-30-300**
+**Esplora l'applicazione:** [palermo-3-30-300](https://sigfreedo.github.io/palermo-3-30-300/)
