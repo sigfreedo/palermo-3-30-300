@@ -2841,15 +2841,15 @@
                 resultTitle.textContent = '✅ Sei fortunat*!';
                 
                 if (spacesWithin300Count > 1) {
-                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 meters da <strong>${spacesWithin300Count} spaces verdi pubblici</strong>.`;
-                    spaceDetailsTitle.textContent = 'Spazio più grande nelle vicinanze';
+                    resultDescription.innerHTML = `You have easy access to nature in the city.<br>You live less than 300 meters from <strong>${spacesWithin300Count} public green spaces</strong>.`;
+                    spaceDetailsTitle.textContent = 'Largest nearby space';
                 } else {
-                    resultDescription.innerHTML = `Hai un accesso facilitato alla natura in città.<br>Vivi a meno di 300 meters da uno spaceso verde pubblico.`;
+                    resultDescription.innerHTML = `You have easy access to nature in the city.<br>You live less than 300 meters from a public green space.`;
                     spaceDetailsTitle.textContent = 'Spazio verde più vicino';
                 }
             } else {
                 resultTitle.textContent = '❌ Sei svantaggiat*!';
-                resultDescription.innerHTML = `Purtroppo non hai accesso imaverageto alla natura in città.<br>Vivi a più di 300 meters da uno spaceso verde pubblico.<br>Il più vicino dista <strong>${distanceMeters} meters</strong>.`;
+                resultDescription.innerHTML = `Unfortunately you do not have immediate access to nature in the city.<br>You live more than 300 meters from a public green space.<br>The nearest is <strong>${distanceMeters} meters</strong> away.`;
                 spaceDetailsTitle.textContent = 'Spazio verde più vicino';
             }
             
@@ -3055,7 +3055,7 @@
                     const isHovered = hoveredSpace && hoveredSpace.space === space;
                     const isDisadvantaged = dist > 300;
                     
-                    // Dimensione pallino
+                    // Dot size
                     let radius = 10;
                     if (isMain) {
                         const sizeLabel = space.properties.size_label || '';
@@ -3286,11 +3286,11 @@
                     let selectedDistance = nearestDistance;
                     
                     if (spacesWithin300.length > 0) {
-                        // Ordina per area (più grande prima)
+                        // Sort by area (largest first)
                         spacesWithin300.sort((a, b) => b.area - a.area);
                         selectedSpace = spacesWithin300[0].feature;
                         selectedDistance = spacesWithin300[0].distance;
-                        console.log('  - Spazio più grande entro 300m:', selectedSpace.properties.size_label, selectedSpace.properties.area_sqm, 'm²');
+                        console.log('  - Largest space within 300m:', selectedSpace.properties.size_label, selectedSpace.properties.area_sqm, 'm²');
                     }
 
                     if (!selectedSpace) {
@@ -3350,7 +3350,7 @@
             
             // Space label: changes if there are multiple spaces within 300m
             const spaceLabel = isFortunato && spacesWithin300 > 1 
-                ? "Spazio più grande nelle vicinanze" 
+                ? "Largest nearby space" 
                 : "Nearest space";
 
             resultDiv.className = 'result ' + (isFortunato ? 'fortunato' : 'svantaggiato');
@@ -3359,16 +3359,16 @@
             let mainText = '';
             if (isFortunato) {
                 if (spacesWithin300 > 1) {
-                    mainText = `Vivi <strong>entro 300 meters da ${spacesWithin300} spaces verdi pubblici</strong>. Hai accesso facilitato alla natura in città!`;
+                    mainText = `You live <strong>within 300 meters of ${spacesWithin300} public green spaces</strong>. You have easy access to nature in the city!`;
                 } else {
-                    mainText = `Vivi <strong>entro 300 meters</strong> da uno spaceso verde pubblico. Hai accesso facilitato alla natura in città!`;
+                    mainText = `You live <strong>within 300 meters</strong> of a public green space. You have easy access to nature in the city!`;
                 }
             } else {
-                mainText = `Vivi a <strong>più di 300 meters</strong> from the nearest public green space. Secondo gli standard WHO, dovresti avere accesso a uno spaceso verde entro questa distanza.`;
+                mainText = `You live <strong>more than 300 meters</strong> from the nearest public green space. According to WHO standards, you should have access to a green space within this distance.`;
             }
             
             let html = `
-                <h2>${isFortunato ? '🎉 You're lucky!' : '😔 You're disadvantaged'}</h2>
+                <h2>${isFortunato ? '🎉 You are lucky!' : '😔 You are disadvantaged'}</h2>
                 <p>${mainText}</p>
                 
                 <div class="result-details">
@@ -3386,13 +3386,13 @@
                             : ''}
                     </div>
                     <div class="detail-card">
-                        <div class="detail-label">Dimensione</div>
+                        <div class="detail-label">Size</div>
                         <div class="detail-value">${areaFormatted} km²</div>
                     </div>
                 </div>
             `;
 
-            // Aggiungi sezione quartiere con statistiche E tree canopy coverage
+            // Add neighborhood section with statistics AND tree canopy coverage
             if (neighborhoodData) {
                 const canopyClass = neighborhoodData.canopy_classification === 'Scarsa' ? 'poor' : 
                                    neighborhoodData.canopy_classification === 'Reduced' ? 'ridotta' : 'almost-sufficient';
@@ -3453,7 +3453,7 @@
             resultDiv.innerHTML = html;
             resultDiv.style.display = 'block';
             
-            // Mostra la sezione tree count
+            // Show the tree count section
             // showTreeCountSection(); // OLD - now using section3
         }
 
@@ -3553,7 +3553,7 @@
                     feedback.innerHTML = `
                         <strong>❌ Sotto lo standard</strong><br>
                         You see ${treeCount} ${treeCount === 1 ? 'tree' : 'trees'} from your window, but the WHO standard recommends seeing at least 3.
-                        Considera di piantare trees nelle vicinanze o di valorizzare la vegetazione urbana.
+                        Consider planting trees nearby or enhancing urban vegetation.
                     `;
                 }
                 
@@ -3644,8 +3644,8 @@
           copernicus: data.copernicus
         };
         
-        // Calculate general stats from quartieri data if generale section doesn't exist
-        if (data.generale) {
+        // Calculate general stats from quartieri data if generale section doesn't exist or is incomplete
+        if (data.generale?.osm?.spaces !== undefined) {
           // Use provided general stats
           window.datasetStats = {
             osm: {
