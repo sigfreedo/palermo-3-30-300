@@ -38,7 +38,7 @@
         /* Back link */
         .back-link {
             display: inline-block;
-            margin: 2rem auto;
+            margin: 2rem;
             padding: 0.75rem 1.5rem;
             background: #10b981;
             color: white;
@@ -49,7 +49,7 @@
         }
         
         .back-link:hover {
-            background: #059669;
+            background: #047857;
             transform: translateY(-4px);
         }
         
@@ -58,11 +58,6 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem 2rem 4rem 2rem;
-        }
-        
-        .back-container {
-            text-align: center;
-            padding: 2rem 0;
         }
         
         /* Sections */
@@ -233,7 +228,7 @@
         <!-- Intro -->
         <section>
             <h2>Obiettivo dello studio</h2>
-            <p>Valutare l'accessibilità del verde urbano a Palermo applicando il framework <strong>3-30-300</strong> (Konijnendijk, 2023) attraverso <strong>dataset aperti</strong> e <strong>metodologie replicabili</strong> in altri contesti urbani.</p>
+            <p>Valutare l'accessibilità del verde urbano a Palermo applicando il framework <strong>3-30-300</strong> (<a href="https://doi.org/10.1007/s11676-022-01523-z" target="_blank">Konijnendijk, 2023</a>) attraverso <strong>dataset aperti</strong> e <strong>metodologie replicabili</strong> in altri contesti urbani.</p>
             
             <div class="note">
                 <strong>Nota metodologica:</strong> L'ordine di analisi inverte il framework originale, partendo dalla regola dei 300 metri (accessibilità del verde urbano) come indicatore prioritario di equità urbana.
@@ -244,7 +239,7 @@
         <section>
             <h2>1. Mappatura degli spazi verdi pubblici</h2>
             
-            <p>Per mappare gli spazi verdi urbani accessibili sono stati utilizzati due dataset complementari: OpenStreetMap (dati collaborativi aggiornati dalla community) e Copernicus Urban Atlas (dati satellitari ufficiali dell'Agenzia Spaziale Europea). Entrambi i dataset sono stati filtrati per includere solo il verde pubblico accessibile, escludendo spazi privati e impianti sportivi.</p>
+            <p>Per mappare gli spazi verdi urbani accessibili sono stati utilizzati due dataset complementari: <strong>OpenStreetMap</strong> (dati collaborativi aggiornati dalla community) e <strong>Copernicus Urban Atlas</strong> (dati satellitari ufficiali dell'Agenzia Spaziale Europea). Entrambi i dataset sono stati filtrati per includere solo il verde pubblico accessibile, escludendo spazi privati e impianti sportivi.</p>
             
             <h3>1.1 Dataset OpenStreetMap</h3>
             
@@ -271,7 +266,7 @@
             <ul>
                 <li><strong>Accesso:</strong> <code>access=private</code>, <code>access=residents</code>, <code>access=no</code></li>
                 <li><strong>Tipologia:</strong> <code>garden:type=roof_garden</code>, <code>operator=condominium</code></li>
-                <li><strong>Altre categorie:</strong> impianti sportivi, foreste, riserve naturali, verde agricolo, cimiteri, campi da golf</li>
+                <li>Altre categorie: impianti sportivi, foreste, riserve naturali, verde agricolo, cimiteri, campi da golf</li>
             </ul>
             
             <h4>Processing:</h4>
@@ -332,7 +327,7 @@ out skel qt;</code></pre>
             <h4>Categorie escluse:</h4>
             <ul>
                 <li><code>14130</code> - Green urban areas (Unknown access conditions)</li>
-                <li><strong>Altre categorie:</strong> verde privato, impianti sportivi, foreste, vegetazione erbacea</li>
+                <li>Altre categorie: verde privato, impianti sportivi, foreste, vegetazione erbacea</li>
             </ul>
             
             <h4>Processing:</h4>
@@ -407,13 +402,13 @@ out skel qt;</code></pre>
         <section>
             <h2>2. Distribuzione della popolazione</h2>
             
-            <p>Per calcolare quanti cittadini vivono entro 300 m da uno spazio verde è necessario conoscere dove risiede la popolazione. Sono stati utilizzati i dati ISTAT sulle sezioni di censimento (l'unità territoriale comunale più piccola) incrociati con i dati demografici del Comune di Palermo.</p>
+            <p>Per calcolare quanti cittadini vivono entro 300 metri da uno spazio verde è necessario conoscere dove risiede la popolazione. Sono stati utilizzati i dati ISTAT sulle sezioni di censimento (l'unità territoriale comunale più piccola) incrociati con i dati demografici del Comune di Palermo.</p>
             
             <h4>Fonti:</h4>
             <ul>
                 <li><strong>Geometrie sezioni:</strong> <a href="https://www.istat.it/it/archivio/222527" target="_blank">ISTAT - Sezioni di censimento 2021</a></li>
                 <li><strong>Dati demografici:</strong> <a href="https://opendata.comune.palermo.it/opendata-dataset.php?dataset=1381" target="_blank">Comune di Palermo - Popolazione residente 31/12/2022</a></li>
-                <li><strong>Geometrie quartieri:</strong> <a href="https://umap.openstreetmap.fr" target="_blank">uMap OpenStreetMap</a></li>
+                <li><strong>Geometrie quartieri:</strong> <a href="https://umap.openstreetmap.fr/it/map/palermo-in-8-circoscrizioni-e-25-quartieri_16500" target="_blank">uMap OpenStreetMap</a></li>
             </ul>
             
             <h4>Processing:</h4>
@@ -431,13 +426,13 @@ filter 'PRO_COM == "082053"'</code></pre>
         
         <!-- 3. Accessibilità -->
         <section>
-            <h2>3. Accessibilità degli spazi verdi (regola dei 300 m)</h2>
+            <h2>3. Accessibilità degli spazi verdi (regola dei 300 metri)</h2>
             
-            <p>La regola dei 300 m stabilisce che ogni persona dovrebbe avere accesso a <strong>uno spazio verde di qualità entro 300 m da casa</strong>. Per verificare questa condizione sono stati combinati i dati sugli spazi verdi (capitolo 1) con la distribuzione della popolazione (capitolo 2).</p>
+            <p>La regola dei 300 metri stabilisce che ogni persona dovrebbe avere accesso a <strong>uno spazio verde di qualità entro 300 metri da casa</strong>. Per verificare questa condizione sono stati combinati i dati sugli spazi verdi (capitolo 1) con la distribuzione della popolazione (capitolo 2).</p>
             
             <h3>3.1 Copertura cittadina</h3>
             
-            <p>L'algoritmo, basato sul metodo dell'<strong>interpolazione ponderata per area</strong> (Area-Weighted Interpolation), calcola quanta popolazione risiede entro 300 m dagli spazi verdi creando dei buffer circolari attorno a ciascuno spazio e calcolando l'intersezione con le sezioni di censimento. Per ogni sezione viene stimata la frazione di popolazione coperta in base alla frazione di area intersecata, assumendo distribuzione uniforme della popolazione all'interno della sezione.</p>
+            <p>L'algoritmo, basato sul metodo dell'<strong>interpolazione ponderata per area</strong> (Area-Weighted Interpolation), calcola quanta popolazione risiede entro 300 metri dagli spazi verdi creando dei buffer circolari attorno a ciascuno spazio e calcolando l'intersezione con le sezioni di censimento. Per ogni sezione viene stimata la frazione di popolazione coperta in base alla frazione di area intersecata, assumendo distribuzione uniforme della popolazione all'interno della sezione.</p>
             
             <h4>Algoritmo:</h4>
             
@@ -500,7 +495,7 @@ percentuale = (popolazione_coperta / popolazione_totale) * 100</code></pre>
             
             <h3>3.3 Valutazione puntuale</h3>
             
-            <p>L'utente inserisce il <strong>proprio indirizzo</strong> o condivide la <strong>propria posizione</strong>. Il sistema calcola la distanza minima dai bordi esterni degli spazi verdi e conta quanti spazi sono entro 300 m. Se c'è almeno uno spazio, viene mostrato il nome, l'area e la distanza (feedback positivo). Se ci sono più spazi, viene mostrato il più grande con le stesse informazioni viste in precedenza. Se non ci sono spazi entro 300 m, viene comunque indicata la distanza da quello più vicino (feedback negativo).</p>
+            <p>L'utente inserisce il <strong>proprio indirizzo</strong> o condivide la <strong>propria posizione</strong>. Il sistema calcola la distanza minima dai bordi esterni degli spazi verdi e conta quanti spazi sono entro 300 metri. Se c'è <strong>almeno uno spazio</strong>, viene mostrato il nome, l'area e la distanza (feedback positivo). Se ci sono <strong>più spazi</strong>, viene mostrato il più grande con le stesse informazioni viste in precedenza. Se <strong>non ci sono spazi</strong> entro 300 metri, viene comunque indicata la distanza da quello più vicino (feedback negativo).</p>
             
             <h4>Input utente:</h4>
             <ul>
@@ -520,9 +515,9 @@ distanza_minima = min([
             
             <h4>Output:</h4>
             <ul>
-                <li>Se 1 spazio entro 300 m → feedback positivo + nome, area e distanza spazio</li>
-                <li>Se n spazi entro 300 m → feedback positivo + numero + dettagli spazio più grande</li>
-                <li>Se 0 spazi entro 300 m → feedback negativo + dettagli spazio più vicino</li>
+                <li>Se 1 spazio entro 300 metri → feedback positivo + nome, area e distanza spazio</li>
+                <li>Se n spazi entro 300 metri → feedback positivo + numero + dettagli spazio più grande</li>
+                <li>Se 0 spazi entro 300 metri → feedback negativo + dettagli spazio più vicino</li>
             </ul>
         </section>
         
@@ -597,14 +592,14 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
         <section>
             <h2>6. Interazione utente e call to action</h2>
             
-            <h3>6.1 Sezione 300 m (Accessibilità del verde urbano)</h3>
+            <h3>6.1 Sezione 300 metri (Accessibilità del verde urbano)</h3>
             
             <p><strong>CTA primaria:</strong> "Inserisci il tuo indirizzo e scopri se hai accesso al verde urbano"</p>
             
             <p><strong>Funzionalità:</strong></p>
             <ul>
                 <li>Input: indirizzo o posizione attuale</li>
-                <li>Processing: geocoding → calcolo distanza → visualizzazione mappa del verde entro 300 m</li>
+                <li>Processing: geocoding → calcolo distanza → visualizzazione mappa del verde entro 300 metri</li>
                 <li>Output: feedback su accessibilità verde urbano + dettaglio spazio più vicino</li>
             </ul>
             
@@ -718,7 +713,7 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
             <h2>Riferimenti</h2>
             
             <ul>
-                <li>Konijnendijk, C. C. (2023). Evidence-based guidelines for greener, healthier, more resilient neighbourhoods: Introducing the 3-30-300 rule. <em>Journal of Forestry Research</em>, 34(5), 1131-1146.</li>
+                <li>Konijnendijk, C. C. (2023). Evidence-based guidelines for greener, healthier, more resilient neighbourhoods: Introducing the 3-30-300 rule. <em>Journal of Forestry Research</em>, 34(5), 1131-1146. <a href="https://doi.org/10.1007/s11676-022-01523-z" target="_blank">https://doi.org/10.1007/s11676-022-01523-z</a></li>
                 
                 <li>OpenStreetMap contributors (2024). Planet dump. <a href="https://planet.osm.org" target="_blank">https://planet.osm.org</a></li>
                 
@@ -733,13 +728,15 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
         </section>
     </div>
     
-    <!-- Back link before footer -->
-    <div class="back-container">
-        <a href="index.html" class="back-link">← Torna alla home</a>
-    </div>
+    <!-- Back link section (same as dati.html) -->
+    <section style="background: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0;">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 0 2rem;">
+            <a href="index.html" class="back-link">← Torna alla pagina principale</a>
+        </div>
+    </section>
     
-    <!-- Footer (same as index.html) -->
-    <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center; margin: 0;">
+    <!-- Footer (same as dati.html) -->
+    <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center;">
         <p style="line-height: 1.8; margin: 0;">
             <strong>Palermo 3-30-300</strong> è un progetto aperto, indipendente e con finalità divulgativa.<br>
             Il codice sorgente, così come i dataset e la metodologia sono accessibili da 
