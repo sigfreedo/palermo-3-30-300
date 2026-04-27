@@ -184,10 +184,88 @@
                 font-size: 13px !important;
             }
         }
+        
+        /* Language Dropdown */
+        .language-selector {
+            position: relative;
+        }
+        
+        .language-button {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .language-button:hover {
+            background: #f9fafb;
+            border-color: #10b981;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .language-dropdown.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .language-option {
+            display: block;
+            padding: 0.75rem 1.2rem;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .language-option:hover {
+            background: #f3f4f6;
+            color: #10b981;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <header>
+        <!-- Language Selector Dropdown -->
+        <div style="position: absolute; top: 1.5rem; right: 2rem;">
+            <div class="language-selector">
+                <button class="language-button" onclick="toggleLanguageMenu()">
+                    🇮🇹 IT
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left: 0.5rem;">
+                        <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="dati_en.html" class="language-option">🇬🇧 EN</a>
+                </div>
+            </div>
+        </div>
         <h1>Mappe e dataset</h1>
     </header>
 
@@ -279,7 +357,7 @@
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">dataset/osm_verde_palermo.geojson</code><br>
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">osm_verde_palermo.geojson</code><br>
                         <strong>Formato:</strong> GeoJSON<br>
                         <strong>Licenza:</strong> <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" style="color: #f59e0b; text-decoration: underline;">ODbL 1.0</a>
                     </div>
@@ -305,7 +383,7 @@
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">dataset/copernicus_verde_palermo.geojson</code><br>
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">copernicus_verde_palermo.geojson</code><br>
                         <strong>Formato:</strong> GeoJSON<br>
                         <strong>Licenza:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">CC BY 4.0</a>
                     </div>
@@ -331,7 +409,7 @@
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">dataset/quartieri_dati_completi.geojson</code><br>
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_dati_completi.geojson</code><br>
                         <strong>Formato:</strong> GeoJSON<br>
                         <strong>Licenza:</strong> <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" style="color: #f59e0b; text-decoration: underline;">ODbL 1.0</a>
                     </div>
@@ -356,7 +434,7 @@
                         </ul>
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">dataset/quartieri_data.json</code><br>
+                        <strong>File:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">quartieri_data.json</code><br>
                         <strong>Formato:</strong> JSON<br>
                         <strong>Licenza:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">CC BY 4.0</a>
                     </div>
@@ -416,9 +494,9 @@
                         </p>
                         
                         <ul style="color: #6b7280; line-height: 1.7; margin-bottom: 1rem; font-size: 0.85rem; padding-left: 1.2rem;">
-                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">dataset/copernicus_verde_palermo.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">copernicus_verde_palermo.geojson</code></li>
                             <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">sezioni_censimento_palermo.geojson</code></li>
-                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">dataset/quartieri_data.json</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">quartieri_data.json</code></li>
                         </ul>
                         
                         <div style="background: #f0fdf4; padding: 0.75rem; border-left: 3px solid #10b981; border-radius: 4px;">
@@ -439,8 +517,8 @@
                         </p>
                         
                         <ul style="color: #6b7280; line-height: 1.7; margin-bottom: 1rem; font-size: 0.85rem; padding-left: 1.2rem;">
-                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">dataset/osm_verde_palermo.geojson</code></li>
-                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">dataset/quartieri_dati_completi.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">osm_verde_palermo.geojson</code></li>
+                            <li><code style="background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem;">quartieri_dati_completi.geojson</code></li>
                         </ul>
                         
                         <div style="background: #fffbeb; padding: 0.75rem; border-left: 3px solid #f59e0b; border-radius: 4px;">
@@ -454,7 +532,7 @@
                     <!-- BOX 3: FONTI ORIGINALI -->
                     <div style="background: white; border: 2px solid #6b7280; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                         <h3 style="font-size: 1.25rem; font-weight: 600; color: #4b5563; margin: 0 0 1rem 0;">
-                            📚 Fonti Originali
+                            Fonti Originali
                         </h3>
                         
                         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -506,6 +584,22 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // Language dropdown toggle
+        function toggleLanguageMenu() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.language-button') && !e.target.closest('.language-button')) {
+                const dropdown = document.getElementById('languageDropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+        
         // Inizializza mappa
         // Initialize map with mobile-responsive settings
         const isMobile = window.innerWidth <= 768;
@@ -810,7 +904,7 @@
                 messageDiv.innerHTML = `
                     <h3 style="color: #dc2626; margin: 0 0 1rem 0; font-size: 18px;">⚠️ File raster non disponibile</h3>
                     <p style="color: #374151; margin: 0; font-size: 14px; line-height: 1.6;">
-                        Il file <code>dataset/palermo_tree_canopy_2023.tif</code> 
+                        Il file <code>palermo_tree_canopy_2023.tif</code> 
                         deve essere caricato nel repository GitHub prima di poter visualizzare la mappa.
                     </p>
                 `;
