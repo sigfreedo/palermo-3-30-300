@@ -340,7 +340,7 @@
             <!-- Dataset Grid -->
             <div class="dataset-grid">
                 
-                <!-- Dataset 1: OSM Spazi Verdi -->
+                <!-- Dataset 1: OSM Green Spaces -->
                 <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">📍 Public green spaces (OpenStreetMap)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
@@ -366,7 +366,7 @@
                     </div>
                 </div>
                 
-                <!-- Dataset 2: Copernicus Spazi Verdi -->
+                <!-- Dataset 2: Copernicus Green Spaces -->
                 <div class="dataset-box" style="background: white; padding: 2rem; border-radius: 12px; border: 3px solid #059669; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h3 style="font-size: 20px; font-weight: 700; color: #065f46; margin: 0 0 1rem 0;">🛰️ Green spaces from satellite (Copernicus)</h3>
                     <p style="font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 1rem;">
@@ -743,7 +743,7 @@
                 })
                 .catch(err => {
                     console.error('❌ Error:', err);
-                    alert(`Impossibile caricare i dati.\n\nErrore: ${err.message}\n\nVerifica che i file GeoJSON siano nella cartella corretta:\n- data/coverage_osm_final.geojson\n- data/coverage_copernicus_final.geojson`);
+                    alert(`Unable to load data.\n\nError: ${err.message}\n\nVerify that GeoJSON files are in the correct folder:\n- data/coverage_osm_final.geojson\n- data/coverage_copernicus_final.geojson`);
                 });
         }
 
