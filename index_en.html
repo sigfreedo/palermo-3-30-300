@@ -2174,7 +2174,7 @@
                                 id="treeCountInput" 
                                 min="0" 
                                 max="99" 
-                                placeholder="Es: 5"
+                                placeholder="Ex: 5"
                                 style="flex: 1; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #065f46; text-align: center;"
                             />
                             <button 
@@ -3637,14 +3637,14 @@
         window.treeCanopyData = {};
       });
     
-    // Funzione per determinare valutazione copertura
+    // Function to determine coverage rating
     function getValutazione(canopyPct) {
-      if (canopyPct < 10) return "scarsa";              // 🔴 Rosso
-      if (canopyPct < 20) return "ridotta";             // 🟠 Arancione
+      if (canopyPct < 10) return "poor";              // 🔴 Red
+      if (canopyPct < 20) return "reduced";             // 🟠 Orange
       if (canopyPct < 30) return "almost sufficient";   // 🟡 Yellow
-      if (canopyPct < 40) return "sufficiente";         // 🔵 Teal chiaro
-      if (canopyPct < 50) return "buona";               // 🟢 Teal
-      return "ottima";                                   // 🔵 Blu
+      if (canopyPct < 40) return "sufficient";         // 🔵 Light teal
+      if (canopyPct < 50) return "good";               // 🟢 Teal
+      return "excellent";                                   // 🔵 Blue
     }
     
     // Funzione per popolare dashboard tree canopy coverage
@@ -4720,7 +4720,7 @@ Kind regards,
                   <div><strong>Coverage:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Green spaces:</strong> ${spazi}</div>
                   <div><strong>Population:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
-                  <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Ranking:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
               `;
               
@@ -4893,7 +4893,7 @@ Kind regards,
                   <div><strong>Coverage:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Green spaces:</strong> ${spazi}</div>
                   <div><strong>Population:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
-                  <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Ranking:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
               `;
               
@@ -5041,8 +5041,8 @@ Kind regards,
               const tooltipHTML = `
                 <div style="color: #ffffff; font-size: 13px; line-height: 1.6;">
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
-                  <div><strong>Copertura arborea:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
-                  <div><strong>Valutazione:</strong> ${valutazione}</div>
+                  <div><strong>Tree canopy coverage:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
+                  <div><strong>Rating:</strong> ${valutazione}</div>
                   <div><strong>Position:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
               `;
