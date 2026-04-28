@@ -3719,7 +3719,7 @@
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').innerHTML = 
-        `Il tuo quartiere, ${nomeQuartiere}, ha una copertura arborea ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
+        `Il tuo quartiere, <strong>${nomeQuartiere}</strong>, ha una copertura arborea <strong>${valutazione}</strong>. Complessivamente, si colloca al <strong>${ranking}° posto</strong> (su 25) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
@@ -5043,7 +5043,7 @@ Cordiali saluti,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Copertura arborea:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Valutazione:</strong> ${valutazione}</div>
-                  <div><strong>Posizione:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Classifica:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
               `;
               
