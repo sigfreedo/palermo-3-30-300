@@ -1702,7 +1702,7 @@
             <h3>🌳 The 3+30+300 rule for greener cities</h3>
             <p>This principle, developed by <a href="https://en.wikipedia.org/wiki/Cecil_Konijnendijk" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Cecil Konijnendijk</strong></a>, explains the importance of bringing nature into neighborhoods, streets and right in front of our homes, to reap its numerous benefits. It provides clear guiding criteria for the minimum provision of trees in our urban communities, establishing the following three minimum requirements:</p>
             <ul>
-              <li><strong>3 trees maturi</strong> visibili da ogni abitazione</li>
+              <li><strong>3 mature trees</strong> visible from every home</li>
               <li><strong>30% tree canopy coverage</strong> in every neighborhood</li>
               <li><strong>300 meters</strong> maximum distance from the nearest public green space for everyone</li>
             </ul>
@@ -1840,7 +1840,7 @@
                     </div>
                     
                     <p style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 15px; line-height: 1.6; color: #e5e7eb; margin: 0;">
-                        Con entrambi i dataset, l'analisi mostra che più della metà degli residents di Palermo (oltre 300.000 persone) vive troppo lontano dal verde pubblico.
+                        With both datasets, the analysis shows that more than half of Palermo's residents (over 300,000 people) live too far from public green spaces.
                     </p>
                 </div>
                 
@@ -1979,12 +1979,12 @@
                         <div class="space-detail-item">
                             <span class="space-detail-label">Deficit to fill:</span> <span id="canopy-deficit-value">-</span>
                         </div>
-                        <div style="font-size: 12px; color: #6b7280; margin-top: 1rem;">La stima è fatta considerando trees maturi con chioma average di 35 m².</div>
+                        <div style="font-size: 12px; color: #6b7280; margin-top: 1rem;">The estimate is based on mature trees with an average canopy of 35 m².</div>
                     </div>
                     
                     <!-- Call to Action -->
                     <button class="share-button" onclick="window.open('https://www.metropolitree.com/', '_blank')" style="margin-top: 1.5rem;">
-                        Contribuisci a piantare più trees nella tua città
+                        Contribute to planting more trees in your city
                     </button>
                 </div>
                 
@@ -1994,12 +1994,12 @@
                     <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #e5e7eb;">
                         <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 1rem 0; color: #065f46;">🌳 The 30% rule</h3>
                         <p style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0;">
-                            Stabilisce che almeno il <strong>30% della superficie urbana</strong> dovrebbe essere coperta da chiome arboree (<em>tree canopy</em>) per garantire benefici ambientali e di salute pubblica excellentli. Uno studio della Commissione Europea su 93 città europee ha dimostrato che raggiungere questo standard ridurrebbe la temperatura average di 0,4°C, con picchi fino a 5,9°C in alcune zone.
+                            It establishes that at least <strong>30% of the urban surface</strong> should be covered by tree canopies (<em>tree canopy</em>) to guarantee excellent environmental and public health benefits. A European Commission study on 93 European cities demonstrated that reaching this standard would reduce the average temperature by 0.4°C, with peaks up to 5.9°C in some areas.
                         </p>
                     </div>
                     
                     <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #e5e7eb;">
-                        <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 1rem 0; color: #065f46;">🍃 Cosa significa tree canopy?</h3>
+                        <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 1rem 0; color: #065f46;">🍃 What does tree canopy mean?</h3>
                         <p style="font-size: 15px; line-height: 1.7; color: #374151; margin: 0;">
                             The <strong>tree canopy</strong> is the upper layer formed by tree crowns — the collection of branches, leaves and foliage that project vertically to the ground. It is measured through satellite imagery and represents the area actually shaded by tree vegetation. This coverage works as a <strong>natural air conditioner</strong>: a single mature tree can produce the cooling effect of ten residential air conditioners running 20 hours a day.
                         </p>
@@ -2302,7 +2302,7 @@
                     </svg>
                     <h3 style="color: #065f46; font-size: 20px; font-weight: 700; margin: 0 0 1rem 0;">Visualizza le mappe e i data</h3>
                     <p style="color: #6b7280; font-size: 15px; line-height: 1.6; margin: 0 0 1.5rem 0;">
-                        Esplora le mappe interattive e scarica i dataset in formato GeoJSON e JSON.
+                        Explore the interactive maps and download the datasets in GeoJSON and JSON format.
                     </p>
                     <a href="data_en.html" style="display: inline-block; padding: 0.75rem 1.25rem; background: #059669; color: white; text-decoration: none; border-radius: 8px; font-size: 15px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#047857'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.background='#059669'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                         Vai a mappe e dataset
@@ -3722,8 +3722,8 @@
       }
       
       const data = window.treeCanopyData[neighborhoodName];
-      const canopyPct = data.canopy_pct;
-      const treesNecessari = data.trees_necessari;
+      const canopyPct = data.tree_canopy_pct;
+      const treesNecessari = data.alberi_necessari;
       
       // Calcola classifica
       const quartieri = Object.keys(window.treeCanopyData)
@@ -3942,10 +3942,10 @@
       }
       
       const data = window.treeCanopyData[neighborhoodName];
-      const canopyPct = data.canopy_pct;
-      const classificazione = data.classificazione;
-      const deficitPct = data.deficit_pct;
-      const treesNecessari = data.trees_necessari;
+      const canopyPct = data.tree_canopy_pct;
+      const classificazione = data.classificazione_canopy;
+      const deficitPct = data.deficit_pct_canopy;
+      const treesNecessari = data.alberi_necessari;
       
       // Determina se fortunato o svantaggiato
       const isFortunato = canopyPct >= 30;
@@ -3955,10 +3955,10 @@
       const resultColumn = document.getElementById('canopy-result-column');
       
       if (isFortunato) {
-        statusTitle.textContent = '🌳 Hai abbastanza trees!';
+        statusTitle.textContent = '🌳 You have enough trees!';
         resultColumn.className = 'result-column fortunato';
       } else {
-        statusTitle.textContent = '🌱 Ti servono più trees';
+        statusTitle.textContent = '🌱 You need more trees';
         resultColumn.className = 'result-column svantaggiato';
       }
       
@@ -4447,7 +4447,7 @@ Cordiali saluti,
       const totale = classificaArray.length;
       
       // Genera testo descrittivo con grassetti
-      const descrizione = `Your neighborhood, <strong>${neighborhoodName}</strong>, ha una <strong>${rating}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella average di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
+      const descrizione = `Your neighborhood, <strong>${neighborhoodName}</strong>, has <strong>${rating}</strong> accessibility to public green spaces, <strong>${comparazione}</strong> than Palermo's average. Overall, it ranks <strong>${posizione}th</strong> (out of ${totale}) among the city's <span style="white-space: nowrap;">neighborhoods.</span>`;
       
       document.getElementById('neighborhood-description').innerHTML = descrizione;
     };
@@ -5047,7 +5047,7 @@ Cordiali saluti,
             style: function(feature) {
               const neighborhoodName = feature.properties.quartiere;
               const data = window.treeCanopyData[neighborhoodName];
-              const canopyPct = data ? data.canopy_pct : 0;
+              const canopyPct = data ? data.tree_canopy_pct : 0;
               const color = getCanopyColor(canopyPct);
               
               return {
@@ -5067,7 +5067,7 @@ Cordiali saluti,
                 return;
               }
               
-              const canopyPct = data.canopy_pct || 0;
+              const canopyPct = data.tree_canopy_pct || 0;
               const rating = getValutazione(canopyPct);
               const ranking = rankings[neighborhoodName] || '?';
               const totalQuartieri = quartieri.length;
@@ -5560,7 +5560,7 @@ Cordiali saluti,
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            Scarica immagine personalizzata
+            Download custom image
           </button>
         </div>
       </div>
