@@ -2810,7 +2810,7 @@
             // Populate space details
             spaceName.textContent = displayName;
             spaceDistance.textContent = `${distanceMeters} meters`;
-            spaceTime.textContent = `${walkingMinutes} minut${walkingMinutes === 1 ? 'o' : 'i'}`;
+            spaceTime.textContent = `${walkingMinutes} minute${walkingMinutes === 1 ? '' : 's'}`;
             spaceArea.textContent = `${areaFormatted} m²`;
             
             // Populate share data
@@ -4201,9 +4201,9 @@ Kind regards,
         feedbackDiv.style.color = '#991b1b';
         feedbackDiv.innerHTML = `
           <strong style="font-size: 16px;">❌ Unfortunately you have less than 3 visible trees.</strong><br>
-          <span style="margin-top: 0.5rem; display: block;">La ricerca scientifica mostra l'importanza di vedere almeno 3 alberi dalla finestra.</span>
+          <span style="margin-top: 0.5rem; display: block;">Scientific research shows the importance of seeing at least 3 trees from your window.</span>
           <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #ef4444;">
-            <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Chiedi al Comune di piantare più alberi nella tua zona!</p>
+            <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Ask the City to plant more trees in your area!</p>
             <a href="${mailtoLink}" 
                style="display: inline-block; padding: 0.75rem 1.5rem; background: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; transition: background 0.2s;"
                onmouseover="this.style.background='#b91c1c'"
@@ -5104,7 +5104,7 @@ Kind regards,
             div.style.maxWidth = '250px';
             
             div.innerHTML = `
-              <h4 style="font-size: 14px; font-weight: 700; color: #065f46; margin: 0 0 8px 0;">Copertura arborea<br>(% superficie)</h4>
+              <h4 style="font-size: 14px; font-weight: 700; color: #065f46; margin: 0 0 8px 0;">Tree canopy coverage<br>(% surface)</h4>
               <div style="display: flex; flex-direction: column; gap: 6px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <div style="width: 20px; height: 20px; background: #E24B4A; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
@@ -5116,7 +5116,7 @@ Kind regards,
                 </div>
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <div style="width: 20px; height: 20px; background: #EF9F27; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
-                  <span style="font-size: 13px; color: #374151;">20-30% - Quasi suff.</span>
+                  <span style="font-size: 13px; color: #374151;">20-30% - Almost suff.</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <div style="width: 20px; height: 20px; background: #5DCAA5; border: 1px solid #999; border-radius: 3px; flex-shrink: 0;"></div>
