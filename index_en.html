@@ -1879,13 +1879,13 @@
             
             <!-- Categorizzazione del verde urbano -->
             <div class="dashboard-box" id="category-chart-box" style="margin-top: 2rem;">
-                <h3 id="category-chart-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Categorizzazione del verde urbano - <span id="category-dataset-label">OpenStreetMap</span></h3>
+                <h3 id="category-chart-title" style="font-size: 18px; font-weight: 600; text-align: center; margin: 0 0 1.5rem 0; color: #ffffff;">Urban Green Categorization - <span id="category-dataset-label">OpenStreetMap</span></h3>
                 
                 <!-- Metric Toggle -->
                 <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
-                    <button class="metersc-btn active" onclick="switchMetric('count')" data-metersc="count" style="padding: 0.5rem 1rem; background: #10b981; color: #000000; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Numero spazi</button>
-                    <button class="metersc-btn" onclick="switchMetric('area')" data-metersc="area" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Superficie (km²)</button>
-                    <button class="metersc-btn" onclick="switchMetric('percentage')" data-metersc="percentage" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">% Superficie</button>
+                    <button class="metersc-btn active" onclick="switchMetric('count')" data-metersc="count" style="padding: 0.5rem 1rem; background: #10b981; color: #000000; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Number of spaces</button>
+                    <button class="metersc-btn" onclick="switchMetric('area')" data-metersc="area" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Surface area (km²)</button>
+                    <button class="metersc-btn" onclick="switchMetric('percentage')" data-metersc="percentage" style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: #9ca3af; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">% Surface area</button>
                 </div>
                 
                 <!-- Chart Container -->
@@ -2423,21 +2423,21 @@
         // URL Cloudflare Worker per API
         const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
 
-        // Dati categorizzazione verde urbano
+        // Urban green categorization data
         const categoryData = {
             osm: [
-                { category: 'Parco molto grande', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300.000 m²' },
-                { category: 'Grande parco', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100.000 - 300.000 m²' },
-                { category: 'Parco di quartiere', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30.000 - 100.000 m²' },
-                { category: 'Giardino', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10.000 - 30.000 m²' },
-                { category: 'Piccolo spazio verde', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10.000 m²' }
+                { category: 'Very large park', count: 1, totalArea: 1908694, percentage: 44.47, avgArea: 1908694, range: '> 300,000 m²' },
+                { category: 'Large park', count: 3, totalArea: 470497, percentage: 10.96, avgArea: 156832, range: '100,000 - 300,000 m²' },
+                { category: 'Neighborhood park', count: 19, totalArea: 1193152, percentage: 27.80, avgArea: 62797, range: '30,000 - 100,000 m²' },
+                { category: 'Garden', count: 27, totalArea: 416074, percentage: 9.69, avgArea: 15410, range: '10,000 - 30,000 m²' },
+                { category: 'Small green space', count: 68, totalArea: 303624, percentage: 7.07, avgArea: 4465, range: '< 10,000 m²' }
             ],
             copernicus: [
-                { category: 'Parco molto grande', count: 1, totalArea: 349530, percentage: 10.41, avgArea: 349530, range: '> 300.000 m²' },
-                { category: 'Grande parco', count: 8, totalArea: 1307475, percentage: 38.95, avgArea: 163434, range: '100.000 - 300.000 m²' },
-                { category: 'Parco di quartiere', count: 14, totalArea: 787653, percentage: 23.46, avgArea: 56260, range: '30.000 - 100.000 m²' },
-                { category: 'Giardino', count: 34, totalArea: 530835, percentage: 15.81, avgArea: 15612, range: '10.000 - 30.000 m²' },
-                { category: 'Piccolo spazio verde', count: 72, totalArea: 381332, percentage: 11.36, avgArea: 5296, range: '< 10.000 m²' }
+                { category: 'Very large park', count: 1, totalArea: 349530, percentage: 10.41, avgArea: 349530, range: '> 300,000 m²' },
+                { category: 'Large park', count: 8, totalArea: 1307475, percentage: 38.95, avgArea: 163434, range: '100,000 - 300,000 m²' },
+                { category: 'Neighborhood park', count: 14, totalArea: 787653, percentage: 23.46, avgArea: 56260, range: '30,000 - 100,000 m²' },
+                { category: 'Garden', count: 34, totalArea: 530835, percentage: 15.81, avgArea: 15612, range: '10,000 - 30,000 m²' },
+                { category: 'Small green space', count: 72, totalArea: 381332, percentage: 11.36, avgArea: 5296, range: '< 10,000 m²' }
             ]
         };
 
@@ -5271,9 +5271,9 @@ Kind regards,
       ctx.fillText('Wow! I have a green space', size / 2, size * 0.34);
       
       // Second line with distance
-      const p2_parte1 = 'a ';
+      const p2_parte1 = 'at ';
       const p2_parte2 = `${data.distance} meters`;
-      const p2_parte3 = ' da casa!';
+      const p2_parte3 = ' from home!';
       
       ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
       const p2_width1 = ctx.measureText(p2_parte1).width;
@@ -5356,9 +5356,9 @@ Kind regards,
       ctx.fillText('The nearest green space is', size / 2, size * 0.34);
       
       // Second line with distance
-      const p2_parte1 = 'a ';
+      const p2_parte1 = 'at ';
       const p2_parte2 = `${data.distance} meters`;
-      const p2_parte3 = ' da casa.';
+      const p2_parte3 = ' from home.';
       
       ctx.font = `bold ${Math.round(66 * scale)}px Arial`;
       const p2_width1 = ctx.measureText(p2_parte1).width;
@@ -5403,14 +5403,14 @@ Kind regards,
       ctx.fillStyle = '#f97316';
       ctx.fillText(s1_parte2, s1_startX + s1_width1, size * 0.59);
       
-      // Line 2: "of Palermo's population"
+      // Line 2: "of Palermo's population that"
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText("of Palermo's population", size / 2, size * 0.65);
+      ctx.fillText("of Palermo's population that", size / 2, size * 0.65);
       
-      // Line 3: "that does not have guaranteed public green access."
-      ctx.fillText('that does not have guaranteed public green access.', size / 2, size * 0.71);
+      // Line 3: "does not have guaranteed public green access."
+      ctx.fillText('does not have guaranteed public green access.', size / 2, size * 0.71);
       
       // White line separator (equidistant)
       ctx.fillStyle = 'white';
