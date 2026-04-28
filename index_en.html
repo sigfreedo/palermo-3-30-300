@@ -30,90 +30,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-  <script>
-    // Global variables
-    let selectedLocation = null;
-    
-    // Define functions that are called via onclick attributes
-    function toggleLanguageMenu() {
-      const dropdown = document.getElementById('languageDropdown');
-      if (dropdown) {
-        dropdown.classList.toggle('show');
-      }
-    }
-    
-    // Close dropdown when clicking outside
-    window.addEventListener('click', function(e) {
-      if (!e.target.matches('.language-button') && !e.target.closest('.language-button')) {
-        const dropdown = document.getElementById('languageDropdown');
-        if (dropdown && dropdown.classList.contains('show')) {
-          dropdown.classList.remove('show');
-        }
-      }
-    });
-    
-    function useGeolocation() {
-      if (!navigator.geolocation) {
-        alert('❌ Geolocation not supported by your browser.\n\nUse the input with autocomplete instead.');
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          
-          console.log('Position obtained:', lat, lon);
-          
-          // Verify it's in Palermo (approximately)
-          if (lat < 38.05 || lat > 38.25 || lon < 13.2 || lon > 13.5) {
-            alert('⚠️ Your position seems to be outside Palermo.\n\nUse manual input with autocomplete.');
-            return;
-          }
-
-          document.getElementById('addressInput').value = `📍 Current position (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
-          analyzeLocation(lat, lon);
-        },
-        (error) => {
-          console.error('Geolocation error:', error);
-          
-          let errorMessage = '❌ Unable to get position.\n\n';
-          
-          switch(error.code) {
-            case error.PERMISSION_DENIED:
-              errorMessage += 'You denied location permission.\n\n' +
-                            'Solution:\n' +
-                            '1. Click the 🔒 icon in the address bar\n' +
-                            '2. Allow access to location\n' +
-                            '3. Reload the page';
-              break;
-            case error.POSITION_UNAVAILABLE:
-              errorMessage += 'Position not available.\n\n' +
-                            'Verify that GPS/WiFi are active.';
-              break;
-            case error.TIMEOUT:
-              errorMessage += 'Request timeout.\n\nTry again.';
-              break;
-            default:
-              // Probably HTTPS issue
-              if (window.location.protocol === 'file:') {
-                errorMessage += 'Geolocation requires HTTPS or localhost.\n\n' +
-                              'Solution:\n' +
-                              '1. Start a local server:\n' +
-                              '   python -m http.server 8000\n\n' +
-                              '2. Open: http://localhost:8000/index_en.html\n\n' +
-                              'Or use the input with autocomplete.';
-              } else {
-                errorMessage += 'Try again or use manual input.';
-              }
-              break;
-          }
-          
-          alert(errorMessage);
-        }
-      );
-    }
-  </script>
   <style>
     * {
       margin: 0;
@@ -2499,7 +2415,7 @@
         });
         
         let greenSpaces = null;
-        let quartieri = null; // Dati quartieri con tree canopy e statistiche
+        let quartieri = null; // Neighborhood data with tree canopy and statistics
         let currentDataset = 'osm';
         let selectedLocation = null;
         let autocompleteTimeout = null;
@@ -2783,7 +2699,7 @@
 
         function useGeolocation() {
             if (!navigator.geolocation) {
-                alert('❌ Geolocalizzazione non supportata dal tuo browser.\n\nUsa l\'input con autocomplete invece.');
+                alert('❌ Geolocation not supported by your browser.\n\nUse the input with autocomplete instead.');
                 return;
             }
 
@@ -2792,48 +2708,48 @@
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     
-                    console.log('Posizione ottenuta:', lat, lon);
+                    console.log('Position obtained:', lat, lon);
                     
-                    // Verifica che sia a Palermo (circa)
+                    // Verify it's in Palermo (approximately)
                     if (lat < 38.05 || lat > 38.25 || lon < 13.2 || lon > 13.5) {
-                        alert('⚠️ La tua posizione sembra essere fuori da Palermo.\n\nUsa l\'input manuale con autocomplete.');
+                        alert('⚠️ Your position seems to be outside Palermo.\n\nUse manual input with autocomplete.');
                         return;
                     }
 
-                    addressInput.value = `📍 Posizione corrente (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
+                    addressInput.value = `📍 Current position (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
                     analyzeLocation(lat, lon);
                 },
                 (error) => {
-                    console.error('Errore geolocalizzazione:', error);
+                    console.error('Geolocation error:', error);
                     
-                    let errorMessage = '❌ Impossibile ottenere la posizione.\n\n';
+                    let errorMessage = '❌ Unable to get position.\n\n';
                     
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
-                            errorMessage += 'Hai negato il permesso di localizzazione.\n\n' +
-                                          'Soluzione:\n' +
-                                          '1. Clicca sull\'icona 🔒 nella barra dell\'indirizzo\n' +
-                                          '2. Consenti l\'accesso alla posizione\n' +
-                                          '3. Ricarica la pagina';
+                            errorMessage += 'You denied location permission.\n\n' +
+                                          'Solution:\n' +
+                                          '1. Click the 🔒 icon in the address bar\n' +
+                                          '2. Allow access to location\n' +
+                                          '3. Reload the page';
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            errorMessage += 'Posizione non disponibile.\n\n' +
-                                          'Verifica di avere GPS/WiFi attivi.';
+                            errorMessage += 'Position not available.\n\n' +
+                                          'Verify that GPS/WiFi are active.';
                             break;
                         case error.TIMEOUT:
-                            errorMessage += 'Timeout richiesta.\n\nRiprova.';
+                            errorMessage += 'Request timeout.\n\nTry again.';
                             break;
                         default:
-                            // Probabilmente problema HTTPS
+                            // Probably HTTPS issue
                             if (window.location.protocol === 'file:') {
-                                errorMessage += 'La geolocalizzazione richiede HTTPS o localhost.\n\n' +
-                                              'Soluzione:\n' +
-                                              '1. Avvia un server locale:\n' +
+                                errorMessage += 'Geolocation requires HTTPS or localhost.\n\n' +
+                                              'Solution:\n' +
+                                              '1. Start a local server:\n' +
                                               '   python -m http.server 8000\n\n' +
-                                              '2. Apri: http://localhost:8000/verde_palermo_simple.html\n\n' +
-                                              'Oppure usa l\'input con autocomplete.';
+                                              '2. Open: http://localhost:8000/index_en.html\n\n' +
+                                              'Or use the input with autocomplete.';
                             } else {
-                                errorMessage += 'Errore sconosciuto.\n\nUsa l\'input con autocomplete.';
+                                errorMessage += 'Unknown error.\n\nUse the input with autocomplete.';
                             }
                     }
                     
