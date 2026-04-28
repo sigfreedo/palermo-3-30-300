@@ -2780,7 +2780,7 @@
             
             // Format area (in sqm with thousand separator)
             const areaSqm = Math.round(props.area_sqm);
-            const areaFormatted = areaSqm.toLocaleString('it-IT');
+            const areaFormatted = areaSqm.toLocaleString('en-US');
             
             // Determine display name
             const hasRealName = props.name !== null && props.name !== undefined && props.name !== '';
@@ -3348,38 +3348,38 @@
 
             // Aggiungi sezione quartiere con statistiche E tree canopy coverage
             if (quartiereData) {
-                const canopyClass = quartiereData.classificazione_canopy === 'Poor' ? 'scarsa' : 
-                                   quartiereData.classificazione_canopy === 'Reduced' ? 'ridotta' : 'quasi-sufficiente';
+                const canopyClass = quartiereData.classificazione_canopy === 'Poor' ? 'poor' : 
+                                   quartiereData.classificazione_canopy === 'Reduced' ? 'reduced' : 'almost-sufficient';
                 
                 html += `
                     <div class="tree-canopy-section">
                         <h3>
-                            📍 Il tuo Quartiere: ${quartiereData.quartiere}
+                            📍 Your Neighborhood: ${quartiereData.quartiere}
                         </h3>
                         
                         <h4 style="margin-top: 1rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
-                            🌳 Copertura Arborea
+                            🌳 Tree Canopy Coverage
                             <span class="canopy-badge ${canopyClass}">${quartiereData.classificazione_canopy}</span>
                         </h4>
                         <div class="quartiere-stats">
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${quartiereData.tree_canopy_pct.toFixed(1)}%</div>
-                                <div class="quartiere-stat-label">Copertura Arborea</div>
+                                <div class="quartiere-stat-label">Tree Canopy Coverage</div>
                             </div>
                         </div>
                         <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
-                            La tree canopy coverage misura la percentuale di suolo coperto dalle chiome degli alberi. 
-                            Lo standard WHO/EEA raccomanda almeno il 30%. 
-                            Il tuo quartiere ha un <strong>deficit di ${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
+                            Tree canopy coverage measures the percentage of ground covered by tree crowns. 
+                            The WHO/EEA standard recommends at least 30%. 
+                            Your neighborhood has a <strong>deficit of ${(30 - quartiereData.tree_canopy_pct).toFixed(1)}%</strong>.
                         </p>
                         
                         <h4 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: #365314; font-size: 1.05rem;">
-                            🏞️ Accesso agli Spazi Verdi
+                            🏞️ Green Space Access
                         </h4>
                         <div class="quartiere-stats">
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${Math.round(quartiereData.distanza_media_m)} m</div>
-                                <div class="quartiere-stat-label">Distanza Media</div>
+                                <div class="quartiere-stat-label">Average Distance</div>
                             </div>
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${quartiereData.pct_popolazione_coperta.toFixed(1)}%</div>
@@ -3597,9 +3597,9 @@
           osm: {
             spazi: data.generale.osm.spazi.toString(),
             percentuale: data.generale.osm.percentuale.toFixed(2).replace('.', ','),
-            abitanti: data.generale.osm.abitanti.toLocaleString('it-IT'),
-            fortunati: data.generale.osm.fortunati.toLocaleString('it-IT'),
-            svantaggiati: data.generale.osm.svantaggiati.toLocaleString('it-IT'),
+            abitanti: data.generale.osm.abitanti.toLocaleString('en-US'),
+            fortunati: data.generale.osm.fortunati.toLocaleString('en-US'),
+            svantaggiati: data.generale.osm.svantaggiati.toLocaleString('en-US'),
             coverage: data.generale.osm.percentuale.toFixed(2),
             spaces: data.generale.osm.spazi,
             area: data.generale.osm.area_km2.toFixed(2)
@@ -3607,9 +3607,9 @@
           copernicus: {
             spazi: data.generale.copernicus.spazi.toString(),
             percentuale: data.generale.copernicus.percentuale.toFixed(2).replace('.', ','),
-            abitanti: data.generale.copernicus.abitanti.toLocaleString('it-IT'),
-            fortunati: data.generale.copernicus.fortunati.toLocaleString('it-IT'),
-            svantaggiati: data.generale.copernicus.svantaggiati.toLocaleString('it-IT'),
+            abitanti: data.generale.copernicus.abitanti.toLocaleString('en-US'),
+            fortunati: data.generale.copernicus.fortunati.toLocaleString('en-US'),
+            svantaggiati: data.generale.copernicus.svantaggiati.toLocaleString('en-US'),
             coverage: data.generale.copernicus.percentuale.toFixed(2),
             spaces: data.generale.copernicus.spazi,
             area: data.generale.copernicus.area_km2.toFixed(2)
@@ -3673,7 +3673,7 @@
       
       // Update testi
       document.getElementById('canopy-city-percentage').textContent = avgCanopy.toFixed(1).replace('.', ',') + '%';
-      document.getElementById('canopy-city-trees').textContent = '~' + totalAlberi.toLocaleString('it-IT');
+      document.getElementById('canopy-city-trees').textContent = '~' + totalAlberi.toLocaleString('en-US');
       document.getElementById('canopy-city-deficit-quartieri').textContent = quartieriSotto30 + '/' + quartieri.length;
       
       document.getElementById('canopy-city-description').textContent = 
@@ -3715,7 +3715,7 @@
       // Update UI
       document.getElementById('canopy-quartiere-title').textContent = `Your neighborhood: ${nomeQuartiere}`;
       document.getElementById('canopy-quartiere-percentage').textContent = canopyPct.toFixed(1).replace('.', ',') + '%';
-      document.getElementById('canopy-quartiere-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
+      document.getElementById('canopy-quartiere-alberi').textContent = '~' + alberiNecessari.toLocaleString('en-US');
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').innerHTML = 
@@ -3940,7 +3940,7 @@
       document.getElementById('canopy-legend-missing').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
       
       // Update stats
-      document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('it-IT');
+      document.getElementById('canopy-alberi').textContent = '~' + alberiNecessari.toLocaleString('en-US');
       document.getElementById('canopy-classificazione').textContent = classificazione;
       document.getElementById('canopy-deficit-value').textContent = deficitPct.toFixed(1).replace('.', ',') + '%';
       
@@ -4384,7 +4384,7 @@ Kind regards,
       const offset = window.calculateProgressOffset(copertura);
       
       document.getElementById('quartiere-spazi').textContent = dati.spazi;
-      document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('it-IT');
+      document.getElementById('quartiere-popolazione').textContent = dati.popolazione.toLocaleString('en-US');
       document.getElementById('quartiere-copertura-display').textContent = copertura.toFixed(1).replace('.', ',') + '%';
       document.getElementById('quartiere-progress-bar').setAttribute('stroke', color);
       document.getElementById('quartiere-progress-bar').setAttribute('stroke-dashoffset', offset);
@@ -4719,8 +4719,8 @@ Kind regards,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Coverage:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Green spaces:</strong> ${spazi}</div>
-                  <div><strong>Population:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
-                  <div><strong>Ranking:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Population:</strong> ${popolazione.toLocaleString('en-US')} residents</div>
+                  <div><strong>Ranking:</strong> ${ranking} of ${totalQuartieri}</div>
                 </div>
               `;
               
@@ -4892,8 +4892,8 @@ Kind regards,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Coverage:</strong> ${coverage.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Green spaces:</strong> ${spazi}</div>
-                  <div><strong>Population:</strong> ${popolazione.toLocaleString('it-IT')} abitanti</div>
-                  <div><strong>Ranking:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Population:</strong> ${popolazione.toLocaleString('en-US')} residents</div>
+                  <div><strong>Ranking:</strong> ${ranking} of ${totalQuartieri}</div>
                 </div>
               `;
               
@@ -5043,7 +5043,7 @@ Kind regards,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Tree canopy coverage:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Rating:</strong> ${valutazione}</div>
-                  <div><strong>Position:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Position:</strong> ${ranking} of ${totalQuartieri}</div>
                 </div>
               `;
               
