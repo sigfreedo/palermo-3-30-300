@@ -1702,7 +1702,7 @@
             <h3>🌳 The 3+30+300 rule for greener cities</h3>
             <p>This principle, developed by <a href="https://en.wikipedia.org/wiki/Cecil_Konijnendijk" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;"><strong>Cecil Konijnendijk</strong></a>, explains the importance of bringing nature into neighborhoods, streets and right in front of our homes, to reap its numerous benefits. It provides clear guiding criteria for the minimum provision of trees in our urban communities, establishing the following three minimum requirements:</p>
             <ul>
-              <li><strong>3 alberi maturi</strong> visibili da ogni abitazione</li>
+              <li><strong>3 mature trees</strong> visible from every home</li>
               <li><strong>30% tree canopy coverage</strong> in every neighborhood</li>
               <li><strong>300 meters</strong> maximum distance from the nearest public green space for everyone</li>
             </ul>
@@ -1764,7 +1764,7 @@
             <h3>📊 La regola 3-30-300 per città vivibili</h3>
             <p>Secondo recenti studi scientifici, una città verde e vivibile dovrebbe garantire:</p>
             <ul style="margin: 1rem 0; padding-left: 2rem; line-height: 1.8;">
-                <li><strong>3 alberi</strong> visibili da ogni abitazione</li>
+                <li><strong>3 trees</strong> visible from every home</li>
                 <li><strong>30% tree canopy coverage</strong> in every neighborhood</li>
                 <li><strong>300 meters</strong> di distanza massima da spazi verdi pubblici (standard WHO)</li>
             </ul>
@@ -1929,7 +1929,7 @@
                     
                     <!-- Testo descrittivo -->
                     <p class="description" id="canopy-description">
-                        Your neighborhood, <strong id="canopy-nome-text">-</strong>, has a tree canopy coverage of <strong id="canopy-pct-text">-</strong>, <strong id="canopy-aggettivo-text">-</strong> a quella raccomandata.
+                        Your neighborhood, <strong id="canopy-nome-text">-</strong>, has a tree canopy coverage of <strong id="canopy-pct-text">-</strong>, <strong id="canopy-aggettivo-text">-</strong> than the recommended level.
                     </p>
                     
                     <!-- Box Visualizzazione Alberi -->
@@ -2097,7 +2097,7 @@
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 26px; font-weight: 500; color: #ffffff;" id="canopy-quartiere-ranking">-</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Posizione tra<br>i quartieri</div>
+                            <div style="font-size: 13px; color: #9ca3af; margin-top: 4px;">Position among<br>neighborhoods</div>
                         </div>
                     </div>
                     
@@ -2379,7 +2379,7 @@
     <footer style="background: #1f2937; color: white; padding: 2rem; text-align: center; margin: 0;">
         <p style="line-height: 1.8; margin: 0; font-size: 14px; font-family: 'Inter', sans-serif;">
             <strong>Palermo 3-30-300</strong> is an open, independent project with educational purposes.<br>
-            The source code, as well as the datasets and methodology are accessible from 
+            The source code, as well as datasets and methodology are accessible from 
             <a href="https://github.com/sigfreedo/palermo-3-30-300" target="_blank" rel="noopener" style="color: #10b981; text-decoration: underline;">GitHub</a>.<br>
             <span style="margin-top: 0.5rem; display: inline-block;">
                 For information: 
@@ -3383,12 +3383,12 @@
                             </div>
                             <div class="quartiere-stat-item">
                                 <div class="quartiere-stat-value">${quartiereData.pct_popolazione_coperta.toFixed(1)}%</div>
-                                <div class="quartiere-stat-label">Popolazione Coperta</div>
+                                <div class="quartiere-stat-label">Population Covered</div>
                             </div>
                         </div>
                         <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #4a5568;">
-                            Nel tuo quartiere, in media i residenti distano <strong>${Math.round(quartiereData.distanza_media_m)} meters</strong> dal verde pubblico più vicino. 
-                            Il <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong> della popolazione vive entro 300 meters da uno spazio verde.
+                            In your neighborhood, on average residents are <strong>${Math.round(quartiereData.distanza_media_m)} meters</strong> from the nearest public green space. 
+                            <strong>${quartiereData.pct_popolazione_coperta.toFixed(1)}%</strong> of the population lives within 300 meters of a green space.
                         </p>
                     </div>
                 `;
@@ -3398,8 +3398,8 @@
                 const deficit = distanceMeters - 300;
                 html += `
                     <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
-                        💡 <strong>Sei ${deficit} meters oltre lo standard WHO.</strong> 
-                        Questo significa che per raggiungere uno spazio verde devi percorrere una distanza maggiore di quella raccomandata per un accesso equo alla natura urbana.
+                        💡 <strong>You are ${deficit} meters beyond the WHO standard.</strong> 
+                        This means that to reach a green space you must travel a greater distance than recommended for equitable access to urban nature.
                     </p>
                 `;
             }
@@ -3501,7 +3501,7 @@
                 if (meetsStandard) {
                     feedback.innerHTML = `
                         <strong>✅ Ottimo!</strong> Vedi ${treeCount} ${treeCount === 1 ? 'albero' : 'alberi'} dalla finestra.
-                        Rispetti lo standard WHO che raccomanda almeno 3 alberi visibili.
+                        You meet the WHO standard that recommends at least 3 visible trees.
                     `;
                 } else {
                     feedback.innerHTML = `
@@ -3719,7 +3719,7 @@
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').innerHTML = 
-        `Your neighborhood, ${nomeQuartiere}, ha una tree canopy coverage ${valutazione}. Complessivamente, si colloca al ${ranking}° posto (su 25) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
+        `Your neighborhood, ${nomeQuartiere}, has ${valutazione} tree canopy coverage. Overall, it ranks ${ranking}th (out of 25) among the city's <span style="white-space: nowrap;">neighborhoods.</span>`;
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
@@ -4183,7 +4183,7 @@ Cordiali saluti,
         feedbackDiv.style.border = '2px solid #10b981';
         feedbackDiv.style.color = '#065f46';
         feedbackDiv.innerHTML = `
-          <strong style="font-size: 16px;">✅ Ottimo! Hai almeno 3 alberi visibili.</strong><br>
+          <strong style="font-size: 16px;">✅ Great! You have at least 3 visible trees.</strong><br>
           <span style="margin-top: 0.5rem; display: block;">The view of greenery from your window improves your daily well-being.</span>
           <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #10b981;">
             <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Aiuta chi non ha questa fortuna: chiedi più alberi per Palermo!</p>
@@ -4200,7 +4200,7 @@ Cordiali saluti,
         feedbackDiv.style.border = '2px solid #ef4444';
         feedbackDiv.style.color = '#991b1b';
         feedbackDiv.innerHTML = `
-          <strong style="font-size: 16px;">❌ Purtroppo hai meno di 3 alberi visibili.</strong><br>
+          <strong style="font-size: 16px;">❌ Unfortunately you have less than 3 visible trees.</strong><br>
           <span style="margin-top: 0.5rem; display: block;">La ricerca scientifica mostra l'importanza di vedere almeno 3 alberi dalla finestra.</span>
           <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #ef4444;">
             <p style="font-size: 14px; margin: 0 0 0.75rem 0;">Chiedi al Comune di piantare più alberi nella tua zona!</p>
@@ -5043,7 +5043,7 @@ Cordiali saluti,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Copertura arborea:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Valutazione:</strong> ${valutazione}</div>
-                  <div><strong>Posizione:</strong> ${ranking}° su ${totalQuartieri}</div>
+                  <div><strong>Position:</strong> ${ranking}° su ${totalQuartieri}</div>
                 </div>
               `;
               
