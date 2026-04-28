@@ -3043,7 +3043,7 @@
                 // FASE 3: NOME + DISTANZA (solo se hover)
                 if (hoveredSpace) {
                     const { space, x, y, dist } = hoveredSpace;
-                    const name = space.properties.name || space.properties.size_label || 'Spazio verde';
+                    const name = space.properties.name || space.properties.size_label || 'Green space';
                     const displayName = name.length > 30 ? name.substring(0, 28) + '...' : name;
                     
                     ctx.font = '700 18px Inter, sans-serif';
@@ -3095,7 +3095,7 @@
                 ctx.font = '600 19px Inter, sans-serif';
                 ctx.fillStyle = '#1a1a1a';
                 ctx.textAlign = 'center';
-                ctx.fillText('Tu', centerX, centerY - 26);
+                ctx.fillText('You', centerX, centerY - 26);
             }
             
             canvas.addEventListener('mousemove', (e) => {
@@ -3719,7 +3719,7 @@
       document.getElementById('canopy-quartiere-ranking').textContent = `${ranking}°/25`;
       
       document.getElementById('canopy-quartiere-description').innerHTML = 
-        `Your neighborhood, ${nomeQuartiere}, has ${valutazione} tree canopy coverage. Overall, it ranks ${ranking}th (out of 25) among the city's <span style="white-space: nowrap;">neighborhoods.</span>`;
+        `Your neighborhood, <strong>${nomeQuartiere}</strong>, has <strong>${valutazione}</strong> tree canopy coverage. Overall, it ranks <strong>${ranking}th</strong> (out of 25) among the city's <span style="white-space: nowrap;">neighborhoods.</span>`;
       
       // Show dashboard
       document.getElementById('dashboardCanopy').style.display = 'block';
@@ -3908,7 +3908,7 @@
       
       const dati = window.treeCanopyData[nomeQuartiere];
       const canopyPct = dati.canopy_pct;
-      const classificazione = dati.classificazione;
+      const classificazione = getValutazione(canopyPct);  // Use getValutazione for English translation
       const deficitPct = dati.deficit_pct;
       const alberiNecessari = dati.alberi_necessari;
       
@@ -5043,7 +5043,7 @@ Kind regards,
                   <div style="font-weight: 600; font-size: 14px; margin-bottom: 0.5rem;">${nomeQuartiere}</div>
                   <div><strong>Tree canopy coverage:</strong> ${canopyPct.toFixed(1).replace('.', ',')}%</div>
                   <div><strong>Rating:</strong> ${valutazione}</div>
-                  <div><strong>Position:</strong> ${ranking} of ${totalQuartieri}</div>
+                  <div><strong>Ranking:</strong> ${ranking} of ${totalQuartieri}</div>
                 </div>
               `;
               
@@ -5298,8 +5298,8 @@ Kind regards,
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       
-      // Line 1: "Faccio parte del X%"
-      const s1_parte1 = 'Faccio parte del ';
+      // Line 1: "I'm part of the X%"
+      const s1_parte1 = 'I'm part of the ';
       const s1_parte2 = `${percentuale}%`;
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
@@ -5383,8 +5383,8 @@ Kind regards,
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       
-      // Line 1: "Faccio parte del X%"
-      const s1_parte1 = 'Faccio parte del ';
+      // Line 1: "I'm part of the X%"
+      const s1_parte1 = 'I'm part of the ';
       const s1_parte2 = `${percentuale}%`;
       
       ctx.font = `${Math.round(48 * scale)}px Arial`;
