@@ -4412,7 +4412,7 @@ Cordiali saluti,
       const totale = classificaArray.length;
       
       // Genera testo descrittivo con grassetti
-      const descrizione = `Your neighborhood, <strong>${nomeQuartiere}</strong>, ha una <strong>${valutazione}</strong> accessibilità al verde pubblico, <strong>${comparazione}</strong> a quella media di Palermo. Complessivamente, si colloca al <strong>${posizione}° posto</strong> (su ${totale}) tra i <span style="white-space: nowrap;">quartieri della città.</span>`;
+      const descrizione = `Your neighborhood, <strong>${nomeQuartiere}</strong>, has <strong>${valutazione}</strong> accessibility to public green spaces, <strong>${comparazione}</strong> than Palermo's average. Overall, it ranks <strong>${posizione}th</strong> (out of ${totale}) among the city's <span style="white-space: nowrap;">neighborhoods.</span>`;
       
       document.getElementById('quartiere-descrizione').innerHTML = descrizione;
     };
@@ -5322,7 +5322,7 @@ Cordiali saluti,
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('of Palermo's population', size / 2, size * 0.65);
+      ctx.fillText("of Palermo's population", size / 2, size * 0.65);
       
       // Line 3: "with guaranteed public green access."
       ctx.fillText('with guaranteed public green access.', size / 2, size * 0.71);
@@ -5407,7 +5407,7 @@ Cordiali saluti,
       ctx.font = `${Math.round(48 * scale)}px Arial`;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('of Palermo's population', size / 2, size * 0.65);
+      ctx.fillText("of Palermo's population", size / 2, size * 0.65);
       
       // Line 3: "that does not have guaranteed public green access."
       ctx.fillText('that does not have guaranteed public green access.', size / 2, size * 0.71);
