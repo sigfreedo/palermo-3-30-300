@@ -2598,15 +2598,20 @@
 
         async function fetchAddressSuggestions(query) {
             try {
-                console.log('🔍 Ricerca indirizzo:', query);
+                console.log('🔍 Address search:', query);
                 
-                // URL del Cloudflare Worker
+                // Cloudflare Worker URL
                 const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
                 
-                // Costruisci query per Google Maps tramite Worker
-                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, Italy')}`;
+                // DON'T add "Palermo" if user already typed it
+                const hasCity = query.toLowerCase().includes('palermo');
+                const searchQuery = hasCity ? query : `${query}, Palermo, Italy`;
                 
-                console.log('  → Chiamata a Cloudflare Worker...');
+                // Build query for Google Maps via Worker
+                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(searchQuery)}`;
+                
+                console.log('  → Calling Cloudflare Worker...');
+                console.log('  → Query:', searchQuery);
                 
                 const response = await fetch(workerUrl);
                 
@@ -2616,14 +2621,95 @@
                 
                 const data = await response.json();
                 
-                console.log('  ✅ Google Maps risposta:', data.status);
+                console.log('  ✅ Google Maps response:', data.status);
                 
-                // Verifica risposta Google
+                // Verify Google response
                 if (data.status === 'OK' && data.results && data.results.length > 0) {
-                    console.log('  ✅ Trovati', data.results.length, 'risultati');
+                    console.log('  ✅ Found', data.results.length, 'results');
                     
-                    // Converti formato Google Maps in formato compatibile con l'app
-                    const results = data.results.map(result => ({
+                    // Filter ONLY results inside mapped neighborhoods
+                    const validResults = data.results.filter(result => {
+                        const lat = result.geometry.location.lat;
+                        const lon = result.geometry.location.lng;
+                        
+                        // Check if point falls inside Palermo neighborhoods
+                        const quartiere = findQuartiere(lat, lon);
+                        
+                        if (quartiere) {
+                            console.log('    ✅', result.formatted_address, '→ neighborhood:', quartiere.nome);
+                            return true;
+                        } else {
+                            console.log('    ❌', result.formatted_address, '→ OUTSIDE mapped neighborhoods');
+                            return false;
+                        }
+                    });
+                    
+                    console.log('  ✅ Filtered', validResults.length, 'valid results');
+                    
+                    // If ALL results are outside neighborhoods, retry with more specific query
+                    if (validResults.length === 0 && data.results.length > 0) {
+                        console.log('  ⚠️ No results in neighborhoods. Retrying with more specific query...');
+                        
+                        // Retry adding "Palermo, PA" (province) to disambiguate
+                        const fallbackUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, PA, Italy')}`;
+                        const fallbackResponse = await fetch(fallbackUrl);
+                        
+                        if (fallbackResponse.ok) {
+                            const fallbackData = await fallbackResponse.json();
+                            
+                            if (fallbackData.status === 'OK' && fallbackData.results && fallbackData.results.length > 0) {
+                                console.log('  ✅ Fallback found', fallbackData.results.length, 'results');
+                                
+                                // Re-filter with new results
+                                const fallbackValidResults = fallbackData.results.filter(result => {
+                                    const lat = result.geometry.location.lat;
+                                    const lon = result.geometry.location.lng;
+                                    const quartiere = findQuartiere(lat, lon);
+                                    
+                                    if (quartiere) {
+                                        console.log('    ✅', result.formatted_address, '→ neighborhood:', quartiere.nome);
+                                        return true;
+                                    } else {
+                                        console.log('    ❌', result.formatted_address, '→ OUTSIDE neighborhoods');
+                                        return false;
+                                    }
+                                });
+                                
+                                if (fallbackValidResults.length > 0) {
+                                    console.log('  ✅ Valid fallback:', fallbackValidResults.length);
+                                    
+                                    const results = fallbackValidResults.map(result => ({
+                                        lat: result.geometry.location.lat,
+                                        lon: result.geometry.location.lng,
+                                        display_name: result.formatted_address,
+                                        source: 'google'
+                                    }));
+                                    
+                                    displayAutocompleteResults(results);
+                                    return;
+                                }
+                            }
+                        }
+                        
+                        // If fallback also doesn't work, show message
+                        autocompleteResults.innerHTML = `
+                            <div class="autocomplete-loading" style="padding: 1rem; color: #92400e; background: #fef3c7;">
+                                📍 No addresses found in Palermo neighborhoods.
+                                <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">
+                                    Try adding the street number or neighborhood name.
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    if (validResults.length === 0) {
+                        autocompleteResults.innerHTML = '<div class="autocomplete-loading">No addresses found in Palermo neighborhoods</div>';
+                        return;
+                    }
+                    
+                    // Convert Google Maps format to app-compatible format
+                    const results = validResults.map(result => ({
                         lat: result.geometry.location.lat,
                         lon: result.geometry.location.lng,
                         display_name: result.formatted_address,
@@ -2657,11 +2743,21 @@
 
         function displayAutocompleteResults(results) {
             if (results.length === 0) {
-                autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun risultato trovato</div>';
+                autocompleteResults.innerHTML = '<div class="autocomplete-loading">No results found</div>';
                 return;
             }
 
-            autocompleteResults.innerHTML = results.map(result => {
+            // Header with result count (if more than 1)
+            let header = '';
+            if (results.length > 1) {
+                header = `
+                    <div style="padding: 0.75rem 1rem; background: #fef3c7; border-bottom: 1px solid #fbbf24; font-weight: 600; color: #92400e; font-size: 0.85rem;">
+                        📍 ${results.length} addresses found - select the correct one:
+                    </div>
+                `;
+            }
+
+            const items = results.map(result => {
                 // Badge Google Maps (blu)
                 const sourceBadge = result.source === 'google' 
                     ? '<span style="background: #4285F4; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Google Maps</span>'
@@ -2673,6 +2769,8 @@
                     </div>
                 `;
             }).join('');
+            
+            autocompleteResults.innerHTML = header + items;
         }
 
         function selectAddress(lat, lon, displayName) {
