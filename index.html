@@ -2603,10 +2603,15 @@
                 // URL del Cloudflare Worker
                 const WORKER_URL = 'https://palermo-geocoding.domenico-schillaci.workers.dev';
                 
+                // NON aggiungere "Palermo" se l'utente l'ha già scritto
+                const hasCity = query.toLowerCase().includes('palermo');
+                const searchQuery = hasCity ? query : `${query}, Palermo, Italy`;
+                
                 // Costruisci query per Google Maps tramite Worker
-                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, Italy')}`;
+                const workerUrl = `${WORKER_URL}?address=${encodeURIComponent(searchQuery)}`;
                 
                 console.log('  → Chiamata a Cloudflare Worker...');
+                console.log('  → Query:', searchQuery);
                 
                 const response = await fetch(workerUrl);
                 
@@ -2622,8 +2627,89 @@
                 if (data.status === 'OK' && data.results && data.results.length > 0) {
                     console.log('  ✅ Trovati', data.results.length, 'risultati');
                     
+                    // Filtra SOLO risultati dentro i quartieri mappati
+                    const validResults = data.results.filter(result => {
+                        const lat = result.geometry.location.lat;
+                        const lon = result.geometry.location.lng;
+                        
+                        // Verifica se il punto cade dentro i quartieri di Palermo
+                        const quartiere = findQuartiere(lat, lon);
+                        
+                        if (quartiere) {
+                            console.log('    ✅', result.formatted_address, '→ quartiere:', quartiere.nome);
+                            return true;
+                        } else {
+                            console.log('    ❌', result.formatted_address, '→ FUORI dai quartieri mappati');
+                            return false;
+                        }
+                    });
+                    
+                    console.log('  ✅ Filtrati', validResults.length, 'risultati validi');
+                    
+                    // Se TUTTI i risultati sono fuori dai quartieri, riprova con query più specifica
+                    if (validResults.length === 0 && data.results.length > 0) {
+                        console.log('  ⚠️ Nessun risultato nei quartieri. Riprovo con query più specifica...');
+                        
+                        // Riprova aggiungendo "Palermo, PA" (provincia) per disambiguare
+                        const fallbackUrl = `${WORKER_URL}?address=${encodeURIComponent(query + ', Palermo, PA, Italy')}`;
+                        const fallbackResponse = await fetch(fallbackUrl);
+                        
+                        if (fallbackResponse.ok) {
+                            const fallbackData = await fallbackResponse.json();
+                            
+                            if (fallbackData.status === 'OK' && fallbackData.results && fallbackData.results.length > 0) {
+                                console.log('  ✅ Fallback trovati', fallbackData.results.length, 'risultati');
+                                
+                                // Rifiltra con i nuovi risultati
+                                const fallbackValidResults = fallbackData.results.filter(result => {
+                                    const lat = result.geometry.location.lat;
+                                    const lon = result.geometry.location.lng;
+                                    const quartiere = findQuartiere(lat, lon);
+                                    
+                                    if (quartiere) {
+                                        console.log('    ✅', result.formatted_address, '→ quartiere:', quartiere.nome);
+                                        return true;
+                                    } else {
+                                        console.log('    ❌', result.formatted_address, '→ FUORI dai quartieri');
+                                        return false;
+                                    }
+                                });
+                                
+                                if (fallbackValidResults.length > 0) {
+                                    console.log('  ✅ Fallback validi:', fallbackValidResults.length);
+                                    
+                                    const results = fallbackValidResults.map(result => ({
+                                        lat: result.geometry.location.lat,
+                                        lon: result.geometry.location.lng,
+                                        display_name: result.formatted_address,
+                                        source: 'google'
+                                    }));
+                                    
+                                    displayAutocompleteResults(results);
+                                    return;
+                                }
+                            }
+                        }
+                        
+                        // Se anche il fallback non funziona, mostra messaggio
+                        autocompleteResults.innerHTML = `
+                            <div class="autocomplete-loading" style="padding: 1rem; color: #92400e; background: #fef3c7;">
+                                📍 Nessun indirizzo trovato nei quartieri di Palermo.
+                                <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">
+                                    Prova a scrivere il numero civico o usa il nome del quartiere.
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    if (validResults.length === 0) {
+                        autocompleteResults.innerHTML = '<div class="autocomplete-loading">Nessun indirizzo trovato nei quartieri di Palermo</div>';
+                        return;
+                    }
+                    
                     // Converti formato Google Maps in formato compatibile con l'app
-                    const results = data.results.map(result => ({
+                    const results = validResults.map(result => ({
                         lat: result.geometry.location.lat,
                         lon: result.geometry.location.lng,
                         display_name: result.formatted_address,
@@ -2661,7 +2747,17 @@
                 return;
             }
 
-            autocompleteResults.innerHTML = results.map(result => {
+            // Header con conteggio risultati (se più di 1)
+            let header = '';
+            if (results.length > 1) {
+                header = `
+                    <div style="padding: 0.75rem 1rem; background: #fef3c7; border-bottom: 1px solid #fbbf24; font-weight: 600; color: #92400e; font-size: 0.85rem;">
+                        📍 ${results.length} indirizzi trovati - seleziona quello corretto:
+                    </div>
+                `;
+            }
+
+            const items = results.map(result => {
                 // Badge Google Maps (blu)
                 const sourceBadge = result.source === 'google' 
                     ? '<span style="background: #4285F4; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.5rem;">Google Maps</span>'
@@ -2673,6 +2769,8 @@
                     </div>
                 `;
             }).join('');
+            
+            autocompleteResults.innerHTML = header + items;
         }
 
         function selectAddress(lat, lon, displayName) {
