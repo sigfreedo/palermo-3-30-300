@@ -2447,6 +2447,7 @@
                 const response = await fetch('dataset/quartieri_dati_completi.geojson');
                 if (!response.ok) throw new Error('Quartieri non trovati');
                 quartieri = await response.json();
+                window.quartieriGeoJSON = quartieri;
                 console.log('✅ Quartieri caricati:', quartieri.features.length);
             } catch (error) {
                 console.warn('⚠️ Quartieri non disponibili:', error);
@@ -4428,14 +4429,19 @@ Kind regards,
       return inside;
     };
     
-    // Funzione per determinare quartiere da coordinate (semplificata)
     window.getQuartiereFromCoords = function(lat, lon) {
-      // Boundaries semplificati per quartieri principali
-      const bounds = {
-        "Libertà": [[13.337829, 38.138432], [13.339867, 38.136456], [13.340357, 38.134884], [13.342622, 38.129936], [13.347556, 38.131542], [13.357420, 38.134777], [13.354777, 38.139439], [13.351621, 38.143581], [13.345582, 38.148472], [13.335632, 38.144642], [13.337829, 38.138432]],
-        "Politeama": [[13.343256, 38.128788], [13.34404, 38.126987], [13.346166, 38.122715], [13.349211, 38.120632], [13.353008, 38.119438], [13.370201, 38.123344], [13.369183, 38.125324], [13.367636, 38.127403], [13.365543, 38.130241], [13.362159, 38.134987], [13.347519, 38.1315], [13.343256, 38.128788]],
-        "Noce": [[13.329028, 38.119324], [13.340858, 38.121544], [13.346248, 38.122635], [13.344508, 38.125748], [13.343428, 38.126476], [13.341473, 38.128506], [13.335963, 38.127041], [13.329432, 38.126141], [13.329028, 38.119324]]
-      };
+  if (!window.quartieriGeoJSON) {
+    console.warn('quartieriGeoJSON non ancora caricato');
+    return null;
+  }
+  const point = turf.point([lon, lat]);
+  for (const feature of window.quartieriGeoJSON.features) {
+    if (turf.booleanPointInPolygon(point, feature)) {
+      return feature.properties.quartiere;
+    }
+  }
+  return null; // fuori dai confini comunali mappati: niente default fasullo
+};
       
       const point = [lon, lat];
       
