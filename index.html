@@ -4443,15 +4443,6 @@ Cordiali saluti,
   return null; // fuori dai confini comunali mappati: niente default fasullo
   };
       
-      const point = [lon, lat];
-      
-      // Check quartieri definiti
-      for (const [nome, ring] of Object.entries(bounds)) {
-        if (window.pointInPolygon(point, ring)) {
-          return nome;
-        }
-      }
-      
       // Fallback geografico approssimativo
       if (lat >= 38.11 && lat <= 38.14 && lon >= 13.33 && lon <= 13.37) return "Libertà";
       if (lat >= 38.115 && lat <= 38.135 && lon >= 13.34 && lon <= 13.37) return "Politeama";
