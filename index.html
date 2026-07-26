@@ -3753,11 +3753,13 @@
       const quartieri = Object.keys(window.treeCanopyData).map(nome => ({
         nome: nome,
         canopy: window.treeCanopyData[nome].canopy_pct,
-        alberi: window.treeCanopyData[nome].alberi_necessari
+        alberi: window.treeCanopyData[nome].alberi_necessari,
+        area: window.treeCanopyData[nome].area_km2
       })).sort((a, b) => b.canopy - a.canopy);
       
-      // Calcola statistiche aggregate
-      const avgCanopy = quartieri.reduce((sum, q) => sum + q.canopy, 0) / quartieri.length;
+      // Calcola statistiche aggregate (media pesata per area, non media semplice dei quartieri)
+      const totalAreaCanopy = quartieri.reduce((sum, q) => sum + q.area, 0);
+      const avgCanopy = quartieri.reduce((sum, q) => sum + q.canopy * q.area, 0) / totalAreaCanopy;
       const totalAlberi = quartieri.reduce((sum, q) => sum + q.alberi, 0);
       const quartieriSotto30 = quartieri.filter(q => q.canopy < 30).length;
       
@@ -3776,7 +3778,7 @@
       document.getElementById('canopy-city-deficit-quartieri').textContent = quartieriSotto30 + '/' + quartieri.length;
       
       document.getElementById('canopy-city-description').textContent = 
-        'Palermo ha una copertura arborea media del 12,1%, ben al di sotto dello standard del 30%. Nessuno tra i suoi quartieri raggiunge una copertura sufficiente.';
+        `Palermo ha una copertura arborea media del ${avgCanopy.toFixed(2).replace('.', ',')}%, ben al di sotto dello standard del 30%. Nessuno tra i suoi quartieri raggiunge una copertura sufficiente.`;
     }
     
     // Funzione per popolare box quartiere nella dashboard canopy

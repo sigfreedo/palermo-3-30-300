@@ -565,16 +565,16 @@ percentuale = (popolazione_coperta / popolazione_totale) * 100</code></pre>
                     </tr>
                     <tr>
                         <td>Copernicus</td>
-                        <td>40,06%</td>
-                        <td>254.533 abitanti</td>
-                        <td>380.906 abitanti</td>
+                        <td>48,38%</td>
+                        <td>307.411 abitanti</td>
+                        <td>328.028 abitanti</td>
                     </tr>
                 </tbody>
             </table>
             
             <h3>3.2 Copertura per quartiere</h3>
             
-            <p>Per calcolare l'accessibilità media del verde urbano su scala di quartiere è sufficiente applicare lo stesso algoritmo limitandolo alle sezioni di censimento che ricadono all'interno dei confini di ciascuno dei 25 quartieri di Palermo.</p>
+            <p>Il calcolo per quartiere riutilizza la stessa superficie di accessibilità cittadina (i buffer di tutti gli spazi verdi, uniti in un'unica geometria prima di qualsiasi ripartizione, in modo da non contare due volte la stessa sezione se ricade nel raggio di più spazi verdi). Ogni sezione di censimento viene assegnata al quartiere che ne contiene il centroide; la copertura di ciascun quartiere è poi calcolata aggregando la popolazione coperta e quella totale delle sole sezioni assegnate a quel quartiere.</p>
             
             <h3>3.3 Valutazione puntuale</h3>
             
@@ -628,6 +628,10 @@ with rasterio.open('tcd_2023.tif') as src:
         out_shape=data.shape
     )
     copertura_media = np.mean(data[mask])</code></pre>
+
+            <p>Questo calcolo viene eseguito separatamente per ciascuno dei 25 quartieri. Il dato cittadino non è una nuova mascheratura sull'intero territorio comunale, ma una media dei 25 valori di quartiere <strong>pesata per la superficie</strong> di ciascun quartiere, in modo che i quartieri più estesi contribuiscano proporzionalmente di più al risultato cittadino:</p>
+
+            <pre><code>copertura_cittadina = sum(copertura_quartiere[i] * area_quartiere[i] for i in quartieri) / sum(area_quartiere)</code></pre>
             
             <h4>Metriche derivate:</h4>
             
@@ -639,7 +643,7 @@ alberi_necessari = area_da_coprire / 35  # chioma 35 m²</code></pre>
             
             <h4>Risultati:</h4>
             <ul>
-                <li>Palermo ha una copertura arborea media del <strong>12,1%</strong>, ben al di sotto dello standard del 30%</li>
+                <li>Palermo ha una copertura arborea media del <strong>16,44%</strong> (media dei quartieri pesata per superficie), ben al di sotto dello standard del 30%</li>
                 <li>Nessuno dei 25 quartieri raggiunge una copertura arborea sufficiente</li>
             </ul>
         </section>

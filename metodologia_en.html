@@ -564,16 +564,16 @@ percentage = (covered_population / total_population) * 100</code></pre>
                     </tr>
                     <tr>
                         <td>Copernicus</td>
-                        <td>40,06%</td>
-                        <td>254.533 residents</td>
-                        <td>380.906 residents</td>
+                        <td>48.38%</td>
+                        <td>307.411 residents</td>
+                        <td>328.028 residents</td>
                     </tr>
                 </tbody>
             </table>
             
             <h3>3.2 Coverage by neighborhood</h3>
             
-            <p>To calculate average urban green accessibility at neighborhood scale, it's sufficient to apply the same algorithm limited to census sections that fall within the boundaries of each of Palermo's 25 neighborhoods.</p>
+            <p>The ward-level calculation reuses the same citywide accessibility surface (the buffers of all green spaces, dissolved into a single geometry before any allocation, so that a census section is not counted twice if it falls within range of more than one green space). Each census section is assigned to the ward containing its centroid; coverage for each ward is then computed by aggregating the covered and total population of only the sections assigned to that ward.</p>
             
             <h3>3.3 Point-by-point assessment</h3>
             
@@ -627,6 +627,10 @@ with rasterio.open('tcd_2023.tif') as src:
         out_shape=data.shape
     )
     average_coverage = np.mean(data[mask])</code></pre>
+
+            <p>This calculation is run separately for each of the 25 wards. The citywide figure is not a further mask over the whole municipal area, but an average of the 25 ward-level values <strong>weighted by the area</strong> of each ward, so that larger wards contribute proportionally more to the citywide result:</p>
+
+            <pre><code>citywide_coverage = sum(ward_coverage[i] * ward_area[i] for i in wards) / sum(ward_area)</code></pre>
             
             <h4>Derived metrics:</h4>
             
@@ -638,7 +642,7 @@ trees_needed = area_to_cover / 35  # 35 m² canopy</code></pre>
             
             <h4>Results:</h4>
             <ul>
-                <li>Palermo has an average tree canopy coverage of <strong>12.1%</strong>, well below the 30% standard</li>
+                <li>Palermo has an average tree canopy coverage of <strong>16.44%</strong> (area-weighted average across wards), well below the 30% standard</li>
                 <li>None of the 25 neighborhoods reaches sufficient tree canopy coverage</li>
             </ul>
         </section>
